@@ -620,7 +620,8 @@ function stopPinyinRecording(evaluate = true) {
 }
 
 /**
- * Đánh giá & Chẩn đoán lỗi phát âm cho mục Pinyin
+ * Đánh giá & Chẩn đoán lỗi phát âm cho mục Pinyin (Thanh mẫu, Vận mẫu, Ghép vần)
+ * Tích hợp đối chiếu bộ phiên âm chuẩn và biến thể chữ Hán
  */
 function evaluatePinyinResult(spokenText) {
   const resultBox = document.getElementById('pinyin-eval-result');
@@ -640,18 +641,67 @@ function evaluatePinyinResult(spokenText) {
   }
 
   // Tra cứu Pinyin của chữ người dùng đọc
-  const spokenPinyinList = window.hanziToPinyinList(spokenText);
+  const spokenPinyinList = window.hanziToPinyinList ? window.hanziToPinyinList(spokenText) : [];
   const spokenPinyinStr = spokenPinyinList.map(s => s.pinyin).join(' ') || spokenText;
   const targetKey = pinyinActiveItem.key;
+  const targetType = pinyinActiveItem.type;
 
-  // So khớp
-  const isCorrect = spokenText.includes(targetKey) || spokenPinyinStr.includes(targetKey.toLowerCase());
+  let isCorrect = false;
+  let matchReason = "";
+
+  // 1. Nếu là Thanh mẫu (Initial)
+  if (targetType === 'initial') {
+    const initMap = window.PINYIN_INITIALS_MAP ? window.PINYIN_INITIALS_MAP[targetKey] : null;
+    if (initMap) {
+      // Kiểm tra chữ Hán đại diện (vd: bō -> 波, 玻)
+      const hasHanzi = initMap.hanzi.some(h => spokenText.includes(h));
+      // Kiểm tra biến thể pinyin
+      const hasVariant = initMap.variants.some(v => spokenPinyinStr.toLowerCase().includes(v) || spokenText.toLowerCase().includes(v));
+      if (hasHanzi || hasVariant || spokenText.includes(targetKey)) {
+        isCorrect = true;
+        matchReason = `Bạn đã phát âm chuẩn thanh mẫu <b>${targetKey}</b> (${initMap.pinyin}).`;
+      }
+    }
+  } 
+  // 2. Nếu là Vận mẫu (Final)
+  else if (targetType === 'final') {
+    const finalMap = window.PINYIN_FINALS_MAP ? window.PINYIN_FINALS_MAP[targetKey] : null;
+    if (finalMap) {
+      const hasHanzi = finalMap.hanzi.some(h => spokenText.includes(h));
+      const hasVariant = finalMap.variants.some(v => spokenPinyinStr.toLowerCase().includes(v) || spokenText.toLowerCase().includes(v));
+      if (hasHanzi || hasVariant || spokenText.includes(targetKey)) {
+        isCorrect = true;
+        matchReason = `Bạn đã phát âm chuẩn vận mẫu <b>${targetKey}</b>.`;
+      }
+    }
+  } 
+  // 3. Nếu là Ghép vần (Spelling) hoặc Thanh điệu (Tone)
+  else {
+    const targetClean = window.stripPinyinTone ? window.stripPinyinTone(targetKey) : targetKey.toLowerCase();
+    const spokenClean = window.stripPinyinTone ? window.stripPinyinTone(spokenPinyinStr) : spokenPinyinStr.toLowerCase();
+
+    if (spokenText.includes(targetKey) || spokenClean.includes(targetClean)) {
+      isCorrect = true;
+      matchReason = `Bạn đã phát âm chuẩn xác âm ghép <b>${targetKey}</b>.`;
+    }
+  }
+
+  // Nếu vẫn chưa khớp, tính độ tương đồng Levenshtein
+  if (!isCorrect && window.calcStringSimilarity) {
+    const targetSim = window.stripPinyinTone ? window.stripPinyinTone(targetKey) : targetKey;
+    const spokenSim = window.stripPinyinTone ? window.stripPinyinTone(spokenPinyinStr) : spokenPinyinStr;
+    const simScore = window.calcStringSimilarity(targetSim, spokenSim);
+    if (simScore >= 0.75) {
+      isCorrect = true;
+      matchReason = `Phát âm rất gần chuẩn xác (đạt ${(simScore * 100).toFixed(0)}% tương đồng)!`;
+    }
+  }
 
   let evalHtml = `
     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
       <div class="flex items-center gap-2">
         <span class="text-xs font-bold text-slate-300">Kết quả của bạn:</span>
-        <span class="text-sm font-bold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-mono">${spokenText} (${spokenPinyinStr})</span>
+        <span class="text-sm font-bold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-mono">${spokenText} [${spokenPinyinStr}]</span>
       </div>
       <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${isCorrect ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'}">
         ${isCorrect ? 'Đạt chuẩn 100%' : 'Chưa chuẩn'}
@@ -664,7 +714,7 @@ function evaluatePinyinResult(spokenText) {
   if (isCorrect) {
     evalHtml += `
       <p class="text-emerald-400 font-bold flex items-center gap-1">
-        <span>🎉</span> Bạn phát âm rất chuẩn xác âm <b>"${targetKey}"</b>! Khẩu hình và luồng khí đã đạt chuẩn.
+        <span>🎉</span> ${matchReason || `Bạn phát âm rất chuẩn xác âm <b>"${targetKey}"</b>! Khẩu hình và luồng khí đã đạt chuẩn.`}
       </p>
     `;
   } else {
@@ -673,7 +723,7 @@ function evaluatePinyinResult(spokenText) {
         <span>⚠️</span> Phát âm chưa khớp với mục tiêu <b>"${targetKey}"</b>:
       </p>
       <p class="mt-1 text-slate-300">
-        Bạn đọc ra âm <code>${spokenPinyinStr}</code>. Hãy xem lại hướng dẫn vị trí đặt lưỡi ở phía trên và nghe mẫu để điều chỉnh lại nhé!
+        Hệ thống nghe được bạn đọc thành: <code>${spokenText} [${spokenPinyinStr}]</code>. Hãy xem lại hướng dẫn vị trí đặt lưỡi ở phía trên và nghe mẫu để điều chỉnh lại nhé!
       </p>
     `;
   }

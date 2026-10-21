@@ -329,12 +329,13 @@ function startSpeechRecognition() {
     recognitionInstance.lang = 'zh-CN';
     recognitionInstance.continuous = true;
     recognitionInstance.interimResults = true;
-    recognitionInstance.maxAlternatives = 1;
+    recognitionInstance.maxAlternatives = 3;
 
     recognitionInstance.onresult = (event) => {
       let interimTranscript = "";
       for (let i = event.resultIndex; i < event.results.length; ++i) {
-        const transcript = event.results[i][0].transcript;
+        const alt = event.results[i][0];
+        const transcript = alt.transcript;
         if (event.results[i].isFinal) {
           lastSpokenText += transcript;
         } else {
@@ -342,32 +343,42 @@ function startSpeechRecognition() {
         }
       }
 
-      const currentSpeech = cleanChineseText(lastSpokenText || interimTranscript);
+      const rawCombined = (lastSpokenText + " " + interimTranscript).trim();
+      const currentSpeech = cleanChineseText(rawCombined);
       const targetHanzi = cleanChineseText(currentVoiceWord.hanzi);
 
       // Hiển thị chữ người dùng đang đọc trong thời gian thực
-      if (interimTranscript || lastSpokenText) {
+      if (rawCombined) {
         const statusEl = document.getElementById('mic-status-text');
         if (statusEl) {
-          statusEl.innerHTML = `<span class="text-cyan-400 font-bold">Đang nhận diện: "${interimTranscript || lastSpokenText}"</span>`;
+          statusEl.innerHTML = `<span class="text-cyan-400 font-bold">Đang nhận diện: "${rawCombined}"</span>`;
         }
       }
 
-      // 1. TỰ ĐỘNG DỪNG VÀ HIỆN KẾT QUẢ NGAY NẾU NÓI ĐÚNG TỪ MỤC TIÊU!
-      if (currentSpeech.includes(targetHanzi)) {
-        lastSpokenText = interimTranscript || lastSpokenText || currentVoiceWord.hanzi;
-        stopRecording(true);
+      // 1. TỰ ĐỘNG DỪNG VÀ HIỆN KẾT QUẢ NGAY NẾU NÓI ĐÚNG TỪ MỤC TIÊU HOẶC ĐỒNG ÂM!
+      const targetPinyinClean = window.stripPinyinTone ? window.stripPinyinTone(currentVoiceWord.pinyin) : '';
+      const spokenPinyinList = window.hanziToPinyinList ? window.hanziToPinyinList(rawCombined) : [];
+      const spokenPinyinStr = spokenPinyinList.map(s => s.pinyin).join('');
+      const spokenPinyinClean = window.stripPinyinTone ? window.stripPinyinTone(spokenPinyinStr) : '';
+
+      if (currentSpeech.includes(targetHanzi) || (targetPinyinClean && spokenPinyinClean.includes(targetPinyinClean))) {
+        lastSpokenText = rawCombined || currentVoiceWord.hanzi;
+        clearTimeout(silenceTimer);
+        // Chờ thêm 300ms để bắt trọn âm đuôi trước khi chốt
+        silenceTimer = setTimeout(() => {
+          stopRecording(true);
+        }, 300);
         return;
       }
 
-      // 2. Tự động dừng sau 1.2 giây im lặng nếu đã nói gì đó
+      // 2. Tự động dừng sau 1.8 giây im lặng nếu đã nói gì đó
       clearTimeout(silenceTimer);
       silenceTimer = setTimeout(() => {
-        if (isRecording && (interimTranscript || lastSpokenText)) {
-          lastSpokenText = lastSpokenText || interimTranscript;
+        if (isRecording && rawCombined) {
+          lastSpokenText = rawCombined;
           stopRecording(true);
         }
-      }, 1200);
+      }, 1800);
     };
 
     recognitionInstance.onerror = (event) => {

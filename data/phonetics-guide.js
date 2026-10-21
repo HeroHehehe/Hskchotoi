@@ -264,7 +264,6 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
   // Tách pinyin mục tiêu thành mảng các âm tiết
   let targetSyls = targetPinyin ? targetPinyin.trim().toLowerCase().split(/\s+/) : [];
   if (targetSyls.length !== targetChars.length) {
-    // Nếu pinyin viết dính liền (vd: nǐhǎo, lǎoshī), bổ sung từ từ điển offline
     const dictList = window.hanziToPinyinList(targetWord);
     targetSyls = dictList.map((d, i) => d.pinyin || targetSyls[i] || "");
   }
@@ -280,10 +279,40 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
     const tSylStr = targetSyls[i] || (window.PINYIN_MAP ? window.PINYIN_MAP[tChar] : '');
     const tParsed = window.parsePinyinSyllable(tSylStr);
 
-    // Ký tự người dùng nói tại vị trí tương ứng (nếu có)
-    const sChar = spokenChars[i] || null;
-    const sSylStr = spokenPinyinList[i] ? spokenPinyinList[i].pinyin : (sChar && window.PINYIN_MAP ? window.PINYIN_MAP[sChar] : '');
-    const sParsed = sChar ? window.parsePinyinSyllable(sSylStr) : null;
+    // Ký tự người dùng nói tại vị trí tương ứng (hoặc tìm ký tự khớp tốt nhất trong chuỗi spoken)
+    let sChar = null;
+    let sSylStr = '';
+    let sParsed = null;
+    let bestMatchIdx = -1;
+
+    // 1. Kiểm tra nếu có chữ Hán hoàn toàn giống nhau xuất hiện trong spokenWord
+    const directIdx = spokenChars.indexOf(tChar);
+    if (directIdx !== -1) {
+      sChar = tChar;
+      sSylStr = tSylStr;
+      sParsed = tParsed;
+      bestMatchIdx = directIdx;
+    } else {
+      // 2. Tìm chữ có âm đọc gần nhất (đồng âm / pinyin trùng khớp)
+      for (let j = 0; j < spokenChars.length; j++) {
+        const candidateChar = spokenChars[j];
+        const candidateSyl = spokenPinyinList[j] ? spokenPinyinList[j].pinyin : (window.PINYIN_MAP ? window.PINYIN_MAP[candidateChar] : '');
+        if (candidateSyl && tSylStr && window.stripPinyinTone(candidateSyl) === window.stripPinyinTone(tSylStr)) {
+          sChar = candidateChar;
+          sSylStr = candidateSyl;
+          sParsed = window.parsePinyinSyllable(sSylStr);
+          bestMatchIdx = j;
+          break;
+        }
+      }
+
+      // 3. Nếu vẫn không thấy, lấy theo vị trí chỉ số
+      if (!sChar && i < spokenChars.length) {
+        sChar = spokenChars[i];
+        sSylStr = spokenPinyinList[i] ? spokenPinyinList[i].pinyin : (window.PINYIN_MAP ? window.PINYIN_MAP[sChar] : '');
+        sParsed = window.parsePinyinSyllable(sSylStr);
+      }
+    }
 
     let isMatch = false;
     let feedback = "";
@@ -293,13 +322,15 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
     // Lấy hướng dẫn thanh mẫu
     const initialInfo = tParsed.initial ? window.CHINESE_PHONETICS_DB.initials[tParsed.initial] : null;
 
-    if (sChar === tChar) {
+    // So sánh: Đúng nếu trùng chữ Hán HOẶC trùng âm pinyin thuần (loại bỏ trường hợp máy trả về chữ đồng âm)
+    const isPinyinIdentical = sParsed && (sSylStr === tSylStr || window.stripPinyinTone(sSylStr) === window.stripPinyinTone(tSylStr));
+
+    if (sChar === tChar || isPinyinIdentical) {
       isMatch = true;
       correctCount++;
       statusLabel = "Đúng chuẩn";
-      feedback = `🎉 Phát âm rất chuẩn chữ <b>${tChar} (${tSylStr})</b>!`;
+      feedback = `🎉 Bạn phát âm chuẩn xác chữ <b>${tChar} [${tSylStr}]</b>!`;
     } else if (sChar) {
-      // Người dùng nói ra chữ khác -> Phân tích xem sai ở đâu (thanh mẫu, vận mẫu, hay thanh điệu)
       statusLabel = "Chưa chuẩn";
       let errorPoints = [];
 
@@ -336,7 +367,7 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
       }
 
       if (errorPoints.length === 0) {
-        errorPoints.push(`Bạn đọc thành chữ <b>"${sChar}" (${sSylStr})</b>. Hãy nghe lại âm mẫu để điều chỉnh khẩu hình.`);
+        errorPoints.push(`Bạn đọc thành chữ <b>"${sChar}" [${sSylStr}]</b>. Hãy nghe lại âm mẫu để điều chỉnh khẩu hình.`);
       }
 
       feedback = errorPoints.join("<br>");
