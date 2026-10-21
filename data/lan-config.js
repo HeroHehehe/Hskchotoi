@@ -1,0 +1,2 @@
+window.LAN_SERVER_IP = "192.168.1.27";
+window.LAN_SERVER_PORT = 8080;

@@ -1,0 +1,5 @@
+# Bỏ qua file dữ liệu mạng nặng và file tạm
+*.har
+__pycache__/
+scripts/
+allow_firewall.bat

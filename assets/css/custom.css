@@ -1,0 +1,200 @@
+/* ==============================================================
+   HiHSK Custom Theme & Rice Grid (Mễ Tự Cách) Styles
+   ============================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg-main: #090d16;
+  --bg-card: #0f172a;
+  --bg-card-hover: #131d35;
+  --border-color: #1e293b;
+  --primary-red: #ef4444;
+  --primary-cyan: #38bdf8;
+  --accent-purple: #8b5cf6;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: #f1f5f9;
+  overflow-x: hidden;
+}
+
+.chinese-font {
+  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #243048;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #384869;
+}
+
+/* Mễ Tự Cách (米字格) Background */
+.mizige-box {
+  position: relative;
+  background-color: #0b1120;
+  border: 2px solid #22324f;
+  box-sizing: border-box;
+}
+
+.mizige-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    /* Trục dọc & Trục ngang nét đứt */
+    linear-gradient(to right, transparent 49.5%, rgba(68, 90, 130, 0.45) 50%, transparent 50.5%),
+    linear-gradient(to bottom, transparent 49.5%, rgba(68, 90, 130, 0.45) 50%, transparent 50.5%),
+    /* Đường chéo 1 */
+    linear-gradient(45deg, transparent 49.5%, rgba(68, 90, 130, 0.3) 50%, transparent 50.5%),
+    /* Đường chéo 2 */
+    linear-gradient(-45deg, transparent 49.5%, rgba(68, 90, 130, 0.3) 50%, transparent 50.5%);
+  pointer-events: none;
+}
+
+/* Dải ô nhỏ filmstrip cho từng nét */
+.filmstrip-item {
+  width: 52px;
+  height: 52px;
+  position: relative;
+  border: 1.5px solid #24324f;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #090d18;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.filmstrip-item:hover {
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+}
+
+.filmstrip-item.active {
+  border-color: #3b82f6;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+  background-color: #121c33;
+}
+
+/* Ruby Text Enhancement */
+ruby {
+  display: inline-flex;
+  flex-direction: column-reverse;
+  vertical-align: bottom;
+  align-items: center;
+  margin: 0 1px;
+}
+
+rt {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.1;
+  color: #38bdf8;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+  text-align: center;
+  user-select: none;
+  font-style: italic;
+}
+
+ruby.highlight-word rt {
+  color: #f87171;
+  font-weight: 700;
+}
+
+ruby.highlight-word span {
+  color: #ef4444;
+  font-weight: 800;
+}
+
+/* Cây chiết tự - Tree lines */
+.tree-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.tree-branch-svg {
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+  }
+}
+
+.playing-card {
+  border-color: #ef4444 !important;
+  animation: pulse-glow 2s infinite;
+}
+
+/* Modal Transition */
+.modal-backdrop {
+  background: rgba(4, 7, 15, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+/* Switches */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #1e293b;
+  transition: .3s;
+  border-radius: 20px;
+  border: 1px solid #334155;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: #94a3b8;
+  transition: .3s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #3b82f6;
+  border-color: #60a5fa;
+}
+input:checked + .slider:before {
+  transform: translateX(18px);
+  background-color: white;
+}
