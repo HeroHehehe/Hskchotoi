@@ -423,8 +423,33 @@
       <!-- Body Cuộn -->
       <div class="p-6 overflow-y-auto space-y-5">
         
-        <!-- KHU VỰC 1: NÚT MICRO & THAO TÁC GHI ÂM (ĐƯỢC ĐẨY LÊN TRÊN ĐẦU TIỆN DỤNG) -->
-        <!-- 1.1 KHI CHƯA GHI ÂM HOẶC ĐANG GHI ÂM -->
+        <!-- KHU VỰC 1: KHUNG CHỮ HÁN, PINYIN & PHÁT ÂM MẪU -->
+        <div class="p-6 rounded-3xl bg-slate-950/80 border border-slate-800 text-center space-y-3 shadow-inner">
+          <h2 id="voice-hanzi" class="text-6xl font-black text-white chinese-font tracking-wide">你好</h2>
+          <p id="voice-pinyin" class="text-2xl font-bold text-rose-400">nǐhǎo</p>
+          <p id="voice-meaning" class="text-sm text-slate-300 font-medium">xin chào, chào bạn (lời chào cơ bản nhất).</p>
+
+          <!-- Dãy Nút Chọn Giọng Mẫu & Tốc Độ -->
+          <div class="flex items-center justify-center gap-2 pt-2 flex-wrap">
+            <button onclick="speakChinese(currentVoiceWord.hanzi, 1.0, 'male')" class="px-3.5 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              Giọng Nam
+            </button>
+            <button onclick="speakChinese(currentVoiceWord.hanzi, 1.0, 'female')" class="px-3.5 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-rose-400" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+              Giọng Nữ
+            </button>
+            <button onclick="speakChinese(currentVoiceWord.hanzi, 1.0)" class="px-3 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all">
+              1.0x
+            </button>
+            <button onclick="speakChinese(currentVoiceWord.hanzi, 0.75)" class="px-3 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all">
+              0.75x Chậm
+            </button>
+          </div>
+        </div>
+
+        <!-- KHU VỰC 2: NÚT MICRO & THAO TÁC GHI ÂM (NẰM NGAY DƯỚI CHỮ, PHÍA TRÊN HƯỚNG DẪN ĐỌC) -->
+        <!-- 2.1 KHI CHƯA GHI ÂM HOẶC ĐANG GHI ÂM -->
         <div id="voice-pre-record" class="p-4 rounded-3xl bg-slate-950/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xl">
           <div class="flex items-center gap-4">
             <!-- Nút Micro lớn đỏ tròn -->
@@ -443,7 +468,7 @@
           </div>
         </div>
 
-        <!-- 1.2 KẾT QUẢ ĐÁNH GIÁ SAU KHI GHI ÂM (Ảnh 2) -->
+        <!-- 2.2 KẾT QUẢ ĐÁNH GIÁ SAU KHI GHI ÂM (Ảnh 2) -->
         <div id="voice-post-record" class="space-y-4 hidden">
           <!-- Trạng thái xuất sắc / nhận xét -->
           <div class="text-center p-3 rounded-2xl bg-slate-950/90 border border-slate-800 flex items-center justify-between flex-wrap gap-2">
@@ -510,34 +535,9 @@
           </div>
         </div>
 
-        <!-- KHU VỰC 2: KHUNG CHỮ HÁN & PHÁT ÂM MẪU -->
-        <div class="p-6 rounded-3xl bg-slate-950/80 border border-slate-800 text-center space-y-3 shadow-inner">
-          <h2 id="voice-hanzi" class="text-6xl font-black text-white chinese-font tracking-wide">你好</h2>
-          <p id="voice-pinyin" class="text-2xl font-bold text-rose-400">nǐhǎo</p>
-          <p id="voice-meaning" class="text-sm text-slate-300 font-medium">xin chào, chào bạn (lời chào cơ bản nhất).</p>
-
-          <!-- Dãy Nút Chọn Giọng Mẫu & Tốc Độ -->
-          <div class="flex items-center justify-center gap-2 pt-2 flex-wrap">
-            <button onclick="speakChinese(currentVoiceWord.hanzi, 1.0, 'male')" class="px-3.5 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              Giọng Nam
-            </button>
-            <button onclick="speakChinese(currentVoiceWord.hanzi, 1.0, 'female')" class="px-3.5 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all flex items-center gap-1.5">
-              <svg class="w-3.5 h-3.5 text-rose-400" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              Giọng Nữ
-            </button>
-            <button onclick="speakChinese(currentVoiceWord.hanzi, 1.0)" class="px-3 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all">
-              1.0x
-            </button>
-            <button onclick="speakChinese(currentVoiceWord.hanzi, 0.75)" class="px-3 py-1.5 rounded-xl bg-slate-850 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold transition-all">
-              0.75x Chậm
-            </button>
-          </div>
-
-          <!-- Khung Hướng Dẫn Phát Âm & Đặt Lưỡi Chuẩn HSK -->
-          <div id="voice-phonetic-guide-box" class="mt-4 pt-3 border-t border-slate-800/80 text-left">
-            <!-- Render động từ phonetics-guide.js -->
-          </div>
+        <!-- KHU VỰC 3: HƯỚNG DẪN PHÁT ÂM, KHẨU HÌNH & VỊ TRÍ ĐẶT LƯỠI (NẰM DƯỚI NÚT MICRO) -->
+        <div id="voice-phonetic-guide-box" class="text-left">
+          <!-- Render động từ phonetics-guide.js -->
         </div>
 
       </div>
