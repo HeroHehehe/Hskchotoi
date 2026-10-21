@@ -511,13 +511,21 @@ function renderPronunciationGuideUI(word) {
           </span>
         </div>
 
-        <div class="text-[11.5px] text-slate-300 space-y-1">
+        <div class="text-[11.5px] text-slate-300 space-y-1.5">
           <div class="p-1.5 rounded-lg bg-slate-900/80 text-cyan-200 border border-cyan-950 leading-relaxed">
             ${s.tongueTip}
           </div>
-          <p class="text-[11px] text-slate-400 leading-normal pl-0.5">
-            <b class="text-slate-300">Âm đầu "${s.initial}":</b> ${s.initialGuide}
+          <p class="text-[11px] text-slate-300 leading-normal pl-0.5">
+            <b class="text-amber-400">Thanh mẫu "${s.initial}":</b> ${s.initialGuide}
           </p>
+          <p class="text-[11px] text-slate-300 leading-normal pl-0.5">
+            <b class="text-cyan-400">Vận mẫu "${s.finalName}":</b> ${s.finalGuide}
+          </p>
+          ${s.finalTip ? `
+            <p class="text-[10.5px] text-slate-400 leading-normal pl-0.5 italic">
+              💡 <b>Mẹo vần:</b> ${s.finalTip}
+            </p>
+          ` : ''}
           <p class="text-[10.5px] text-slate-400 leading-normal pl-0.5">
             <b class="text-slate-300">Độ cao giọng:</b> ${s.toneGuide ? s.toneGuide.desc : ''}
           </p>

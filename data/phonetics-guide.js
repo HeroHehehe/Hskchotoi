@@ -316,6 +316,20 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
         }
       }
 
+      // So sánh vần (vận mẫu)
+      if (tParsed.finalPart !== sParsed.finalPart) {
+        const finalInfo = window.CHINESE_FINALS_DB ? window.CHINESE_FINALS_DB[tParsed.finalPart] : null;
+        if (tParsed.finalPart === 'ian' && sParsed.finalPart !== 'ian') {
+          errorPoints.push(`💡 <b>Lỗi vần "ian":</b> Trong tiếng Trung "ian" đọc thành <b>"iên"</b> (như tiên, tiền), không đọc thành "i-an".`);
+        } else if (tParsed.finalPart === 'eng' && sParsed.finalPart !== 'eng') {
+          errorPoints.push(`💡 <b>Lỗi vần "eng":</b> Vần "eng" đọc như <b>"âng"</b> (như tầng, vâng), không đọc bẹt thành "eng".`);
+        } else if (tParsed.finalPart === 'ong' && sParsed.finalPart !== 'ong') {
+          errorPoints.push(`💡 <b>Lỗi vần "ong":</b> Vần "ong" khẩu hình môi tròn nhỏ đọc thành <b>"ung"</b>, không đọc mở to thành "ong".`);
+        } else if (finalInfo) {
+          errorPoints.push(`👄 <b>Sai vần "${tParsed.finalPart}":</b> ${finalInfo.fixTip}`);
+        }
+      }
+
       // So sánh thanh điệu
       if (tParsed.tone !== sParsed.tone && tParsed.tone > 0 && sParsed.tone > 0) {
         errorPoints.push(`🎵 <b>Lỗi thanh điệu:</b> Bạn đang nói <b>Thanh ${sParsed.tone}</b>, trong khi từ này là <b>Thanh ${tParsed.tone}</b>.`);
@@ -331,9 +345,17 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
       feedback = `Bạn chưa phát âm hoặc đọc quá nhỏ chữ <b>${tChar}</b>.`;
     }
 
-    // Mẹo đặt lưỡi cho chữ này
+    // Mẹo đặt lưỡi & vần cho chữ này
+    const finalInfo = tParsed.finalPart ? (window.CHINESE_FINALS_DB ? window.CHINESE_FINALS_DB[tParsed.finalPart] : null) : null;
+    let guideParts = [];
     if (initialInfo) {
-      tongueGuide = `<b>Vị trí lưỡi & khẩu hình:</b> ${initialInfo.tongue} <br><span class="text-amber-300">💡 <b>Cách khắc phục:</b> ${initialInfo.fixTip}</span>`;
+      guideParts.push(`<b>Thanh mẫu [${initialInfo.name}]:</b> ${initialInfo.tongue} <br><span class="text-amber-300">💡 <b>Khắc phục:</b> ${initialInfo.fixTip}</span>`);
+    }
+    if (finalInfo) {
+      guideParts.push(`<b>Vận mẫu [${finalInfo.name}]:</b> ${finalInfo.tongue} <br><span class="text-cyan-300">💡 <b>Mẹo vần:</b> ${finalInfo.fixTip}</span>`);
+    }
+    if (guideParts.length > 0) {
+      tongueGuide = guideParts.join("<div class='my-1 border-t border-slate-800/80'></div>");
     } else {
       tongueGuide = `Mở khoang miệng tự nhiên, giữ luồng hơi ổn định theo thanh điệu.`;
     }
