@@ -144,7 +144,7 @@ function renderVoiceModalUI(showResult = false, evalData = null) {
     preRecordSection.classList.remove('hidden');
     postRecordSection.classList.add('hidden');
     document.getElementById('mic-status-text').textContent = "Nhấn nút micro để bắt đầu luyện nói";
-    document.getElementById('voice-mic-btn').className = "w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-2xl transition-all duration-300 transform active:scale-95";
+    document.getElementById('voice-mic-btn').className = "w-16 h-16 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-xl transition-all duration-300 transform active:scale-95 flex-shrink-0";
   } else {
     preRecordSection.classList.add('hidden');
     postRecordSection.classList.remove('hidden');
@@ -292,7 +292,7 @@ async function startRecording() {
 
     // Hiệu ứng micro đang thu âm (vòng tròn đỏ nhấp nháy)
     const micBtn = document.getElementById('voice-mic-btn');
-    micBtn.className = "w-20 h-20 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-[0_0_35px_rgba(244,63,94,0.8)] animate-pulse ring-4 ring-rose-400/50 transition-all";
+    micBtn.className = "w-16 h-16 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-[0_0_35px_rgba(244,63,94,0.8)] animate-pulse ring-4 ring-rose-400/50 transition-all flex-shrink-0";
     document.getElementById('mic-status-text').innerHTML = `<span class="text-rose-400 font-bold animate-pulse">● Đang lắng nghe... Hãy đọc: "${currentVoiceWord.hanzi}"</span>`;
 
     // Kích hoạt nhận dạng giọng nói tiếng Trung

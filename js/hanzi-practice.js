@@ -154,6 +154,11 @@ function loadCharacter(char) {
   });
 
   updatePlayBtn(false);
+
+  // TỰ ĐỘNG BẬT CHẾ ĐỘ NHẬN BÚT / CHẠM TRỰC TIẾP TRÊN IPAD VÀ MÀN HÌNH CẢM ỨNG
+  setTimeout(() => {
+    startQuizMode();
+  }, 100);
 }
 
 /**
@@ -329,6 +334,10 @@ function toggleAnimate() {
         currentMode = 'idle';
         updatePlayBtn(false);
         highlightFilmstripStep(totalStrokes);
+        // Xem mẫu xong thì tự động bật lại chế độ sẵn sàng viết trên iPad / chuột
+        setTimeout(() => {
+          startQuizMode();
+        }, 500);
       }
     });
   }
