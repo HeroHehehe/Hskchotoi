@@ -150,6 +150,12 @@
        ========================================== -->
   <div class="max-w-[1440px] mx-auto px-4 py-3">
     <div class="p-2 rounded-2xl bg-slate-900/70 border border-slate-800/80 flex items-center gap-2 overflow-x-auto no-scrollbar shadow-inner">
+      <!-- Nút Bảng Học Âm & Ghép Vần Pinyin Master (MỚI) -->
+      <button onclick="openPinyinModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-md shadow-blue-500/20 ring-1 ring-blue-400/40">
+        <svg class="w-4 h-4 text-amber-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        Học Phát Âm & Ghép Vần Pinyin
+      </button>
+
       <button onclick="openVocabQuiz()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
         <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         Kiểm tra nghĩa từ
@@ -179,6 +185,12 @@
       <button class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
         <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         Luyện tập tổng hợp
+      </button>
+
+      <!-- Nút Bảng Học Âm & Ghép Vần Pinyin Master (MỚI) -->
+      <button onclick="openPinyinModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-md shadow-blue-500/20 ring-1 ring-blue-400/40">
+        <svg class="w-4 h-4 text-amber-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+        Học Phát Âm & Ghép Vần Pinyin
       </button>
 
       <button onclick="openVocabQuiz()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
@@ -534,6 +546,64 @@
             Đóng
           </button>
         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==========================================
+       4.5. MODAL HỌC PHÁT ÂM & GHÉP VẦN PINYIN TOÀN DIỆN (PINYIN MASTER)
+       ========================================== -->
+  <div id="pinyin-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 modal-backdrop hidden">
+    <div class="w-full max-w-5xl bg-slate-900 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[94vh] animate-in fade-in zoom-in-95 duration-200">
+      
+      <!-- Header Modal Pinyin -->
+      <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-black text-white flex items-center gap-2">
+              Học Bảng Chữ Cái & Ghép Vần Pinyin Chuẩn
+              <span class="text-[10px] bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Học Viện Ngữ Âm</span>
+            </h3>
+            <p class="text-xs text-slate-400">21 Thanh Mẫu • 36 Vận Mẫu • Ghép Vần Trực Quan • 4 Thanh Điệu & Luyện Nói Có Chấm Điểm</p>
+          </div>
+        </div>
+
+        <button onclick="closePinyinModal()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition-colors">
+          ✕
+        </button>
+      </div>
+
+      <!-- Thanh chọn 4 Tab chuyên sâu -->
+      <div class="px-6 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <button id="pinyin-tab-btn-initials" onclick="switchPinyinTab('initials')" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white shadow-lg shadow-blue-500/20 transition-all flex items-center gap-1.5 whitespace-nowrap">
+          <span>👅</span> 21 Thanh Mẫu (Âm đầu)
+        </button>
+        <button id="pinyin-tab-btn-finals" onclick="switchPinyinTab('finals')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-850 hover:bg-slate-800 text-slate-300 border border-slate-700 transition-all flex items-center gap-1.5 whitespace-nowrap">
+          <span>👄</span> 36 Vận Mẫu (Vần)
+        </button>
+        <button id="pinyin-tab-btn-spelling" onclick="switchPinyinTab('spelling')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-850 hover:bg-slate-800 text-slate-300 border border-slate-700 transition-all flex items-center gap-1.5 whitespace-nowrap">
+          <span>🧩</span> Bàn Ghép Vần (Âm Đầu + Vần + Dấu)
+        </button>
+        <button id="pinyin-tab-btn-tones" onclick="switchPinyinTab('tones')" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-850 hover:bg-slate-800 text-slate-300 border border-slate-700 transition-all flex items-center gap-1.5 whitespace-nowrap">
+          <span>🎵</span> 4 Thanh Điệu & Biến Điệu
+        </button>
+      </div>
+
+      <!-- Nội dung Tab Cuộn -->
+      <div id="pinyin-tab-content" class="p-6 overflow-y-auto max-h-[72vh]">
+        <!-- Render động qua pinyin-academy.js -->
+      </div>
+
+      <!-- Footer Modal -->
+      <div class="px-6 py-3 border-t border-slate-800 bg-slate-950 flex items-center justify-between">
+        <p class="text-xs text-slate-400">💡 <i>Bấm chọn bất kỳ âm nào để nghe phát âm chuẩn và dùng Micro để luyện nói được sửa lỗi ngay!</i></p>
+        <button onclick="closePinyinModal()" class="px-5 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all">
+          Đóng
+        </button>
       </div>
 
     </div>
@@ -937,6 +1007,7 @@
   <script src="js/radical-modal.js"></script>
   <script src="js/hanzi-practice.js"></script>
   <script src="js/voice-practice.js"></script>
+  <script src="js/pinyin-academy.js"></script>
   <script src="js/app.js"></script>
 
   <script>
