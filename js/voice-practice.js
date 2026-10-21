@@ -59,12 +59,40 @@ function cleanChineseText(str) {
 }
 
 /**
- * Đánh giá độ chính xác giữa từ mục tiêu và từ người dùng đọc
+ * Đánh giá độ chính xác chuyên sâu giữa từ mục tiêu và từ người dùng đọc
+ * Sử dụng bách khoa chẩn đoán lỗi âm vị học tiếng Trung (window.diagnoseSpeechDetails)
  */
 function evaluateSpeech(targetHanzi, spokenText) {
   const cleanTarget = cleanChineseText(targetHanzi);
   const cleanSpoken = cleanChineseText(spokenText);
 
+  // Nếu có module chẩn đoán chuyên sâu
+  if (typeof window.diagnoseSpeechDetails === 'function') {
+    const diagnosis = window.diagnoseSpeechDetails(
+      targetHanzi, 
+      currentVoiceWord ? currentVoiceWord.pinyin : '', 
+      spokenText
+    );
+
+    return {
+      accuracy: diagnosis.score,
+      isPerfect: diagnosis.isPassed,
+      userSpoken: spokenText || "(Chưa nhận diện được giọng nói)",
+      charResults: diagnosis.diagnoses.map(d => ({
+        char: d.char,
+        pinyin: d.targetPinyin,
+        spokenChar: d.spokenChar,
+        spokenPinyin: d.spokenPinyin,
+        isCorrect: d.isCorrect,
+        statusLabel: d.statusLabel,
+        feedback: d.feedback,
+        tongueGuide: d.tongueGuide
+      })),
+      diagnosisList: diagnosis.diagnoses
+    };
+  }
+
+  // Phương thức dự phòng cơ bản
   if (!cleanSpoken) {
     return {
       accuracy: 0,
@@ -74,7 +102,6 @@ function evaluateSpeech(targetHanzi, spokenText) {
     };
   }
 
-  // So sánh từng ký tự
   const targetChars = Array.from(targetHanzi);
   let matchedCount = 0;
   const charResults = targetChars.map(c => {
@@ -83,14 +110,7 @@ function evaluateSpeech(targetHanzi, spokenText) {
     return { char: c, isCorrect: isCorrect };
   });
 
-  let accuracy = 0;
-  if (cleanTarget === cleanSpoken) {
-    accuracy = 100;
-  } else if (cleanSpoken.includes(cleanTarget)) {
-    accuracy = 100;
-  } else {
-    accuracy = Math.round((matchedCount / targetChars.length) * 100);
-  }
+  let accuracy = (cleanTarget === cleanSpoken || cleanSpoken.includes(cleanTarget)) ? 100 : Math.round((matchedCount / targetChars.length) * 100);
 
   return {
     accuracy: accuracy,
@@ -173,7 +193,7 @@ function renderVoiceModalUI(showResult = false, evalData = null) {
       card.onclick = () => speakChinese(res.char);
       card.innerHTML = `
         <span class="text-2xl font-black text-white chinese-font">${res.char}</span>
-        <span class="text-[11px] text-slate-400 font-medium">${currentVoiceWord.pinyin}</span>
+        <span class="text-[11px] text-slate-400 font-medium">${res.pinyin || currentVoiceWord.pinyin}</span>
         <span class="text-[11px] ${isCorrect ? 'text-emerald-400' : 'text-rose-400'} font-bold mt-1 flex items-center gap-1">
           ${isCorrect 
             ? '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg> Đúng' 
@@ -182,6 +202,54 @@ function renderVoiceModalUI(showResult = false, evalData = null) {
       `;
       charListContainer.appendChild(card);
     });
+
+    // Render Chẩn đoán lỗi phát âm chi tiết & cách sửa (Elsa Speak / SuperChinese Style)
+    const diagContainer = document.getElementById('voice-detailed-diagnosis');
+    if (diagContainer) {
+      diagContainer.innerHTML = '';
+      if (evalData && evalData.charResults && evalData.charResults.length > 0) {
+        let diagHtml = `
+          <div class="space-y-2 mt-2">
+            <h5 class="text-xs font-bold text-slate-300 flex items-center gap-1.5 uppercase tracking-wide">
+              <span>🩺</span> Chẩn Đoán Lỗi Âm Tiết & Hướng Dẫn Khắc Phục
+            </h5>
+        `;
+
+        evalData.charResults.forEach((diag, idx) => {
+          const isOk = diag.isCorrect;
+          diagHtml += `
+            <div class="p-3 rounded-xl ${isOk ? 'bg-emerald-950/20 border border-emerald-500/30' : 'bg-rose-950/25 border border-rose-500/40'} text-xs space-y-1.5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="text-base font-black text-white chinese-font">${diag.char}</span>
+                  <span class="text-xs font-mono font-bold ${isOk ? 'text-emerald-400' : 'text-rose-400'}">${diag.pinyin || ''}</span>
+                  <span class="text-[10px] px-1.5 py-0.5 rounded ${isOk ? 'bg-emerald-900/60 text-emerald-300' : 'bg-rose-900/60 text-rose-300'} font-bold">
+                    ${diag.statusLabel || (isOk ? 'Chuẩn' : 'Sai')}
+                  </span>
+                </div>
+                <button onclick="speakChinese('${diag.char}')" class="px-2 py-0.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-semibold flex items-center gap-1">
+                  <svg class="w-3 h-3 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                  Nghe chữ này
+                </button>
+              </div>
+
+              <div class="text-[11.5px] text-slate-300 leading-relaxed pl-1">
+                ${diag.feedback || ''}
+              </div>
+
+              ${diag.tongueGuide ? `
+                <div class="p-2 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] text-slate-300 leading-relaxed mt-1">
+                  ${diag.tongueGuide}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        });
+
+        diagHtml += `</div>`;
+        diagContainer.innerHTML = diagHtml;
+      }
+    }
   }
 }
 

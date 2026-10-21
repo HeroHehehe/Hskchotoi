@@ -1,157 +1,367 @@
 /**
- * Dữ liệu bách khoa hướng dẫn phát âm, khẩu hình miệng, vị trí đặt lưỡi (Phonetics Guide)
- * Dành riêng cho người Việt học tiếng Trung HSK 3.0
+ * Công cụ phân tích âm vị học Tiếng Trung & Khẩu hình, Vị trí đặt lưỡi, Chẩn đoán lỗi sai
+ * Dành riêng cho người Việt Nam học tiếng Trung HSK 3.0
  */
 
-window.CHINESE_PHONETICS_GUIDE = {
-  // --- BẢNG THANH MẪU (Phụ âm đầu) ---
+window.CHINESE_PHONETICS_DB = {
+  // 21 THANH MẪU (Phụ âm đầu)
   initials: {
-    'b': { name: 'b', ipa: '[p]', tongue: 'Hai môi khép chặt, cản luồng khí rồi mở nhanh bật ra nhẹ nhàng, KHÔNG bật hơi. Giống âm "p" nhẹ tiếng Việt nhưng không rung dây thanh.' },
-    'p': { name: 'p', ipa: '[pʰ]', tongue: 'Hai môi khép chặt, bật mở mạnh để LUỒNG KHÍ BẬT MẠNH RA NGOÀI (bật hơi). Đặt tờ giấy trước miệng tờ giấy phải bay mạnh.' },
-    'm': { name: 'm', ipa: '[m]', tongue: 'Hai môi khép lại, luồng hơi thoát ra theo khoang mũi, dây thanh rung. Giống âm "m" tiếng Việt.' },
-    'f': { name: 'f', ipa: '[f]', tongue: 'Răng trên chạm nhẹ môi dưới, hơi ma sát thoát qua kẽ răng. Giống âm "ph" tiếng Việt.' },
-    'd': { name: 'd', ipa: '[t]', tongue: 'Đầu lưỡi dính chặt vào chân răng trên (nướu trên), chặn khí rồi hạ lưỡi xuống bật âm ra, KHÔNG bật hơi. Đọc gần như âm "t" tiếng Việt.' },
-    't': { name: 't', ipa: '[tʰ]', tongue: 'Vị trí giống âm "d" (đầu lưỡi chạm nướu trên), nhưng BẬT HƠI CỰC MẠNH khi hạ lưỡi. Đọc tựa âm "th" tiếng Việt nhưng bật mạnh hơn.' },
-    'n': { name: 'n', ipa: '[n]', tongue: 'Đầu lưỡi áp vào chân răng trên, hơi thoát qua mũi. Giống âm "n" tiếng Việt.' },
-    'l': { name: 'l', ipa: '[l]', tongue: 'Đầu lưỡi chạm vào nướu trên, luồng khí thoát ra hai bên mép lưỡi. Giống âm "l" tiếng Việt.' },
-    'g': { name: 'g', ipa: '[k]', tongue: 'Gốc lưỡi (cuống lưỡi) nâng lên chạm ngạc mềm, chặn hơi rồi hạ nhanh xuống, KHÔNG bật hơi. Gần giống âm "c / k" trong tiếng Việt.' },
-    'k': { name: 'k', ipa: '[kʰ]', tongue: 'Cuống lưỡi nâng lên chạm ngạc mềm như âm "g", nhưng BẬT HƠI RẤT MẠNH từ sâu trong cổ họng ra.' },
-    'h': { name: 'h', ipa: '[x]', tongue: 'Cuống lưỡi nâng nhẹ gần ngạc mềm tạo khe hẹp, luồng khí cọ xát nhẹ qua cuống họng. Hơi lai giữa "h" và "kh" tiếng Việt nhẹ nhàng.' },
-    'j': { name: 'j', ipa: '[tɕ]', tongue: 'Mặt lưỡi áp sát ngạc cứng (vòm họng trên), đầu lưỡi hạ thấp áp vào chân răng dưới, khóe miệng kéo sang 2 bên như đang cười. Đọc nhẹ giống "chi" nhưng dẹp môi, không bật hơi.' },
-    'q': { name: 'q', ipa: '[tɕʰ]', tongue: 'Vị trí miệng và lưỡi y hệt âm "j", nhưng BẬT HƠI MẠNH LÒNG BÀN TAY CẢM NHẬN HƠI NÓNG BẮN RA. Tương tự như âm "siêu bật hơi" của "ch".' },
-    'x': { name: 'x', ipa: '[ɕ]', tongue: 'Mặt lưỡi nâng cao gần ngạc cứng tạo khe hẹp, đầu lưỡi sát chân răng dưới, miệng bè sang 2 bên, khí cọ xát thoát ra. Giống âm "x" xoe môi mỏng tiếng Việt.' },
-    'zh': { name: 'zh', ipa: '[ʈʂ]', tongue: 'ĐẦU LƯỠI UỐN CONG LÊN CHẠM VÒM HỌNG TRÊN (ngạc cứng), sau đó hé nhẹ để khí thoát ra từ từ, KHÔNG BẬT HƠI. Đọc giống âm "tr" chuẩn miền Nam/Trung.' },
-    'ch': { name: 'ch', ipa: '[ʈʂʰ]', tongue: 'ĐẦU LƯỠI UỐN CONG LÊN CHẠM VÒM HỌNG như "zh", nhưng BẬT HƠI CỰC MẠNH ra ngoài. Âm cong lưỡi bật hơi đặc trưng tiếng Bắc Kinh.' },
-    'sh': { name: 'sh', ipa: '[ʂ]', tongue: 'ĐẦU LƯỠI UỐN CONG LÊN gần vòm miệng (không chạm hẳn), luồng khí ma sát qua khe hẹp phát ra âm xì dày. Giống âm "s" uốn lưỡi (nặng).' },
-    'r': { name: 'r', ipa: '[ʐ]', tongue: 'ĐẦU LƯỠI UỐN CONG LÊN vòm họng như "sh", nhưng RUNG DÂY THANH QUẢN trong họng. Nghe hơi lai giữa âm "r" và "d" rung.' },
-    'z': { name: 'z', ipa: '[ts]', tongue: 'ĐẦU LƯỠI THẲNG chạm mặt sau răng trên, khép hở nhẹ cản hơi rồi mở nhẹ, KHÔNG BẬT HƠI. Đọc như "tz" / "ch" nhẹ với đầu lưỡi áp thẳng lưng răng.' },
-    'c': { name: 'c', ipa: '[tsʰ]', tongue: 'ĐẦU LƯỠI THẲNG chạm mặt sau răng trên như "z", nhưng BẬT HƠI MẠNH qua kẽ răng kèm tiếng xì hơi sắc nét (bật hơi đầu lưỡi).' },
-    's': { name: 's', ipa: '[s]', tongue: 'ĐẦU LƯỠI THẲNG đặt sát mặt sau răng dưới, luồng hơi ma sát lướt qua mặt lưỡi và răng cửa trên. Giống âm "x" nhẹ tiếng Việt.' }
+    'b': {
+      name: 'b',
+      ipa: '[p]',
+      type: 'Âm 2 môi, không bật hơi',
+      tongue: 'Hai môi khép chặt, cản luồng khí trong miệng rồi mở nhanh bật ra nhẹ nhàng, KHÔNG bật hơi. Giống âm "p" tiếng Việt nhưng không rung dây thanh.',
+      vnMistake: 'Người Việt hay phát âm nhầm thành chữ "b" (rung cổ) hoặc nhầm sang bật hơi "p".',
+      fixTip: 'Cắn chặt 2 môi lại, mở nhẹ phát ra tiếng "pua" không rung thanh quản, đặt tay lên cổ họng không thấy rung.'
+    },
+    'p': {
+      name: 'p',
+      ipa: '[pʰ]',
+      type: 'Âm 2 môi, BẬT HƠI MẠNH',
+      tongue: 'Hai môi khép chặt, nén luồng khí lại rồi BẬT MỞ MẠNH PHÓNG LUỒNG KHÍ RA NGOÀI. Đặt một tờ giấy ăn trước miệng cách 5cm, khi đọc tờ giấy phải bay mạnh.',
+      vnMistake: 'Rất nhiều bạn đọc thành "p" nhẹ (không bật hơi) hoặc đọc thành "ph".',
+      fixTip: 'Nén hơi thật chặt ở môi trước khi nhả âm, để luồng gió mạnh bung ra ngoài.'
+    },
+    'm': {
+      name: 'm',
+      ipa: '[m]',
+      type: 'Âm 2 môi, mũi',
+      tongue: 'Hai môi khép lại, luồng hơi thoát theo khoang mũi, rung dây thanh. Hoàn toàn giống âm "m" tiếng Việt.',
+      vnMistake: 'Âm này người Việt đọc rất chuẩn.',
+      fixTip: 'Giữ âm tự nhiên như tiếng Việt.'
+    },
+    'f': {
+      name: 'f',
+      ipa: '[f]',
+      type: 'Âm răng - môi',
+      tongue: 'Răng cửa trên chạm nhẹ vào môi dưới, luồng hơi ma sát thoát qua kẽ răng. Giống âm "ph" tiếng Việt.',
+      vnMistake: 'Đôi khi ngậm cả 2 môi.',
+      fixTip: 'Chỉ dùng răng trên cắn hờ bờ môi dưới.'
+    },
+    'd': {
+      name: 'd',
+      ipa: '[t]',
+      type: 'Âm đầu lưỡi trên, không bật hơi',
+      tongue: 'Đầu lưỡi dính chặt vào nướu răng trên (chân răng trên), chặn luồng khí rồi hạ nhanh lưỡi xuống, KHÔNG BẬT HƠI. Đọc gần như âm "t" tiếng Việt.',
+      vnMistake: 'Người Việt hay đọc nhầm thành chữ "đ" (âm rung).',
+      fixTip: 'Đọc tựa như chữ "t" trong "tôi", giữ âm thanh gọn, không rung thanh quản.'
+    },
+    't': {
+      name: 't',
+      ipa: '[tʰ]',
+      type: 'Âm đầu lưỡi trên, BẬT HƠI MẠNH',
+      tongue: 'Vị trí giống âm "d" (đầu lưỡi áp nướu trên), nhưng BẬT HƠI CỰC MẠNH khi hạ lưỡi. Tương tự âm "th" tiếng Việt nhưng phóng luồng khí mạnh mẽ và dứt khoát hơn.',
+      vnMistake: 'Quên bật hơi hoặc bật quá yếu.',
+      fixTip: 'Đầu lưỡi giật nhanh xuống và tống hơi ra phía trước.'
+    },
+    'n': {
+      name: 'n',
+      ipa: '[n]',
+      type: 'Âm đầu lưỡi - mũi',
+      tongue: 'Đầu lưỡi áp chân răng trên, hơi thoát qua mũi. Giống âm "n" tiếng Việt.',
+      vnMistake: 'Một số bạn bị nhầm lẫn giữa n và l.',
+      fixTip: 'Hơi đi lên mũi tạo độ vang êm.'
+    },
+    'l': {
+      name: 'l',
+      ipa: '[l]',
+      type: 'Âm bên đầu lưỡi',
+      tongue: 'Đầu lưỡi chạm nướu trên, luồng khí thoát ra hai bên mép lưỡi. Giống âm "l" tiếng Việt.',
+      vnMistake: 'Nhầm lẫn với n.',
+      fixTip: 'Uốn đầu lưỡi chạm nướu trên rồi nhả xuống.'
+    },
+    'g': {
+      name: 'g',
+      ipa: '[k]',
+      type: 'Âm cuống lưỡi, không bật hơi',
+      tongue: 'Gốc lưỡi nâng cao chạm ngạc mềm (vòm họng sau), chặn hơi rồi hạ nhanh xuống, KHÔNG bật hơi. Đọc gần giống âm "c/k" tiếng Việt.',
+      vnMistake: 'Rất hay đọc thành âm "g" tiếng Việt (ví dụ: gēge đọc thành gơ-gơ là sai).',
+      fixTip: 'Hãy đọc thành âm "c" (ví dụ: gēge đọc thành "cưa cưa").'
+    },
+    'k': {
+      name: 'k',
+      ipa: '[kʰ]',
+      type: 'Âm cuống lưỡi, BẬT HƠI MẠNH',
+      tongue: 'Cuống lưỡi nâng lên chạm ngạc mềm như âm "g", nhưng BẬT HƠI RẤT MẠNH từ đáy họng ra. Giống âm "kh" tiếng Việt nhưng bật mạnh và sắc nét hơn.',
+      vnMistake: 'Đọc thành "k" không bật hơi hoặc âm "kh" quá yếu.',
+      fixTip: 'Khạc luồng hơi mạnh từ cuống họng ra ngoài.'
+    },
+    'h': {
+      name: 'h',
+      ipa: '[x]',
+      type: 'Âm cuống lưỡi ma sát',
+      tongue: 'Cuống lưỡi nâng nhẹ gần ngạc mềm tạo khe hẹp, luồng hơi ma sát nhẹ thoát ra. Âm này nằm ở khoảng giữa âm "h" và "kh" tiếng Việt nhẹ nhàng.',
+      vnMistake: 'Đọc âm "h" quá nhẹ như tiếng Việt (hē đọc thành he) hoặc quá nặng thành "kh".',
+      fixTip: 'Nâng gốc lưỡi lên một chút tạo lực ma sát nhẹ trong vòm họng.'
+    },
+    'j': {
+      name: 'j',
+      ipa: '[tɕ]',
+      type: 'Âm mặt lưỡi, không bật hơi',
+      tongue: 'Mặt lưỡi ép sát ngạc cứng (vòm họng trên), đầu lưỡi hạ thấp áp vào chân răng dưới, khóe miệng kéo sang hai bên như đang cười. Đọc nhẹ giống "chi" nhưng bẹt môi, không bật hơi.',
+      vnMistake: 'Đọc nhầm thành "d" hoặc "gi" tiếng Việt, hoặc quên kéo bẹt khóe môi.',
+      fixTip: 'Mỉm cười kéo mép sang hai bên, mặt lưỡi dính lên ngạc cứng rồi nhả nhẹ.'
+    },
+    'q': {
+      name: 'q',
+      ipa: '[tɕʰ]',
+      type: 'Âm mặt lưỡi, BẬT HƠI MẠNH',
+      tongue: 'Vị trí miệng và lưỡi y hệt âm "j", nhưng BẬT HƠI CỰC MẠNH. Đặt lòng bàn tay trước miệng cảm nhận hơi gió bắn ra.',
+      vnMistake: 'Hay đọc thành "chi" không bật hơi, hoặc đọc thành "kh".',
+      fixTip: 'Cười bẹt miệng, dồn hơi nén lại rồi phóng hơi bắn qua kẽ mặt lưỡi.'
+    },
+    'x': {
+      name: 'x',
+      ipa: '[ɕ]',
+      type: 'Âm mặt lưỡi ma sát',
+      tongue: 'Mặt lưỡi nâng cao sát ngạc cứng tạo khe hẹp, đầu lưỡi sát chân răng dưới, miệng bẹt như cười, luồng hơi cọ xát thoát ra. Giống âm "x" mỏng tiếng Việt.',
+      vnMistake: 'Đọc chu môi hoặc uốn lưỡi.',
+      fixTip: 'Kéo căng khóe môi sang 2 bên để âm thanh thật sắc nét và thanh.'
+    },
+    'zh': {
+      name: 'zh',
+      ipa: '[ʈʂ]',
+      type: 'Âm uốn lưỡi (quặt lưỡi), không bật hơi',
+      tongue: 'ĐẦU LƯỠI UỐN CONG LÊN CHẠM VÒM HỌNG TRÊN (ngạc cứng), sau đó hé nhẹ đầu lưỡi để khí thoát ra từ từ, KHÔNG BẬT HƠI. Đọc tương tự âm "tr" chuẩn miền Nam/Trung.',
+      vnMistake: 'Người miền Bắc hay đọc thành "ch/tr" phẳng lưỡi không uốn.',
+      fixTip: 'Cong đầu lưỡi ngược lên trên trần miệng trước khi phát âm!'
+    },
+    'ch': {
+      name: 'ch',
+      ipa: '[ʈʂʰ]',
+      type: 'Âm uốn lưỡi, BẬT HƠI CỰC MẠNH',
+      tongue: 'ĐẦU LƯỠI UỐN CONG LÊN CHẠM VÒM HỌNG như "zh", nhưng BẬT HƠI CỰC MẠNH ra ngoài. Âm khó bậc nhất trong tiếng Trung!',
+      vnMistake: 'Chỉ uốn lưỡi mà quên bật hơi, hoặc bật hơi mà quên uốn lưỡi.',
+      fixTip: 'Uốn cong đầu lưỡi chạm ngạc trên, giữ hơi nén chặt rồi bung mạnh kèm tiếng xì gió.'
+    },
+    'sh': {
+      name: 'sh',
+      ipa: '[ʂ]',
+      type: 'Âm uốn lưỡi ma sát',
+      tongue: 'ĐẦU LƯỠI UỐN CONG LÊN gần sát vòm miệng (không chạm hẳn), luồng hơi ma sát qua khe hẹp phát ra tiếng xì dày và trầm. Giống âm "s" uốn lưỡi tiếng Việt.',
+      vnMistake: 'Đọc phẳng lưỡi thành "x" nhẹ.',
+      fixTip: 'Luôn uốn cong đầu lưỡi lên trần miệng để tạo độ vang dày.'
+    },
+    'r': {
+      name: 'r',
+      ipa: '[ʐ]',
+      type: 'Âm uốn lưỡi, rung thanh quản',
+      tongue: 'ĐẦU LƯỠI UỐN CONG LÊN vòm họng như "sh", nhưng RUNG DÂY THANH QUẢN trong họng. Nghe hơi lai giữa âm "r" và âm "d" rung nhẹ.',
+      vnMistake: 'Rung lưỡi quá đà như chữ R tiếng Pháp/Nga, hoặc đọc thành "d" bẹt.',
+      fixTip: 'Uốn cong lưỡi cố định, phát âm rung trong cổ họng.'
+    },
+    'z': {
+      name: 'z',
+      ipa: '[ts]',
+      type: 'Âm đầu lưỡi thẳng, không bật hơi',
+      tongue: 'ĐẦU LƯỠI THẲNG chạm mặt sau răng cửa trên, khép hở nhẹ cản luồng hơi rồi mở nhẹ, KHÔNG BẬT HƠI. Đọc tựa như "tz" gọn gàng.',
+      vnMistake: 'Rất hay uốn lưỡi hoặc đọc thành "d".',
+      fixTip: 'Lưỡi PHẢI DUỖI THẲNG ÉP VÀO RĂNG, miệng hơi hé cười.'
+    },
+    'c': {
+      name: 'c',
+      ipa: '[tsʰ]',
+      type: 'Âm đầu lưỡi thẳng, BẬT HƠI MẠNH',
+      tongue: 'ĐẦU LƯỠI THẲNG áp sát sau răng cửa trên như "z", nhưng BẬT HƠI MẠNH qua kẽ răng kèm tiếng xì hơi sắc nét (bật hơi đầu lưỡi).',
+      vnMistake: 'Đọc thành "x" hoặc "ch" không bật hơi.',
+      fixTip: 'Ép chặt đầu lưỡi thẳng vào răng trên, bật hơi xì mạnh qua kẽ răng.'
+    },
+    's': {
+      name: 's',
+      ipa: '[s]',
+      type: 'Âm đầu lưỡi thẳng ma sát',
+      tongue: 'ĐẦU LƯỠI THẲNG đặt sát mặt sau răng dưới, luồng hơi ma sát lướt qua mặt lưỡi và răng cửa trên. Giống âm "x" nhẹ tiếng Việt.',
+      vnMistake: 'Uốn lưỡi thành âm "s" nặng.',
+      fixTip: 'Giữ đầu lưỡi thẳng tắp áp chân răng dưới.'
+    }
   },
 
-  // --- BẢNG VẬN MẪU ĐẶC BIỆT (Nguyên âm & vần) ---
-  finals: {
-    'a': { name: 'a', tongue: 'Miệng mở rộng hết cỡ, lưỡi nằm tự nhiên đáy miệng, âm phát vang to từ đáy họng.' },
-    'o': { name: 'o', tongue: 'Môi tròn lại, cuống lưỡi nâng nhẹ về phía ngạc mềm. Nghe lai giữa "o" và "ua".' },
-    'e': { name: 'e', tongue: 'Miệng mở tự nhiên như đang cười mỉm, khóe miệng kéo sang 2 bên, phát âm từ cuống họng. Đọc như âm "ưa" tiếng Việt.' },
-    'i': { name: 'i', tongue: 'Khóe môi bẹt sang 2 bên hết cỡ như cười toe toét, đầu lưỡi chạm mặt sau răng dưới. (Lưu ý: đi sau z,c,s,zh,ch,sh,r thì đọc thành "ư").' },
-    'u': { name: 'u', tongue: 'Môi tròn nhỏ chu về phía trước, cuống lưỡi nâng cao về phía sau. Giống âm "u" tiếng Việt.' },
-    'ü': { name: 'ü (u hai chấm)', tongue: 'GIỮ KHẨU HÌNH TRÒN CHU NHỎ NHƯ HUÝT SÁO, nhưng BÊN TRONG PHÁT ÂM CHỮ "I". Đọc giống chữ "uy" nhưng môi giữ nguyên tròn không được nhúc nhích.' },
-    'er': { name: 'er', tongue: 'Phát âm "e" (ưa) trước, sau đó ĐẦU LƯỠI LẬP TỨC UỐN CONG NGƯỢC LÊN VÒM HỌNG. Đây là âm uốn lưỡi đặc trưng.' },
-    'an': { name: 'an', tongue: 'Phát âm "a" rồi đưa đầu lưỡi chạm nướu trên để kết thúc âm "n". Giống vần "an".' },
-    'en': { name: 'en', tongue: 'Phát âm "e" (ơn) rồi khép đầu lưỡi lên chân răng trên. Gần như "ơn" tiếng Việt.' },
-    'ang': { name: 'ang', tongue: 'Cuống lưỡi nâng lên chạm ngạc mềm sau khi mở to miệng phát âm "a".' },
-    'eng': { name: 'eng', tongue: 'Mở miệng tự nhiên phát âm "e", cuống lưỡi thụt về sau khép vào ngạc mềm. Đọc như "âng".' },
-    'ong': { name: 'ong', tongue: 'Môi tròn phát âm như "ung" tiếng Việt.' }
-  },
-
-  // --- BẢNG 4 THANH ĐIỆU (Tones) ---
+  // 4 THANH ĐIỆU (Tones)
   tones: {
-    1: { name: 'Thanh 1 (Âm Bình: 55)', mark: '¯', desc: 'Cao và đều bằng phẳng, giữ hơi dài ổn định từ đầu đến cuối ở nốt cao nhất của giọng bạn, KHÔNG hạ giọng.' },
-    2: { name: 'Thanh 2 (Dương Bình: 35)', mark: '´', desc: 'Đi từ độ cao trung bình vút thẳng lên độ cao tối đa (giống dấu Sắc tiếng Việt nhưng thanh thoát và dài hơn).' },
-    3: { name: 'Thanh 3 (Thượng Thanh: 214)', mark: 'ˇ', desc: 'Hạ giọng xuống trầm nhất cổ họng (như dấu Nặng) rồi uốn nhẹ lên một chút. Chú ý: 2 thanh 3 đi liền nhau (ví dụ: 你好 nǐ hǎo) thì từ đầu chuyển đọc thành thanh 2 (ní hǎo)!' },
+    1: { name: 'Thanh 1 (Âm Bình: 55)', mark: '¯', desc: 'Cao và đều bằng phẳng (nốt Sol), giữ hơi dài ổn định từ đầu đến cuối, KHÔNG hạ giọng.' },
+    2: { name: 'Thanh 2 (Dương Bình: 35)', mark: '´', desc: 'Đi từ độ cao trung bình vút thẳng lên cao nhất (tựa như dấu Sắc tiếng Việt nhưng thanh thoát hơn).' },
+    3: { name: 'Thanh 3 (Thượng Thanh: 214)', mark: 'ˇ', desc: 'Hạ giọng xuống thật trầm ở đáy cổ họng rồi hơi uốn lên nhẹ. (Chú ý: khi đi trước thanh 3 khác thì đổi đọc thành thanh 2)!' },
     4: { name: 'Thanh 4 (Khứ Thanh: 51)', mark: '`', desc: 'Rơi thẳng đứng từ nốt cao nhất dứt khoát xuống nốt thấp nhất, phát âm mạnh mẽ, dứt khoát, ngắt hơi bất ngờ như ra lệnh.' },
     0: { name: 'Thanh nhẹ (Khinh thanh)', mark: '•', desc: 'Đọc rất ngắn, nhẹ nhàng, lướt qua, không nhấn trọng âm (ví dụ: 们 men, 谢谢 xièxie).' }
   }
 };
 
 /**
- * Phân tích và sinh bản hướng dẫn khẩu hình + vị trí đặt lưỡi cho 1 từ vựng HSK
- * @param {string} hanzi Chữ Hán (vd: 你好, 老师)
- * @param {string} pinyin Phiên âm pinyin (vd: nǐ hǎo, lǎoshī)
+ * Tách và phân tích âm tiết pinyin chuẩn xác (initial, final, tone, toneNum)
  */
-window.getPronunciationGuide = function(hanzi, pinyin) {
-  if (!pinyin) return null;
+window.parsePinyinSyllable = function(syl) {
+  if (!syl) return null;
+  const s = syl.trim().toLowerCase();
 
-  // Xử lý các từ ghép nhiều âm tiết
-  const syllables = pinyin.trim().toLowerCase().split(/\s+/);
-  const chars = Array.from(hanzi || "");
+  let tone = 0;
+  if (/[āēīōūǖ]/.test(s)) tone = 1;
+  else if (/[áéíóúǘ]/.test(s)) tone = 2;
+  else if (/[ǎěǐǒǔǚ]/.test(s)) tone = 3;
+  else if (/[àèìòùǜ]/.test(s)) tone = 4;
 
-  const syllablesDetail = syllables.map((syl, idx) => {
-    // Tách dấu thanh điệu
-    let tone = 0;
-    let cleanSyl = syl;
+  const raw = s
+    .replace(/[āáǎà]/g, 'a')
+    .replace(/[ēéěè]/g, 'e')
+    .replace(/[īíǐì]/g, 'i')
+    .replace(/[ōóǒò]/g, 'o')
+    .replace(/[ūúǔù]/g, 'u')
+    .replace(/[ǖǘǚǜü]/g, 'v')
+    .replace(/[^a-z]/g, '');
 
-    if (/[āēīōūǖ]/.test(syl)) tone = 1;
-    else if (/[áéíóúǘ]/.test(syl)) tone = 2;
-    else if (/[ǎěǐǒǔǚ]/.test(syl)) tone = 3;
-    else if (/[àèìòùǜ]/.test(syl)) tone = 4;
-
-    // Chuẩn hóa pinyin không dấu
-    const normalized = syl
-      .replace(/[āáǎà]/g, 'a')
-      .replace(/[ēéěè]/g, 'e')
-      .replace(/[īíǐì]/g, 'i')
-      .replace(/[ōóǒò]/g, 'o')
-      .replace(/[ūúǔù]/g, 'u')
-      .replace(/[ǖǘǚǜü]/g, 'v')
-      .replace(/[^a-z]/g, '');
-
-    // Nhận diện thanh mẫu kép hoặc đơn
-    let initial = '';
-    const doubleInitials = ['zh', 'ch', 'sh'];
-    for (let di of doubleInitials) {
-      if (normalized.startsWith(di)) {
-        initial = di;
+  let initial = '';
+  const doubleInitials = ['zh', 'ch', 'sh'];
+  for (let di of doubleInitials) {
+    if (raw.startsWith(di)) {
+      initial = di;
+      break;
+    }
+  }
+  if (!initial) {
+    const singleInitials = ['b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g', 'k', 'h', 'j', 'q', 'x', 'r', 'z', 'c', 's', 'y', 'w'];
+    for (let si of singleInitials) {
+      if (raw.startsWith(si)) {
+        initial = si;
         break;
       }
     }
-    if (!initial) {
-      const singleInitials = ['b', 'p', 'm', 'f', 'd', 't', 'n', 'l', 'g', 'k', 'h', 'j', 'q', 'x', 'r', 'z', 'c', 's', 'y', 'w'];
-      for (let si of singleInitials) {
-        if (normalized.startsWith(si)) {
-          initial = si;
-          break;
-        }
-      }
-    }
-
-    const finalPart = initial ? normalized.slice(initial.length) : normalized;
-
-    // Tra cứu hướng dẫn
-    const initialGuide = window.CHINESE_PHONETICS_GUIDE.initials[initial] || null;
-    const toneGuide = window.CHINESE_PHONETICS_GUIDE.tones[tone] || window.CHINESE_PHONETICS_GUIDE.tones[0];
-
-    // Tạo mẹo đặt lưỡi trực quan
-    let tongueTip = "";
-    if (['zh', 'ch', 'sh', 'r'].includes(initial)) {
-      tongueTip = "🌀 <b>Uốn lưỡi:</b> Đầu lưỡi cong lên chạm nhẹ vòm họng trên, không để lưỡi bẹt!";
-    } else if (['z', 'c', 's'].includes(initial)) {
-      tongueTip = "📏 <b>Lưỡi thẳng:</b> Đầu lưỡi áp thẳng lưng răng cửa trên/dưới, miệng hé cười ép hơi xì ra!";
-    } else if (['j', 'q', 'x'].includes(initial)) {
-      tongueTip = "😁 <b>Mặt lưỡi bè:</b> Mặt lưỡi ép sát vòm trên, đầu lưỡi chạm chân răng dưới, miệng bẹt như cười!";
-    } else if (['p', 't', 'k', 'q', 'ch', 'c'].includes(initial)) {
-      tongueTip = "💨 <b>Bật hơi mạnh:</b> Nén khí trong miệng rồi phóng hơi ra thật mạnh!";
-    } else if (['b', 'd', 'g', 'j', 'zh', 'z'].includes(initial)) {
-      tongueTip = "🔇 <b>Không bật hơi:</b> Giữ âm chắc, phát âm gọn gàng không xì luồng khí mạnh!";
-    } else {
-      tongueTip = "👄 <b>Khẩu hình tự nhiên:</b> Thả lỏng vòm miệng và điều tiết hơi từ cơ bụng.";
-    }
-
-    return {
-      char: chars[idx] || "",
-      pinyin: syl,
-      initial: initial || '(không có)',
-      initialGuide: initialGuide ? initialGuide.tongue : 'Nguyên âm tự do, mở khoang miệng tự nhiên.',
-      finalPart: finalPart,
-      toneNum: tone,
-      toneGuide: toneGuide,
-      tongueTip: tongueTip
-    };
-  });
-
-  // Kiểm tra quy tắc biến điệu đặc biệt (Ví dụ 2 thanh 3 đi liền nhau)
-  let toneSandhiRule = "";
-  if (syllablesDetail.length >= 2) {
-    if (syllablesDetail[0].toneNum === 3 && syllablesDetail[1].toneNum === 3) {
-      toneSandhiRule = `💡 <b>Quy tắc biến điệu 2 thanh 3:</b> Từ <code>${hanzi}</code> gồm 2 thanh 3 đi liền nhau (${syllables[0]} + ${syllables[1]}), nên chữ đầu <code>${chars[0]}</code> sẽ đổi đọc thành <b>thanh 2</b> (dấu sắc nhẹ, ví dụ đọc thành <i>"${chars[0] === '你' ? 'ní' : ''} ${syllables[1]}"</i>)!`;
-    }
   }
 
+  const finalPart = initial ? raw.slice(initial.length) : raw;
   return {
-    hanzi: hanzi,
-    pinyin: pinyin,
-    syllables: syllablesDetail,
-    toneSandhiRule: toneSandhiRule
+    original: syl,
+    raw: raw,
+    initial: initial,
+    finalPart: finalPart,
+    tone: tone
+  };
+};
+
+/**
+ * Chuyển đổi một chuỗi chữ Hán thành mảng Pinyin dựa trên từ điển offline window.PINYIN_MAP
+ */
+window.hanziToPinyinList = function(hanziStr) {
+  if (!hanziStr) return [];
+  const chars = Array.from(hanziStr);
+  const map = window.PINYIN_MAP || {};
+  return chars.map(c => {
+    return {
+      char: c,
+      pinyin: map[c] || ''
+    };
+  });
+};
+
+/**
+ * SO SÁNH CHUYÊN SÂU & CHẨN ĐOÁN LỖI PHÁT ÂM CHI TIẾT
+ * @param {string} targetWord Từ vựng mục tiêu (vd: 老师, 你好)
+ * @param {string} targetPinyin Pinyin mục tiêu (vd: lǎoshī, nǐ hǎo)
+ * @param {string} spokenWord Từ người dùng vừa nói (vd: 老四, 泥好, 谢谢)
+ */
+window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
+  const targetChars = Array.from(targetWord || "");
+  const spokenChars = Array.from(spokenWord || "");
+
+  // Tách pinyin mục tiêu thành mảng các âm tiết
+  let targetSyls = targetPinyin ? targetPinyin.trim().toLowerCase().split(/\s+/) : [];
+  if (targetSyls.length !== targetChars.length) {
+    // Nếu pinyin viết dính liền (vd: nǐhǎo, lǎoshī), bổ sung từ từ điển offline
+    const dictList = window.hanziToPinyinList(targetWord);
+    targetSyls = dictList.map((d, i) => d.pinyin || targetSyls[i] || "");
+  }
+
+  // Lấy pinyin tương ứng của những chữ người dùng đã nói
+  const spokenPinyinList = window.hanziToPinyinList(spokenWord);
+
+  let correctCount = 0;
+  const charDiagnoses = [];
+
+  for (let i = 0; i < targetChars.length; i++) {
+    const tChar = targetChars[i];
+    const tSylStr = targetSyls[i] || (window.PINYIN_MAP ? window.PINYIN_MAP[tChar] : '');
+    const tParsed = window.parsePinyinSyllable(tSylStr);
+
+    // Ký tự người dùng nói tại vị trí tương ứng (nếu có)
+    const sChar = spokenChars[i] || null;
+    const sSylStr = spokenPinyinList[i] ? spokenPinyinList[i].pinyin : (sChar && window.PINYIN_MAP ? window.PINYIN_MAP[sChar] : '');
+    const sParsed = sChar ? window.parsePinyinSyllable(sSylStr) : null;
+
+    let isMatch = false;
+    let feedback = "";
+    let tongueGuide = "";
+    let statusLabel = "";
+
+    // Lấy hướng dẫn thanh mẫu
+    const initialInfo = tParsed.initial ? window.CHINESE_PHONETICS_DB.initials[tParsed.initial] : null;
+
+    if (sChar === tChar) {
+      isMatch = true;
+      correctCount++;
+      statusLabel = "Đúng chuẩn";
+      feedback = `🎉 Phát âm rất chuẩn chữ <b>${tChar} (${tSylStr})</b>!`;
+    } else if (sChar) {
+      // Người dùng nói ra chữ khác -> Phân tích xem sai ở đâu (thanh mẫu, vận mẫu, hay thanh điệu)
+      statusLabel = "Chưa chuẩn";
+      let errorPoints = [];
+
+      // So sánh âm đầu (thanh mẫu)
+      if (tParsed.initial !== sParsed.initial) {
+        if (['zh', 'ch', 'sh'].includes(tParsed.initial) && ['z', 'c', 's'].includes(sParsed.initial)) {
+          errorPoints.push(`⚠️ <b>Lỗi uốn lưỡi:</b> Bạn đang phát âm phẳng lưỡi <code>${sParsed.initial}</code> thay vì <b>uốn cong đầu lưỡi lên vòm họng</b> cho âm <code>${tParsed.initial}</code>.`);
+        } else if (['p', 't', 'k', 'q', 'ch', 'c'].includes(tParsed.initial) && !['p', 't', 'k', 'q', 'ch', 'c'].includes(sParsed.initial)) {
+          errorPoints.push(`💨 <b>Lỗi thiếu bật hơi:</b> Âm <code>${tParsed.initial}</code> cần <b>bật hơi thật mạnh từ đáy họng/kẽ răng</b>.`);
+        } else if (tParsed.initial === 'g' && sParsed.initial === 'h') {
+          errorPoints.push(`🔇 <b>Lỗi thanh mẫu:</b> Âm <code>g</code> trong tiếng Trung đọc như chữ "c" (không rung), không đọc thành "g".`);
+        } else {
+          errorPoints.push(`👄 <b>Khác phụ âm đầu:</b> Bạn đọc thành âm [<code>${sParsed.initial || 'nguyên âm'}</code>], trong khi âm chuẩn là [<code>${tParsed.initial}</code>].`);
+        }
+      }
+
+      // So sánh thanh điệu
+      if (tParsed.tone !== sParsed.tone && tParsed.tone > 0 && sParsed.tone > 0) {
+        errorPoints.push(`🎵 <b>Lỗi thanh điệu:</b> Bạn đang nói <b>Thanh ${sParsed.tone}</b>, trong khi từ này là <b>Thanh ${tParsed.tone}</b>.`);
+      }
+
+      if (errorPoints.length === 0) {
+        errorPoints.push(`Bạn đọc thành chữ <b>"${sChar}" (${sSylStr})</b>. Hãy nghe lại âm mẫu để điều chỉnh khẩu hình.`);
+      }
+
+      feedback = errorPoints.join("<br>");
+    } else {
+      statusLabel = "Bị thiếu / Bỏ sót";
+      feedback = `Bạn chưa phát âm hoặc đọc quá nhỏ chữ <b>${tChar}</b>.`;
+    }
+
+    // Mẹo đặt lưỡi cho chữ này
+    if (initialInfo) {
+      tongueGuide = `<b>Vị trí lưỡi & khẩu hình:</b> ${initialInfo.tongue} <br><span class="text-amber-300">💡 <b>Cách khắc phục:</b> ${initialInfo.fixTip}</span>`;
+    } else {
+      tongueGuide = `Mở khoang miệng tự nhiên, giữ luồng hơi ổn định theo thanh điệu.`;
+    }
+
+    charDiagnoses.push({
+      char: tChar,
+      targetPinyin: tSylStr,
+      spokenChar: sChar || '—',
+      spokenPinyin: sSylStr || '—',
+      isCorrect: isMatch,
+      statusLabel: statusLabel,
+      feedback: feedback,
+      tongueGuide: tongueGuide,
+      initial: tParsed.initial,
+      tone: tParsed.tone
+    });
+  }
+
+  // Tính điểm chính xác tổng quan
+  let overallScore = Math.round((correctCount / targetChars.length) * 100);
+  if (targetWord === spokenWord) overallScore = 100;
+
+  return {
+    score: overallScore,
+    isPassed: overallScore >= 75,
+    userSpoken: spokenWord || '(Không nghe rõ giọng đọc)',
+    targetWord: targetWord,
+    targetPinyin: targetPinyin,
+    diagnoses: charDiagnoses
   };
 };
