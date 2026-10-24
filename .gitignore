@@ -2,4 +2,6 @@
 *.har
 __pycache__/
 scripts/
+temp_pages/
+*.pdf
 allow_firewall.bat

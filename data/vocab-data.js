@@ -1,5 +1,5 @@
 /**
- * Cơ sở dữ liệu 30 Bài Từ Vựng HSK 3.0 (Trích xuất từ MeidayChinese & HiHSK HAR)
+ * Cơ sở dữ liệu 15 Bài Từ Vựng HSK 3.0 Chuẩn Giáo Trình
  */
 
 window.HSK_LESSONS = [
@@ -8,240 +8,120 @@ window.HSK_LESSONS = [
     "lesson_no": 1,
     "title": "AI小语，你好！",
     "title_vi": "AI Xiaoyu, xin chào!",
-    "desc": "AI Xiaoyu, xin chào!",
-    "vocab_count": 10
+    "desc": "Chào hỏi cơ bản, làm quen cô giáo và bạn bè",
+    "vocab_count": 13
   },
   {
     "id": 2,
     "lesson_no": 2,
     "title": "我叫李文",
     "title_vi": "Tôi tên là Lý Văn",
-    "desc": "Tôi tên là Lý Văn",
-    "vocab_count": 10
+    "desc": "Hỏi và tự giới thiệu tên, xin lỗi và cảm ơn",
+    "vocab_count": 15
   },
   {
     "id": 3,
     "lesson_no": 3,
     "title": "我是中国人",
     "title_vi": "Tôi là người Trung Quốc",
-    "desc": "Tôi là người Trung Quốc",
-    "vocab_count": 10
+    "desc": "Hỏi quốc tịch, giới thiệu bạn bè, cấu trúc câu chữ 是",
+    "vocab_count": 20
   },
   {
     "id": 4,
     "lesson_no": 4,
     "title": "我有两个孩子",
     "title_vi": "Tôi có hai đứa con",
-    "desc": "Tôi có hai đứa con",
-    "vocab_count": 10
+    "desc": "Gia đình, hỏi số lượng, tuổi tác, câu chữ 有 và lượng từ",
+    "vocab_count": 34
   },
   {
     "id": 5,
     "lesson_no": 5,
     "title": "今天我休息",
     "title_vi": "Hôm nay tôi nghỉ",
-    "desc": "Hôm nay tôi nghỉ",
-    "vocab_count": 10
+    "desc": "Ngày tháng năm, các ngày trong tuần, động từ năng nguyện 会",
+    "vocab_count": 22
   },
   {
     "id": 6,
     "lesson_no": 6,
     "title": "你的手机号是多少？",
     "title_vi": "Số điện thoại của bạn là bao nhiêu?",
-    "desc": "Số điện thoại của bạn là bao nhiêu?",
-    "vocab_count": 10
+    "desc": "Hỏi số điện thoại, mua sắm ở siêu thị, động từ năng nguyện 想",
+    "vocab_count": 21
   },
   {
     "id": 7,
     "lesson_no": 7,
     "title": "我晚上六点半下班",
     "title_vi": "Tối tôi 6 giờ rưỡi tan làm",
-    "desc": "Tối tôi 6 giờ rưỡi tan làm",
-    "vocab_count": 10
+    "desc": "Diễn đạt giờ giấc thời gian, rủ rê xem phim, trợ từ 吧",
+    "vocab_count": 24
   },
   {
     "id": 8,
     "lesson_no": 8,
     "title": "我爸爸也在医院工作",
     "title_vi": "Bố tôi cũng làm việc ở bệnh viện",
-    "desc": "Bố tôi cũng làm việc ở bệnh viện",
-    "vocab_count": 10
+    "desc": "Phương vị từ, nghề nghiệp, bệnh viện, giới từ 在 và năng nguyện 能",
+    "vocab_count": 18
   },
   {
     "id": 9,
     "lesson_no": 9,
     "title": "我明天上午在学校学习",
     "title_vi": "Sáng mai tôi học ở trường",
-    "desc": "Sáng mai tôi học ở trường",
-    "vocab_count": 10
+    "desc": "Vị trí không gian, câu tồn hiện, sinh hoạt cuối tuần",
+    "vocab_count": 19
   },
   {
     "id": 10,
     "lesson_no": 10,
     "title": "这儿的苹果真便宜！",
     "title_vi": "Táo ở đây rẻ thật!",
-    "desc": "Táo ở đây rẻ thật!",
-    "vocab_count": 10
+    "desc": "Hỏi giá tiền, mua hoa quả, trang phục, câu vị ngữ tính từ",
+    "vocab_count": 22
   },
   {
     "id": 11,
     "lesson_no": 11,
     "title": "我读大学呢",
     "title_vi": "Tôi đang học đại học",
-    "desc": "Tôi đang học đại học",
-    "vocab_count": 10
+    "desc": "Hành động đang diễn ra (在/正在), học đại học, thi cử",
+    "vocab_count": 21
   },
   {
     "id": 12,
     "lesson_no": 12,
     "title": "昨天下雪了",
     "title_vi": "Hôm qua có tuyết rơi",
-    "desc": "Hôm qua có tuyết rơi",
-    "vocab_count": 10
+    "desc": "Thời tiết mưa tuyết nắng ấm, sức khỏe ốm đau, trợ từ 了",
+    "vocab_count": 20
   },
   {
     "id": 13,
     "lesson_no": 13,
     "title": "请给我一杯茶",
     "title_vi": "Cho tôi một tách trà",
-    "desc": "Cho tôi một tách trà",
-    "vocab_count": 10
+    "desc": "Gọi đồ uống cà phê, trà xanh, câu song tân ngữ (给, 问)",
+    "vocab_count": 15
   },
   {
     "id": 14,
     "lesson_no": 14,
     "title": "我看了一个电影",
     "title_vi": "Tôi đã xem một bộ phim",
-    "desc": "Tôi đã xem một bộ phim",
-    "vocab_count": 10
+    "desc": "Động thái hoàn thành 了, từ ly hợp, phó từ phạm vi 都",
+    "vocab_count": 25
   },
   {
     "id": 15,
     "lesson_no": 15,
     "title": "大兴机场见！",
     "title_vi": "Hẹn gặp ở sân bay Đại Hưng!",
-    "desc": "Hẹn gặp ở sân bay Đại Hưng!",
-    "vocab_count": 10
-  },
-  {
-    "id": 16,
-    "lesson_no": 16,
-    "title": "第16课",
-    "title_vi": "Bài 16",
-    "desc": "Bài 16",
-    "vocab_count": 10
-  },
-  {
-    "id": 17,
-    "lesson_no": 17,
-    "title": "第17课",
-    "title_vi": "Bài 17",
-    "desc": "Bài 17",
-    "vocab_count": 10
-  },
-  {
-    "id": 18,
-    "lesson_no": 18,
-    "title": "第18课",
-    "title_vi": "Bài 18",
-    "desc": "Bài 18",
-    "vocab_count": 10
-  },
-  {
-    "id": 19,
-    "lesson_no": 19,
-    "title": "第19课",
-    "title_vi": "Bài 19",
-    "desc": "Bài 19",
-    "vocab_count": 10
-  },
-  {
-    "id": 20,
-    "lesson_no": 20,
-    "title": "第20课",
-    "title_vi": "Bài 20",
-    "desc": "Bài 20",
-    "vocab_count": 10
-  },
-  {
-    "id": 21,
-    "lesson_no": 21,
-    "title": "第21课",
-    "title_vi": "Bài 21",
-    "desc": "Bài 21",
-    "vocab_count": 10
-  },
-  {
-    "id": 22,
-    "lesson_no": 22,
-    "title": "第22课",
-    "title_vi": "Bài 22",
-    "desc": "Bài 22",
-    "vocab_count": 10
-  },
-  {
-    "id": 23,
-    "lesson_no": 23,
-    "title": "第23课",
-    "title_vi": "Bài 23",
-    "desc": "Bài 23",
-    "vocab_count": 10
-  },
-  {
-    "id": 24,
-    "lesson_no": 24,
-    "title": "第24课",
-    "title_vi": "Bài 24",
-    "desc": "Bài 24",
-    "vocab_count": 10
-  },
-  {
-    "id": 25,
-    "lesson_no": 25,
-    "title": "第25课",
-    "title_vi": "Bài 25",
-    "desc": "Bài 25",
-    "vocab_count": 10
-  },
-  {
-    "id": 26,
-    "lesson_no": 26,
-    "title": "第26课",
-    "title_vi": "Bài 26",
-    "desc": "Bài 26",
-    "vocab_count": 10
-  },
-  {
-    "id": 27,
-    "lesson_no": 27,
-    "title": "第27课",
-    "title_vi": "Bài 27",
-    "desc": "Bài 27",
-    "vocab_count": 10
-  },
-  {
-    "id": 28,
-    "lesson_no": 28,
-    "title": "第28课",
-    "title_vi": "Bài 28",
-    "desc": "Bài 28",
-    "vocab_count": 10
-  },
-  {
-    "id": 29,
-    "lesson_no": 29,
-    "title": "第29课",
-    "title_vi": "Bài 29",
-    "desc": "Bài 29",
-    "vocab_count": 10
-  },
-  {
-    "id": 30,
-    "lesson_no": 30,
-    "title": "第30课",
-    "title_vi": "Bài 30",
-    "desc": "Bài 30",
-    "vocab_count": 10
+    "desc": "Ẩm thực Trung Hoa, kế hoạch du lịch, câu ghép đẳng lập 还/也",
+    "vocab_count": 11
   }
 ];
 
@@ -769,7 +649,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 11,
-    "lesson_id": 2,
+    "lesson_id": 1,
     "hanzi": "不客气",
     "pinyin": "búkèqi",
     "type": "ĐỘNG",
@@ -788,7 +668,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 12,
-    "lesson_id": 2,
+    "lesson_id": 1,
     "hanzi": "再见",
     "pinyin": "zàijiàn",
     "type": "ĐỘNG",
@@ -946,7 +826,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 21,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "请问",
     "pinyin": "qǐngwèn",
     "type": "ĐỘNG",
@@ -964,7 +844,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 22,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "是",
     "pinyin": "shì",
     "type": "ĐỘNG",
@@ -981,7 +861,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 23,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "不",
     "pinyin": "bù",
     "type": "PHÓ",
@@ -998,7 +878,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 24,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "对不起",
     "pinyin": "duìbuqǐ",
     "type": "ĐỘNG",
@@ -1017,7 +897,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 25,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "没关系",
     "pinyin": "méi guānxi",
     "type": "ĐỘNG",
@@ -1036,7 +916,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 26,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "没事",
     "pinyin": "méishì",
     "type": "ĐỘNG",
@@ -1054,7 +934,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 27,
-    "lesson_id": 3,
+    "lesson_id": 2,
     "hanzi": "也",
     "pinyin": "yě",
     "type": "PHÓ",
@@ -1122,7 +1002,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 31,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "的",
     "pinyin": "de",
     "type": "TRỢ",
@@ -1139,7 +1019,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 32,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "还",
     "pinyin": "hái",
     "type": "PHÓ",
@@ -1156,7 +1036,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 33,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "她",
     "pinyin": "tā",
     "type": "ĐẠI",
@@ -1173,7 +1053,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 34,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "谁",
     "pinyin": "shéi/shuí",
     "type": "ĐẠI",
@@ -1190,7 +1070,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 35,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "女朋友",
     "pinyin": "nǚpéngyou",
     "type": "DANH",
@@ -1209,7 +1089,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 36,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "姐姐",
     "pinyin": "jiějie",
     "type": "DANH",
@@ -1227,7 +1107,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 37,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "太",
     "pinyin": "tài",
     "type": "PHÓ",
@@ -1244,7 +1124,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 38,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "忙",
     "pinyin": "máng",
     "type": "TÍNH/ĐỘNG",
@@ -1261,7 +1141,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 39,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "喂",
     "pinyin": "wèi",
     "type": "THÁN",
@@ -1278,7 +1158,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 40,
-    "lesson_id": 4,
+    "lesson_id": 3,
     "hanzi": "我们",
     "pinyin": "wǒmen",
     "type": "ĐẠI",
@@ -1296,7 +1176,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 41,
-    "lesson_id": 5,
+    "lesson_id": 3,
     "hanzi": "想",
     "pinyin": "xiǎng",
     "type": "ĐỘNG",
@@ -1313,7 +1193,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 42,
-    "lesson_id": 5,
+    "lesson_id": 3,
     "hanzi": "这",
     "pinyin": "zhè",
     "type": "ĐẠI",
@@ -1330,7 +1210,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 43,
-    "lesson_id": 5,
+    "lesson_id": 3,
     "hanzi": "工作",
     "pinyin": "gōngzuò",
     "type": "DANH/ĐỘNG",
@@ -1348,7 +1228,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 44,
-    "lesson_id": 5,
+    "lesson_id": 3,
     "hanzi": "吗",
     "pinyin": "ma",
     "type": "TRỢ",
@@ -1365,7 +1245,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 45,
-    "lesson_id": 5,
+    "lesson_id": 4,
     "hanzi": "有",
     "pinyin": "yǒu",
     "type": "ĐỘNG",
@@ -1382,7 +1262,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 46,
-    "lesson_id": 5,
+    "lesson_id": 4,
     "hanzi": "两",
     "pinyin": "liǎng",
     "type": "SỐ",
@@ -1399,7 +1279,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 47,
-    "lesson_id": 5,
+    "lesson_id": 4,
     "hanzi": "个",
     "pinyin": "gè",
     "type": "LƯỢNG",
@@ -1416,7 +1296,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 48,
-    "lesson_id": 5,
+    "lesson_id": 4,
     "hanzi": "孩子",
     "pinyin": "háizi",
     "type": "DANH",
@@ -1434,7 +1314,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 49,
-    "lesson_id": 5,
+    "lesson_id": 4,
     "hanzi": "儿子",
     "pinyin": "érzi",
     "type": "DANH",
@@ -1452,7 +1332,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 50,
-    "lesson_id": 5,
+    "lesson_id": 4,
     "hanzi": "女儿",
     "pinyin": "nǚ’ér",
     "type": "DANH",
@@ -1470,7 +1350,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 51,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "爸爸",
     "pinyin": "bàba",
     "type": "DANH",
@@ -1488,7 +1368,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 52,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "妈妈",
     "pinyin": "māma",
     "type": "DANH",
@@ -1506,7 +1386,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 53,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "哥哥",
     "pinyin": "gēge",
     "type": "DANH",
@@ -1524,7 +1404,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 54,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "妹妹",
     "pinyin": "mèimei",
     "type": "DANH",
@@ -1542,7 +1422,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 55,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "口",
     "pinyin": "kǒu",
     "type": "DANH/LƯỢNG",
@@ -1559,7 +1439,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 56,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "多少",
     "pinyin": "duōshao",
     "type": "ĐẠI",
@@ -1577,7 +1457,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 57,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "几",
     "pinyin": "jǐ",
     "type": "ĐẠI/SỐ",
@@ -1594,7 +1474,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 58,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "岁",
     "pinyin": "suì",
     "type": "LƯỢNG",
@@ -1611,7 +1491,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 59,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "今年",
     "pinyin": "jīnnián",
     "type": "DANH",
@@ -1629,7 +1509,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 60,
-    "lesson_id": 6,
+    "lesson_id": 4,
     "hanzi": "多",
     "pinyin": "duō",
     "type": "TÍNH",
@@ -1646,7 +1526,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 61,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "家",
     "pinyin": "jiā",
     "type": "DANH/LƯỢNG",
@@ -1663,7 +1543,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 62,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "他",
     "pinyin": "tā",
     "type": "ĐẠI",
@@ -1680,7 +1560,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 63,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "呢",
     "pinyin": "ne",
     "type": "TRỢ",
@@ -1697,7 +1577,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 64,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "和",
     "pinyin": "hé",
     "type": "LIÊN/GIỚI",
@@ -1714,7 +1594,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 65,
-    "lesson_id": 7,
+    "lesson_id": 1,
     "hanzi": "一",
     "pinyin": "yī",
     "type": "SỐ",
@@ -1731,7 +1611,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 66,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "二",
     "pinyin": "èr",
     "type": "SỐ",
@@ -1748,7 +1628,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 67,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "三",
     "pinyin": "sān",
     "type": "SỐ",
@@ -1765,7 +1645,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 68,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "四",
     "pinyin": "sì",
     "type": "SỐ",
@@ -1782,7 +1662,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 69,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "五",
     "pinyin": "wǔ",
     "type": "SỐ",
@@ -1799,7 +1679,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 70,
-    "lesson_id": 7,
+    "lesson_id": 4,
     "hanzi": "六",
     "pinyin": "liù",
     "type": "SỐ",
@@ -1816,7 +1696,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 71,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "七",
     "pinyin": "qī",
     "type": "SỐ",
@@ -1833,7 +1713,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 72,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "八",
     "pinyin": "bā",
     "type": "SỐ",
@@ -1850,7 +1730,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 73,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "九",
     "pinyin": "jiǔ",
     "type": "SỐ",
@@ -1867,7 +1747,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 74,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "十",
     "pinyin": "shí",
     "type": "SỐ",
@@ -1884,7 +1764,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 75,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "百",
     "pinyin": "bǎi",
     "type": "SỐ",
@@ -1901,7 +1781,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 76,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "千",
     "pinyin": "qiān",
     "type": "SỐ",
@@ -1918,7 +1798,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 77,
-    "lesson_id": 8,
+    "lesson_id": 4,
     "hanzi": "零",
     "pinyin": "líng",
     "type": "SỐ",
@@ -1935,7 +1815,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 78,
-    "lesson_id": 8,
+    "lesson_id": 5,
     "hanzi": "今天",
     "pinyin": "jīntiān",
     "type": "DANH",
@@ -1953,7 +1833,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 79,
-    "lesson_id": 8,
+    "lesson_id": 5,
     "hanzi": "休息",
     "pinyin": "xiūxi",
     "type": "ĐỘNG",
@@ -1971,7 +1851,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 80,
-    "lesson_id": 8,
+    "lesson_id": 5,
     "hanzi": "星期",
     "pinyin": "xīngqī",
     "type": "DANH",
@@ -1989,7 +1869,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 81,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "星期日",
     "pinyin": "xīngqīrì",
     "type": "DANH",
@@ -2008,7 +1888,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 82,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "星期天",
     "pinyin": "xīngqītiān",
     "type": "DANH",
@@ -2027,7 +1907,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 83,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "月",
     "pinyin": "yuè",
     "type": "DANH/LƯỢNG",
@@ -2044,7 +1924,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 84,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "日",
     "pinyin": "rì",
     "type": "DANH/LƯỢNG",
@@ -2061,7 +1941,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 85,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "号",
     "pinyin": "hào",
     "type": "DANH/LƯỢNG",
@@ -2078,7 +1958,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 86,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "电脑",
     "pinyin": "diànnǎo",
     "type": "DANH",
@@ -2096,7 +1976,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 87,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "喜欢",
     "pinyin": "xǐhuan",
     "type": "ĐỘNG",
@@ -2114,7 +1994,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 88,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "好看",
     "pinyin": "hǎokàn",
     "type": "TÍNH",
@@ -2132,7 +2012,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 89,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "面条儿",
     "pinyin": "miàntiáor",
     "type": "DANH",
@@ -2151,7 +2031,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 90,
-    "lesson_id": 9,
+    "lesson_id": 5,
     "hanzi": "饺子",
     "pinyin": "jiǎozi",
     "type": "DANH",
@@ -2169,7 +2049,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 91,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "菜",
     "pinyin": "cài",
     "type": "DANH",
@@ -2186,7 +2066,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 92,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "新",
     "pinyin": "xīn",
     "type": "TÍNH",
@@ -2203,7 +2083,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 93,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "一些",
     "pinyin": "yìxiē",
     "type": "LƯỢNG",
@@ -2221,7 +2101,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 94,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "真",
     "pinyin": "zhēn",
     "type": "PHÓ/TÍNH",
@@ -2238,7 +2118,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 95,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "做",
     "pinyin": "zuò",
     "type": "ĐỘNG",
@@ -2255,7 +2135,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 96,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "做饭",
     "pinyin": "zuòfàn",
     "type": "ĐỘNG",
@@ -2273,7 +2153,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 97,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "下班",
     "pinyin": "xiàbān",
     "type": "ĐỘNG",
@@ -2291,7 +2171,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 98,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "它",
     "pinyin": "tā",
     "type": "ĐẠI",
@@ -2308,7 +2188,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 99,
-    "lesson_id": 10,
+    "lesson_id": 5,
     "hanzi": "会",
     "pinyin": "huì",
     "type": "ĐỘNG",
@@ -2325,7 +2205,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 100,
-    "lesson_id": 10,
+    "lesson_id": 6,
     "hanzi": "手机",
     "pinyin": "shǒujī",
     "type": "DANH",
@@ -2343,7 +2223,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 101,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "电话",
     "pinyin": "diànhuà",
     "type": "DANH",
@@ -2361,7 +2241,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 102,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "怎么",
     "pinyin": "zěnme",
     "type": "ĐẠI",
@@ -2379,7 +2259,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 103,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "去",
     "pinyin": "qù",
     "type": "ĐỘNG",
@@ -2396,7 +2276,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 104,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "超市",
     "pinyin": "chāoshì",
     "type": "DANH",
@@ -2414,7 +2294,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 105,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "买",
     "pinyin": "mǎi",
     "type": "ĐỘNG",
@@ -2431,7 +2311,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 106,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "东西",
     "pinyin": "dōngxi",
     "type": "DANH",
@@ -2449,7 +2329,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 107,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "吃",
     "pinyin": "chī",
     "type": "ĐỘNG",
@@ -2466,7 +2346,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 108,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "好吃",
     "pinyin": "hǎochī",
     "type": "TÍNH",
@@ -2484,7 +2364,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 109,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "包子",
     "pinyin": "bāozi",
     "type": "DANH",
@@ -2502,7 +2382,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 110,
-    "lesson_id": 11,
+    "lesson_id": 6,
     "hanzi": "米饭",
     "pinyin": "mǐfàn",
     "type": "DANH",
@@ -2520,7 +2400,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 111,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "牛奶",
     "pinyin": "niúnǎi",
     "type": "DANH",
@@ -2538,7 +2418,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 112,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "明天",
     "pinyin": "míngtiān",
     "type": "DANH",
@@ -2556,7 +2436,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 113,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "出租车",
     "pinyin": "chūzūchē",
     "type": "DANH",
@@ -2575,7 +2455,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 114,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "坐",
     "pinyin": "zuò",
     "type": "ĐỘNG",
@@ -2592,7 +2472,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 115,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "那边",
     "pinyin": "nàbiān",
     "type": "ĐẠI",
@@ -2610,7 +2490,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 116,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "些",
     "pinyin": "xiē",
     "type": "LƯỢNG",
@@ -2627,7 +2507,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 117,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "晚饭",
     "pinyin": "wǎnfàn",
     "type": "DANH",
@@ -2645,7 +2525,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 118,
-    "lesson_id": 12,
+    "lesson_id": 6,
     "hanzi": "非常",
     "pinyin": "fēicháng",
     "type": "PHÓ",
@@ -2663,7 +2543,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 119,
-    "lesson_id": 12,
+    "lesson_id": 7,
     "hanzi": "点",
     "pinyin": "diǎn",
     "type": "LƯỢNG/DANH",
@@ -2680,7 +2560,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 120,
-    "lesson_id": 12,
+    "lesson_id": 7,
     "hanzi": "半",
     "pinyin": "bàn",
     "type": "SỐ",
@@ -2697,7 +2577,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 121,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "分",
     "pinyin": "fēn",
     "type": "LƯỢNG/DANH",
@@ -2714,7 +2594,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 122,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "分钟",
     "pinyin": "fēnzhōng",
     "type": "LƯỢNG",
@@ -2732,7 +2612,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 123,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "上班",
     "pinyin": "shàngbān",
     "type": "ĐỘNG",
@@ -2750,7 +2630,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 124,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "上课",
     "pinyin": "shàngkè",
     "type": "ĐỘNG",
@@ -2768,7 +2648,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 125,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "下课",
     "pinyin": "xiàkè",
     "type": "ĐỘNG",
@@ -2786,7 +2666,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 126,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "上午",
     "pinyin": "shàngwǔ",
     "type": "DANH",
@@ -2804,7 +2684,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 127,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "下午",
     "pinyin": "xiàwǔ",
     "type": "DANH",
@@ -2822,7 +2702,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 128,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "晚上",
     "pinyin": "wǎnshang",
     "type": "DANH",
@@ -2840,7 +2720,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 129,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "早上",
     "pinyin": "zǎoshang",
     "type": "DANH",
@@ -2858,7 +2738,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 130,
-    "lesson_id": 13,
+    "lesson_id": 7,
     "hanzi": "现在",
     "pinyin": "xiànzài",
     "type": "DANH/PHÓ",
@@ -2876,7 +2756,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 131,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "后",
     "pinyin": "hòu",
     "type": "DANH",
@@ -2893,7 +2773,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 132,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "课",
     "pinyin": "kè",
     "type": "DANH",
@@ -2910,7 +2790,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 133,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "事",
     "pinyin": "shì",
     "type": "DANH",
@@ -2927,7 +2807,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 134,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "吧",
     "pinyin": "ba",
     "type": "TRỢ",
@@ -2944,7 +2824,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 135,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "见",
     "pinyin": "jiàn",
     "type": "ĐỘNG",
@@ -2961,7 +2841,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 136,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "看",
     "pinyin": "kàn",
     "type": "ĐỘNG",
@@ -2978,7 +2858,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 137,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "电影",
     "pinyin": "diànyǐng",
     "type": "DANH",
@@ -2996,7 +2876,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 138,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "电影院",
     "pinyin": "diànyǐngyuàn",
     "type": "DANH",
@@ -3015,7 +2895,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 139,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "店",
     "pinyin": "diàn",
     "type": "DANH",
@@ -3032,7 +2912,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 140,
-    "lesson_id": 14,
+    "lesson_id": 7,
     "hanzi": "里",
     "pinyin": "lǐ",
     "type": "DANH",
@@ -3049,7 +2929,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 141,
-    "lesson_id": 15,
+    "lesson_id": 7,
     "hanzi": "在",
     "pinyin": "zài",
     "type": "ĐỘNG/GIỚI",
@@ -3066,7 +2946,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 142,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "医生",
     "pinyin": "yīshēng",
     "type": "DANH",
@@ -3084,7 +2964,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 143,
-    "lesson_id": 15,
+    "lesson_id": 7,
     "hanzi": "医院",
     "pinyin": "yīyuàn",
     "type": "DANH",
@@ -3102,7 +2982,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 144,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "学校",
     "pinyin": "xuéxiào",
     "type": "DANH",
@@ -3120,7 +3000,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 145,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "书店",
     "pinyin": "shūdiàn",
     "type": "DANH",
@@ -3138,7 +3018,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 146,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "房间",
     "pinyin": "fángjiān",
     "type": "DANH",
@@ -3156,7 +3036,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 147,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "桌子",
     "pinyin": "zhuōzi",
     "type": "DANH",
@@ -3174,7 +3054,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 148,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "猫",
     "pinyin": "māo",
     "type": "DANH",
@@ -3191,7 +3071,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 149,
-    "lesson_id": 15,
+    "lesson_id": 4,
     "hanzi": "大",
     "pinyin": "dà",
     "type": "TÍNH",
@@ -3208,7 +3088,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 150,
-    "lesson_id": 15,
+    "lesson_id": 8,
     "hanzi": "小",
     "pinyin": "xiǎo",
     "type": "TÍNH",
@@ -3225,7 +3105,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 151,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "漂亮",
     "pinyin": "piàoliang",
     "type": "TÍNH",
@@ -3243,7 +3123,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 152,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "到",
     "pinyin": "dào",
     "type": "ĐỘNG",
@@ -3260,7 +3140,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 153,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "看见",
     "pinyin": "kànjiàn",
     "type": "ĐỘNG",
@@ -3278,7 +3158,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 154,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "能",
     "pinyin": "néng",
     "type": "ĐỘNG",
@@ -3295,7 +3175,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 155,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "前",
     "pinyin": "qián",
     "type": "DANH",
@@ -3312,7 +3192,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 156,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "外",
     "pinyin": "wài",
     "type": "DANH",
@@ -3329,7 +3209,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 157,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "下",
     "pinyin": "xià",
     "type": "DANH/ĐỘNG/LƯỢNG",
@@ -3346,7 +3226,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 158,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "只",
     "pinyin": "zhī",
     "type": "LƯỢNG",
@@ -3363,7 +3243,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 159,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "饭",
     "pinyin": "fàn",
     "type": "DANH",
@@ -3380,7 +3260,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 160,
-    "lesson_id": 16,
+    "lesson_id": 8,
     "hanzi": "午饭",
     "pinyin": "wǔfàn",
     "type": "DANH",
@@ -3398,7 +3278,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 161,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "学习",
     "pinyin": "xuéxí",
     "type": "ĐỘNG",
@@ -3416,7 +3296,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 162,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "白天",
     "pinyin": "báitiān",
     "type": "DANH",
@@ -3434,7 +3314,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 163,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "读书",
     "pinyin": "dúshū",
     "type": "ĐỘNG",
@@ -3452,7 +3332,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 164,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "第",
     "pinyin": "dì",
     "type": "TIỀN TỐ",
@@ -3469,7 +3349,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 165,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "本",
     "pinyin": "běn",
     "type": "LƯỢNG",
@@ -3486,7 +3366,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 166,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "书",
     "pinyin": "shū",
     "type": "DANH",
@@ -3503,7 +3383,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 167,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "电视",
     "pinyin": "diànshì",
     "type": "DANH",
@@ -3521,7 +3401,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 168,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "歌",
     "pinyin": "gē",
     "type": "DANH",
@@ -3538,7 +3418,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 169,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "唱",
     "pinyin": "chàng",
     "type": "ĐỘNG",
@@ -3555,7 +3435,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 170,
-    "lesson_id": 17,
+    "lesson_id": 9,
     "hanzi": "好听",
     "pinyin": "hǎotīng",
     "type": "TÍNH",
@@ -3573,7 +3453,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 171,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "朋友",
     "pinyin": "péngyou",
     "type": "DANH",
@@ -3591,7 +3471,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 172,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "玩",
     "pinyin": "wán",
     "type": "ĐỘNG",
@@ -3608,7 +3488,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 173,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "椅子",
     "pinyin": "yǐzi",
     "type": "DANH",
@@ -3626,7 +3506,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 174,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "外边",
     "pinyin": "wàibian",
     "type": "DANH",
@@ -3644,7 +3524,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 175,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "边",
     "pinyin": "biān",
     "type": "DANH",
@@ -3661,7 +3541,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 176,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "上",
     "pinyin": "shàng",
     "type": "DANH/ĐỘNG",
@@ -3678,7 +3558,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 177,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "那",
     "pinyin": "nà",
     "type": "ĐẠI",
@@ -3695,7 +3575,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 178,
-    "lesson_id": 18,
+    "lesson_id": 9,
     "hanzi": "那个",
     "pinyin": "nàge",
     "type": "ĐẠI",
@@ -3713,7 +3593,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 179,
-    "lesson_id": 18,
+    "lesson_id": 10,
     "hanzi": "苹果",
     "pinyin": "píngguǒ",
     "type": "DANH",
@@ -3731,7 +3611,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 180,
-    "lesson_id": 18,
+    "lesson_id": 10,
     "hanzi": "便宜",
     "pinyin": "piányi",
     "type": "TÍNH",
@@ -3749,7 +3629,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 181,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "贵",
     "pinyin": "guì",
     "type": "TÍNH",
@@ -3766,7 +3646,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 182,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "钱",
     "pinyin": "qián",
     "type": "DANH",
@@ -3783,7 +3663,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 183,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "元",
     "pinyin": "yuán",
     "type": "LƯỢNG",
@@ -3800,7 +3680,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 184,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "块",
     "pinyin": "kuài",
     "type": "LƯỢNG",
@@ -3817,7 +3697,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 185,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "怎么样",
     "pinyin": "zěnmeyàng",
     "type": "ĐẠI",
@@ -3836,7 +3716,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 186,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "商店",
     "pinyin": "shāngdiàn",
     "type": "DANH",
@@ -3854,7 +3734,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 187,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "水果",
     "pinyin": "shuǐguǒ",
     "type": "DANH",
@@ -3872,7 +3752,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 188,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "衣服",
     "pinyin": "yīfu",
     "type": "DANH",
@@ -3890,7 +3770,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 189,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "件",
     "pinyin": "jiàn",
     "type": "LƯỢNG",
@@ -3907,7 +3787,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 190,
-    "lesson_id": 19,
+    "lesson_id": 10,
     "hanzi": "穿",
     "pinyin": "chuān",
     "type": "ĐỘNG",
@@ -3924,7 +3804,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 191,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "杯子",
     "pinyin": "bēizi",
     "type": "DANH",
@@ -3942,7 +3822,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 192,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "男",
     "pinyin": "nán",
     "type": "TÍNH",
@@ -3959,7 +3839,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 193,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "女",
     "pinyin": "nǚ",
     "type": "TÍNH",
@@ -3976,7 +3856,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 194,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "少",
     "pinyin": "shǎo",
     "type": "TÍNH/ĐỘNG",
@@ -3993,7 +3873,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 195,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "这边",
     "pinyin": "zhèbiān",
     "type": "ĐẠI",
@@ -4011,7 +3891,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 196,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "这儿",
     "pinyin": "zhèr",
     "type": "ĐẠI",
@@ -4029,7 +3909,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 197,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "这些",
     "pinyin": "zhèxiē",
     "type": "ĐẠI",
@@ -4047,7 +3927,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 198,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "那儿",
     "pinyin": "nàr",
     "type": "ĐẠI",
@@ -4065,7 +3945,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 199,
-    "lesson_id": 20,
+    "lesson_id": 10,
     "hanzi": "那些",
     "pinyin": "nàxiē",
     "type": "ĐẠI",
@@ -4083,7 +3963,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 200,
-    "lesson_id": 20,
+    "lesson_id": 11,
     "hanzi": "大学",
     "pinyin": "dàxué",
     "type": "DANH",
@@ -4101,7 +3981,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 201,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "大学生",
     "pinyin": "dàxuéshēng",
     "type": "DANH",
@@ -4120,7 +4000,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 202,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "读",
     "pinyin": "dú",
     "type": "ĐỘNG",
@@ -4137,7 +4017,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 203,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "说",
     "pinyin": "shuō",
     "type": "ĐỘNG",
@@ -4154,7 +4034,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 204,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "问",
     "pinyin": "wèn",
     "type": "ĐỘNG",
@@ -4171,7 +4051,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 205,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "车",
     "pinyin": "chē",
     "type": "DANH",
@@ -4188,7 +4068,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 206,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "开车",
     "pinyin": "kāichē",
     "type": "ĐỘNG",
@@ -4206,7 +4086,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 207,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "饭店",
     "pinyin": "fàndiàn",
     "type": "DANH",
@@ -4224,7 +4104,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 208,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "弟弟",
     "pinyin": "dìdi",
     "type": "DANH",
@@ -4242,7 +4122,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 209,
-    "lesson_id": 21,
+    "lesson_id": 11,
     "hanzi": "小朋友",
     "pinyin": "xiǎopéngyǒu",
     "type": "DANH",
@@ -4261,7 +4141,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 210,
-    "lesson_id": 21,
+    "lesson_id": 8,
     "hanzi": "哪里",
     "pinyin": "nǎlǐ",
     "type": "ĐẠI",
@@ -4279,7 +4159,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 211,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "那里",
     "pinyin": "nàlǐ",
     "type": "ĐẠI",
@@ -4297,7 +4177,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 212,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "起床",
     "pinyin": "qǐchuáng",
     "type": "ĐỘNG",
@@ -4315,7 +4195,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 213,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "睡",
     "pinyin": "shuì",
     "type": "ĐỘNG",
@@ -4332,7 +4212,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 214,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "睡觉",
     "pinyin": "shuìjiào",
     "type": "ĐỘNG",
@@ -4350,7 +4230,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 215,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "时候",
     "pinyin": "shíhou",
     "type": "DANH",
@@ -4368,7 +4248,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 216,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "正在",
     "pinyin": "zhèngzài",
     "type": "PHÓ",
@@ -4386,7 +4266,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 217,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "找",
     "pinyin": "zhǎo",
     "type": "ĐỘNG",
@@ -4403,7 +4283,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 218,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "知道",
     "pinyin": "zhīdào",
     "type": "ĐỘNG",
@@ -4421,7 +4301,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 219,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "学",
     "pinyin": "xué",
     "type": "ĐỘNG",
@@ -4438,7 +4318,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 220,
-    "lesson_id": 22,
+    "lesson_id": 11,
     "hanzi": "昨天",
     "pinyin": "zuótiān",
     "type": "DANH",
@@ -4456,7 +4336,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 221,
-    "lesson_id": 23,
+    "lesson_id": 11,
     "hanzi": "要",
     "pinyin": "yào",
     "type": "ĐỘNG",
@@ -4473,7 +4353,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 222,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "天气",
     "pinyin": "tiānqì",
     "type": "DANH",
@@ -4491,7 +4371,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 223,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "下雨",
     "pinyin": "xiàyǔ",
     "type": "ĐỘNG",
@@ -4509,7 +4389,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 224,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "雨",
     "pinyin": "yǔ",
     "type": "DANH",
@@ -4526,7 +4406,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 225,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "雪",
     "pinyin": "xuě",
     "type": "DANH",
@@ -4543,7 +4423,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 226,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "冷",
     "pinyin": "lěng",
     "type": "TÍNH",
@@ -4560,7 +4440,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 227,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "热",
     "pinyin": "rè",
     "type": "TÍNH",
@@ -4577,7 +4457,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 228,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "天",
     "pinyin": "tiān",
     "type": "DANH/LƯỢNG",
@@ -4594,7 +4474,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 229,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "了",
     "pinyin": "le",
     "type": "TRỢ",
@@ -4611,7 +4491,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 230,
-    "lesson_id": 23,
+    "lesson_id": 12,
     "hanzi": "水",
     "pinyin": "shuǐ",
     "type": "DANH",
@@ -4628,7 +4508,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 231,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "病",
     "pinyin": "bìng",
     "type": "DANH/ĐỘNG",
@@ -4645,7 +4525,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 232,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "生病",
     "pinyin": "shēngbìng",
     "type": "ĐỘNG",
@@ -4663,7 +4543,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 233,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "看病",
     "pinyin": "kànbìng",
     "type": "ĐỘNG",
@@ -4681,7 +4561,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 234,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "公司",
     "pinyin": "gōngsī",
     "type": "DANH",
@@ -4699,7 +4579,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 235,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "喝",
     "pinyin": "hē",
     "type": "ĐỘNG",
@@ -4716,7 +4596,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 236,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "回",
     "pinyin": "huí",
     "type": "ĐỘNG",
@@ -4733,7 +4613,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 237,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "来",
     "pinyin": "lái",
     "type": "ĐỘNG",
@@ -4750,7 +4630,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 238,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "觉得",
     "pinyin": "juéde",
     "type": "ĐỘNG",
@@ -4768,7 +4648,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 239,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "一点儿",
     "pinyin": "yìdiǎnr",
     "type": "LƯỢNG",
@@ -4787,7 +4667,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 240,
-    "lesson_id": 24,
+    "lesson_id": 12,
     "hanzi": "这里",
     "pinyin": "zhèlǐ",
     "type": "ĐẠI",
@@ -4805,7 +4685,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 241,
-    "lesson_id": 25,
+    "lesson_id": 12,
     "hanzi": "再",
     "pinyin": "zài",
     "type": "PHÓ",
@@ -4822,7 +4702,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 242,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "请",
     "pinyin": "qǐng",
     "type": "ĐỘNG",
@@ -4839,7 +4719,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 243,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "给",
     "pinyin": "gěi",
     "type": "ĐỘNG/GIỚI",
@@ -4856,7 +4736,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 244,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "茶",
     "pinyin": "chá",
     "type": "DANH",
@@ -4873,7 +4753,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 245,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "可以",
     "pinyin": "kěyǐ",
     "type": "ĐỘNG",
@@ -4891,7 +4771,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 246,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "一下",
     "pinyin": "yíxià",
     "type": "PHÓ/LƯỢNG",
@@ -4909,7 +4789,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 247,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "一半",
     "pinyin": "yíbàn",
     "type": "SỐ",
@@ -4927,7 +4807,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 248,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "先生",
     "pinyin": "xiānsheng",
     "type": "DANH",
@@ -4945,7 +4825,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 249,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "女士",
     "pinyin": "nǚshì",
     "type": "DANH",
@@ -4963,7 +4843,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 250,
-    "lesson_id": 25,
+    "lesson_id": 13,
     "hanzi": "卖",
     "pinyin": "mài",
     "type": "ĐỘNG",
@@ -4980,7 +4860,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 251,
-    "lesson_id": 26,
+    "lesson_id": 13,
     "hanzi": "鸡蛋",
     "pinyin": "jīdàn",
     "type": "DANH",
@@ -4998,7 +4878,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 252,
-    "lesson_id": 26,
+    "lesson_id": 13,
     "hanzi": "面包",
     "pinyin": "miànbāo",
     "type": "DANH",
@@ -5016,7 +4896,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 253,
-    "lesson_id": 26,
+    "lesson_id": 13,
     "hanzi": "早饭",
     "pinyin": "zǎofàn",
     "type": "DANH",
@@ -5034,7 +4914,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 254,
-    "lesson_id": 26,
+    "lesson_id": 13,
     "hanzi": "问题",
     "pinyin": "wèntí",
     "type": "DANH",
@@ -5052,7 +4932,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 255,
-    "lesson_id": 26,
+    "lesson_id": 13,
     "hanzi": "打电话",
     "pinyin": "dǎdiànhuà",
     "type": "ĐỘNG",
@@ -5071,7 +4951,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 256,
-    "lesson_id": 26,
+    "lesson_id": 13,
     "hanzi": "这个",
     "pinyin": "zhège",
     "type": "ĐẠI",
@@ -5089,7 +4969,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 257,
-    "lesson_id": 26,
+    "lesson_id": 14,
     "hanzi": "都",
     "pinyin": "dōu",
     "type": "PHÓ",
@@ -5106,7 +4986,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 258,
-    "lesson_id": 26,
+    "lesson_id": 14,
     "hanzi": "不要",
     "pinyin": "búyào",
     "type": "PHÓ",
@@ -5124,7 +5004,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 259,
-    "lesson_id": 26,
+    "lesson_id": 14,
     "hanzi": "开",
     "pinyin": "kāi",
     "type": "ĐỘNG",
@@ -5141,7 +5021,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 260,
-    "lesson_id": 26,
+    "lesson_id": 14,
     "hanzi": "上学",
     "pinyin": "shàngxué",
     "type": "ĐỘNG",
@@ -5159,7 +5039,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 261,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "写",
     "pinyin": "xiě",
     "type": "ĐỘNG",
@@ -5176,7 +5056,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 262,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "字",
     "pinyin": "zì",
     "type": "DANH",
@@ -5193,7 +5073,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 263,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "听",
     "pinyin": "tīng",
     "type": "ĐỘNG",
@@ -5210,7 +5090,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 264,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "听见",
     "pinyin": "tīngjiàn",
     "type": "ĐỘNG",
@@ -5228,7 +5108,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 265,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "说话",
     "pinyin": "shuōhuà",
     "type": "ĐỘNG",
@@ -5246,7 +5126,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 266,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "他们",
     "pinyin": "tāmen",
     "type": "ĐẠI",
@@ -5264,7 +5144,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 267,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "她们",
     "pinyin": "tāmen",
     "type": "ĐẠI",
@@ -5282,7 +5162,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 268,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "晚",
     "pinyin": "wǎn",
     "type": "TÍNH",
@@ -5299,7 +5179,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 269,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "明年",
     "pinyin": "míngnián",
     "type": "DANH",
@@ -5317,7 +5197,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 270,
-    "lesson_id": 27,
+    "lesson_id": 14,
     "hanzi": "哪些",
     "pinyin": "nǎxiē",
     "type": "ĐẠI",
@@ -5335,7 +5215,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 271,
-    "lesson_id": 28,
+    "lesson_id": 14,
     "hanzi": "有的",
     "pinyin": "yǒude",
     "type": "ĐẠI",
@@ -5353,7 +5233,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 272,
-    "lesson_id": 28,
+    "lesson_id": 14,
     "hanzi": "小学",
     "pinyin": "xiǎoxué",
     "type": "DANH",
@@ -5371,7 +5251,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 273,
-    "lesson_id": 28,
+    "lesson_id": 14,
     "hanzi": "中学",
     "pinyin": "zhōngxué",
     "type": "DANH",
@@ -5389,7 +5269,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 274,
-    "lesson_id": 28,
+    "lesson_id": 14,
     "hanzi": "中午",
     "pinyin": "zhōngwǔ",
     "type": "DANH",
@@ -5407,7 +5287,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 275,
-    "lesson_id": 28,
+    "lesson_id": 15,
     "hanzi": "飞机",
     "pinyin": "fēijī",
     "type": "DANH",
@@ -5425,7 +5305,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 276,
-    "lesson_id": 28,
+    "lesson_id": 14,
     "hanzi": "火车",
     "pinyin": "huǒchē",
     "type": "DANH",
@@ -5443,7 +5323,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 277,
-    "lesson_id": 28,
+    "lesson_id": 15,
     "hanzi": "爱",
     "pinyin": "ài",
     "type": "ĐỘNG",
@@ -5460,7 +5340,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 278,
-    "lesson_id": 28,
+    "lesson_id": 15,
     "hanzi": "家人",
     "pinyin": "jiārén",
     "type": "DANH",
@@ -5478,7 +5358,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 279,
-    "lesson_id": 28,
+    "lesson_id": 15,
     "hanzi": "男朋友",
     "pinyin": "nánpéngyou",
     "type": "DANH",
@@ -5497,7 +5377,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 280,
-    "lesson_id": 28,
+    "lesson_id": 15,
     "hanzi": "年",
     "pinyin": "nián",
     "type": "DANH/LƯỢNG",
@@ -5514,7 +5394,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 281,
-    "lesson_id": 29,
+    "lesson_id": 6,
     "hanzi": "去年",
     "pinyin": "qùnián",
     "type": "DANH",
@@ -5532,7 +5412,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 282,
-    "lesson_id": 29,
+    "lesson_id": 15,
     "hanzi": "时间",
     "pinyin": "shíjiān",
     "type": "DANH",
@@ -5550,7 +5430,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 283,
-    "lesson_id": 29,
+    "lesson_id": 15,
     "hanzi": "小时",
     "pinyin": "xiǎoshí",
     "type": "DANH",
@@ -5568,7 +5448,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 284,
-    "lesson_id": 29,
+    "lesson_id": 15,
     "hanzi": "早",
     "pinyin": "zǎo",
     "type": "TÍNH",
@@ -5585,7 +5465,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 285,
-    "lesson_id": 29,
+    "lesson_id": 15,
     "hanzi": "住",
     "pinyin": "zhù",
     "type": "ĐỘNG",
@@ -5602,7 +5482,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 286,
-    "lesson_id": 29,
+    "lesson_id": 15,
     "hanzi": "好玩儿",
     "pinyin": "hǎowánr",
     "type": "TÍNH",
@@ -5621,7 +5501,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 287,
-    "lesson_id": 29,
+    "lesson_id": 15,
     "hanzi": "哪个",
     "pinyin": "nǎge",
     "type": "ĐẠI",
@@ -5639,7 +5519,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 288,
-    "lesson_id": 29,
+    "lesson_id": 3,
     "hanzi": "对",
     "pinyin": "duì",
     "type": "TÍNH",
@@ -5656,7 +5536,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 289,
-    "lesson_id": 29,
+    "lesson_id": 9,
     "hanzi": "狗",
     "pinyin": "gǒu",
     "type": "DANH",
@@ -5673,7 +5553,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 290,
-    "lesson_id": 29,
+    "lesson_id": 14,
     "hanzi": "汉语",
     "pinyin": "Hànyǔ",
     "type": "DANH",
@@ -5691,7 +5571,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 291,
-    "lesson_id": 30,
+    "lesson_id": 14,
     "hanzi": "汉字",
     "pinyin": "Hànzì",
     "type": "DANH",
@@ -5709,7 +5589,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 292,
-    "lesson_id": 30,
+    "lesson_id": 4,
     "hanzi": "没（有）",
     "pinyin": "méi(yǒu)",
     "type": "PHÓ/ĐỘNG",
@@ -5729,7 +5609,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 293,
-    "lesson_id": 30,
+    "lesson_id": 6,
     "hanzi": "哪儿",
     "pinyin": "nǎr",
     "type": "ĐẠI",
@@ -5747,7 +5627,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 294,
-    "lesson_id": 30,
+    "lesson_id": 14,
     "hanzi": "它们",
     "pinyin": "tāmen",
     "type": "ĐẠI",
@@ -5765,7 +5645,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 295,
-    "lesson_id": 30,
+    "lesson_id": 14,
     "hanzi": "小学生",
     "pinyin": "xiǎoxuéshēng",
     "type": "DANH",
@@ -5784,7 +5664,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 296,
-    "lesson_id": 30,
+    "lesson_id": 14,
     "hanzi": "有些",
     "pinyin": "yǒuxiē",
     "type": "ĐẠI/PHÓ",
@@ -5802,7 +5682,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 297,
-    "lesson_id": 30,
+    "lesson_id": 10,
     "hanzi": "有（一）点儿",
     "pinyin": "yǒu(yì)diǎnr",
     "type": "PHÓ",
@@ -5824,7 +5704,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 298,
-    "lesson_id": 30,
+    "lesson_id": 3,
     "hanzi": "中国",
     "pinyin": "Zhōngguó",
     "type": "DANH",
@@ -5842,7 +5722,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 299,
-    "lesson_id": 30,
+    "lesson_id": 3,
     "hanzi": "中文",
     "pinyin": "Zhōngwén",
     "type": "DANH",
@@ -5860,7 +5740,7 @@ window.VOCAB_DATABASE = [
   },
   {
     "id": 300,
-    "lesson_id": 30,
+    "lesson_id": 14,
     "hanzi": "中学生",
     "pinyin": "zhōngxuéshēng",
     "type": "DANH",

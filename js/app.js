@@ -4,6 +4,7 @@
  */
 
 let currentLessonId = 1;
+let currentMainView = 'vocab'; // 'vocab' | 'dialogue'
 let learnedWords = new Set();
 let favoriteWords = new Set();
 let isPlayingAll = false;
@@ -14,9 +15,12 @@ let playAllTimeout = null;
 document.addEventListener('DOMContentLoaded', () => {
   loadSavedState();
   initLessonDropdown();
-  switchLesson(1);
+  switchLesson(currentLessonId || 1);
   initSearch();
   initVoiceVoices();
+  if (typeof initDialogueModule === 'function') {
+    initDialogueModule();
+  }
 });
 
 /**
@@ -116,8 +120,59 @@ function switchLesson(lessonNo) {
   renderVocabList(words);
   updateSidebarProgress();
 
+  // Cập nhật số từ hiển thị ở nút tab Từ vựng
+  const vocabCountBadge = document.getElementById('vocab-view-count');
+  if (vocabCountBadge) vocabCountBadge.textContent = `${words.length} từ`;
+
+  // Nếu đang ở tab Bài khoá, cập nhật lại bài khoá của bài học này
+  if (currentMainView === 'dialogue' && typeof renderDialogueView === 'function') {
+    renderDialogueView(currentLessonId, 0);
+  }
+
   showToast(`📖 Đã chuyển sang Bài ${currentLessonId}: ${lessonInfo.title_vi || lessonInfo.title}`);
 }
+
+/**
+ * Chuyển đổi giữa chế độ xem Từ vựng và Bài khoá (课文)
+ */
+function switchMainView(viewName) {
+  currentMainView = viewName;
+  const vocabTab = document.getElementById('view-tab-vocab');
+  const dialogueTab = document.getElementById('view-tab-dialogue');
+  const vocabContainer = document.getElementById('vocab-view-container');
+  const dialogueContainer = document.getElementById('dialogue-view-container');
+
+  if (viewName === 'dialogue') {
+    if (vocabContainer) vocabContainer.classList.add('hidden');
+    if (dialogueContainer) dialogueContainer.classList.remove('hidden');
+
+    if (vocabTab) {
+      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
+    }
+    if (dialogueTab) {
+      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25";
+    }
+
+    if (typeof renderDialogueView === 'function') {
+      renderDialogueView(currentLessonId, 0);
+    }
+  } else {
+    if (dialogueContainer) dialogueContainer.classList.add('hidden');
+    if (vocabContainer) vocabContainer.classList.remove('hidden');
+
+    if (vocabTab) {
+      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20";
+    }
+    if (dialogueTab) {
+      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
+    }
+
+    if (typeof stopDialogueAudio === 'function') {
+      stopDialogueAudio();
+    }
+  }
+}
+window.switchMainView = switchMainView;
 
 function prevLesson() {
   if (currentLessonId > 1) {
