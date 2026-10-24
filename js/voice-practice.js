@@ -165,8 +165,12 @@ function renderVoiceModalUI(showResult = false, evalData = null) {
   document.getElementById('voice-pinyin').textContent = currentVoiceWord.pinyin;
   document.getElementById('voice-meaning').textContent = currentVoiceWord.meaning;
 
-  // Render bảng hướng dẫn phát âm & cách đặt lưỡi
-  renderPronunciationGuideUI(currentVoiceWord);
+  // Render bảng hướng dẫn phát âm & cách đặt lưỡi an toàn
+  try {
+    renderPronunciationGuideUI(currentVoiceWord);
+  } catch (guideErr) {
+    console.warn("Lỗi renderPronunciationGuideUI:", guideErr);
+  }
 
   const preRecordSection = document.getElementById('voice-pre-record');
   const postRecordSection = document.getElementById('voice-post-record');
@@ -399,29 +403,27 @@ function startSpeechRecognition() {
       if (currentSpeech.includes(targetHanzi) || (targetPinyinClean && spokenPinyinClean.includes(targetPinyinClean))) {
         latestRecognizedSpeech = rawCombined || currentVoiceWord.hanzi;
         clearTimeout(silenceTimer);
-        // Chốt kết quả ngay sau 200ms
-        silenceTimer = setTimeout(() => {
-          stopRecording(true);
-        }, 200);
+        // Chốt kết quả ngay lập tức
+        stopRecording(true);
         return;
       }
 
-      // 2. Tự động dừng và chấm điểm sau 850ms im lặng nếu đã thu được giọng nói
+      // 2. Tự động dừng và chấm điểm sau 800ms im lặng nếu đã thu được giọng nói
       clearTimeout(silenceTimer);
       silenceTimer = setTimeout(() => {
-        if (isRecording && (latestRecognizedSpeech || rawCombined)) {
+        if (latestRecognizedSpeech || rawCombined || lastSpokenText) {
           stopRecording(true);
         }
-      }, 850);
+      }, 800);
     };
 
     recognitionInstance.onspeechend = () => {
       clearTimeout(silenceTimer);
       silenceTimer = setTimeout(() => {
-        if (isRecording && (latestRecognizedSpeech || lastSpokenText)) {
+        if (latestRecognizedSpeech || lastSpokenText) {
           stopRecording(true);
         }
-      }, 400);
+      }, 350);
     };
 
     recognitionInstance.onerror = (event) => {
@@ -446,9 +448,19 @@ function startSpeechRecognition() {
  * Dừng ghi âm và đánh giá kết quả thực tế
  */
 function stopRecording(evaluate = true) {
-  if (!isRecording) return;
-  isRecording = false;
   clearTimeout(silenceTimer);
+
+  if (!currentVoiceWord) return;
+
+  // Nếu không ghi âm và không yêu cầu đánh giá thì dừng
+  if (!isRecording && !evaluate) return;
+  isRecording = false;
+
+  // Khôi phục giao diện nút micro và ẩn nút chấm ngay
+  const micBtn = document.getElementById('voice-mic-btn');
+  if (micBtn) {
+    micBtn.className = "w-16 h-16 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center shadow-xl transition-all duration-300 transform active:scale-95 flex-shrink-0";
+  }
 
   const evalNowBtn = document.getElementById('voice-eval-now-btn');
   if (evalNowBtn) evalNowBtn.classList.add('hidden');
@@ -458,11 +470,18 @@ function stopRecording(evaluate = true) {
   }
 
   if (recognitionInstance) {
+    // Ngắt toàn bộ listeners để Chrome không kích hoạt lại UI sau khi stop
+    recognitionInstance.onresult = null;
+    recognitionInstance.onspeechend = null;
+    recognitionInstance.onend = null;
+    recognitionInstance.onerror = null;
     try { recognitionInstance.stop(); } catch (e) {}
+    try { recognitionInstance.abort(); } catch (e) {}
+    recognitionInstance = null;
   }
 
   if (evaluate) {
-    const spoken = (latestRecognizedSpeech || lastSpokenText || "").trim();
+    const spoken = (latestRecognizedSpeech || window.latestRecognizedSpeech || lastSpokenText || "").trim();
     let evalResult = null;
     try {
       evalResult = evaluateSpeech(currentVoiceWord.hanzi, spoken);
@@ -472,7 +491,7 @@ function stopRecording(evaluate = true) {
         accuracy: spoken ? 85 : 0,
         isPerfect: spoken ? true : false,
         userSpoken: spoken || "(Chưa nhận diện rõ)",
-        charResults: Array.from(currentVoiceWord.hanzi.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "")).map(c => ({
+        charResults: Array.from((currentVoiceWord.hanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "")).map(c => ({
           char: c,
           isCorrect: true,
           statusLabel: "Đạt"
@@ -480,21 +499,27 @@ function stopRecording(evaluate = true) {
       };
     }
 
-    setTimeout(() => {
-      try {
-        renderVoiceModalUI(true, evalResult);
-        if (evalResult.accuracy >= 80) {
-          showToast("🎉 Xuất sắc! Phát âm rất chuẩn xác!");
-        } else if (evalResult.accuracy > 0) {
-          showToast("⚠️ Phát âm chưa chính xác, hãy luyện lại nhé!");
-        } else {
-          showToast("❌ Không nhận diện được âm thanh, hãy nói to hơn nhé!");
-        }
-      } catch (renderErr) {
-        console.error("Lỗi renderVoiceModalUI:", renderErr);
+    try {
+      renderVoiceModalUI(true, evalResult);
+      if (evalResult.accuracy >= 80) {
+        showToast("🎉 Xuất sắc! Phát âm rất chuẩn xác!");
+      } else if (evalResult.accuracy > 0) {
+        showToast("⚠️ Phát âm chưa chính xác, hãy luyện lại nhé!");
+      } else {
+        showToast("❌ Không nhận diện được âm thanh, hãy nói to hơn nhé!");
       }
-    }, 150);
+    } catch (renderErr) {
+      console.error("Lỗi renderVoiceModalUI:", renderErr);
+    }
   }
+}
+
+/**
+ * Chấm điểm thủ công ngay khi bấm nút "Chấm điểm ngay"
+ */
+function manualGradeVoiceModal() {
+  clearTimeout(silenceTimer);
+  stopRecording(true);
 }
 
 /**
@@ -718,4 +743,15 @@ function renderPronunciationGuideUI(word) {
 
 window.evaluateSpeech = evaluateSpeech;
 window.cleanChineseText = cleanChineseText;
+window.openVoiceModal = openVoiceModal;
+window.closeVoiceModal = closeVoiceModal;
+window.renderVoiceModalUI = renderVoiceModalUI;
+window.startRecording = startRecording;
+window.stopRecording = stopRecording;
+window.toggleRecording = toggleRecording;
+window.manualGradeVoiceModal = manualGradeVoiceModal;
+window.playUserRecording = playUserRecording;
+window.nextVoiceWord = nextVoiceWord;
+window.prevVoiceWord = prevVoiceWord;
+window.openVoiceModalForExample = openVoiceModalForExample;
 

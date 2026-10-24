@@ -2,18 +2,41 @@
 window.getPronunciationGuide = function(hanzi, pinyin) {
   if (!pinyin) return null;
 
-  const chars = Array.from(hanzi || "");
-  let syllables = pinyin.trim().toLowerCase().split(/\s+/);
+  // Lọc bỏ dấu câu tiếng Trung và ký tự đặc biệt (chỉ giữ lại chữ Hán / chữ cái / số)
+  const cleanHanzi = (hanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+  // Lọc pinyin chỉ giữ các âm tiết và dấu thanh
+  const cleanPinyin = (pinyin || "").replace(/[^\w\sāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜü]/gi, " ").trim();
+
+  const chars = Array.from(cleanHanzi);
+  if (chars.length === 0) return null;
+
+  let syllables = cleanPinyin.toLowerCase().split(/\s+/).filter(Boolean);
   if (syllables.length !== chars.length) {
-    const dictList = window.hanziToPinyinList(hanzi);
-    syllables = dictList.map((d, i) => d.pinyin || syllables[i] || "");
+    const dictList = window.hanziToPinyinList ? window.hanziToPinyinList(cleanHanzi) : [];
+    syllables = chars.map((c, i) => (dictList[i] && dictList[i].pinyin) || syllables[i] || "");
   }
 
-  const syllablesDetail = syllables.map((syl, idx) => {
-    const parsed = window.parsePinyinSyllable(syl);
-    const initialGuide = parsed.initial ? window.CHINESE_PHONETICS_DB.initials[parsed.initial] : null;
-    const finalGuide = parsed.finalPart ? (window.CHINESE_FINALS_DB ? window.CHINESE_FINALS_DB[parsed.finalPart] : null) : null;
-    const toneGuide = window.CHINESE_PHONETICS_DB.tones[parsed.tone] || window.CHINESE_PHONETICS_DB.tones[0];
+  const syllablesDetail = chars.map((ch, idx) => {
+    const syl = syllables[idx] || "";
+    const parsed = (window.parsePinyinSyllable ? window.parsePinyinSyllable(syl) : null) || {
+      original: syl,
+      raw: "",
+      initial: "",
+      finalPart: "",
+      tone: 0
+    };
+
+    const initialGuide = (parsed.initial && window.CHINESE_PHONETICS_DB && window.CHINESE_PHONETICS_DB.initials) 
+      ? window.CHINESE_PHONETICS_DB.initials[parsed.initial] 
+      : null;
+
+    const finalGuide = (parsed.finalPart && window.CHINESE_FINALS_DB) 
+      ? window.CHINESE_FINALS_DB[parsed.finalPart] 
+      : null;
+
+    const toneGuide = (window.CHINESE_PHONETICS_DB && window.CHINESE_PHONETICS_DB.tones) 
+      ? (window.CHINESE_PHONETICS_DB.tones[parsed.tone] || window.CHINESE_PHONETICS_DB.tones[0]) 
+      : null;
 
     // Tạo mẹo đặt lưỡi trực quan
     let tongueTip = "";
@@ -32,7 +55,7 @@ window.getPronunciationGuide = function(hanzi, pinyin) {
     }
 
     return {
-      char: chars[idx] || "",
+      char: ch,
       pinyin: syl,
       initial: parsed.initial || '(không có)',
       initialGuide: initialGuide ? initialGuide.tongue : 'Nguyên âm tự do, mở khoang miệng tự nhiên.',
@@ -50,13 +73,13 @@ window.getPronunciationGuide = function(hanzi, pinyin) {
   let toneSandhiRule = "";
   if (syllablesDetail.length >= 2) {
     if (syllablesDetail[0].toneNum === 3 && syllablesDetail[1].toneNum === 3) {
-      toneSandhiRule = `💡 <b>Quy tắc biến điệu 2 thanh 3:</b> Từ <code>${hanzi}</code> gồm 2 thanh 3 đi liền nhau, chữ đầu <code>${chars[0]}</code> sẽ đổi đọc thành <b>thanh 2</b> (dấu sắc nhẹ, ví dụ đọc thành <i>"${chars[0] === '你' ? 'ní' : ''} ${syllables[1]}"</i>)!`;
+      toneSandhiRule = `💡 <b>Quy tắc biến điệu 2 thanh 3:</b> Từ <code>${cleanHanzi}</code> gồm 2 thanh 3 đi liền nhau, chữ đầu <code>${chars[0]}</code> sẽ đổi đọc thành <b>thanh 2</b> (dấu sắc nhẹ, ví dụ đọc thành <i>"${chars[0] === '你' ? 'ní' : ''} ${syllables[1]}"</i>)!`;
     }
   }
 
   return {
-    hanzi: hanzi,
-    pinyin: pinyin,
+    hanzi: cleanHanzi,
+    pinyin: cleanPinyin,
     syllables: syllablesDetail,
     toneSandhiRule: toneSandhiRule
   };

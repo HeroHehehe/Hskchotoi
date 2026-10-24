@@ -258,18 +258,23 @@ window.hanziToPinyinList = function(hanziStr) {
  * @param {string} spokenWord Từ người dùng vừa nói (vd: 老四, 泥好, 谢谢)
  */
 window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
-  const targetChars = Array.from(targetWord || "");
-  const spokenChars = Array.from(spokenWord || "");
+  // Lọc sạch dấu câu tiếng Trung và ký tự thừa để đánh giá chính xác từng chữ
+  const cleanTargetPure = (targetWord || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+  const cleanSpokenPure = (spokenWord || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+  const cleanTargetPinyin = (targetPinyin || "").replace(/[^\w\sāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜü]/gi, " ").trim();
+
+  const targetChars = Array.from(cleanTargetPure);
+  const spokenChars = Array.from(cleanSpokenPure);
 
   // Tách pinyin mục tiêu thành mảng các âm tiết
-  let targetSyls = targetPinyin ? targetPinyin.trim().toLowerCase().split(/\s+/) : [];
+  let targetSyls = cleanTargetPinyin ? cleanTargetPinyin.toLowerCase().split(/\s+/).filter(Boolean) : [];
   if (targetSyls.length !== targetChars.length) {
-    const dictList = window.hanziToPinyinList(targetWord);
-    targetSyls = dictList.map((d, i) => d.pinyin || targetSyls[i] || "");
+    const dictList = window.hanziToPinyinList ? window.hanziToPinyinList(cleanTargetPure) : [];
+    targetSyls = targetChars.map((c, i) => (dictList[i] && dictList[i].pinyin) || targetSyls[i] || "");
   }
 
   // Lấy pinyin tương ứng của những chữ người dùng đã nói
-  const spokenPinyinList = window.hanziToPinyinList(spokenWord);
+  const spokenPinyinList = window.hanziToPinyinList ? window.hanziToPinyinList(cleanSpokenPure) : [];
 
   let correctCount = 0;
   const charDiagnoses = [];
@@ -414,15 +419,15 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
   }
 
   // Tính điểm chính xác tổng quan
-  let overallScore = Math.round((correctCount / targetChars.length) * 100);
-  if (targetWord === spokenWord) overallScore = 100;
+  let overallScore = targetChars.length > 0 ? Math.round((correctCount / targetChars.length) * 100) : 100;
+  if (cleanTargetPure === cleanSpokenPure || cleanSpokenPure.includes(cleanTargetPure)) overallScore = 100;
 
   return {
     score: overallScore,
     isPassed: overallScore >= 75,
     userSpoken: spokenWord || '(Không nghe rõ giọng đọc)',
-    targetWord: targetWord,
-    targetPinyin: targetPinyin,
+    targetWord: cleanTargetPure || targetWord,
+    targetPinyin: cleanTargetPinyin || targetPinyin,
     diagnoses: charDiagnoses
   };
 };
