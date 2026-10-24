@@ -453,17 +453,117 @@ function renderDialogueLine(line, index, roles) {
                 </div>
               </div>
 
-              <!-- Thẻ phân tích từng chữ Hán Đúng / Sai -->
-              <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
-                ${(evalData.charResults || []).map(c => `
-                  <span class="px-2 py-0.5 rounded-lg text-xs font-black chinese-font ${
-                    c.isCorrect 
-                      ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40' 
-                      : 'bg-rose-950/90 text-rose-300 border border-rose-500/60 animate-pulse'
-                  }">
-                    ${c.char} ${c.isCorrect ? '✓' : '✗'}
-                  </span>
-                `).join('')}
+              <!-- Dãy thẻ chữ Hán Đúng / Sai có thể bấm vào để xem hướng dẫn sửa -->
+              <div class="space-y-2 pt-0.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  ${(evalData.charResults || []).map((c) => {
+                    const isSelected = window.DialogueState.selectedCharGuide && 
+                      window.DialogueState.selectedCharGuide.lineIndex === index && 
+                      window.DialogueState.selectedCharGuide.char === c.char;
+                    return `
+                      <button type="button" onclick="toggleDialogueCharGuide(${index}, '${c.char}')" class="px-2.5 py-1 rounded-xl text-xs font-black chinese-font transition-all flex items-center gap-1.5 shadow-sm cursor-pointer ${
+                        isSelected 
+                          ? 'ring-2 ring-cyan-400 bg-cyan-950 text-cyan-200 border border-cyan-400 scale-105' 
+                          : (c.isCorrect 
+                              ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 hover:bg-emerald-900' 
+                              : 'bg-rose-950/90 text-rose-300 border border-rose-500/70 hover:bg-rose-900 animate-pulse')
+                      }" title="Bấm để xem phân tích chi tiết lỗi sai và khẩu hình chữ này">
+                        <span>${c.char}</span>
+                        <span class="text-[10px] font-mono opacity-80">${c.pinyin || ''}</span>
+                        <span>${c.isCorrect ? '✓' : '✗'}</span>
+                      </button>
+                    `;
+                  }).join('')}
+                </div>
+
+                <!-- KHU VỰC CHẨN ĐOÁN LỖI SAI & HƯỚNG DẪN KHẮC PHỤC CHI TIẾT -->
+                ${(() => {
+                  const charResults = evalData.charResults || [];
+                  const wrongChars = charResults.filter(c => !c.isCorrect);
+                  const selectedChar = (window.DialogueState.selectedCharGuide && window.DialogueState.selectedCharGuide.lineIndex === index) 
+                    ? charResults.find(c => c.char === window.DialogueState.selectedCharGuide.char) 
+                    : null;
+
+                  const showAll = !!(window.DialogueState.showAllPhonetics && window.DialogueState.showAllPhonetics[index]);
+                  const charsToShow = selectedChar ? [selectedChar] : (showAll ? charResults : wrongChars);
+
+                  if (charsToShow.length === 0) {
+                    return `
+                      <div class="pt-1 flex items-center gap-2">
+                        <button type="button" onclick="toggleAllPhoneticsForLine(${index})" class="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1.5 transition-colors underline">
+                          <span>🩺</span> Bấm xem chi tiết khẩu hình & vị trí đặt lưỡi từng chữ câu này
+                        </button>
+                      </div>
+                    `;
+                  }
+
+                  return `
+                    <div class="mt-2 p-3.5 rounded-2xl bg-slate-900/95 border ${wrongChars.length > 0 ? 'border-rose-500/40 bg-rose-950/10' : 'border-slate-700/80'} space-y-2.5 text-xs animate-fadeIn">
+                      <div class="flex items-center justify-between pb-1.5 border-b border-slate-800">
+                        <h5 class="font-extrabold ${wrongChars.length > 0 ? 'text-rose-400' : 'text-amber-300'} flex items-center gap-1.5 uppercase tracking-wide text-[11px]">
+                          <span>🩺</span> ${wrongChars.length > 0 ? 'Chỉ Dẫn Sửa Lỗi Phát Âm Chi Tiết' : 'Hướng Dẫn Khẩu Hình & Cách Đặt Lưỡi Chuẩn'}
+                        </h5>
+                        <div class="flex items-center gap-2">
+                          <button type="button" onclick="toggleAllPhoneticsForLine(${index})" class="text-[10px] text-cyan-400 hover:text-cyan-300 font-bold underline">
+                            ${showAll ? 'Chỉ hiện từ sai' : 'Xem tất cả chữ'}
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="space-y-2.5 max-h-80 overflow-y-auto pr-1">
+                        ${charsToShow.map(c => {
+                          const guide = getFullPhoneticGuide(c.char, c.pinyin);
+                          const isOk = c.isCorrect;
+                          return `
+                            <div class="p-3 rounded-xl bg-slate-950 border ${isOk ? 'border-emerald-500/30' : 'border-rose-500/50'} space-y-2 shadow-sm">
+                              <!-- Header chữ -->
+                              <div class="flex items-center justify-between flex-wrap gap-2">
+                                <div class="flex items-center gap-2">
+                                  <button type="button" onclick="speakChinese('${c.char}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-blue-600 text-white font-black chinese-font text-lg flex items-center gap-1.5 border border-slate-700 transition-all shadow-sm" title="Bấm để nghe âm chuẩn">
+                                    ${c.char}
+                                    <svg class="w-3.5 h-3.5 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+                                  </button>
+                                  <span class="text-sm font-mono font-bold text-cyan-400">[${c.pinyin || guide.pinyin}]</span>
+                                  <span class="text-[10px] px-2 py-0.5 rounded font-bold ${isOk ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-500/40' : 'bg-rose-900/60 text-rose-300 border border-rose-500/50'}">
+                                    ${c.statusLabel || (isOk ? 'Đúng chuẩn ✓' : 'Chưa chuẩn ✗')}
+                                  </span>
+                                </div>
+
+                                ${c.spokenChar && c.spokenChar !== '—' && !isOk ? `
+                                  <span class="text-[11px] text-slate-300 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800/40">
+                                    Bạn đọc thành: <b class="text-rose-300 font-bold chinese-font">${c.spokenChar}</b> <span class="text-slate-400 font-mono">[${c.spokenPinyin || ''}]</span>
+                                  </span>
+                                ` : ''}
+                              </div>
+
+                              <!-- Mục 1: Sai ở đâu -->
+                              ${!isOk ? `
+                                <div class="p-2.5 rounded-lg bg-rose-950/25 border border-rose-900/40 space-y-1">
+                                  <div class="text-[11px] font-bold text-rose-400 flex items-center gap-1">
+                                    <span>⚠️</span> Bạn sai ở đâu:
+                                  </div>
+                                  <div class="text-xs text-rose-200 leading-relaxed">
+                                    ${c.feedback || guide.commonMistake}
+                                  </div>
+                                </div>
+                              ` : ''}
+
+                              <!-- Mục 2: Cách sửa khẩu hình & vị trí đặt lưỡi -->
+                              <div class="p-2.5 rounded-lg bg-amber-950/20 border border-amber-900/40 space-y-1.5">
+                                <div class="text-[11px] font-bold text-amber-300 flex items-center gap-1">
+                                  <span>💡</span> Cách sửa khẩu hình & vị trí đặt lưỡi chuẩn:
+                                </div>
+                                <div class="text-xs text-amber-100/90 leading-relaxed space-y-1">
+                                  ${c.tongueGuide || guide.tongueGuideHtml}
+                                </div>
+                              </div>
+                            </div>
+                          `;
+                        }).join('')}
+                      </div>
+                    </div>
+                  `;
+                })()}
               </div>
             ` : `
               <!-- MÀN HÌNH ĐANG LẮNG NGHE BẠN NÓI -->
@@ -570,12 +670,96 @@ function cleanChineseText(str) {
 }
 
 /**
+ * Lấy hướng dẫn khẩu hình & âm vị học đầy đủ cho một chữ Hán
+ */
+function getFullPhoneticGuide(char, pinyinStr) {
+  let pinyin = pinyinStr || '';
+  if (!pinyin && window.hanziToPinyinList) {
+    const list = window.hanziToPinyinList(char);
+    if (list && list[0]) pinyin = list[0].pinyin;
+  }
+  if (!pinyin && window.PINYIN_MAP) {
+    pinyin = window.PINYIN_MAP[char] || '';
+  }
+
+  let parsed = null;
+  if (typeof window.parsePinyinSyllable === 'function') {
+    parsed = window.parsePinyinSyllable(pinyin);
+  }
+
+  const initial = parsed ? parsed.initial : '';
+  const finalPart = parsed ? parsed.finalPart : '';
+  const tone = parsed ? parsed.tone : 0;
+
+  const initInfo = (initial && window.CHINESE_PHONETICS_DB && window.CHINESE_PHONETICS_DB.initials) 
+    ? window.CHINESE_PHONETICS_DB.initials[initial] 
+    : null;
+
+  const finalInfo = (finalPart && window.CHINESE_FINALS_DB) 
+    ? window.CHINESE_FINALS_DB[finalPart] 
+    : null;
+
+  const toneInfo = (tone && window.CHINESE_PHONETICS_DB && window.CHINESE_PHONETICS_DB.tones) 
+    ? window.CHINESE_PHONETICS_DB.tones[tone] 
+    : null;
+
+  let guideParts = [];
+  if (initInfo) {
+    guideParts.push(`<div><b>Thanh mẫu [${initInfo.name}]:</b> ${initInfo.tongue} <br><span class="text-amber-300 font-bold">💡 Mẹo chuẩn: ${initInfo.fixTip}</span></div>`);
+  }
+  if (finalInfo) {
+    guideParts.push(`<div><b>Vận mẫu [${finalInfo.name}]:</b> ${finalInfo.tongue} <br><span class="text-cyan-300 font-bold">💡 Mẹo vần: ${finalInfo.fixTip}</span></div>`);
+  }
+  if (toneInfo) {
+    guideParts.push(`<div><b>Thanh điệu [${toneInfo.name}]:</b> ${toneInfo.desc}</div>`);
+  }
+
+  const tongueGuideHtml = guideParts.length > 0 
+    ? guideParts.join("<div class='my-1 border-t border-slate-800/80'></div>") 
+    : "Mở khoang miệng tự nhiên, luồng hơi giữ đều đặn và phát âm theo đúng thanh điệu.";
+
+  const commonMistake = initInfo && initInfo.vnMistake 
+    ? initInfo.vnMistake 
+    : "Phát âm chưa chuẩn xác hoặc âm lượng quá nhỏ. Hãy nghe lại âm mẫu để sửa khẩu hình.";
+
+  return {
+    pinyin: pinyin,
+    initial: initial,
+    finalPart: finalPart,
+    tone: tone,
+    tongueGuideHtml: tongueGuideHtml,
+    commonMistake: commonMistake
+  };
+}
+
+function toggleDialogueCharGuide(lineIndex, char) {
+  if (window.DialogueState.selectedCharGuide && 
+      window.DialogueState.selectedCharGuide.lineIndex === lineIndex && 
+      window.DialogueState.selectedCharGuide.char === char) {
+    window.DialogueState.selectedCharGuide = null;
+  } else {
+    window.DialogueState.selectedCharGuide = { lineIndex, char };
+  }
+  renderDialogueView();
+}
+
+function toggleAllPhoneticsForLine(lineIndex) {
+  if (!window.DialogueState.showAllPhonetics) window.DialogueState.showAllPhonetics = {};
+  window.DialogueState.showAllPhonetics[lineIndex] = !window.DialogueState.showAllPhonetics[lineIndex];
+  renderDialogueView();
+}
+
+window.getFullPhoneticGuide = getFullPhoneticGuide;
+window.toggleDialogueCharGuide = toggleDialogueCharGuide;
+window.toggleAllPhoneticsForLine = toggleAllPhoneticsForLine;
+
+/**
  * Đánh giá chấm điểm câu thoại đóng vai (Sử dụng module chẩn đoán âm vị học)
  */
-function gradeRolePlaySentence(targetHanzi, spokenText) {
+function gradeRolePlaySentence(targetHanzi, spokenText, targetPinyin = "") {
   if (typeof window.evaluateSpeech === 'function') {
     try {
-      const res = window.evaluateSpeech(targetHanzi, spokenText);
+      const res = window.evaluateSpeech(targetHanzi, spokenText, targetPinyin);
       if (res && typeof res.accuracy === 'number') {
         return res;
       }
@@ -623,7 +807,7 @@ function gradeRolePlaySentence(targetHanzi, spokenText) {
 function finishAndGradeRolePlaySentence(line, index, spokenText) {
   stopRolePlayRecognition();
 
-  const evalResult = gradeRolePlaySentence(line.hanzi, spokenText);
+  const evalResult = gradeRolePlaySentence(line.hanzi, spokenText, line.pinyin);
   const cleanTargetPure = (line.hanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
   const cleanSpoken = (spokenText || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
 
@@ -637,7 +821,7 @@ function finishAndGradeRolePlaySentence(line, index, spokenText) {
   } else if (!isFullLength) {
     feedback = `⚠️ Bạn mới đọc ${cleanSpoken.length}/${cleanTargetPure.length} chữ. Hãy đọc trọn vẹn cả câu!`;
   } else {
-    feedback = `⚠️ Chưa đạt (cần ≥ 70%). Hãy đọc lại những chữ màu đỏ!`;
+    feedback = `⚠️ Chưa đạt (cần ≥ 70%). Hãy xem phân tích lỗi sai và luyện lại các chữ màu đỏ!`;
   }
 
   window.DialogueState.rolePlayEvaluations[index] = {
@@ -645,7 +829,9 @@ function finishAndGradeRolePlaySentence(line, index, spokenText) {
     isPass: isPass,
     userSpoken: spokenText || "(Chưa nghe rõ)",
     charResults: evalResult.charResults || [],
-    feedback: feedback
+    feedback: feedback,
+    targetHanzi: line.hanzi,
+    targetPinyin: line.pinyin
   };
 
   if (isPass) {

@@ -72,18 +72,20 @@ function cleanChineseText(str) {
  * Đánh giá độ chính xác chuyên sâu giữa từ mục tiêu và từ người dùng đọc
  * Sử dụng bách khoa chẩn đoán lỗi âm vị học tiếng Trung (window.diagnoseSpeechDetails)
  */
-function evaluateSpeech(targetHanzi, spokenText) {
+function evaluateSpeech(targetHanzi, spokenText, targetPinyin = null) {
   // Lọc bỏ dấu câu tiếng Trung và ký tự đặc biệt để đánh giá đúng từng chữ Hán
   const cleanTargetPure = (targetHanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
   const cleanTarget = cleanChineseText(cleanTargetPure);
   const cleanSpoken = cleanChineseText(spokenText);
+
+  const pinyinToUse = targetPinyin || (currentVoiceWord ? currentVoiceWord.pinyin : '');
 
   // Nếu có module chẩn đoán chuyên sâu
   if (typeof window.diagnoseSpeechDetails === 'function') {
     try {
       const diagnosis = window.diagnoseSpeechDetails(
         cleanTargetPure, 
-        currentVoiceWord ? currentVoiceWord.pinyin : '', 
+        pinyinToUse, 
         spokenText
       );
 
