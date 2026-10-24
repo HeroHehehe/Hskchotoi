@@ -34,6 +34,10 @@ function openVoiceModal(wordOrId) {
 
   if (word.isDialogueLine) {
     currentVoiceIndex = word.line_idx || 0;
+  } else if (word.isExampleSentence) {
+    const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
+    currentVoiceIndex = currentList.findIndex(w => w.id === word.vocab_id);
+    if (currentVoiceIndex === -1) currentVoiceIndex = 0;
   } else {
     const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
     currentVoiceIndex = currentList.findIndex(w => w.id === word.id);
@@ -145,6 +149,10 @@ function renderVoiceModalUI(showResult = false, evalData = null) {
     const dlg = lessonData ? lessonData.dialogues[currentVoiceWord.dialogue_idx] : null;
     const totalLines = dlg ? dlg.lines.length : 1;
     document.getElementById('voice-counter').textContent = `Câu ${currentVoiceWord.line_idx + 1}/${totalLines}`;
+  } else if (currentVoiceWord && currentVoiceWord.isExampleSentence) {
+    const currentList = (window.getCurrentLessonWords && window.getCurrentLessonWords()) || window.VOCAB_DATABASE || [];
+    const totalInLesson = currentList.length || 1;
+    document.getElementById('voice-counter').textContent = `Ví dụ ${currentVoiceIndex + 1}/${totalInLesson}`;
   } else {
     const currentList = (window.getCurrentLessonWords && window.getCurrentLessonWords()) || window.VOCAB_DATABASE || [];
     const totalInLesson = currentList.length || 1;
@@ -528,6 +536,15 @@ function nextVoiceWord() {
     }
   }
 
+  if (currentVoiceWord && currentVoiceWord.isExampleSentence) {
+    const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
+    if (currentList && currentList.length) {
+      const nextIdx = (currentVoiceIndex + 1) % currentList.length;
+      openVoiceModalForExample(currentList[nextIdx].id);
+      return;
+    }
+  }
+
   const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
   currentVoiceIndex = (currentVoiceIndex + 1) % currentList.length;
   currentVoiceWord = currentList[currentVoiceIndex];
@@ -560,11 +577,40 @@ function prevVoiceWord() {
     }
   }
 
+  if (currentVoiceWord && currentVoiceWord.isExampleSentence) {
+    const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
+    if (currentList && currentList.length) {
+      const prevIdx = (currentVoiceIndex - 1 + currentList.length) % currentList.length;
+      openVoiceModalForExample(currentList[prevIdx].id);
+      return;
+    }
+  }
+
   const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
   currentVoiceIndex = (currentVoiceIndex - 1 + currentList.length) % currentList.length;
   currentVoiceWord = currentList[currentVoiceIndex];
   renderVoiceModalUI(false);
 }
+
+/**
+ * Mở modal luyện phát âm cho câu ví dụ của từ vựng
+ */
+function openVoiceModalForExample(wordId) {
+  const item = (window.VOCAB_DATABASE || []).find(w => w.id === wordId);
+  if (!item) return;
+  openVoiceModal({
+    id: `ex_${item.id}`,
+    vocab_id: item.id,
+    hanzi: item.ex_hz,
+    pinyin: item.ex_py || '',
+    meaning: item.ex_vi || '',
+    type: "CÂU VÍ DỤ",
+    type_detail: `Ví dụ của từ: ${item.hanzi} (${item.pinyin})`,
+    isExampleSentence: true
+  });
+}
+
+window.openVoiceModalForExample = openVoiceModalForExample;
 
 window.prevVoiceWord = prevVoiceWord;
 window.nextVoiceWord = nextVoiceWord;

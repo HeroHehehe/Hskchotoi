@@ -379,17 +379,31 @@ function renderVocabList(filteredList = null) {
         </span>
       </div>
 
-      <!-- Hàng dưới: Hộp câu ví dụ dark mode có pinyin trên đầu chữ Hán (Ruby) -->
-      <div class="mt-1 p-4 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-start gap-3.5 relative group/ex">
-        <!-- Nút loa phát âm cả câu ví dụ -->
-        <button onclick="speakChinese('${item.ex_hz}')" title="Nghe câu ví dụ" class="mt-1 w-8 h-8 rounded-lg bg-slate-900 border border-slate-700/80 text-cyan-400 hover:bg-cyan-500 hover:text-white flex items-center justify-center flex-shrink-0 transition-all shadow-sm">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-        </button>
+      <!-- Hàng dưới: Hộp câu ví dụ dark mode có pinyin và nút micro luyện nói câu -->
+      <div class="mt-2 p-4 rounded-xl bg-slate-950/80 border border-slate-800/90 flex items-start gap-3.5 relative group/ex">
+        <!-- Cột nút âm thanh & micro phát âm câu ví dụ -->
+        <div class="flex flex-col gap-1.5 flex-shrink-0 mt-0.5">
+          <!-- Loa phát âm cả câu ví dụ -->
+          <button onclick="speakChinese('${item.ex_hz}')" title="Nghe phát âm câu ví dụ" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-700/80 text-cyan-400 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all shadow-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          </button>
+
+          <!-- Micro luyện nói câu ví dụ (Mở AI Voice Modal) -->
+          <button onclick="openVoiceModalForExample(${item.id})" title="Luyện nói câu ví dụ này (AI Chấm điểm)" class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 text-rose-400 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all shadow-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+          </button>
+        </div>
 
         <div class="flex-1 min-w-0">
-          <!-- Câu Hán tự kèm Pinyin trên từng chữ (Ảnh 1) -->
-          <div class="flex flex-wrap items-end gap-y-2 mb-2">
+          <!-- Câu Hán tự kèm Pinyin trên từng chữ (Ruby) hoặc chữ Hán rõ nét -->
+          <div class="flex flex-wrap items-end gap-y-2 mb-1">
             ${rubyHtml}
+          </div>
+
+          <!-- Dòng Pinyin đầy đủ rõ ràng cho mọi câu ví dụ -->
+          <div class="text-xs text-cyan-400 font-mono italic tracking-wide mb-1.5 flex items-center gap-1.5">
+            <span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950/70 text-cyan-300 font-bold border border-cyan-800/60 not-italic uppercase tracking-wider">Pinyin</span>
+            <span>${item.ex_py || ''}</span>
           </div>
 
           <!-- Nghĩa tiếng Việt màu đỏ cam nổi bật -->
@@ -424,6 +438,55 @@ function toggleLearned(wordId) {
   renderVocabList();
   updateSidebarProgress();
 }
+
+/**
+ * Đặt lại (Reset) tiến độ chữ đã học cho bài hiện tại
+ */
+function resetLessonProgress(lessonNo) {
+  const targetLesson = (lessonNo !== undefined && lessonNo !== null) ? Number(lessonNo) : (window.currentLesson || 1);
+  const words = (window.VOCAB_DATABASE || []).filter(w => w.lesson_id === targetLesson);
+  const wordIds = new Set(words.map(w => w.id));
+
+  // 1. Xóa khỏi learnedWords
+  wordIds.forEach(id => learnedWords.delete(id));
+  saveState();
+
+  // 2. Xóa khỏi danh sách từ đã thuộc (hsk1_mastered_words)
+  try {
+    const stored = localStorage.getItem('hsk1_mastered_words');
+    if (stored) {
+      let list = JSON.parse(stored);
+      list = list.filter(id => !wordIds.has(id));
+      localStorage.setItem('hsk1_mastered_words', JSON.stringify(list));
+    }
+  } catch (e) {
+    console.warn("Lỗi reset mastered words:", e);
+  }
+
+  // 3. Reset các hàng đợi mini game trong Memory Hub
+  if (window.MEMORY_HUB && typeof window.MEMORY_HUB.resetLessonQueues === 'function') {
+    window.MEMORY_HUB.resetLessonQueues(targetLesson);
+  }
+
+  // 4. Cập nhật giao diện
+  renderVocabList();
+  updateSidebarProgress();
+  if (typeof updateMasteredDisplay === 'function') {
+    updateMasteredDisplay();
+  }
+  showToast(`✓ Đã đặt lại toàn bộ tiến độ của Bài ${targetLesson}!`);
+}
+
+function confirmResetLessonProgress() {
+  const targetLesson = window.currentLesson || 1;
+  const ok = confirm(`Bạn có chắc chắn muốn đặt lại (reset) toàn bộ tiến độ chữ đã học của Bài ${targetLesson} không?\n\n- Đánh dấu "Đã học" của bài này sẽ trở về 0.\n- Tiến trình các Mini Game của bài này sẽ bắt đầu lại từ đầu.`);
+  if (ok) {
+    resetLessonProgress(targetLesson);
+  }
+}
+
+window.resetLessonProgress = resetLessonProgress;
+window.confirmResetLessonProgress = confirmResetLessonProgress;
 
 /**
  * Đánh dấu Yêu thích / Bỏ lưu

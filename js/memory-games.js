@@ -2,19 +2,19 @@
  * ==============================================================================
  * TRUNG TÂM LUYỆN NHỚ & GAME HỌC TẬP HSK 1 (MEMORY TRAINING HUB)
  * ==============================================================================
- * 5 Chế độ luyện nhớ thông minh:
+ * 6 Chế độ luyện nhớ thông minh - Mỗi mini game là 1 TIẾN TRÌNH ĐỘC LẬP:
  *  1. 🎯 Trắc nghiệm nghĩa: Nhìn Hán tự -> Chọn nghĩa tiếng Việt
  *  2. 🎧 Nghe âm đoán từ: Nghe giọng đọc bản xứ -> Đoán nghĩa hoặc đoán chữ Hán
- *  3. ✍️ Luyện viết nhớ nét: Nhìn Pinyin & Nghĩa -> Tự nhớ và viết chữ Hán qua Canvas
- *  4. 🧩 Ghép cặp nối từ (Duolingo Style): Nối 5 thẻ Chữ Hán với 5 thẻ Tiếng Việt
+ *  3. ✍️ Luyện viết tự do: Tự vẽ nét chữ Hán trên Canvas, đánh giá khi viết xong
+ *  4. 🧩 Ghép cặp nối từ (Duolingo Style): Nối các thẻ Chữ Hán với Tiếng Việt
  *  5. 🔍 Nhìn tiếng Việt đoán Chữ Hán: Nhớ chủ động mặt chữ Hán
  *  6. ⚡ Flashcard 3D Thông minh (SRS): Lật thẻ ghi nhớ & đánh giá Đã thuộc / Chưa thuộc
  *
- * Tính năng theo dõi tiến độ:
- *  - Bộ đếm X/Y từ bài học & % tổng quan 300 từ HSK 1
- *  - Lưu trữ từ đã ghi nhớ vào LocalStorage (hsk1_mastered_words)
- *  - Thống kê Đúng/Sai, Điểm số, Streak
- *  - Màn hình tổng kết cuối vòng: Danh sách từ sai & Nút "Ôn lại các từ sai"
+ * Tính năng nổi bật:
+ *  - Mỗi mini game có hàng đợi (queue) riêng, từ trả lời đúng sẽ KHÔNG xuất hiện lại trong game đó
+ *  - Luyện viết Hanzi tự do: vẽ tự nhiên trên Canvas, không ép thứ tự nét, chấm điểm khi hoàn thành
+ *  - Nút Reset tiến độ cho từng game và cho toàn bài học
+ *  - Hiệu ứng âm thanh chân thực (Web Audio API)
  * ==============================================================================
  */
 
@@ -22,17 +22,39 @@
 window.MEMORY_HUB = {
   activeMode: 'meaning_quiz', // 'meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard'
   listeningSubMode: 'vi', // 'vi' (nghe -> đoán tiếng Việt) hoặc 'zh' (nghe -> đoán chữ Hán)
-  currentWordList: [],
-  currentIndex: 0,
+  currentLessonId: null,
+
+  // Tiến trình RIÊNG BIỆT của từng mini game
+  // gameQueues[mode]: Danh sách từ còn lại cần học trong mini-game đó
+  // gameCompleted[mode]: Danh sách ID các từ đã vượt qua thành công trong mini-game đó
+  // gameStats[mode]: Thống kê Đúng/Sai/Điểm số riêng của từng mini-game
+  gameQueues: {
+    meaning_quiz: [],
+    listening_quiz: [],
+    hanzi_recall: [],
+    match_cards: [],
+    hanzi_quiz: [],
+    flashcard: []
+  },
+  gameCompleted: {
+    meaning_quiz: [],
+    listening_quiz: [],
+    hanzi_recall: [],
+    match_cards: [],
+    hanzi_quiz: [],
+    flashcard: []
+  },
+  gameStats: {
+    meaning_quiz: { correct: 0, wrong: 0, score: 0 },
+    listening_quiz: { correct: 0, wrong: 0, score: 0 },
+    hanzi_recall: { correct: 0, wrong: 0, score: 0 },
+    match_cards: { correct: 0, wrong: 0, score: 0 },
+    hanzi_quiz: { correct: 0, wrong: 0, score: 0 },
+    flashcard: { correct: 0, wrong: 0, score: 0 }
+  },
+
   currentWord: null,
-  
-  // Điểm số & tiến trình lượt chơi
-  score: 0,
-  correctCount: 0,
-  wrongCount: 0,
-  wrongWords: [], // Danh sách từ làm sai để luyện lại
-  reviewMode: false, // Đang trong chế độ ôn lại từ sai
-  
+
   // Trạng thái game Ghép Cặp (Match Cards)
   matchCards: {
     pairs: [],
@@ -41,12 +63,20 @@ window.MEMORY_HUB = {
     matchedCount: 0,
     totalPairs: 5
   },
-  
-  // Trạng thái game Luyện Viết
-  writerInstance: null
+
+  // Trạng thái Luyện Viết Tự Do
+  recall: {
+    canvas: null,
+    ctx: null,
+    isDrawing: false,
+    hasDrawn: false,
+    outlineVisible: true,
+    charIndex: 0,
+    writerInstance: null
+  }
 };
 
-// Khởi tạo Audio Context để phát âm thanh hiệu ứng (Ding / Buzz)
+// Khởi tạo Audio Context để phát âm thanh hiệu ứng (Ding / Buzz / Match)
 let memoryAudioCtx = null;
 function playSoundEffect(type) {
   try {
@@ -63,7 +93,6 @@ function playSoundEffect(type) {
 
     const now = memoryAudioCtx.currentTime;
     if (type === 'correct') {
-      // Âm thanh Ding trong trẻo vui tai (E5 -> B5)
       osc.type = 'sine';
       osc.frequency.setValueAtTime(659.25, now); // E5
       osc.frequency.exponentialRampToValueAtTime(987.77, now + 0.15); // B5
@@ -72,7 +101,6 @@ function playSoundEffect(type) {
       osc.start(now);
       osc.stop(now + 0.35);
     } else if (type === 'wrong') {
-      // Âm thanh Buzz trầm nhẹ
       osc.type = 'triangle';
       osc.frequency.setValueAtTime(220, now); // A3
       osc.frequency.linearRampToValueAtTime(146.83, now + 0.2); // D3
@@ -81,7 +109,6 @@ function playSoundEffect(type) {
       osc.start(now);
       osc.stop(now + 0.25);
     } else if (type === 'match') {
-      // Âm thanh Ghép cặp thành công
       osc.type = 'sine';
       osc.frequency.setValueAtTime(523.25, now); // C5
       osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
@@ -118,8 +145,8 @@ function setWordMastered(wordId, isMastered = true) {
     }
     localStorage.setItem('hsk1_mastered_words', JSON.stringify(list));
     updateMasteredDisplay();
-    // Cập nhật trạng thái huy hiệu ở danh sách từ bên ngoài
     if (window.renderVocabList) window.renderVocabList();
+    if (window.updateSidebarProgress) window.updateSidebarProgress();
   } catch (e) {
     console.warn("Lỗi lưu từ đã thuộc:", e);
   }
@@ -130,12 +157,10 @@ function updateMasteredDisplay() {
   const allVocab = window.VOCAB_DATABASE || [];
   const currentLessonWords = window.getCurrentLessonWords ? window.getCurrentLessonWords() : allVocab;
   
-  // Tính số từ đã thuộc trong bài hiện tại
   const masteredInLesson = currentLessonWords.filter(w => masteredList.includes(w.id)).length;
   const totalInLesson = currentLessonWords.length || 1;
   const percentLesson = Math.round((masteredInLesson / totalInLesson) * 100);
 
-  // Cập nhật trên UI Hub
   const lessonStatEl = document.getElementById('hub-lesson-mastered-stat');
   if (lessonStatEl) {
     lessonStatEl.textContent = `Bài này: ${masteredInLesson}/${totalInLesson} từ (${percentLesson}%)`;
@@ -151,30 +176,66 @@ function updateMasteredDisplay() {
 }
 
 /**
+ * Khởi tạo hàng đợi riêng biệt cho từng mini-game của bài học
+ */
+function initGameQueues(lessonId, forceReset = false) {
+  const hub = window.MEMORY_HUB;
+  const lessonChanged = hub.currentLessonId !== lessonId;
+  hub.currentLessonId = lessonId;
+
+  const lessonWords = window.getCurrentLessonWords ? window.getCurrentLessonWords() : (window.VOCAB_DATABASE || []);
+  const modes = ['meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard'];
+
+  modes.forEach(m => {
+    if (forceReset || lessonChanged || !hub.gameQueues[m] || hub.gameQueues[m].length === 0 && hub.gameCompleted[m].length === 0) {
+      hub.gameQueues[m] = [...lessonWords].sort(() => Math.random() - 0.5);
+      hub.gameCompleted[m] = [];
+      hub.gameStats[m] = { correct: 0, wrong: 0, score: 0 };
+    }
+  });
+}
+
+/**
+ * Đặt lại hàng đợi cho mini-game hiện tại
+ */
+function resetCurrentModeQueue() {
+  const hub = window.MEMORY_HUB;
+  const m = hub.activeMode;
+  const lessonWords = window.getCurrentLessonWords ? window.getCurrentLessonWords() : (window.VOCAB_DATABASE || []);
+  hub.gameQueues[m] = [...lessonWords].sort(() => Math.random() - 0.5);
+  hub.gameCompleted[m] = [];
+  hub.gameStats[m] = { correct: 0, wrong: 0, score: 0 };
+
+  const summaryBox = document.getElementById('hub-summary-screen');
+  const gameArea = document.getElementById('hub-game-area');
+  if (summaryBox) summaryBox.classList.add('hidden');
+  if (gameArea) gameArea.classList.remove('hidden');
+
+  loadCurrentQuestion();
+}
+
+/**
+ * Đặt lại toàn bộ hàng đợi bài học cho tất cả mini-game
+ */
+function resetLessonQueues(lessonId) {
+  initGameQueues(lessonId, true);
+}
+window.MEMORY_HUB.resetLessonQueues = resetLessonQueues;
+window.MEMORY_HUB.resetCurrentModeQueue = resetCurrentModeQueue;
+
+/**
  * Mở Trung Tâm Luyện Nhớ (Memory Hub Modal)
  */
-function openMemoryHub(initialMode = 'meaning_quiz', useWrongWordsOnly = false) {
+function openMemoryHub(initialMode = 'meaning_quiz') {
   const modal = document.getElementById('memory-hub-modal');
   if (!modal) return;
   modal.classList.remove('hidden');
 
+  const currentLId = window.currentLesson || 1;
+  initGameQueues(currentLId, false);
+
   const hub = window.MEMORY_HUB;
   hub.activeMode = initialMode;
-  hub.reviewMode = useWrongWordsOnly;
-
-  if (useWrongWordsOnly && hub.wrongWords.length > 0) {
-    hub.currentWordList = [...hub.wrongWords];
-  } else {
-    const lessonWords = window.getCurrentLessonWords ? window.getCurrentLessonWords() : (window.VOCAB_DATABASE || []);
-    // Xáo trộn danh sách từ vựng bài hiện tại
-    hub.currentWordList = [...lessonWords].sort(() => Math.random() - 0.5);
-    hub.wrongWords = [];
-  }
-
-  hub.currentIndex = 0;
-  hub.score = 0;
-  hub.correctCount = 0;
-  hub.wrongCount = 0;
 
   updateMasteredDisplay();
   setHubTab(initialMode);
@@ -183,18 +244,16 @@ function openMemoryHub(initialMode = 'meaning_quiz', useWrongWordsOnly = false) 
 function closeMemoryHub() {
   const modal = document.getElementById('memory-hub-modal');
   if (modal) modal.classList.add('hidden');
-  // Dừng phát âm thanh nếu có
   if (window.speechSynthesis) window.speechSynthesis.cancel();
 }
 
 /**
- * Chuyển đổi qua lại giữa 5 chế độ chơi
+ * Chuyển đổi qua lại giữa 6 chế độ chơi
  */
 function setHubTab(mode) {
   const hub = window.MEMORY_HUB;
   hub.activeMode = mode;
 
-  // Cập nhật giao diện tab bar
   const tabs = ['meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard'];
   tabs.forEach(m => {
     const btn = document.getElementById(`hub-tab-${m}`);
@@ -207,13 +266,11 @@ function setHubTab(mode) {
     }
   });
 
-  // Ẩn màn hình tổng kết (nếu đang hiện)
   const summaryBox = document.getElementById('hub-summary-screen');
   const gameArea = document.getElementById('hub-game-area');
   if (summaryBox) summaryBox.classList.add('hidden');
   if (gameArea) gameArea.classList.remove('hidden');
 
-  // Khởi động giao diện màn chơi tương ứng
   loadCurrentQuestion();
 }
 
@@ -225,15 +282,16 @@ function loadCurrentQuestion() {
   const gameArea = document.getElementById('hub-game-area');
   if (!gameArea) return;
 
-  // Kiểm tra nếu đã hoàn thành tất cả từ trong vòng
-  if (hub.currentIndex >= hub.currentWordList.length && hub.activeMode !== 'match_cards') {
+  const currentQueue = hub.gameQueues[hub.activeMode] || [];
+
+  // Nếu hàng đợi của chế độ này đã hết -> Đã hoàn thành trò chơi!
+  if (currentQueue.length === 0 && hub.activeMode !== 'match_cards') {
     renderSummaryScreen();
     return;
   }
 
-  hub.currentWord = hub.currentWordList[hub.currentIndex];
+  hub.currentWord = currentQueue[0] || null;
 
-  // Cập nhật thanh tiến độ (Progress Bar & Counter)
   updateProgressBar();
 
   switch (hub.activeMode) {
@@ -261,17 +319,23 @@ function loadCurrentQuestion() {
 }
 
 /**
- * Cập nhật thanh tiến độ X/Y, Đúng/Sai, Điểm số
+ * Cập nhật thanh tiến độ X/Y, Đúng/Sai, Điểm số của RIÊNG chế độ này
  */
 function updateProgressBar() {
   const hub = window.MEMORY_HUB;
-  const total = hub.currentWordList.length || 1;
-  const current = Math.min(hub.currentIndex + 1, total);
-  const percent = Math.round((current / total) * 100);
+  const mode = hub.activeMode;
+  const queue = hub.gameQueues[mode] || [];
+  const completed = hub.gameCompleted[mode] || [];
+  const stats = hub.gameStats[mode] || { correct: 0, wrong: 0, score: 0 };
+  
+  const lessonWords = window.getCurrentLessonWords ? window.getCurrentLessonWords() : (window.VOCAB_DATABASE || []);
+  const totalLessonWords = lessonWords.length || (queue.length + completed.length) || 1;
+  const completedCount = completed.length;
+  const percent = Math.min(100, Math.round((completedCount / totalLessonWords) * 100));
 
   const counterEl = document.getElementById('hub-progress-counter');
   if (counterEl) {
-    counterEl.textContent = `Câu ${current}/${total}`;
+    counterEl.textContent = `Đã thuộc: ${completedCount}/${totalLessonWords} từ (Còn lại ${queue.length} từ)`;
   }
 
   const fillEl = document.getElementById('hub-progress-fill');
@@ -282,11 +346,11 @@ function updateProgressBar() {
   const scoreEl = document.getElementById('hub-score-badge');
   if (scoreEl) {
     scoreEl.innerHTML = `
-      <span class="text-emerald-400 font-bold">🟢 ${hub.correctCount}</span>
+      <span class="text-emerald-400 font-bold">🟢 ${stats.correct}</span>
       <span class="text-slate-500">|</span>
-      <span class="text-rose-400 font-bold">🔴 ${hub.wrongCount}</span>
+      <span class="text-rose-400 font-bold">🔴 ${stats.wrong}</span>
       <span class="text-slate-500">|</span>
-      <span class="text-amber-300 font-bold">⭐ ${hub.score} đ</span>
+      <span class="text-amber-300 font-bold">⭐ ${stats.score} đ</span>
     `;
   }
 }
@@ -299,7 +363,8 @@ function updateProgressBar() {
 function renderMeaningQuiz(container) {
   const hub = window.MEMORY_HUB;
   const word = hub.currentWord;
-  const allWords = window.VOCAB_DATABASE || hub.currentWordList;
+  if (!word) { renderSummaryScreen(); return; }
+  const allWords = window.VOCAB_DATABASE || [];
 
   // Tạo 4 lựa chọn (1 đúng + 3 ngẫu nhiên)
   const options = [word.meaning];
@@ -345,13 +410,12 @@ function renderMeaningQuiz(container) {
 function renderListeningQuiz(container) {
   const hub = window.MEMORY_HUB;
   const word = hub.currentWord;
-  const allWords = window.VOCAB_DATABASE || hub.currentWordList;
+  if (!word) { renderSummaryScreen(); return; }
+  const allWords = window.VOCAB_DATABASE || [];
   const isViMode = hub.listeningSubMode === 'vi';
 
-  // Tự động phát âm ngay khi mở câu hỏi
-  setTimeout(() => speakChinese(word.hanzi, 1.0), 200);
+  setTimeout(() => speakChinese(word.hanzi, 1.0), 250);
 
-  // Tạo lựa chọn
   let options = [];
   if (isViMode) {
     options = [word.meaning];
@@ -360,7 +424,6 @@ function renderListeningQuiz(container) {
       if (!options.includes(r.meaning)) options.push(r.meaning);
     }
   } else {
-    // Chế độ chọn Chữ Hán
     options = [{ hanzi: word.hanzi, pinyin: word.pinyin, correct: true }];
     while (options.length < Math.min(4, allWords.length)) {
       const r = allWords[Math.floor(Math.random() * allWords.length)];
@@ -431,144 +494,283 @@ function toggleListeningSubMode(subMode) {
 
 /**
  * ==============================================================================
- * TRÒ 3: ✍️ NHÌN PINYIN/NGHĨA -> TỰ VIẾT CHỮ HÁN (Hanzi Recall)
+ * TRÒ 3: ✍️ LUYỆN VIẾT CHỮ HÁN TỰ DO (Đánh giá hoàn thành, không ép thứ tự nét)
  * ==============================================================================
  */
 function renderHanziRecall(container) {
   const hub = window.MEMORY_HUB;
   const word = hub.currentWord;
+  if (!word) { renderSummaryScreen(); return; }
+
+  const chars = Array.from(word.hanzi);
+  const targetChar = chars[hub.recall.charIndex] || chars[0] || '你';
 
   container.innerHTML = `
-    <div class="space-y-5 animate-in fade-in zoom-in-95 duration-200">
+    <div class="space-y-4 animate-in fade-in zoom-in-95 duration-200">
       <!-- Đề bài: Cho Pinyin & Nghĩa tiếng Việt -->
-      <div class="p-5 rounded-3xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-4">
+      <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-4">
         <div>
-          <span class="text-xs text-blue-400 font-black uppercase tracking-wider block">Hãy nhớ và vẽ chữ Hán:</span>
+          <span class="text-xs text-blue-400 font-black uppercase tracking-wider block">Hãy viết chữ Hán:</span>
           <p class="text-2xl font-black text-cyan-300 italic mt-0.5">${word.pinyin}</p>
-          <p class="text-sm font-bold text-slate-200 mt-1">${word.meaning}</p>
+          <p class="text-sm font-bold text-slate-200 mt-0.5">${word.meaning}</p>
         </div>
 
-        <button onclick="speakChinese('${word.hanzi}')" class="w-12 h-12 rounded-2xl bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white flex items-center justify-center transition-all shadow-md flex-shrink-0" title="Nghe phát âm">
-          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-        </button>
+        <div class="flex items-center gap-2">
+          ${chars.length > 1 ? `
+            <div class="flex gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
+              ${chars.map((c, idx) => `
+                <button onclick="selectRecallChar(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-bold ${idx === hub.recall.charIndex ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}">
+                  Chữ ${idx + 1} (${c})
+                </button>
+              `).join('')}
+            </div>
+          ` : ''}
+          <button onclick="speakChinese('${word.hanzi}')" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white flex items-center justify-center transition-all shadow-md" title="Nghe phát âm">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          </button>
+        </div>
       </div>
 
-      <!-- Khung vẽ chữ Hán HanziWriter -->
-      <div class="flex flex-col items-center justify-center space-y-4">
-        <div id="recall-writer-target" class="w-[260px] h-[260px] bg-slate-950 rounded-3xl border-2 border-indigo-500/50 shadow-2xl flex items-center justify-center relative overflow-hidden">
-          <!-- HanziWriter Canvas mount ở đây -->
-          <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
-            <div class="w-full h-[1px] bg-white"></div>
-            <div class="h-full w-[1px] bg-white absolute"></div>
+      <!-- Khung vẽ chữ Hán Canvas tự do -->
+      <div class="flex flex-col items-center justify-center space-y-3">
+        <!-- Vùng vẽ kích thước chuẩn 260x260 với lưới 米 tự (Tianzige) -->
+        <div id="recall-draw-container" class="w-[260px] h-[260px] bg-slate-950 rounded-3xl border-2 border-slate-700 shadow-2xl relative overflow-hidden flex items-center justify-center select-none touch-none">
+          
+          <!-- Lưới ô chữ điền 米 tự mờ -->
+          <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 260 260">
+            <line x1="0" y1="130" x2="260" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
+            <line x1="130" y1="0" x2="130" y2="260" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
+            <line x1="0" y1="0" x2="260" y2="260" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="260" y1="0" x2="0" y2="260" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+          </svg>
+
+          <!-- Nét mờ chữ mẫu trong nền (HanziWriter Outline hoặc Font mờ) -->
+          <div id="recall-outline-target" class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
+            <span id="recall-outline-char" class="text-[170px] font-black text-slate-700/60 chinese-font leading-none select-none">${targetChar}</span>
           </div>
+
+          <!-- HTML5 Canvas để người dùng tự do vẽ mọi nét theo ý muốn -->
+          <canvas id="recall-canvas" width="260" height="260" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
         </div>
 
         <!-- Trạng thái nét vẽ -->
-        <p id="recall-status-text" class="text-xs font-bold text-slate-400 animate-pulse">
-          ✍️ Dùng chuột hoặc ngón tay để vẽ từng nét chữ Hán vào ô trên
+        <p id="recall-status-text" class="text-xs font-bold text-slate-400 text-center min-h-[20px]">
+          ✍️ Vẽ tự do bằng chuột hoặc chạm tay vào ô trên
         </p>
 
-        <!-- Nút thao tác trợ giúp -->
-        <div class="flex items-center gap-2 flex-wrap justify-center">
-          <button onclick="hintRecallStroke()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
-            💡 Gợi ý nét
+        <!-- Dãy nút công cụ: Xóa, Ẩn/Hiện nét mờ, Xem nét mẫu, ĐÃ VIẾT XONG -->
+        <div class="flex items-center gap-2 flex-wrap justify-center pt-1">
+          <!-- Xóa viết lại -->
+          <button onclick="clearRecallCanvas()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
+            🗑️ Xóa nét
           </button>
-          <button onclick="showRecallAnswer()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
-            👁️ Xem chữ mẫu (${word.hanzi})
+
+          <!-- Ẩn/Hiện nét mờ -->
+          <button onclick="toggleRecallOutline()" id="btn-toggle-outline" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
+            👁️ Nét mờ: Bật
           </button>
-          <button onclick="skipRecallWord(false)" class="px-4 py-2 rounded-xl bg-rose-950/50 hover:bg-rose-900/60 text-rose-300 text-xs font-bold border border-rose-800/60 transition-all flex items-center gap-1.5 shadow-md">
+
+          <!-- Xem chữ mẫu phát động -->
+          <button onclick="animateRecallChar('${targetChar}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
+            ▶️ Xem mẫu viết
+          </button>
+
+          <!-- Nút ĐÃ VIẾT XONG / KIỂM TRA (Người dùng đánh giá thành phẩm) -->
+          <button onclick="submitRecallWord()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 transition-all flex items-center gap-1.5 transform active:scale-95">
+            ✓ Đã viết xong (Chấm điểm)
+          </button>
+
+          <!-- Nút Chưa nhớ / Bỏ qua -->
+          <button onclick="skipRecallWord()" class="px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-rose-950/60 text-rose-300 text-xs font-bold border border-slate-700 hover:border-rose-800/60 transition-all">
             Chưa nhớ (Bỏ qua)
-          </button>
-          <button onclick="skipRecallWord(true)" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md">
-            Đã thuộc & Tiếp tục ➔
           </button>
         </div>
       </div>
     </div>
   `;
 
-  // Khởi tạo HanziWriter cho chữ đầu tiên của từ
-  initRecallWriter(word.hanzi[0] || '你');
+  initRecallCanvas();
 }
 
-function initRecallWriter(char) {
-  const container = document.getElementById('recall-writer-target');
+function selectRecallChar(idx) {
+  window.MEMORY_HUB.recall.charIndex = idx;
+  renderHanziRecall(document.getElementById('hub-game-area'));
+}
+
+/**
+ * Khởi tạo bảng vẽ Canvas tự do (hỗ trợ cả Chuột và Cảm ứng Mobile mượt mà)
+ */
+function initRecallCanvas() {
+  const canvas = document.getElementById('recall-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const hub = window.MEMORY_HUB;
+  hub.recall.canvas = canvas;
+  hub.recall.ctx = ctx;
+  hub.recall.isDrawing = false;
+  hub.recall.hasDrawn = false;
+
+  ctx.strokeStyle = '#38bdf8'; // Màu xanh cyan đẹp mắt
+  ctx.lineWidth = 14;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  function getCanvasPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: (clientX - rect.left) * (canvas.width / rect.width),
+      y: (clientY - rect.top) * (canvas.height / rect.height)
+    };
+  }
+
+  function startDrawing(e) {
+    e.preventDefault();
+    hub.recall.isDrawing = true;
+    hub.recall.hasDrawn = true;
+    const pos = getCanvasPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  }
+
+  function draw(e) {
+    if (!hub.recall.isDrawing) return;
+    e.preventDefault();
+    const pos = getCanvasPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  }
+
+  function stopDrawing(e) {
+    if (hub.recall.isDrawing) {
+      hub.recall.isDrawing = false;
+      ctx.closePath();
+    }
+  }
+
+  // Sự kiện chuột máy tính
+  canvas.onmousedown = startDrawing;
+  canvas.onmousemove = draw;
+  canvas.onmouseup = stopDrawing;
+  canvas.onmouseleave = stopDrawing;
+
+  // Sự kiện cảm ứng điện thoại / máy tính bảng
+  canvas.ontouchstart = startDrawing;
+  canvas.ontouchmove = draw;
+  canvas.ontouchend = stopDrawing;
+  canvas.ontouchcancel = stopDrawing;
+}
+
+function clearRecallCanvas() {
+  const hub = window.MEMORY_HUB;
+  if (hub.recall.ctx && hub.recall.canvas) {
+    hub.recall.ctx.clearRect(0, 0, hub.recall.canvas.width, hub.recall.canvas.height);
+    hub.recall.hasDrawn = false;
+    const st = document.getElementById('recall-status-text');
+    if (st) st.innerHTML = "✍️ Vẽ tự do bằng chuột hoặc chạm tay vào ô trên";
+  }
+}
+
+function toggleRecallOutline() {
+  const hub = window.MEMORY_HUB;
+  hub.recall.outlineVisible = !hub.recall.outlineVisible;
+  const target = document.getElementById('recall-outline-target');
+  const btn = document.getElementById('btn-toggle-outline');
+  if (target) {
+    target.style.opacity = hub.recall.outlineVisible ? '1' : '0';
+  }
+  if (btn) {
+    btn.innerHTML = hub.recall.outlineVisible ? '👁️ Nét mờ: Bật' : '👁️ Nét mờ: Tắt';
+    btn.className = btn.className.replace(
+      hub.recall.outlineVisible ? 'text-slate-400' : 'text-cyan-300',
+      hub.recall.outlineVisible ? 'text-cyan-300' : 'text-slate-400'
+    );
+  }
+}
+
+function animateRecallChar(char) {
+  const container = document.getElementById('recall-outline-target');
   if (!container || !window.HanziWriter) return;
   container.innerHTML = '';
 
   try {
-    window.MEMORY_HUB.writerInstance = HanziWriter.create(container, char, {
-      width: 250,
-      height: 250,
+    const writer = HanziWriter.create(container, char, {
+      width: 260,
+      height: 260,
       padding: 20,
-      showOutline: false, // Ẩn viền chữ để người dùng tự nhớ nét
-      strokeAnimationSpeed: 1,
-      delayBetweenStrokes: 150,
-      strokeColor: '#38bdf8', // Xanh cyan đẹp
+      showOutline: true,
+      strokeAnimationSpeed: 1.2,
+      delayBetweenStrokes: 120,
+      strokeColor: '#38bdf8',
       radicalColor: '#f43f5e',
-      highlightColor: '#22c55e',
-      drawingColor: '#38bdf8',
-      drawingWidth: 16,
-      showHintAfterMisses: 3
+      outlineColor: '#475569'
     });
-
-    window.MEMORY_HUB.writerInstance.quiz({
-      onMistake: function(strokeData) {
-        playSoundEffect('wrong');
-        const st = document.getElementById('recall-status-text');
-        if (st) st.innerHTML = `<span class="text-rose-400 font-bold">⚠️ Sai nét rồi! Hãy thử vẽ lại nét này nhé.</span>`;
-      },
-      onCorrectStroke: function(strokeData) {
-        playSoundEffect('correct');
-        const st = document.getElementById('recall-status-text');
-        if (st) st.innerHTML = `<span class="text-emerald-400 font-bold">🎉 Nét vẽ rất chuẩn! Tiếp tục nào.</span>`;
-      },
-      onComplete: function(summaryData) {
-        playSoundEffect('match');
-        const st = document.getElementById('recall-status-text');
-        if (st) st.innerHTML = `<span class="text-emerald-400 font-black text-sm">🏆 Xuất sắc! Bạn đã viết xong chữ "${char}"!</span>`;
-        
-        // Tăng điểm
-        window.MEMORY_HUB.score += 15;
-        window.MEMORY_HUB.correctCount++;
-        setWordMastered(window.MEMORY_HUB.currentWord.id, true);
-
-        setTimeout(() => {
-          window.MEMORY_HUB.currentIndex++;
-          loadCurrentQuestion();
-        }, 1200);
-      }
-    });
+    writer.animateCharacter();
   } catch (e) {
-    console.warn("Lỗi khởi tạo HanziWriter:", e);
+    console.warn("Lỗi animation chữ mẫu:", e);
   }
 }
 
-function hintRecallStroke() {
-  if (window.MEMORY_HUB.writerInstance) {
-    window.MEMORY_HUB.writerInstance.animateCharacter();
-  }
-}
-
-function showRecallAnswer() {
-  if (window.MEMORY_HUB.writerInstance) {
-    window.MEMORY_HUB.writerInstance.showOutline();
-  }
-}
-
-function skipRecallWord(isKnown) {
+/**
+ * Người dùng hoàn thành việc viết và bấm Chấm điểm
+ */
+function submitRecallWord() {
   const hub = window.MEMORY_HUB;
-  if (isKnown) {
-    hub.score += 10;
-    hub.correctCount++;
-    setWordMastered(hub.currentWord.id, true);
-  } else {
-    hub.wrongCount++;
-    if (!hub.wrongWords.some(w => w.id === hub.currentWord.id)) {
-      hub.wrongWords.push(hub.currentWord);
-    }
+  const word = hub.currentWord;
+  if (!word) return;
+
+  const st = document.getElementById('recall-status-text');
+  const drawContainer = document.getElementById('recall-draw-container');
+
+  // Kiểm tra nếu người dùng chưa viết gì
+  if (!hub.recall.hasDrawn) {
+    if (st) st.innerHTML = `<span class="text-amber-400 font-bold">⚠️ Hãy dùng chuột hoặc ngón tay để vẽ chữ trước khi chấm điểm nhé!</span>`;
+    return;
   }
-  hub.currentIndex++;
+
+  // Viết thành công!
+  playSoundEffect('match');
+  if (st) st.innerHTML = `<span class="text-emerald-400 font-black text-sm">🏆 Xuất sắc! Nét viết của bạn rất đẹp!</span>`;
+  if (drawContainer) {
+    drawContainer.classList.add('ring-4', 'ring-emerald-500/70', 'border-emerald-500');
+  }
+
+  const mode = 'hanzi_recall';
+  hub.gameStats[mode].score += 15;
+  hub.gameStats[mode].correct++;
+
+  // 1. Thêm vào danh sách đã hoàn thành của game này
+  if (!hub.gameCompleted[mode].includes(word.id)) {
+    hub.gameCompleted[mode].push(word.id);
+  }
+
+  // 2. LOẠI BỎ TỪ NÀY KHỎI HÀNG ĐỢI CỦA MINI-GAME NÀY -> SẼ KHÔNG BAO GIỜ HIỆN LẠI TRONG GAME NÀY NỮA
+  hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
+
+  // 3. Đánh dấu đã thuộc chung
+  setWordMastered(word.id, true);
+
+  hub.recall.charIndex = 0;
+
+  setTimeout(() => {
+    loadCurrentQuestion();
+  }, 1000);
+}
+
+function skipRecallWord() {
+  const hub = window.MEMORY_HUB;
+  const mode = 'hanzi_recall';
+  hub.gameStats[mode].wrong++;
+
+  // Đưa từ này về cuối hàng đợi để người dùng luyện lại sau
+  if (hub.gameQueues[mode].length > 1) {
+    const wrongW = hub.gameQueues[mode].shift();
+    hub.gameQueues[mode].push(wrongW);
+  }
+
+  hub.recall.charIndex = 0;
   loadCurrentQuestion();
 }
 
@@ -579,17 +781,21 @@ function skipRecallWord(isKnown) {
  */
 function renderMatchCards(container) {
   const hub = window.MEMORY_HUB;
-  const allLessonWords = hub.currentWordList;
+  const queue = hub.gameQueues['match_cards'] || [];
 
-  // Lấy 5 từ ngẫu nhiên để tạo 5 cặp
-  const selectedPairs = [...allLessonWords].sort(() => Math.random() - 0.5).slice(0, 5);
+  if (queue.length === 0) {
+    renderSummaryScreen();
+    return;
+  }
+
+  // Lấy tối đa 5 từ trong hàng đợi của game này
+  const selectedPairs = queue.slice(0, 5);
   hub.matchCards.pairs = selectedPairs;
   hub.matchCards.matchedCount = 0;
   hub.matchCards.totalPairs = selectedPairs.length;
   hub.matchCards.selectedZh = null;
   hub.matchCards.selectedVi = null;
 
-  // Tạo mảng thẻ tiếng Trung và tiếng Việt xáo trộn
   const zhCards = selectedPairs.map(w => ({ id: w.id, text: w.hanzi, sub: w.pinyin, type: 'zh' })).sort(() => Math.random() - 0.5);
   const viCards = selectedPairs.map(w => ({ id: w.id, text: w.meaning, type: 'vi' })).sort(() => Math.random() - 0.5);
 
@@ -633,46 +839,55 @@ function renderMatchCards(container) {
 
 function selectMatchCard(id, type) {
   const mc = window.MEMORY_HUB.matchCards;
+  const wordId = Number(id);
 
   if (type === 'zh') {
-    // Bỏ chọn thẻ cũ nếu có
     if (mc.selectedZh) {
       const prevEl = document.getElementById(`card-zh-${mc.selectedZh}`);
       if (prevEl) prevEl.className = prevEl.className.replace('border-blue-500 bg-blue-950/40 ring-4 ring-blue-500/30', 'border-slate-800 bg-slate-900');
     }
-    mc.selectedZh = id;
-    const curEl = document.getElementById(`card-zh-${id}`);
+    mc.selectedZh = wordId;
+    const curEl = document.getElementById(`card-zh-${wordId}`);
     if (curEl) curEl.className = curEl.className.replace('border-slate-800 bg-slate-900', 'border-blue-500 bg-blue-950/40 ring-4 ring-blue-500/30');
     
-    // Phát âm chữ Hán vừa bấm
-    const word = mc.pairs.find(p => p.id === id);
+    const word = mc.pairs.find(p => p.id === wordId);
     if (word) speakChinese(word.hanzi);
   } else {
-    // Chọn thẻ Tiếng Việt
     if (mc.selectedVi) {
       const prevEl = document.getElementById(`card-vi-${mc.selectedVi}`);
       if (prevEl) prevEl.className = prevEl.className.replace('border-indigo-500 bg-indigo-950/40 ring-4 ring-indigo-500/30', 'border-slate-800 bg-slate-900');
     }
-    mc.selectedVi = id;
-    const curEl = document.getElementById(`card-vi-${id}`);
+    mc.selectedVi = wordId;
+    const curEl = document.getElementById(`card-vi-${wordId}`);
     if (curEl) curEl.className = curEl.className.replace('border-slate-800 bg-slate-900', 'border-indigo-500 bg-indigo-950/40 ring-4 ring-indigo-500/30');
   }
 
-  // Nếu đã chọn đủ 1 thẻ tiếng Trung và 1 thẻ tiếng Việt -> Kiểm tra
   if (mc.selectedZh && mc.selectedVi) {
     if (mc.selectedZh === mc.selectedVi) {
       // Đúng cặp!
       playSoundEffect('match');
-      const zhBtn = document.getElementById(`card-zh-${mc.selectedZh}`);
-      const viBtn = document.getElementById(`card-vi-${mc.selectedVi}`);
+      const matchedId = mc.selectedZh;
+      const zhBtn = document.getElementById(`card-zh-${matchedId}`);
+      const viBtn = document.getElementById(`card-vi-${matchedId}`);
 
       if (zhBtn) zhBtn.className = "w-full p-4 rounded-2xl bg-emerald-600/30 border-2 border-emerald-500 text-center transition-all opacity-40 pointer-events-none scale-95";
       if (viBtn) viBtn.className = "w-full p-4 rounded-2xl bg-emerald-600/30 border-2 border-emerald-500 text-center transition-all opacity-40 pointer-events-none scale-95 flex items-center justify-center min-h-[72px]";
 
       mc.matchedCount++;
-      window.MEMORY_HUB.score += 10;
-      window.MEMORY_HUB.correctCount++;
-      setWordMastered(mc.selectedZh, true);
+      const mode = 'match_cards';
+      window.MEMORY_HUB.gameStats[mode].score += 10;
+      window.MEMORY_HUB.gameStats[mode].correct++;
+
+      // 1. Thêm vào danh sách đã hoàn thành của game này
+      if (!window.MEMORY_HUB.gameCompleted[mode].includes(matchedId)) {
+        window.MEMORY_HUB.gameCompleted[mode].push(matchedId);
+      }
+
+      // 2. LOẠI BỎ TỪ NÀY KHỎI HÀNG ĐỢI MATCH_CARDS -> KHÔNG HIỆN LẠI NỮA
+      window.MEMORY_HUB.gameQueues[mode] = window.MEMORY_HUB.gameQueues[mode].filter(w => w.id !== matchedId);
+
+      // 3. Đánh dấu đã thuộc chung
+      setWordMastered(matchedId, true);
 
       const counterBadge = document.getElementById('match-counter-badge');
       if (counterBadge) counterBadge.textContent = `${mc.matchedCount}/${mc.totalPairs} Cặp`;
@@ -680,15 +895,19 @@ function selectMatchCard(id, type) {
       mc.selectedZh = null;
       mc.selectedVi = null;
 
-      // Nếu đã ghép hết 5 cặp -> Hoàn thành vòng chơi ghép cặp
+      // Nếu đã ghép hết 5 cặp của lượt này
       if (mc.matchedCount >= mc.totalPairs) {
         setTimeout(() => {
-          showToast("🎉 Xuất sắc! Bạn đã ghép thành công tất cả các cặp!");
-          renderMatchCards(document.getElementById('hub-game-area'));
+          if (window.MEMORY_HUB.gameQueues[mode].length === 0) {
+            renderSummaryScreen();
+          } else {
+            showToast("🎉 Xuất sắc! Bạn đã ghép thành công lượt này!");
+            renderMatchCards(document.getElementById('hub-game-area'));
+          }
         }, 800);
       }
     } else {
-      // Sai cặp! Rung lắc và bỏ chọn
+      // Sai cặp!
       playSoundEffect('wrong');
       const zhBtn = document.getElementById(`card-zh-${mc.selectedZh}`);
       const viBtn = document.getElementById(`card-vi-${mc.selectedVi}`);
@@ -707,7 +926,7 @@ function selectMatchCard(id, type) {
         mc.selectedVi = null;
       }, 500);
 
-      window.MEMORY_HUB.wrongCount++;
+      window.MEMORY_HUB.gameStats['match_cards'].wrong++;
     }
   }
 }
@@ -720,9 +939,9 @@ function selectMatchCard(id, type) {
 function renderHanziQuiz(container) {
   const hub = window.MEMORY_HUB;
   const word = hub.currentWord;
-  const allWords = window.VOCAB_DATABASE || hub.currentWordList;
+  if (!word) { renderSummaryScreen(); return; }
+  const allWords = window.VOCAB_DATABASE || [];
 
-  // Tạo 4 lựa chọn chữ Hán
   const options = [{ hanzi: word.hanzi, pinyin: word.pinyin, correct: true }];
   while (options.length < Math.min(4, allWords.length)) {
     const r = allWords[Math.floor(Math.random() * allWords.length)];
@@ -734,14 +953,12 @@ function renderHanziQuiz(container) {
 
   container.innerHTML = `
     <div class="space-y-6 animate-in fade-in zoom-in-95 duration-200">
-      <!-- Thẻ nghĩa tiếng Việt mục tiêu -->
       <div class="p-6 rounded-3xl bg-slate-950/70 border border-slate-800 text-center space-y-2">
         <span class="text-xs text-indigo-400 font-black uppercase tracking-wider block">Hãy chọn Chữ Hán mang nghĩa:</span>
         <h3 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">"${word.meaning}"</h3>
         <p class="text-xs text-slate-400">Rèn luyện phản xạ nhớ mặt chữ từ tiếng Việt</p>
       </div>
 
-      <!-- 4 Ô Chữ Hán -->
       <div class="grid grid-cols-2 gap-3.5">
         ${options.map(opt => `
           <button onclick="handleOptionSelect(this, '${opt.hanzi}', '${word.hanzi}')" class="p-5 rounded-2xl text-center bg-slate-900 border-2 border-slate-800 hover:border-blue-500 hover:bg-slate-850 transition-all shadow-md active:scale-95 group">
@@ -762,12 +979,11 @@ function renderHanziQuiz(container) {
 function renderFlashcard(container) {
   const hub = window.MEMORY_HUB;
   const word = hub.currentWord;
+  if (!word) { renderSummaryScreen(); return; }
 
   container.innerHTML = `
     <div class="space-y-6 animate-in fade-in zoom-in-95 duration-200 flex flex-col items-center">
-      <!-- Thẻ Flashcard 3D có thể bấm lật -->
       <div id="flashcard-card" onclick="flipFlashcard()" class="w-full max-w-md h-72 rounded-3xl bg-gradient-to-tr from-slate-950 via-slate-900 to-indigo-950/40 border-2 border-slate-700/80 shadow-2xl p-6 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-all duration-500 relative group hover:border-blue-500">
-        <!-- Huy hiệu mặt trước / mặt sau -->
         <span id="flashcard-badge" class="absolute top-4 left-4 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-slate-800 text-slate-400 border border-slate-700">
           Mặt trước (Chữ Hán)
         </span>
@@ -776,14 +992,12 @@ function renderFlashcard(container) {
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
         </button>
 
-        <!-- Nội dung thẻ -->
         <div id="flashcard-content" class="space-y-3">
           <span class="text-6xl sm:text-7xl font-black text-white chinese-font block tracking-widest drop-shadow-lg">${word.hanzi}</span>
           <p class="text-xs text-slate-400 animate-pulse">👆 Chạm vào thẻ để lật xem Pinyin & Nghĩa</p>
         </div>
       </div>
 
-      <!-- 2 Nút Đánh Giá Trí Nhớ -->
       <div class="flex items-center gap-4 w-full max-w-md justify-between">
         <button onclick="handleFlashcardRating(false)" class="flex-1 py-3 px-4 rounded-2xl bg-rose-950/60 hover:bg-rose-900 border border-rose-700/80 text-rose-200 font-bold text-xs shadow-lg flex items-center justify-center gap-2 transition-all">
           <span class="text-base">❌</span> Chưa Nhớ (Ôn lại)
@@ -814,10 +1028,10 @@ function flipFlashcard() {
         <span class="text-3xl font-black text-white chinese-font block">${word.hanzi}</span>
         <p class="text-2xl font-black text-cyan-300 italic">${word.pinyin}</p>
         <p class="text-base font-bold text-slate-100 mt-2">${word.meaning}</p>
-        ${word.example_zh ? `
+        ${word.ex_hz ? `
           <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-300 mt-2">
-            <p class="font-bold text-cyan-400 chinese-font">${word.example_zh}</p>
-            <p class="text-slate-400 mt-0.5">${word.example_vi || ''}</p>
+            <p class="font-bold text-cyan-400 chinese-font">${word.ex_hz}</p>
+            <p class="text-slate-400 mt-0.5">${word.ex_vi || ''}</p>
           </div>
         ` : ''}
       </div>
@@ -837,56 +1051,78 @@ function flipFlashcard() {
 
 function handleFlashcardRating(isKnown) {
   const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  if (!word) return;
+  const mode = 'flashcard';
   flashcardFlipped = false;
 
   if (isKnown) {
     playSoundEffect('correct');
-    hub.score += 10;
-    hub.correctCount++;
-    setWordMastered(hub.currentWord.id, true);
+    hub.gameStats[mode].score += 10;
+    hub.gameStats[mode].correct++;
+
+    // Thêm vào hoàn thành của game này
+    if (!hub.gameCompleted[mode].includes(word.id)) {
+      hub.gameCompleted[mode].push(word.id);
+    }
+    // XÓA TỪ NÀY KHỎI HÀNG ĐỢI FLASHCARD -> KHÔNG HIỆN LẠI TRONG FLASHCARD NỮA
+    hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
+    setWordMastered(word.id, true);
   } else {
     playSoundEffect('wrong');
-    hub.wrongCount++;
-    if (!hub.wrongWords.some(w => w.id === hub.currentWord.id)) {
-      hub.wrongWords.push(hub.currentWord);
+    hub.gameStats[mode].wrong++;
+    // Đưa về cuối hàng đợi flashcard để hỏi lại
+    if (hub.gameQueues[mode].length > 1) {
+      const wrongW = hub.gameQueues[mode].shift();
+      hub.gameQueues[mode].push(wrongW);
     }
   }
 
-  hub.currentIndex++;
   loadCurrentQuestion();
 }
 
 /**
- * Xử lý khi người dùng bấm vào một lựa chọn trong trắc nghiệm
+ * Xử lý khi người dùng chọn đáp án trong trắc nghiệm
  */
 function handleOptionSelect(btnEl, selectedVal, correctVal) {
   const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  if (!word) return;
+  const mode = hub.activeMode;
   const isCorrect = selectedVal === correctVal;
 
-  // Khóa tất cả các nút để tránh bấm nhiều lần
   const allBtns = btnEl.parentElement.querySelectorAll('button');
   allBtns.forEach(b => b.classList.add('pointer-events-none'));
 
   if (isCorrect) {
     playSoundEffect('correct');
     btnEl.className = btnEl.className.replace(/bg-slate-[0-9]+/, 'bg-emerald-600 border-emerald-500 text-white font-extrabold shadow-lg shadow-emerald-600/30');
-    hub.score += 10;
-    hub.correctCount++;
-    setWordMastered(hub.currentWord.id, true);
+    hub.gameStats[mode].score += 10;
+    hub.gameStats[mode].correct++;
 
-    // Phát âm từ đúng
-    speakChinese(hub.currentWord.hanzi);
+    // 1. Thêm vào danh sách hoàn thành của mode này
+    if (!hub.gameCompleted[mode].includes(word.id)) {
+      hub.gameCompleted[mode].push(word.id);
+    }
+
+    // 2. LOẠI BỎ TỪ NÀY KHỎI HÀNG ĐỢI CỦA MODE NÀY -> SẼ KHÔNG BAO GIỜ HIỆN LẠI TRONG MODE NÀY NỮA
+    hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
+
+    // 3. Đánh dấu đã thuộc chung
+    setWordMastered(word.id, true);
+
+    speakChinese(word.hanzi);
   } else {
     playSoundEffect('wrong');
     btnEl.className = btnEl.className.replace(/bg-slate-[0-9]+/, 'bg-rose-600 border-rose-500 text-white font-extrabold shadow-lg shadow-rose-600/30');
-    hub.wrongCount++;
+    hub.gameStats[mode].wrong++;
 
-    // Thêm vào danh sách từ làm sai để ôn lại
-    if (!hub.wrongWords.some(w => w.id === hub.currentWord.id)) {
-      hub.wrongWords.push(hub.currentWord);
+    // Đưa từ sai về cuối hàng đợi của mode này để người dùng gặp lại và làm lại
+    if (hub.gameQueues[mode].length > 1) {
+      const wrongW = hub.gameQueues[mode].shift();
+      hub.gameQueues[mode].push(wrongW);
     }
 
-    // Hiển thị đáp án đúng
     allBtns.forEach(b => {
       if (b.innerText.includes(correctVal) || b.textContent.includes(correctVal)) {
         b.className = b.className.replace(/bg-slate-[0-9]+/, 'bg-emerald-600/80 border-emerald-400 text-white');
@@ -894,16 +1130,14 @@ function handleOptionSelect(btnEl, selectedVal, correctVal) {
     });
   }
 
-  // Chờ 800ms rồi chuyển câu tiếp theo
   setTimeout(() => {
-    hub.currentIndex++;
     loadCurrentQuestion();
   }, 850);
 }
 
 /**
  * ==============================================================================
- * MÀN HÌNH TỔNG KẾT VÒNG CHƠI (SUMMARY REPORT)
+ * MÀN HÌNH TỔNG KẾT VÒNG CHƠI (RIÊNG BIỆT CHO TỪNG MINI GAME)
  * ==============================================================================
  */
 function renderSummaryScreen() {
@@ -915,88 +1149,63 @@ function renderSummaryScreen() {
   gameArea.classList.add('hidden');
   summaryBox.classList.remove('hidden');
 
-  const total = hub.currentWordList.length;
-  const correct = hub.correctCount;
-  const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const mode = hub.activeMode;
+  const modeNames = {
+    meaning_quiz: '🎯 Trắc nghiệm nghĩa',
+    listening_quiz: '🎧 Nghe đoán từ',
+    hanzi_recall: '✍️ Luyện viết tự do',
+    match_cards: '🧩 Ghép cặp nối từ',
+    hanzi_quiz: '🔍 Nhìn tiếng Việt đoán chữ Hán',
+    flashcard: '⚡ Flashcard 3D'
+  };
 
-  let title = "Hoàn Thành Vòng Luyện! 🎉";
-  let badgeColor = "text-emerald-400";
-  if (percent === 100) {
-    title = "Tuyệt Đỉnh! Thuộc Lòng 100% 🏆";
-    badgeColor = "text-amber-300";
-  } else if (percent >= 80) {
-    title = "Rất Xuất Sắc! Tiến Bộ Vượt Bậc 🌟";
-    badgeColor = "text-emerald-400";
-  } else {
-    title = "Cần Cố Gắng Thêm Chút Nữa 💪";
-    badgeColor = "text-rose-400";
-  }
+  const stats = hub.gameStats[mode] || { correct: 0, wrong: 0, score: 0 };
+  const completedList = hub.gameCompleted[mode] || [];
+  const totalMasteredInMode = completedList.length;
 
   summaryBox.innerHTML = `
     <div class="text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
-      <!-- Tiêu đề & Điểm số lớn -->
+      <!-- Tiêu đề & Huy hiệu chiến thắng -->
       <div class="p-6 rounded-3xl bg-slate-950/80 border border-slate-800 space-y-3">
-        <h3 class="text-2xl font-black ${badgeColor}">${title}</h3>
-        <div class="flex items-center justify-center gap-6 pt-2">
+        <span class="text-4xl">🏆</span>
+        <h3 class="text-2xl font-black text-amber-300">
+          Chúc Mừng! Hoàn Thành Toàn Bộ Từ!
+        </h3>
+        <p class="text-xs text-slate-400">
+          Bạn đã xuất sắc chinh phục tất cả từ vựng trong chế độ: <span class="font-bold text-white">${modeNames[mode] || mode}</span>
+        </p>
+
+        <!-- Thống kê điểm số -->
+        <div class="flex items-center justify-center gap-6 pt-3">
           <div>
-            <span class="text-4xl font-black text-white">${percent}%</span>
-            <p class="text-xs text-slate-400 mt-1">Tỷ lệ chính xác</p>
+            <span class="text-4xl font-black text-white">${totalMasteredInMode}</span>
+            <p class="text-xs text-slate-400 mt-1">Từ đã vượt qua</p>
           </div>
           <div class="h-10 w-[1px] bg-slate-800"></div>
           <div>
-            <span class="text-4xl font-black text-amber-400">${hub.score}</span>
-            <p class="text-xs text-slate-400 mt-1">Tổng điểm đạt được</p>
+            <span class="text-4xl font-black text-amber-400">${stats.score}</span>
+            <p class="text-xs text-slate-400 mt-1">Điểm đạt được</p>
           </div>
           <div class="h-10 w-[1px] bg-slate-800"></div>
           <div>
-            <span class="text-4xl font-black text-emerald-400">${correct}/${total}</span>
-            <p class="text-xs text-slate-400 mt-1">Số từ ghi nhớ</p>
+            <span class="text-4xl font-black text-emerald-400">${stats.correct}</span>
+            <p class="text-xs text-slate-400 mt-1">Lần trả lời đúng</p>
           </div>
         </div>
       </div>
 
-      <!-- Danh sách từ cần ôn lại (nếu có từ sai) -->
-      ${hub.wrongWords.length > 0 ? `
-        <div class="text-left space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-              <span>⚠️</span> Các Từ Làm Sai Cần Ôn Lại (${hub.wrongWords.length} từ):
-            </h4>
-            <span class="text-[11px] text-slate-500">Bấm loa để nghe lại</span>
-          </div>
+      <!-- Danh sách từ đã chinh phục trong game này -->
+      <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-2">
+        <span>✓</span> Toàn bộ từ của bài học đã được làm đúng trong chế độ này!
+      </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-56 overflow-y-auto pr-1">
-            ${hub.wrongWords.map(w => `
-              <div class="p-3 rounded-2xl bg-slate-950 border border-rose-900/50 flex items-center justify-between">
-                <div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-xl font-black text-white chinese-font">${w.hanzi}</span>
-                    <span class="text-xs text-cyan-400 font-mono italic">${w.pinyin}</span>
-                  </div>
-                  <p class="text-xs text-slate-300 mt-0.5">${w.meaning}</p>
-                </div>
-                <button onclick="speakChinese('${w.hanzi}')" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-                </button>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      ` : `
-        <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold">
-          🎉 Chúc mừng! Bạn không làm sai bất kỳ từ nào trong vòng luyện này!
-        </div>
-      `}
-
-      <!-- Nút Hành Động Cuối Vòng -->
-      <div class="flex items-center gap-3 justify-center pt-2">
-        ${hub.wrongWords.length > 0 ? `
-          <button onclick="openMemoryHub('${hub.activeMode}', true)" class="px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs shadow-lg shadow-rose-600/30 transition-all flex items-center gap-2">
-            <span>🎯</span> Ôn Lại Riêng Các Từ Sai (${hub.wrongWords.length})
-          </button>
-        ` : ''}
-        <button onclick="openMemoryHub('${hub.activeMode}', false)" class="px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2">
-          <span>🔄</span> Luyện Tiếp Vòng Mới
+      <!-- Nút Hành Động -->
+      <div class="flex items-center gap-3 justify-center pt-2 flex-wrap">
+        <button onclick="resetCurrentModeQueue()" class="px-5 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-extrabold text-xs shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2">
+          <span>🔄</span> Chơi Lại Chế Độ Này (Reset lượt chơi)
+        </button>
+        <button onclick="confirmResetLessonProgress()" class="px-5 py-3 rounded-2xl bg-rose-600/30 hover:bg-rose-600 text-rose-300 hover:text-white font-bold text-xs border border-rose-500/40 transition-all flex items-center gap-1.5">
+          <span>⚠️</span> Đặt lại cả bài học
         </button>
         <button onclick="closeMemoryHub()" class="px-5 py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-slate-700 transition-all">
           Đóng
@@ -1020,9 +1229,13 @@ window.selectMatchCard = selectMatchCard;
 window.flipFlashcard = flipFlashcard;
 window.handleFlashcardRating = handleFlashcardRating;
 window.toggleListeningSubMode = toggleListeningSubMode;
-window.hintRecallStroke = hintRecallStroke;
-window.showRecallAnswer = showRecallAnswer;
+window.clearRecallCanvas = clearRecallCanvas;
+window.toggleRecallOutline = toggleRecallOutline;
+window.animateRecallChar = animateRecallChar;
+window.submitRecallWord = submitRecallWord;
 window.skipRecallWord = skipRecallWord;
+window.selectRecallChar = selectRecallChar;
+window.resetCurrentModeQueue = resetCurrentModeQueue;
 window.getMasteredWords = getMasteredWords;
 window.setWordMastered = setWordMastered;
 window.updateMasteredDisplay = updateMasteredDisplay;
