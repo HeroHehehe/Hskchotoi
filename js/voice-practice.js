@@ -15,6 +15,7 @@ let userAudioPlayer = null;
 let recognitionInstance = null;
 let silenceTimer = null;
 let lastSpokenText = "";
+let latestRecognizedSpeech = "";
 
 /**
  * Mở Modal Luyện Phát Âm
@@ -289,6 +290,7 @@ function toggleRecording() {
  */
 async function startRecording() {
   lastSpokenText = "";
+  latestRecognizedSpeech = "";
   audioChunks = [];
 
   try {
@@ -364,6 +366,7 @@ function startSpeechRecognition() {
       }
 
       const rawCombined = (lastSpokenText + " " + interimTranscript).trim();
+      latestRecognizedSpeech = rawCombined || lastSpokenText || "";
       const currentSpeech = cleanChineseText(rawCombined);
       const targetHanzi = cleanChineseText(currentVoiceWord.hanzi);
 
@@ -384,7 +387,7 @@ function startSpeechRecognition() {
       const spokenPinyinClean = window.stripPinyinTone ? window.stripPinyinTone(spokenPinyinStr) : '';
 
       if (currentSpeech.includes(targetHanzi) || (targetPinyinClean && spokenPinyinClean.includes(targetPinyinClean))) {
-        lastSpokenText = rawCombined || currentVoiceWord.hanzi;
+        latestRecognizedSpeech = rawCombined || currentVoiceWord.hanzi;
         clearTimeout(silenceTimer);
         // Chốt kết quả ngay sau 200ms
         silenceTimer = setTimeout(() => {
@@ -393,14 +396,22 @@ function startSpeechRecognition() {
         return;
       }
 
-      // 2. Tự động dừng và chấm điểm sau 900ms im lặng nếu đã thu được giọng nói
+      // 2. Tự động dừng và chấm điểm sau 850ms im lặng nếu đã thu được giọng nói
       clearTimeout(silenceTimer);
       silenceTimer = setTimeout(() => {
-        if (isRecording && rawCombined) {
-          lastSpokenText = rawCombined;
+        if (isRecording && (latestRecognizedSpeech || rawCombined)) {
           stopRecording(true);
         }
-      }, 900);
+      }, 850);
+    };
+
+    recognitionInstance.onspeechend = () => {
+      clearTimeout(silenceTimer);
+      silenceTimer = setTimeout(() => {
+        if (isRecording && (latestRecognizedSpeech || lastSpokenText)) {
+          stopRecording(true);
+        }
+      }, 400);
     };
 
     recognitionInstance.onerror = (event) => {
@@ -441,7 +452,7 @@ function stopRecording(evaluate = true) {
   }
 
   if (evaluate) {
-    const spoken = (lastSpokenText || "").trim();
+    const spoken = (latestRecognizedSpeech || lastSpokenText || "").trim();
     let evalResult = null;
     try {
       evalResult = evaluateSpeech(currentVoiceWord.hanzi, spoken);
@@ -656,4 +667,7 @@ function renderPronunciationGuideUI(word) {
 
   container.innerHTML = html;
 }
+
+window.evaluateSpeech = evaluateSpeech;
+window.cleanChineseText = cleanChineseText;
 

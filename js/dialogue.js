@@ -326,6 +326,7 @@ function renderDialogueLine(line, index, roles) {
   const isUserRole = (window.DialogueState.rolePlayMode && window.DialogueState.selectedRole === line.speaker);
   const isRolePlayTurn = (window.DialogueState.rolePlayMode && window.DialogueState.rolePlayActive && window.DialogueState.rolePlayTurnIndex === index);
   const isPassed = Boolean(window.DialogueState.rolePlayPassedLines && window.DialogueState.rolePlayPassedLines[index]);
+  const evalData = (window.DialogueState.rolePlayEvaluations && window.DialogueState.rolePlayEvaluations[index]);
 
   return `
     <div id="dlg-line-${index}" class="flex items-start gap-3 transition-all duration-300 ${
@@ -415,27 +416,85 @@ function renderDialogueLine(line, index, roles) {
           </p>
         ` : ''}
 
-        <!-- KHU VỰC TƯƠNG TÁC ĐÓNG VAI: MICRO ĐANG LẮNG NGHE TRỰC TIẾP TẠI Ô THOẠI NÀY -->
-        ${isRolePlayTurn && isUserRole ? `
-          <div id="roleplay-status-box-${index}" class="mt-3 p-3 rounded-2xl bg-rose-950/90 border border-rose-500/80 shadow-lg flex items-center justify-between gap-3 flex-wrap animate-fadeIn">
-            <div class="flex items-center gap-3">
-              <!-- Nút micro đỏ nhấp nháy phát sáng -->
-              <div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center animate-pulse shadow-lg shadow-rose-600/60 ring-2 ring-rose-400/50 flex-shrink-0">
-                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
-              </div>
-              <div>
-                <p class="text-xs font-black text-rose-300 flex items-center gap-1.5">
-                  <span>🎙️ Mic đang nghe bạn nói...</span>
-                </p>
-                <p id="roleplay-live-text-${index}" class="text-[11px] text-cyan-300 font-bold mt-0.5">
-                  ${window.DialogueState.rolePlaySpokenText ? 'Đang nhận diện: "' + window.DialogueState.rolePlaySpokenText + '"' : 'Hãy đọc to câu thoại trên vào micro!'}
-                </p>
-              </div>
-            </div>
+        <!-- KHU VỰC TƯƠNG TÁC ĐÓNG VAI: MICRO & CHẤM ĐIỂM CHI TIẾT TẠI Ô THOẠI -->
+        ${isUserRole && (isRolePlayTurn || evalData) ? `
+          <div id="roleplay-status-box-${index}" class="mt-3 p-3.5 rounded-2xl bg-slate-950/95 border ${
+            evalData 
+              ? (evalData.isPass ? 'border-emerald-500/70 shadow-emerald-950/40' : 'border-rose-500/70 shadow-rose-950/40') 
+              : 'border-rose-500/80 shadow-rose-900/50 ring-2 ring-rose-500/30'
+          } shadow-xl space-y-2.5 animate-fadeIn">
+            
+            ${evalData ? `
+              <!-- MÀN HÌNH ĐÁNH GIÁ ĐIỂM SỐ & NHẬN XÉT CHI TIẾT (GIỐNG PHẦN TỪ VỰNG) -->
+              <div class="flex items-center justify-between gap-3 border-b border-slate-800/80 pb-2 flex-wrap">
+                <div class="flex items-center gap-2.5">
+                  <span class="text-2xl font-black ${evalData.isPass ? 'text-emerald-400' : 'text-rose-400'}">${evalData.accuracy}%</span>
+                  <div>
+                    <p class="text-xs font-bold ${evalData.isPass ? 'text-emerald-300' : 'text-rose-300'}">${evalData.feedback}</p>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Bạn đã nói: "<span class="text-slate-200 font-medium">${evalData.userSpoken}</span>"</p>
+                  </div>
+                </div>
 
-            <button onclick="skipRolePlayUserTurn(${index})" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold border border-slate-700 transition-all flex items-center gap-1 shadow-sm">
-              <span>Máy đọc hộ</span> ⏭️
-            </button>
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  ${!evalData.isPass ? `
+                    <button onclick="retryRolePlayLine(${index})" class="px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-black shadow-md shadow-rose-600/30 transition-all flex items-center gap-1">
+                      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+                      Đọc lại câu này
+                    </button>
+                  ` : `
+                    <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                      <svg class="w-4 h-4 text-emerald-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                      Đang chuyển cho Bạn diễn...
+                    </span>
+                  `}
+                  <button onclick="skipRolePlayUserTurn(${index})" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold border border-slate-700 transition-all">
+                    Máy đọc hộ ⏭️
+                  </button>
+                </div>
+              </div>
+
+              <!-- Thẻ phân tích từng chữ Hán Đúng / Sai -->
+              <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
+                ${(evalData.charResults || []).map(c => `
+                  <span class="px-2 py-0.5 rounded-lg text-xs font-black chinese-font ${
+                    c.isCorrect 
+                      ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/40' 
+                      : 'bg-rose-950/90 text-rose-300 border border-rose-500/60 animate-pulse'
+                  }">
+                    ${c.char} ${c.isCorrect ? '✓' : '✗'}
+                  </span>
+                `).join('')}
+              </div>
+            ` : `
+              <!-- MÀN HÌNH ĐANG LẮNG NGHE BẠN NÓI -->
+              <div class="flex items-center justify-between gap-3 flex-wrap">
+                <div class="flex items-center gap-3">
+                  <!-- Mic đỏ nhấp nháy -->
+                  <div class="w-9 h-9 rounded-full bg-rose-600 text-white flex items-center justify-center animate-pulse shadow-lg shadow-rose-600/60 ring-2 ring-rose-400/50 flex-shrink-0">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+                  </div>
+                  <div>
+                    <p class="text-xs font-black text-rose-300 flex items-center gap-1.5">
+                      <span>🎙️ Mic đang nghe... Hãy đọc to trọn vẹn cả câu!</span>
+                    </p>
+                    <p id="roleplay-live-text-${index}" class="text-[11px] text-cyan-300 font-bold mt-0.5">
+                      ${window.DialogueState.rolePlaySpokenText ? 'Đang nhận diện: "' + window.DialogueState.rolePlaySpokenText + '"' : 'Nói to rõ cả câu vào micro...'}
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button onclick="manualGradeRolePlay(${index})" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-md shadow-emerald-600/30 transition-all flex items-center gap-1 animate-bounce">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    Chấm điểm
+                  </button>
+                  <button onclick="skipRolePlayUserTurn(${index})" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold border border-slate-700 transition-all">
+                    Máy đọc hộ ⏭️
+                  </button>
+                </div>
+              </div>
+            `}
+
           </div>
         ` : ''}
 
@@ -500,6 +559,8 @@ function selectRolePlayRole(role) {
   startInteractiveRolePlay(0);
 }
 
+let rolePlaySilenceTimer = null;
+
 /**
  * Chuẩn hóa chuỗi tiếng Trung để so sánh
  */
@@ -509,25 +570,132 @@ function cleanChineseText(str) {
 }
 
 /**
- * So khớp xem người dùng đã nói đúng câu thoại chưa
+ * Đánh giá chấm điểm câu thoại đóng vai (Sử dụng module chẩn đoán âm vị học)
  */
-function isDialogueSentenceMatched(targetHanzi, spokenText) {
-  const cleanTarget = cleanChineseText(targetHanzi);
-  const cleanSpoken = cleanChineseText(spokenText);
-  if (!cleanSpoken || !cleanTarget) return false;
-
-  // 1. Trùng khớp hoàn toàn hoặc chứa câu mục tiêu
-  if (cleanSpoken.includes(cleanTarget) || (cleanTarget.includes(cleanSpoken) && cleanSpoken.length >= Math.min(2, cleanTarget.length * 0.5))) {
-    return true;
+function gradeRolePlaySentence(targetHanzi, spokenText) {
+  if (typeof window.evaluateSpeech === 'function') {
+    try {
+      const res = window.evaluateSpeech(targetHanzi, spokenText);
+      if (res && typeof res.accuracy === 'number') {
+        return res;
+      }
+    } catch (e) {
+      console.warn("Lỗi evaluateSpeech roleplay:", e);
+    }
   }
 
-  // 2. So khớp từng chữ Hán (đạt >= 50% số chữ)
-  const targetChars = Array.from(cleanTarget);
+  // Fallback nếu chưa nạp module
+  const cleanTargetPure = (targetHanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+  const cleanSpoken = (spokenText || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "").toLowerCase();
+
+  const targetChars = Array.from(cleanTargetPure);
+  if (!cleanSpoken || targetChars.length === 0) {
+    return {
+      accuracy: 0,
+      isPerfect: false,
+      userSpoken: spokenText || "(Chưa có âm thanh)",
+      charResults: targetChars.map(c => ({ char: c, isCorrect: false }))
+    };
+  }
+
   let matched = 0;
-  for (let c of targetChars) {
-    if (cleanSpoken.includes(c)) matched++;
+  const charResults = targetChars.map(c => {
+    const isCorrect = cleanSpoken.includes(c.toLowerCase());
+    if (isCorrect) matched++;
+    return { char: c, isCorrect: isCorrect };
+  });
+
+  const accuracy = Math.round((matched / targetChars.length) * 100);
+  return {
+    accuracy: accuracy,
+    isPerfect: accuracy >= 80,
+    userSpoken: spokenText,
+    charResults: charResults
+  };
+}
+
+/**
+ * Kết thúc nói và chấm điểm câu thoại của Người dùng
+ * - Phải đọc trọn vẹn cả câu (đủ độ dài)
+ * - Đạt điểm >= 70% mới cho đi tiếp
+ * - Nếu chưa đạt: Dừng lại và yêu cầu nói lại
+ */
+function finishAndGradeRolePlaySentence(line, index, spokenText) {
+  stopRolePlayRecognition();
+
+  const evalResult = gradeRolePlaySentence(line.hanzi, spokenText);
+  const cleanTargetPure = (line.hanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+  const cleanSpoken = (spokenText || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+
+  // ĐIỀU KIỆN TIÊN QUYẾT: Phải đọc cả câu (độ dài >= 60% tổng số chữ câu thoại) VÀ điểm số >= 70%
+  const isFullLength = cleanSpoken.length >= Math.max(1, Math.round(cleanTargetPure.length * 0.6));
+  const isPass = (evalResult.accuracy >= 70) && isFullLength;
+
+  let feedback = "";
+  if (isPass) {
+    feedback = "🎉 Xuất sắc! Bạn phát âm trọn vẹn và rất chuẩn xác!";
+  } else if (!isFullLength) {
+    feedback = `⚠️ Bạn mới đọc ${cleanSpoken.length}/${cleanTargetPure.length} chữ. Hãy đọc trọn vẹn cả câu!`;
+  } else {
+    feedback = `⚠️ Chưa đạt (cần ≥ 70%). Hãy đọc lại những chữ màu đỏ!`;
   }
-  return (matched / targetChars.length) >= 0.5;
+
+  window.DialogueState.rolePlayEvaluations[index] = {
+    accuracy: evalResult.accuracy,
+    isPass: isPass,
+    userSpoken: spokenText || "(Chưa nghe rõ)",
+    charResults: evalResult.charResults || [],
+    feedback: feedback
+  };
+
+  if (isPass) {
+    // ĐẠT CHUẨN: Đánh dấu câu xong và cho Máy đối thoại tiếp!
+    window.DialogueState.rolePlayPassedLines[index] = true;
+    if (typeof playSoundEffect === 'function') {
+      playSoundEffect('correct');
+    }
+    renderDialogueView();
+
+    // Máy tự động đáp lại câu tiếp theo sau 1.3 giây
+    setTimeout(() => {
+      if (window.DialogueState.rolePlayActive) {
+        executeRolePlayTurn(index + 1);
+      }
+    }, 1300);
+  } else {
+    // CHƯA ĐẠT: DỪNG LẠI TẠI CÂU NÀY, YÊU CẦU NÓI LẠI!
+    if (typeof playSoundEffect === 'function') {
+      playSoundEffect('wrong');
+    }
+    renderDialogueView();
+  }
+}
+
+/**
+ * Người dùng bấm nút Chấm điểm thủ công
+ */
+function manualGradeRolePlay(index) {
+  const data = getCurrentDialogueData();
+  if (!data || !data.dialogue.lines[index]) return;
+  const line = data.dialogue.lines[index];
+  const spoken = window.DialogueState.rolePlaySpokenText || "";
+  finishAndGradeRolePlaySentence(line, index, spoken);
+}
+
+/**
+ * Đọc lại câu thoại khi chưa đạt điểm
+ */
+function retryRolePlayLine(index) {
+  if (window.DialogueState.rolePlayEvaluations) {
+    delete window.DialogueState.rolePlayEvaluations[index];
+  }
+  window.DialogueState.rolePlaySpokenText = "";
+  renderDialogueView();
+
+  const data = getCurrentDialogueData();
+  if (data && data.dialogue.lines[index]) {
+    startRolePlayRecognition(data.dialogue.lines[index], index);
+  }
 }
 
 /**
@@ -547,6 +715,7 @@ function startInteractiveRolePlay(startIdx = 0) {
   window.DialogueState.rolePlayActive = true;
   window.DialogueState.rolePlayTurnIndex = startIdx;
   window.DialogueState.rolePlayPassedLines = {};
+  window.DialogueState.rolePlayEvaluations = {};
   window.DialogueState.rolePlaySpokenText = "";
 
   renderDialogueView();
@@ -668,6 +837,8 @@ function startRolePlayRecognition(line, index) {
     window.DialogueState.rolePlayRecognition = recognition;
     window.DialogueState.rolePlayListening = true;
 
+    let currentAccumulatedSpeech = "";
+
     recognition.onresult = (event) => {
       let interim = "";
       let finalStr = "";
@@ -678,7 +849,8 @@ function startRolePlayRecognition(line, index) {
           interim += event.results[i][0].transcript;
         }
       }
-      const rawCombined = (finalStr + " " + interim).trim();
+      const rawCombined = (currentAccumulatedSpeech + " " + finalStr + " " + interim).trim();
+      if (finalStr) currentAccumulatedSpeech += " " + finalStr;
       if (!rawCombined) return;
 
       window.DialogueState.rolePlaySpokenText = rawCombined;
@@ -687,34 +859,27 @@ function startRolePlayRecognition(line, index) {
         liveTextEl.textContent = `Bạn đang nói: "${rawCombined}"`;
       }
 
-      // Kiểm tra nếu người dùng đã nói đúng câu này
-      if (isDialogueSentenceMatched(line.hanzi, rawCombined)) {
-        // ĐÚNG CÂU THOẠI!
-        window.DialogueState.rolePlayPassedLines[index] = true;
-        stopRolePlayRecognition();
-
-        if (typeof playSoundEffect === 'function') {
-          playSoundEffect('correct');
+      // Tự động dừng và chấm điểm cả câu sau 850ms im lặng
+      clearTimeout(rolePlaySilenceTimer);
+      rolePlaySilenceTimer = setTimeout(() => {
+        if (window.DialogueState.rolePlayActive && 
+            window.DialogueState.rolePlayTurnIndex === index && 
+            !window.DialogueState.rolePlayEvaluations[index]) {
+          finishAndGradeRolePlaySentence(line, index, rawCombined);
         }
+      }, 850);
+    };
 
-        // Cập nhật giao diện ô thoại báo thành công
-        const statusBox = document.getElementById(`roleplay-status-box-${index}`);
-        if (statusBox) {
-          statusBox.innerHTML = `
-            <span class="text-xs font-black text-emerald-400 flex items-center gap-1.5 animate-bounce">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-              Đúng rồi! Rất xuất sắc 🎉
-            </span>
-          `;
+    recognition.onspeechend = () => {
+      clearTimeout(rolePlaySilenceTimer);
+      rolePlaySilenceTimer = setTimeout(() => {
+        if (window.DialogueState.rolePlayActive && 
+            window.DialogueState.rolePlayTurnIndex === index && 
+            window.DialogueState.rolePlaySpokenText &&
+            !window.DialogueState.rolePlayEvaluations[index]) {
+          finishAndGradeRolePlaySentence(line, index, window.DialogueState.rolePlaySpokenText);
         }
-
-        // Chuyển sang lượt tiếp theo của Máy sau 650ms
-        setTimeout(() => {
-          if (window.DialogueState.rolePlayActive) {
-            executeRolePlayTurn(index + 1);
-          }
-        }, 650);
-      }
+      }, 400);
     };
 
     recognition.onerror = (err) => {
@@ -722,10 +887,10 @@ function startRolePlayRecognition(line, index) {
     };
 
     recognition.onend = () => {
-      // Nếu vẫn đang đến lượt bạn và chưa nói đúng câu -> tự động lắng nghe tiếp
+      // Nếu vẫn đang đến lượt bạn và chưa có kết quả đánh giá -> tự động lắng nghe tiếp
       if (window.DialogueState.rolePlayActive && 
           window.DialogueState.rolePlayTurnIndex === index && 
-          !window.DialogueState.rolePlayPassedLines[index]) {
+          !window.DialogueState.rolePlayEvaluations[index]) {
         try { recognition.start(); } catch(e) {}
       }
     };
@@ -741,6 +906,7 @@ function startRolePlayRecognition(line, index) {
  */
 function stopRolePlayRecognition() {
   window.DialogueState.rolePlayListening = false;
+  clearTimeout(rolePlaySilenceTimer);
   if (window.DialogueState.rolePlayRecognition) {
     try {
       window.DialogueState.rolePlayRecognition.abort();
@@ -983,6 +1149,8 @@ window.startInteractiveRolePlay = startInteractiveRolePlay;
 window.stopInteractiveRolePlay = stopInteractiveRolePlay;
 window.toggleInteractiveRolePlay = toggleInteractiveRolePlay;
 window.skipRolePlayUserTurn = skipRolePlayUserTurn;
+window.retryRolePlayLine = retryRolePlayLine;
+window.manualGradeRolePlay = manualGradeRolePlay;
 window.playSingleLine = playSingleLine;
 window.togglePlayFullDialogue = togglePlayFullDialogue;
 window.stopDialogueAudio = stopDialogueAudio;
