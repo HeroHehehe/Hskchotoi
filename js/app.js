@@ -264,6 +264,7 @@ function renderVocabList(filteredList = null) {
   list.forEach((item, index) => {
     const isLearned = learnedWords.has(item.id);
     const isFav = favoriteWords.has(item.id);
+    const isMastered = (typeof window.getMasteredWords === 'function') && window.getMasteredWords().includes(item.id);
 
     const card = document.createElement('div');
     card.id = `vocab-card-${item.id}`;
@@ -309,6 +310,11 @@ function renderVocabList(filteredList = null) {
           <div>
             <h3 class="text-3xl font-extrabold text-white tracking-wide chinese-font flex items-center gap-2">
               ${item.hanzi}
+              ${isMastered ? `
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold border border-emerald-500/30 flex items-center gap-1">
+                  ✓ Đã thuộc
+                </span>
+              ` : ''}
             </h3>
             <span class="text-sm text-cyan-400 font-medium italic">${item.pinyin}</span>
           </div>
@@ -453,7 +459,8 @@ function promptNote(wordId) {
 function updateSidebarProgress() {
   const words = getCurrentLessonWords();
   const total = words.length || 10;
-  const done = words.filter(w => learnedWords.has(w.id)).length;
+  const masteredList = typeof window.getMasteredWords === 'function' ? window.getMasteredWords() : [];
+  const done = words.filter(w => learnedWords.has(w.id) || masteredList.includes(w.id)).length;
   const inProgress = Math.max(0, Math.min(1, total - done));
   const remaining = Math.max(0, total - done - inProgress);
 
@@ -487,7 +494,7 @@ function updateSidebarProgress() {
     let completedLessons = 0;
     window.HSK_LESSONS.forEach(l => {
       const lWords = window.VOCAB_DATABASE.filter(w => w.lesson_id === l.lesson_no);
-      if (lWords.length > 0 && lWords.every(w => learnedWords.has(w.id))) {
+      if (lWords.length > 0 && lWords.every(w => learnedWords.has(w.id) || masteredList.includes(w.id))) {
         completedLessons++;
       }
     });
@@ -612,18 +619,24 @@ function showToast(message) {
 }
 
 /**
- * Chế độ Luyện Kiểm Tra Nghĩa Từ (Quiz Modal)
+ * Chế độ Luyện Kiểm Tra Nghĩa Từ & Mini Game (Chuyển tiếp đến Trung Tâm Luyện Nhớ)
  */
-function openVocabQuiz() {
-  const modal = document.getElementById('quiz-modal');
-  if (!modal) return;
-  modal.classList.remove('hidden');
-  loadRandomQuizQuestion();
+function openVocabQuiz(mode = 'meaning_quiz') {
+  if (typeof window.openMemoryHub === 'function') {
+    window.openMemoryHub(mode);
+  } else {
+    const modal = document.getElementById('memory-hub-modal') || document.getElementById('quiz-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
 }
 
 function closeVocabQuiz() {
-  const modal = document.getElementById('quiz-modal');
-  if (modal) modal.classList.add('hidden');
+  if (typeof window.closeMemoryHub === 'function') {
+    window.closeMemoryHub();
+  } else {
+    const modal = document.getElementById('memory-hub-modal') || document.getElementById('quiz-modal');
+    if (modal) modal.classList.add('hidden');
+  }
 }
 
 let currentQuizWord = null;

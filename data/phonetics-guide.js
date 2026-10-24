@@ -277,7 +277,7 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
   for (let i = 0; i < targetChars.length; i++) {
     const tChar = targetChars[i];
     const tSylStr = targetSyls[i] || (window.PINYIN_MAP ? window.PINYIN_MAP[tChar] : '');
-    const tParsed = window.parsePinyinSyllable(tSylStr);
+    const tParsed = window.parsePinyinSyllable(tSylStr) || { original: tSylStr || '', raw: '', initial: '', finalPart: '', tone: 0 };
 
     // Ký tự người dùng nói tại vị trí tương ứng (hoặc tìm ký tự khớp tốt nhất trong chuỗi spoken)
     let sChar = null;
@@ -297,10 +297,10 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
       for (let j = 0; j < spokenChars.length; j++) {
         const candidateChar = spokenChars[j];
         const candidateSyl = spokenPinyinList[j] ? spokenPinyinList[j].pinyin : (window.PINYIN_MAP ? window.PINYIN_MAP[candidateChar] : '');
-        if (candidateSyl && tSylStr && window.stripPinyinTone(candidateSyl) === window.stripPinyinTone(tSylStr)) {
+        if (candidateSyl && tSylStr && window.stripPinyinTone && window.stripPinyinTone(candidateSyl) === window.stripPinyinTone(tSylStr)) {
           sChar = candidateChar;
           sSylStr = candidateSyl;
-          sParsed = window.parsePinyinSyllable(sSylStr);
+          sParsed = window.parsePinyinSyllable(sSylStr) || { original: sSylStr, raw: '', initial: '', finalPart: '', tone: 0 };
           bestMatchIdx = j;
           break;
         }
@@ -310,8 +310,12 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
       if (!sChar && i < spokenChars.length) {
         sChar = spokenChars[i];
         sSylStr = spokenPinyinList[i] ? spokenPinyinList[i].pinyin : (window.PINYIN_MAP ? window.PINYIN_MAP[sChar] : '');
-        sParsed = window.parsePinyinSyllable(sSylStr);
+        sParsed = window.parsePinyinSyllable(sSylStr) || { original: sSylStr, raw: '', initial: '', finalPart: '', tone: 0 };
       }
+    }
+
+    if (!sParsed && sSylStr) {
+      sParsed = window.parsePinyinSyllable(sSylStr) || { original: sSylStr, raw: '', initial: '', finalPart: '', tone: 0 };
     }
 
     let isMatch = false;
@@ -319,11 +323,15 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
     let tongueGuide = "";
     let statusLabel = "";
 
-    // Lấy hướng dẫn thanh mẫu
-    const initialInfo = tParsed.initial ? window.CHINESE_PHONETICS_DB.initials[tParsed.initial] : null;
+    // Lấy hướng dẫn thanh mẫu an toàn
+    const initialInfo = (tParsed && tParsed.initial && window.CHINESE_PHONETICS_DB && window.CHINESE_PHONETICS_DB.initials) 
+      ? window.CHINESE_PHONETICS_DB.initials[tParsed.initial] 
+      : null;
 
     // So sánh: Đúng nếu trùng chữ Hán HOẶC trùng âm pinyin thuần (loại bỏ trường hợp máy trả về chữ đồng âm)
-    const isPinyinIdentical = sParsed && (sSylStr === tSylStr || window.stripPinyinTone(sSylStr) === window.stripPinyinTone(tSylStr));
+    const isPinyinIdentical = sParsed && tSylStr && sSylStr && (
+      sSylStr === tSylStr || (window.stripPinyinTone && window.stripPinyinTone(sSylStr) === window.stripPinyinTone(tSylStr))
+    );
 
     if (sChar === tChar || isPinyinIdentical) {
       isMatch = true;
@@ -335,7 +343,7 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
       let errorPoints = [];
 
       // So sánh âm đầu (thanh mẫu)
-      if (tParsed.initial !== sParsed.initial) {
+      if (tParsed && sParsed && tParsed.initial !== sParsed.initial) {
         if (['zh', 'ch', 'sh'].includes(tParsed.initial) && ['z', 'c', 's'].includes(sParsed.initial)) {
           errorPoints.push(`⚠️ <b>Lỗi uốn lưỡi:</b> Bạn đang phát âm phẳng lưỡi <code>${sParsed.initial}</code> thay vì <b>uốn cong đầu lưỡi lên vòm họng</b> cho âm <code>${tParsed.initial}</code>.`);
         } else if (['p', 't', 'k', 'q', 'ch', 'c'].includes(tParsed.initial) && !['p', 't', 'k', 'q', 'ch', 'c'].includes(sParsed.initial)) {
@@ -348,21 +356,21 @@ window.diagnoseSpeechDetails = function(targetWord, targetPinyin, spokenWord) {
       }
 
       // So sánh vần (vận mẫu)
-      if (tParsed.finalPart !== sParsed.finalPart) {
-        const finalInfo = window.CHINESE_FINALS_DB ? window.CHINESE_FINALS_DB[tParsed.finalPart] : null;
+      if (tParsed && sParsed && tParsed.finalPart !== sParsed.finalPart) {
+        const finalInfo = (window.CHINESE_FINALS_DB && tParsed.finalPart) ? window.CHINESE_FINALS_DB[tParsed.finalPart] : null;
         if (tParsed.finalPart === 'ian' && sParsed.finalPart !== 'ian') {
           errorPoints.push(`💡 <b>Lỗi vần "ian":</b> Trong tiếng Trung "ian" đọc thành <b>"iên"</b> (như tiên, tiền), không đọc thành "i-an".`);
         } else if (tParsed.finalPart === 'eng' && sParsed.finalPart !== 'eng') {
           errorPoints.push(`💡 <b>Lỗi vần "eng":</b> Vần "eng" đọc như <b>"âng"</b> (như tầng, vâng), không đọc bẹt thành "eng".`);
         } else if (tParsed.finalPart === 'ong' && sParsed.finalPart !== 'ong') {
           errorPoints.push(`💡 <b>Lỗi vần "ong":</b> Vần "ong" khẩu hình môi tròn nhỏ đọc thành <b>"ung"</b>, không đọc mở to thành "ong".`);
-        } else if (finalInfo) {
+        } else if (finalInfo && finalInfo.fixTip) {
           errorPoints.push(`👄 <b>Sai vần "${tParsed.finalPart}":</b> ${finalInfo.fixTip}`);
         }
       }
 
       // So sánh thanh điệu
-      if (tParsed.tone !== sParsed.tone && tParsed.tone > 0 && sParsed.tone > 0) {
+      if (tParsed && sParsed && tParsed.tone !== sParsed.tone && tParsed.tone > 0 && sParsed.tone > 0) {
         errorPoints.push(`🎵 <b>Lỗi thanh điệu:</b> Bạn đang nói <b>Thanh ${sParsed.tone}</b>, trong khi từ này là <b>Thanh ${tParsed.tone}</b>.`);
       }
 
