@@ -714,6 +714,146 @@ function animateRecallChar(char) {
 }
 
 /**
+ * Đánh giá chữ Hán người dùng đã vẽ trên Canvas:
+ * - So sánh giữa nét vẽ của người dùng và hình mẫu chữ Hán mục tiêu
+ * - KHÔNG ép thứ tự từng nét
+ * - Kiểm tra độ phủ (Coverage >= 42%) và độ chính xác (Precision >= 42%)
+ * - Tránh việc vẽ 1 nét gạch, vẽ bậy bạ, hoặc vẽ thiếu nét
+ */
+function evaluateDrawnCharacter(userCanvas, targetChar) {
+  if (!userCanvas) return { isPassed: false, score: 0, reason: "Không tìm thấy bảng vẽ." };
+
+  const W = userCanvas.width || 260;
+  const H = userCanvas.height || 260;
+  const userCtx = userCanvas.getContext('2d');
+  const userImgData = userCtx.getImageData(0, 0, W, H);
+  const userPixels = userImgData.data;
+
+  // 1. Tạo Canvas đối chiếu vẽ chữ Hán mẫu
+  const refCanvas = document.createElement('canvas');
+  refCanvas.width = W;
+  refCanvas.height = H;
+  const refCtx = refCanvas.getContext('2d');
+  refCtx.fillStyle = '#ffffff';
+  refCtx.font = 'bold 165px "Ma Shan Zheng", "STKaiti", "KaiTi", "SimSun", "Noto Serif SC", "Microsoft YaHei", sans-serif';
+  refCtx.textAlign = 'center';
+  refCtx.textBaseline = 'middle';
+  refCtx.fillText(targetChar, W / 2, H / 2);
+
+  const refImgData = refCtx.getImageData(0, 0, W, H);
+  const refPixels = refImgData.data;
+
+  // 2. Thu thập các điểm người dùng đã vẽ (lấy mẫu step = 4)
+  const step = 4;
+  const drawnPoints = [];
+  let userPointCount = 0;
+
+  for (let y = 0; y < H; y += step) {
+    for (let x = 0; x < W; x += step) {
+      const idx = (y * W + x) * 4;
+      if (userPixels[idx + 3] > 50) {
+        drawnPoints.push({ x, y });
+        userPointCount++;
+      }
+    }
+  }
+
+  // Nếu vẽ quá ít (dưới 45 điểm lấy mẫu, tương đương chưa viết nổi 1 nét tử tế)
+  if (userPointCount < 45) {
+    return {
+      isPassed: false,
+      score: 10,
+      coverage: 10,
+      precision: 10,
+      reason: `Bạn vẽ quá ít nét. Hãy vẽ trọn vẹn chữ "${targetChar}" vào ô nhé!`
+    };
+  }
+
+  // 3. Tính độ phủ (Coverage): Bao nhiêu % của chữ mẫu đã được tô trúng?
+  // Bán kính dung sai cho nét cọ vẽ tay: 16px
+  const hitRadiusSq = 16 * 16;
+  let targetTotal = 0;
+  let targetHit = 0;
+  const targetMap = new Uint8Array(W * H);
+
+  for (let y = 0; y < H; y += step) {
+    for (let x = 0; x < W; x += step) {
+      const idx = (y * W + x) * 4;
+      if (refPixels[idx + 3] > 50) {
+        targetTotal++;
+        targetMap[y * W + x] = 1;
+
+        let hit = false;
+        for (let i = 0; i < drawnPoints.length; i++) {
+          const dx = drawnPoints[i].x - x;
+          const dy = drawnPoints[i].y - y;
+          if (dx * dx + dy * dy <= hitRadiusSq) {
+            hit = true;
+            break;
+          }
+        }
+        if (hit) {
+          targetHit++;
+        }
+      }
+    }
+  }
+
+  if (targetTotal === 0) targetTotal = 1;
+
+  // 4. Tính độ chính xác (Precision): Bao nhiêu % nét vẽ nằm trên hoặc sát chữ mẫu?
+  let userValidPoints = 0;
+  for (let i = 0; i < drawnPoints.length; i++) {
+    const px = drawnPoints[i].x;
+    const py = drawnPoints[i].y;
+    let nearTarget = false;
+
+    for (let dy = -16; dy <= 16; dy += step) {
+      const ny = py + dy;
+      if (ny < 0 || ny >= H) continue;
+      for (let dx = -16; dx <= 16; dx += step) {
+        const nx = px + dx;
+        if (nx < 0 || nx >= W) continue;
+        if (targetMap[ny * W + nx] === 1) {
+          nearTarget = true;
+          break;
+        }
+      }
+      if (nearTarget) break;
+    }
+
+    if (nearTarget) userValidPoints++;
+  }
+
+  const coverage = Math.round((targetHit / targetTotal) * 100);
+  const precision = userPointCount > 0 ? Math.round((userValidPoints / userPointCount) * 100) : 0;
+  const finalScore = Math.min(100, Math.round(coverage * 0.65 + precision * 0.35));
+
+  // TIÊU CHÍ ĐÁNH GIÁ CHỮ CUỐI CÙNG:
+  // - Độ phủ hình dáng chữ >= 42% (phải vẽ đủ các nét cấu thành chữ)
+  // - Độ chính xác bám nét >= 42% (không vẽ bậy bạ ngoài khung)
+  // - Điểm tổng hợp >= 45%
+  const isPassed = coverage >= 42 && precision >= 42 && userPointCount >= 45;
+
+  let reason = "";
+  if (isPassed) {
+    reason = `🎉 Xuất sắc! Nét viết chữ "${targetChar}" đạt ${finalScore}% độ chuẩn xác!`;
+  } else if (coverage < 42) {
+    reason = `⚠️ Chữ viết chưa hoàn thiện (độ phủ mới đạt ${coverage}%). Bạn vẽ thiếu nét rồi, hãy xem chữ mẫu và vẽ đủ các nét của chữ "${targetChar}" nhé!`;
+  } else {
+    reason = `⚠️ Nét vẽ bị lệch ra ngoài quá nhiều (độ chuẩn ${precision}%). Hãy bấm "Xóa nét" và vẽ lại bám theo chữ mẫu nhé!`;
+  }
+
+  return {
+    isPassed,
+    score: finalScore,
+    coverage,
+    precision,
+    reason
+  };
+}
+
+/**
  * Người dùng hoàn thành việc viết và bấm Chấm điểm
  */
 function submitRecallWord() {
@@ -730,10 +870,31 @@ function submitRecallWord() {
     return;
   }
 
-  // Viết thành công!
+  const chars = Array.from(word.hanzi);
+  const targetChar = chars[hub.recall.charIndex] || chars[0] || '你';
+
+  // Đánh giá thực chất nét vẽ của người dùng so với chữ mẫu
+  const evalResult = evaluateDrawnCharacter(hub.recall.canvas, targetChar);
+
+  if (!evalResult.isPassed) {
+    // CHƯA ĐẠT: Báo lỗi cụ thể (thiếu nét hoặc vẽ lệch), rung viền đỏ, KHÔNG cho qua
+    playSoundEffect('wrong');
+    if (st) st.innerHTML = `<span class="text-rose-400 font-bold text-xs">${evalResult.reason}</span>`;
+    if (drawContainer) {
+      drawContainer.classList.remove('ring-4', 'ring-emerald-500/70', 'border-emerald-500');
+      drawContainer.classList.add('ring-4', 'ring-rose-500/70', 'border-rose-500');
+      setTimeout(() => {
+        if (drawContainer) drawContainer.classList.remove('ring-4', 'ring-rose-500/70', 'border-rose-500');
+      }, 900);
+    }
+    return;
+  }
+
+  // ĐẠT CHUẨN: Viết trọn vẹn chữ Hán!
   playSoundEffect('match');
-  if (st) st.innerHTML = `<span class="text-emerald-400 font-black text-sm">🏆 Xuất sắc! Nét viết của bạn rất đẹp!</span>`;
+  if (st) st.innerHTML = `<span class="text-emerald-400 font-black text-sm">${evalResult.reason}</span>`;
   if (drawContainer) {
+    drawContainer.classList.remove('ring-4', 'ring-rose-500/70', 'border-rose-500');
     drawContainer.classList.add('ring-4', 'ring-emerald-500/70', 'border-emerald-500');
   }
 
@@ -741,22 +902,29 @@ function submitRecallWord() {
   hub.gameStats[mode].score += 15;
   hub.gameStats[mode].correct++;
 
-  // 1. Thêm vào danh sách đã hoàn thành của game này
+  // Nếu từ ghép có nhiều chữ (ví dụ: 你好 có 2 chữ)
+  if (chars.length > 1 && hub.recall.charIndex < chars.length - 1) {
+    setTimeout(() => {
+      hub.recall.charIndex++;
+      renderHanziRecall(document.getElementById('hub-game-area'));
+    }, 1000);
+    return;
+  }
+
+  // Đã viết xong tất cả chữ trong từ này
   if (!hub.gameCompleted[mode].includes(word.id)) {
     hub.gameCompleted[mode].push(word.id);
   }
 
-  // 2. LOẠI BỎ TỪ NÀY KHỎI HÀNG ĐỢI CỦA MINI-GAME NÀY -> SẼ KHÔNG BAO GIỜ HIỆN LẠI TRONG GAME NÀY NỮA
+  // Loại bỏ từ này khỏi hàng đợi hanzi_recall
   hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
-
-  // 3. Đánh dấu đã thuộc chung
   setWordMastered(word.id, true);
 
   hub.recall.charIndex = 0;
 
   setTimeout(() => {
     loadCurrentQuestion();
-  }, 1000);
+  }, 1100);
 }
 
 function skipRecallWord() {
