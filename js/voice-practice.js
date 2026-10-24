@@ -30,9 +30,14 @@ function openVoiceModal(wordOrId) {
   if (!word) return;
 
   currentVoiceWord = word;
-  const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
-  currentVoiceIndex = currentList.findIndex(w => w.id === word.id);
-  if (currentVoiceIndex === -1) currentVoiceIndex = 0;
+
+  if (word.isDialogueLine) {
+    currentVoiceIndex = word.line_idx || 0;
+  } else {
+    const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
+    currentVoiceIndex = currentList.findIndex(w => w.id === word.id);
+    if (currentVoiceIndex === -1) currentVoiceIndex = 0;
+  }
 
   const modal = document.getElementById('voice-modal');
   if (!modal) return;
@@ -63,13 +68,15 @@ function cleanChineseText(str) {
  * Sử dụng bách khoa chẩn đoán lỗi âm vị học tiếng Trung (window.diagnoseSpeechDetails)
  */
 function evaluateSpeech(targetHanzi, spokenText) {
-  const cleanTarget = cleanChineseText(targetHanzi);
+  // Lọc bỏ dấu câu tiếng Trung và ký tự đặc biệt để đánh giá đúng từng chữ Hán
+  const cleanTargetPure = (targetHanzi || "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+  const cleanTarget = cleanChineseText(cleanTargetPure);
   const cleanSpoken = cleanChineseText(spokenText);
 
   // Nếu có module chẩn đoán chuyên sâu
   if (typeof window.diagnoseSpeechDetails === 'function') {
     const diagnosis = window.diagnoseSpeechDetails(
-      targetHanzi, 
+      cleanTargetPure, 
       currentVoiceWord ? currentVoiceWord.pinyin : '', 
       spokenText
     );
@@ -98,11 +105,11 @@ function evaluateSpeech(targetHanzi, spokenText) {
       accuracy: 0,
       isPerfect: false,
       userSpoken: spokenText || "(Chưa nhận diện được giọng nói)",
-      charResults: Array.from(targetHanzi).map(c => ({ char: c, isCorrect: false }))
+      charResults: Array.from(cleanTargetPure).map(c => ({ char: c, isCorrect: false }))
     };
   }
 
-  const targetChars = Array.from(targetHanzi);
+  const targetChars = Array.from(cleanTargetPure);
   let matchedCount = 0;
   const charResults = targetChars.map(c => {
     const isCorrect = cleanSpoken.includes(c);
@@ -126,10 +133,17 @@ function evaluateSpeech(targetHanzi, spokenText) {
  * @param {object} evalData Kết quả đánh giá
  */
 function renderVoiceModalUI(showResult = false, evalData = null) {
-  const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
-  const totalInLesson = currentList.length;
+  if (currentVoiceWord && currentVoiceWord.isDialogueLine) {
+    const lessonData = window.HSK_DIALOGUES ? window.HSK_DIALOGUES.find(d => d.lesson_id === currentVoiceWord.lesson_id) : null;
+    const dlg = lessonData ? lessonData.dialogues[currentVoiceWord.dialogue_idx] : null;
+    const totalLines = dlg ? dlg.lines.length : 1;
+    document.getElementById('voice-counter').textContent = `Câu ${currentVoiceWord.line_idx + 1}/${totalLines}`;
+  } else {
+    const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
+    const totalInLesson = currentList.length;
+    document.getElementById('voice-counter').textContent = `${currentVoiceIndex + 1}/${totalInLesson}`;
+  }
 
-  document.getElementById('voice-counter').textContent = `${currentVoiceIndex + 1}/${totalInLesson}`;
   document.getElementById('voice-hanzi').textContent = currentVoiceWord.hanzi;
   document.getElementById('voice-pinyin').textContent = currentVoiceWord.pinyin;
   document.getElementById('voice-meaning').textContent = currentVoiceWord.meaning;
@@ -448,14 +462,71 @@ function playUserRecording() {
 }
 
 /**
- * Chuyển sang từ tiếp theo
+ * Chuyển sang từ hoặc câu thoại tiếp theo
  */
 function nextVoiceWord() {
+  if (currentVoiceWord && currentVoiceWord.isDialogueLine) {
+    const lessonData = window.HSK_DIALOGUES ? window.HSK_DIALOGUES.find(d => d.lesson_id === currentVoiceWord.lesson_id) : null;
+    const dlg = lessonData ? lessonData.dialogues[currentVoiceWord.dialogue_idx] : null;
+    if (dlg && dlg.lines && dlg.lines.length) {
+      const nextIdx = (currentVoiceWord.line_idx + 1) % dlg.lines.length;
+      const line = dlg.lines[nextIdx];
+      openVoiceModal({
+        id: `dlg-${currentVoiceWord.lesson_id}-${currentVoiceWord.dialogue_idx}-${nextIdx}`,
+        hanzi: line.hanzi,
+        pinyin: line.pinyin,
+        meaning: line.vi,
+        type: "BÀI KHOÁ SGK",
+        type_detail: `${line.speaker} (${line.speaker_vi || ''})`,
+        isDialogueLine: true,
+        lesson_id: currentVoiceWord.lesson_id,
+        dialogue_idx: currentVoiceWord.dialogue_idx,
+        line_idx: nextIdx
+      });
+      return;
+    }
+  }
+
   const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
   currentVoiceIndex = (currentVoiceIndex + 1) % currentList.length;
   currentVoiceWord = currentList[currentVoiceIndex];
   renderVoiceModalUI(false);
 }
+
+/**
+ * Chuyển sang từ hoặc câu thoại trước đó
+ */
+function prevVoiceWord() {
+  if (currentVoiceWord && currentVoiceWord.isDialogueLine) {
+    const lessonData = window.HSK_DIALOGUES ? window.HSK_DIALOGUES.find(d => d.lesson_id === currentVoiceWord.lesson_id) : null;
+    const dlg = lessonData ? lessonData.dialogues[currentVoiceWord.dialogue_idx] : null;
+    if (dlg && dlg.lines && dlg.lines.length) {
+      const prevIdx = (currentVoiceWord.line_idx - 1 + dlg.lines.length) % dlg.lines.length;
+      const line = dlg.lines[prevIdx];
+      openVoiceModal({
+        id: `dlg-${currentVoiceWord.lesson_id}-${currentVoiceWord.dialogue_idx}-${prevIdx}`,
+        hanzi: line.hanzi,
+        pinyin: line.pinyin,
+        meaning: line.vi,
+        type: "BÀI KHOÁ SGK",
+        type_detail: `${line.speaker} (${line.speaker_vi || ''})`,
+        isDialogueLine: true,
+        lesson_id: currentVoiceWord.lesson_id,
+        dialogue_idx: currentVoiceWord.dialogue_idx,
+        line_idx: prevIdx
+      });
+      return;
+    }
+  }
+
+  const currentList = window.getCurrentLessonWords ? window.getCurrentLessonWords() : window.VOCAB_DATABASE;
+  currentVoiceIndex = (currentVoiceIndex - 1 + currentList.length) % currentList.length;
+  currentVoiceWord = currentList[currentVoiceIndex];
+  renderVoiceModalUI(false);
+}
+
+window.prevVoiceWord = prevVoiceWord;
+window.nextVoiceWord = nextVoiceWord;
 
 // Bắt phím Space để bật/tắt ghi âm
 document.addEventListener('keydown', (e) => {
@@ -481,10 +552,13 @@ function renderPronunciationGuideUI(word) {
   }
 
   const guide = window.getPronunciationGuide(word.hanzi, word.pinyin);
-  if (!guide || !guide.syllables) {
+  if (!guide || !guide.syllables || !guide.syllables.length) {
     container.innerHTML = '';
     return;
   }
+
+  // Nếu là câu thoại dài trong bài khoá, lấy tối đa 4 âm tiết đầu để không chiếm quá nhiều diện tích
+  const syllablesToShow = word.isDialogueLine ? guide.syllables.slice(0, 4) : guide.syllables;
 
   let html = `
     <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4 space-y-3">
@@ -507,9 +581,9 @@ function renderPronunciationGuideUI(word) {
   }
 
   // Danh sách thẻ âm tiết
-  html += `<div class="grid grid-cols-1 ${guide.syllables.length > 1 ? 'md:grid-cols-2' : ''} gap-2.5">`;
+  html += `<div class="grid grid-cols-1 ${syllablesToShow.length > 1 ? 'md:grid-cols-2' : ''} gap-2.5">`;
 
-  guide.syllables.forEach((s) => {
+  syllablesToShow.forEach((s) => {
     html += `
       <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
         <div class="flex items-center justify-between border-b border-slate-800/80 pb-1.5">

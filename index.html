@@ -54,160 +54,130 @@
 <body class="bg-[#090d16] text-slate-100 min-h-screen selection:bg-red-500 selection:text-white">
 
   <!-- ==========================================
-       1. TOP NAVBAR (Giao diện chuẩn Hi HSK - Ảnh 1)
+       1. TOP NAVBAR (Giao diện Cá Nhân Học HSK 1 Chuẩn 3.0)
        ========================================== -->
   <header class="border-b border-slate-800 bg-[#0b101d]/90 backdrop-blur-md sticky top-0 z-40">
     <!-- Hàng trên -->
     <div class="max-w-[1440px] mx-auto px-4 py-2.5 flex items-center justify-between gap-4">
       <!-- Logo & Sub-tag -->
-      <div class="flex items-center gap-6">
-        <a href="#" class="flex items-center gap-2 group">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-rose-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+      <div class="flex items-center gap-4">
+        <a href="#" class="flex items-center gap-2.5 group">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-rose-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-blue-500/25 group-hover:scale-105 transition-transform">
             HSK
           </div>
           <div>
-            <div class="font-extrabold text-lg leading-tight tracking-tight text-white flex items-center gap-1.5">
-              Hi HSK
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-bold border border-blue-500/30">3.0</span>
+            <div class="font-extrabold text-base leading-tight tracking-tight text-white flex items-center gap-1.5">
+              HSK 1 Cá Nhân
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-extrabold border border-blue-500/30">Chuẩn 3.0</span>
             </div>
-            <p class="text-[10px] text-slate-400 font-medium">Học Tiếng Trung</p>
+            <p class="text-[10px] text-slate-400 font-medium">15 Bài SGK • 300 Từ Vựng • 45 Bài Khoá</p>
           </div>
         </a>
-
-        <!-- Nút tính năng nhỏ -->
-        <div class="hidden lg:flex items-center gap-2">
-          <button onclick="openVoiceModal(getCurrentLessonWords()[0].id)" class="px-3 py-1 rounded-full text-xs font-bold bg-purple-900/40 border border-purple-700/60 text-purple-300 hover:bg-purple-800/60 flex items-center gap-1 transition-all">
-            <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
-            Luyện nói <span class="bg-purple-600 text-[10px] text-white px-1 rounded font-black">TALK</span>
-          </button>
-          <button class="px-3 py-1 rounded-full text-xs font-bold bg-cyan-950/40 border border-cyan-800/60 text-cyan-300 hover:bg-cyan-900/60 flex items-center gap-1 transition-all">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-            Chép chính tả <span class="bg-red-500 text-[9px] text-white px-1 rounded font-black">NEW</span>
-          </button>
-        </div>
       </div>
 
       <!-- Ô tìm kiếm từ vựng -->
-      <div class="flex-1 max-w-md mx-4">
+      <div class="flex-1 max-w-md mx-2 sm:mx-4">
         <div class="relative">
           <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
           <input type="text" id="vocab-search-input" placeholder="Tìm kiếm từ vựng, pinyin, nghĩa..." class="w-full pl-10 pr-4 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all shadow-inner">
         </div>
       </div>
 
-      <!-- User Profile & Quick Settings -->
-      <div class="flex items-center gap-3">
+      <!-- Quick Actions & Lan Sync -->
+      <div class="flex items-center gap-2.5">
         <!-- Nút Mở trên Mạng Nội Bộ / Điện thoại -->
         <button onclick="openLanModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-700/70 text-indigo-300 hover:text-white text-xs font-bold transition-all shadow-md">
           <span>📱</span>
-          <span>Mở trên ĐT / LAN</span>
+          <span class="hidden sm:inline">Học trên ĐT / LAN</span>
         </button>
 
-        <button onclick="openVocabQuiz()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/70 border border-slate-700 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition-all">
-          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Ôn ngay
+        <button onclick="openVocabQuiz()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-700/70 text-emerald-300 hover:text-white text-xs font-bold transition-all shadow-sm">
+          <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <span>Ôn tập</span>
         </button>
 
-        <div class="flex items-center gap-2 pl-2 border-l border-slate-800">
-          <span class="text-xs font-bold text-slate-300">VN VI</span>
-          <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <!-- Profile Badge Cá Nhân -->
+        <div class="hidden md:flex items-center gap-2 pl-2 border-l border-slate-800">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-xs font-bold text-white">Chế độ tự học</span>
           </div>
-          <!-- Profile Badge -->
-          <div class="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-slate-800/80 border border-slate-700">
-            <div class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white">R</div>
-            <div class="text-left">
-              <p class="text-[11px] font-bold text-white leading-none">ritogemini2025...</p>
-              <p class="text-[9px] text-emerald-400 font-medium">Thành viên</p>
-            </div>
-          </div>
-          <button class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-extrabold text-xs shadow-md shadow-orange-500/20 hover:brightness-110 transition-all flex items-center gap-1">
-            👑 Nâng cấp
-          </button>
         </div>
       </div>
     </div>
 
-    <!-- Hàng dưới: Thanh menu phụ (Trang chủ, HSK 3.0, Luyện tập...) -->
-    <div class="max-w-[1440px] mx-auto px-4 py-1.5 flex items-center gap-1 overflow-x-auto text-xs font-semibold text-slate-400 border-t border-slate-800/60 no-scrollbar">
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Trang chủ</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Hán ngữ</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-400 font-bold transition-colors">HSK 3.0</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Luyện tập ⌄</a>
-      <a href="javascript:switchMainView('vocab')" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Từ vựng ⌄</a>
-      <a href="javascript:switchMainView('dialogue')" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors text-amber-300 font-bold">Bài khoá & Hội thoại ⌄</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Đọc hiểu ⌄</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Bộ thủ</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Luyện thi</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Thi HSK 3.0 ⌄</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Đề thi mới</a>
-      <a href="#" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/60 transition-colors">Dịch</a>
+    <!-- Hàng dưới: Thanh chuyển chế độ học tập chính -->
+    <div class="max-w-[1440px] mx-auto px-4 py-1.5 flex items-center gap-1.5 overflow-x-auto text-xs font-semibold text-slate-300 border-t border-slate-800/60 no-scrollbar">
+      <button onclick="switchMainView('vocab')" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-blue-400 font-bold">
+        <span>📚</span> Từ vựng (15 Bài)
+      </button>
+      <button onclick="switchMainView('dialogue')" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-amber-300 font-bold">
+        <span>💬</span> Bài khoá SGK (45 Đoạn)
+      </button>
+      <span class="text-slate-700">|</span>
+      <button onclick="openPinyinModal()" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-indigo-300">
+        <span>🔤</span> Pinyin Master
+      </button>
+      <button onclick="openWritingModal(getCurrentLessonWords()[0]?.id)" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-purple-300">
+        <span>✍️</span> Luyện viết chữ Hán
+      </button>
+      <button onclick="openRadicalModal(getCurrentLessonWords()[0]?.id)" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-rose-300">
+        <span>🧩</span> 100+ Bộ thủ
+      </button>
+      <button onclick="openVoiceModal(getCurrentLessonWords()[0]?.id)" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-rose-400 font-bold">
+        <span>🎙️</span> Luyện phát âm AI
+      </button>
+      <button onclick="openVocabQuiz()" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-emerald-300">
+        <span>📝</span> Trắc nghiệm ôn bài
+      </button>
     </div>
   </header>
 
   <!-- ==========================================
-       2. ACTION PILL BAR (Các nút chức năng luyện tập - Ảnh 1)
+       2. QUICK ACTION TOOLBAR (Các nút học tập cốt lõi - Gọn gàng, không trùng lặp)
        ========================================== -->
   <div class="max-w-[1440px] mx-auto px-4 py-3">
-    <div class="p-2 rounded-2xl bg-slate-900/70 border border-slate-800/80 flex items-center gap-2 overflow-x-auto no-scrollbar shadow-inner">
-      <!-- Nút Bảng Học Âm & Ghép Vần Pinyin Master (MỚI) -->
-      <button onclick="openPinyinModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-md shadow-blue-500/20 ring-1 ring-blue-400/40">
-        <svg class="w-4 h-4 text-amber-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-        Học Phát Âm & Ghép Vần Pinyin
-      </button>
-
-      <!-- Nút Bài khoá SGK 课文 (MỚI - 15 BÀI) -->
-      <button onclick="switchMainView('dialogue')" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-md shadow-orange-500/20 ring-1 ring-amber-400/40">
+    <div class="p-2.5 rounded-2xl bg-slate-900/80 border border-slate-800/90 flex items-center gap-2.5 overflow-x-auto no-scrollbar shadow-lg">
+      <!-- 1. Bài khoá SGK -->
+      <button onclick="switchMainView('dialogue')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-md shadow-orange-500/20 ring-1 ring-amber-400/40">
         <svg class="w-4 h-4 text-yellow-200" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-        Bài khoá SGK (课文)
+        <span>Bài khoá SGK (课文)</span>
       </button>
 
-      <button onclick="openVocabQuiz()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-        Kiểm tra nghĩa từ
+      <!-- 2. Từ vựng bài học -->
+      <button onclick="switchMainView('vocab')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-blue-300 hover:text-white text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-sm">
+        <span>📚</span>
+        <span>Từ vựng 15 Bài</span>
       </button>
 
-      <button onclick="openWritingModal(getCurrentLessonWords()[0].id)" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-        Luyện thứ tự nét
-      </button>
-
-      <button onclick="openRadicalModal(getCurrentLessonWords()[0].id)" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        Chọn bộ thủ
-      </button>
-
-      <!-- Nút Kiểm tra phát âm (Mở Modal Ghi Âm Luyện Phát Âm - Ảnh 1 & 2) -->
-      <button onclick="openVoiceModal(getCurrentLessonWords()[0].id)" class="px-3 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900/60 border border-red-700 text-rose-300 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
-        Luyện phát âm & Ghi âm
-      </button>
-
-      <button class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-        Nối từ
-      </button>
-
-      <button class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        Luyện tập tổng hợp
-      </button>
-
-      <!-- Nút Bảng Học Âm & Ghép Vần Pinyin Master (MỚI) -->
-      <button onclick="openPinyinModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-md shadow-blue-500/20 ring-1 ring-blue-400/40">
+      <!-- 3. Pinyin Master -->
+      <button onclick="openPinyinModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-md shadow-blue-500/20 ring-1 ring-blue-400/40">
         <svg class="w-4 h-4 text-amber-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
-        Học Phát Âm & Ghép Vần Pinyin
+        <span>Bảng Âm & Ghép Vần Pinyin</span>
       </button>
 
-      <!-- Nút Bài khoá SGK 课文 (MỚI - 15 BÀI) -->
-      <button onclick="switchMainView('dialogue')" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-md shadow-orange-500/20 ring-1 ring-amber-400/40">
-        <svg class="w-4 h-4 text-yellow-200" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
-        Bài khoá SGK (课文)
+      <!-- 4. Luyện viết chữ Hán -->
+      <button onclick="openWritingModal(getCurrentLessonWords()[0]?.id)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-sm">
+        <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+        <span>Luyện thứ tự nét</span>
       </button>
 
-      <button onclick="openVocabQuiz()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 whitespace-nowrap transition-all shadow-sm">
-        <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        Chơi game
+      <!-- 5. Phân tích bộ thủ -->
+      <button onclick="openRadicalModal(getCurrentLessonWords()[0]?.id)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-rose-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-sm">
+        <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <span>100+ Bộ thủ</span>
+      </button>
+
+      <!-- 6. Luyện phát âm AI -->
+      <button onclick="openVoiceModal(getCurrentLessonWords()[0]?.id)" class="px-4 py-2 rounded-xl bg-red-950/70 hover:bg-red-900 border border-red-700 text-rose-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-sm">
+        <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+        <span>Luyện nói AI</span>
+      </button>
+
+      <!-- 7. Trắc nghiệm kiểm tra -->
+      <button onclick="openVocabQuiz()" class="px-4 py-2 rounded-xl bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-700 text-emerald-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-sm">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        <span>Trắc nghiệm ôn tập</span>
       </button>
     </div>
   </div>
@@ -287,25 +257,19 @@
             <!-- Nút Phát tất cả -->
             <button id="btn-play-all" onclick="togglePlayAll()" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white shadow-lg transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              Phát tất cả
+              <span>Phát tất cả</span>
             </button>
 
-            <!-- Nút Học qua Video -->
-            <button class="px-4 py-2 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-lg transition-all flex items-center gap-2">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10 16.5l6-4.5-6-4.5v9zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-              Học qua Video
+            <!-- Nút Trắc nghiệm ôn bài -->
+            <button onclick="openVocabQuiz()" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg transition-all flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              <span>Trắc nghiệm từ vựng</span>
             </button>
 
             <!-- Nút PDF Tập viết -->
             <button onclick="printPracticeSheet()" class="px-4 py-2 rounded-xl text-xs font-bold bg-pink-700 hover:bg-pink-800 text-white shadow-lg transition-all flex items-center gap-2">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-              PDF Tập viết
-            </button>
-
-            <!-- Nút Chơi Game -->
-            <button onclick="openVocabQuiz()" class="px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white shadow-lg transition-all flex items-center gap-2">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21.58 16.09l-1.09-7.66C20.21 6.46 18.52 5 16.53 5H7.47C5.48 5 3.79 6.46 3.51 8.43l-1.09 7.66C2.2 17.63 3.39 19 4.94 19c.68 0 1.32-.27 1.8-.75L9 16h6l2.25 2.25c.48.48 1.13.75 1.8.75 1.56 0 2.75-1.37 2.53-2.91zM11 11H9v2H8v-2H6v-1h2V8h1v2h2v1zm4-1c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm2 3c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-              Chơi Game
+              <span>In PDF Tập viết</span>
             </button>
           </div>
         </div>
@@ -366,9 +330,9 @@
         <!-- Header cấp độ HSK 1 -->
         <div class="flex items-center justify-between pb-3 border-b border-slate-800">
           <span class="text-xs font-extrabold text-blue-400 px-2.5 py-1 rounded-lg bg-blue-950/60 border border-blue-800/80">
-            HSK 1
+            HSK 1 Chuẩn
           </span>
-          <span class="text-xs font-semibold text-slate-400">0/30 bài hoàn thành</span>
+          <span id="sidebar-total-completed-badge" class="text-xs font-semibold text-slate-400">15 bài giáo trình</span>
         </div>
 
         <!-- Thông tin bài đang học -->
@@ -388,16 +352,24 @@
         </div>
 
         <!-- Menu các chế độ học tập (Ảnh 1) -->
-        <nav class="space-y-1 pt-2">
-          <a href="#" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-emerald-400 bg-emerald-950/30 border border-emerald-800/40">
+        <nav class="space-y-1.5 pt-2">
+          <a href="javascript:void(0)" onclick="switchMainView('vocab')" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-blue-300 hover:bg-slate-800/60 hover:text-white transition-all">
             <div class="flex items-center gap-2.5">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-              <span>Từ vựng</span>
+              <span>📚</span>
+              <span>Từ vựng bài này</span>
             </div>
-            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
 
-          <a href="javascript:void(0)" onclick="openVoiceModal(getCurrentLessonWords()[0].id)" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-rose-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a href="javascript:void(0)" onclick="switchMainView('dialogue')" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-amber-300 hover:bg-slate-800/60 hover:text-white transition-all">
+            <div class="flex items-center gap-2.5">
+              <span>💬</span>
+              <span>Bài khoá SGK (3 đoạn)</span>
+            </div>
+            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+
+          <a href="javascript:void(0)" onclick="openVoiceModal(getCurrentLessonWords()[0]?.id)" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-rose-300 hover:bg-slate-800/60 hover:text-white transition-all">
             <div class="flex items-center gap-2.5">
               <svg class="w-4 h-4 text-rose-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/></svg>
               <span>Luyện phát âm AI</span>
@@ -405,7 +377,7 @@
             <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
 
-          <a href="javascript:void(0)" onclick="openWritingModal(getCurrentLessonWords()[0].id)" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a href="javascript:void(0)" onclick="openWritingModal(getCurrentLessonWords()[0]?.id)" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-purple-300 hover:bg-slate-800/60 hover:text-white transition-all">
             <div class="flex items-center gap-2.5">
               <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
               <span>Luyện viết chữ Hán</span>
@@ -413,10 +385,10 @@
             <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
 
-          <a href="javascript:void(0)" onclick="openRadicalModal(getCurrentLessonWords()[0].id)" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800/60 hover:text-white transition-all">
+          <a href="javascript:void(0)" onclick="openRadicalModal(getCurrentLessonWords()[0]?.id)" class="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-rose-300 hover:bg-slate-800/60 hover:text-white transition-all">
             <div class="flex items-center gap-2.5">
               <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-              <span>Phân tích bộ thủ</span>
+              <span>Phân tích 100+ bộ thủ</span>
             </div>
             <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
@@ -579,10 +551,16 @@
 
       <!-- Footer Modal Luyện Phát Âm (Ảnh 1 & 2) -->
       <div class="px-6 py-3.5 border-t border-slate-800 bg-slate-950/70 flex items-center justify-between">
-        <button onclick="nextVoiceWord()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-1.5">
-          Từ tiếp
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="prevVoiceWord()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Quay lại
+          </button>
+          <button onclick="nextVoiceWord()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-1.5">
+            Tiếp theo
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
 
         <div class="flex items-center gap-2">
           <button onclick="renderVoiceModalUI(false)" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-all flex items-center gap-1">

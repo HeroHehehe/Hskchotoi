@@ -480,6 +480,19 @@ function updateSidebarProgress() {
     const offset = circumference - (donePercent / 100) * circumference;
     donutCircle.style.strokeDashoffset = offset;
   }
+
+  // Cập nhật số bài học đã hoàn thành trên tổng số 15 bài
+  const totalCompletedBadge = document.getElementById('sidebar-total-completed-badge');
+  if (totalCompletedBadge && window.HSK_LESSONS) {
+    let completedLessons = 0;
+    window.HSK_LESSONS.forEach(l => {
+      const lWords = window.VOCAB_DATABASE.filter(w => w.lesson_id === l.lesson_no);
+      if (lWords.length > 0 && lWords.every(w => learnedWords.has(w.id))) {
+        completedLessons++;
+      }
+    });
+    totalCompletedBadge.textContent = `${completedLessons}/15 bài hoàn thành`;
+  }
 }
 
 /**

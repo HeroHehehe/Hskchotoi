@@ -342,13 +342,13 @@ function renderDialogueLine(line, index, roles) {
             ` : ''}
           </div>
 
-          <!-- Nút phát riêng câu này -->
-          <div class="flex items-center gap-1">
-            <button onclick="playSingleLine(${index})" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all text-xs" title="Nghe câu này">
-              <svg class="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+          <!-- Nút phát riêng & Luyện đọc câu này -->
+          <div class="flex items-center gap-1.5">
+            <button onclick="playSingleLine(${index})" class="w-7 h-7 rounded-xl bg-slate-800/90 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all text-xs border border-slate-700 hover:border-blue-500 shadow-sm" title="Nghe mẫu câu này">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
             </button>
-            <button onclick="practiceLinePrompt(${index})" class="w-6 h-6 rounded-full bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition-all text-xs" title="Luyện đọc câu này">
-              🎙️
+            <button onclick="practiceLinePrompt(${index})" class="w-7 h-7 rounded-xl bg-red-950/70 hover:bg-red-600 border border-red-700/80 hover:border-red-500 text-rose-300 hover:text-white flex items-center justify-center transition-all text-xs shadow-sm" title="Luyện nói câu này bằng AI (Ghi âm & Chấm điểm)">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
             </button>
           </div>
         </div>
@@ -607,7 +607,7 @@ function highlightPlayingLine(index) {
 }
 
 /**
- * Luyện đọc từng câu thoại với phản hồi âm thanh
+ * Luyện đọc từng câu thoại với phản hồi âm thanh & Ghi âm chấm điểm AI
  */
 function practiceLinePrompt(index) {
   const data = getCurrentDialogueData();
@@ -615,13 +615,23 @@ function practiceLinePrompt(index) {
 
   const line = data.dialogue.lines[index];
 
-  // Sử dụng Voice modal có sẵn nếu có
+  // Dừng phát bài khoá nếu đang chạy
+  stopDialogueAudio();
+
+  // Mở modal Luyện phát âm AI thực tế với câu thoại này
   if (typeof openVoiceModal === 'function') {
-    // Có thể mở modal luyện phát âm nếu tìm được word ID, hoặc đọc mẫu
-    speakChineseText(line.hanzi);
-    if (typeof showToast === 'function') {
-      showToast(`🎙️ Hãy nghe mẫu và đọc lại: "${line.hanzi}"`);
-    }
+    openVoiceModal({
+      id: `dlg-${window.DialogueState.currentLessonId}-${window.DialogueState.currentDialogueIdx}-${index}`,
+      hanzi: line.hanzi,
+      pinyin: line.pinyin,
+      meaning: line.vi,
+      type: "BÀI KHOÁ SGK",
+      type_detail: `${line.speaker} (${line.speaker_vi || ''})`,
+      isDialogueLine: true,
+      lesson_id: window.DialogueState.currentLessonId,
+      dialogue_idx: window.DialogueState.currentDialogueIdx,
+      line_idx: index
+    });
   } else {
     speakChineseText(line.hanzi);
   }
