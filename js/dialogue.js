@@ -22,7 +22,15 @@ window.DialogueState = {
   speechSpeed: 1.0,
   rolePlayMode: false,
   selectedRole: null,
-  activeSpeechUtterance: null
+  activeSpeechUtterance: null,
+  
+  // Chế độ Đóng vai tương tác 2 chiều (Interactive 2-Way Role-Play)
+  rolePlayActive: false,
+  rolePlayTurnIndex: -1,
+  rolePlayListening: false,
+  rolePlaySpokenText: "",
+  rolePlayRecognition: null,
+  rolePlayPassedLines: {}
 };
 
 /**
@@ -184,28 +192,48 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
       </div>
     </div>
 
-    <!-- Thanh chọn nhân vật đóng vai khi rolePlayMode = true -->
+    <!-- Thanh chọn nhân vật đóng vai & Điều khiển đối thoại 2 chiều -->
     ${window.DialogueState.rolePlayMode ? `
-      <div class="p-3 rounded-2xl bg-rose-950/30 border border-rose-700/50 flex flex-wrap items-center justify-between gap-3 animate-fadeIn">
-        <div class="flex items-center gap-2">
-          <span class="text-lg">🎭</span>
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-rose-950/60 via-slate-900 to-indigo-950/50 border border-rose-600/60 flex flex-wrap items-center justify-between gap-4 shadow-xl animate-fadeIn">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-xl shadow-lg shadow-rose-600/30 flex-shrink-0">
+            🎭
+          </div>
           <div>
-            <p class="text-xs font-extrabold text-rose-200">Chọn vai của bạn:</p>
-            <p class="text-[10px] text-slate-400">Khi phát, máy sẽ tự động đọc vai kia và nhường lượt cho bạn đọc vai này!</p>
+            <h4 class="text-sm font-black text-white flex items-center gap-2">
+              Luyện Đóng Vai Đối Thoại 2 Chiều
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-extrabold border border-rose-500/30">Microphone AI</span>
+            </h4>
+            <p class="text-xs text-rose-200 mt-0.5">
+              Bạn nói vai <b class="text-white underline">${window.DialogueState.selectedRole || roles[0]}</b> khi mic 🎙️ bật. Nói đúng, máy sẽ tự động đáp lại vai kia!
+            </p>
           </div>
         </div>
-        <div class="flex items-center gap-2 flex-wrap">
-          ${roles.map(r => `
-            <button onclick="selectRolePlayRole('${r}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold border transition-all flex items-center gap-1.5 ${
-              window.DialogueState.selectedRole === r
-                ? 'bg-rose-600 text-white border-rose-400 shadow-md scale-105'
-                : 'bg-slate-900/80 text-rose-300 border-rose-800/60 hover:bg-slate-800'
-            }">
-              <span>${getSpeakerAvatar(r)}</span>
-              <span>${r}</span>
-              ${window.DialogueState.selectedRole === r ? '✓' : ''}
-            </button>
-          `).join('')}
+
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <!-- Các nút chọn vai -->
+          <div class="flex items-center gap-1.5 bg-slate-950/80 p-1 rounded-xl border border-rose-900/60">
+            ${roles.map(r => `
+              <button onclick="selectRolePlayRole('${r}')" class="px-3 py-1.5 rounded-xl text-xs font-black border transition-all flex items-center gap-1.5 ${
+                window.DialogueState.selectedRole === r
+                  ? 'bg-rose-600 text-white border-rose-400 shadow-md scale-105'
+                  : 'bg-transparent text-rose-300 border-transparent hover:bg-slate-800'
+              }">
+                <span>${getSpeakerAvatar(r)}</span>
+                <span>${r}</span>
+                ${window.DialogueState.selectedRole === r ? '✓' : ''}
+              </button>
+            `).join('')}
+          </div>
+
+          <!-- Nút Bắt đầu / Tạm dừng đối thoại -->
+          <button onclick="toggleInteractiveRolePlay()" class="px-4 py-2 rounded-xl text-xs font-black shadow-lg transition-all flex items-center gap-2 ${
+            window.DialogueState.rolePlayActive
+              ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/30'
+              : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30 animate-pulse'
+          }">
+            <span>${window.DialogueState.rolePlayActive ? '⏸️ Tạm dừng' : '▶️ Bắt đầu đối thoại'}</span>
+          </button>
         </div>
       </div>
     ` : ''}
@@ -296,6 +324,8 @@ function renderDialogueLine(line, index, roles) {
   const isLeft = (roles.indexOf(line.speaker) % 2 === 0);
   const isPlaying = (window.DialogueState.playingLineIndex === index);
   const isUserRole = (window.DialogueState.rolePlayMode && window.DialogueState.selectedRole === line.speaker);
+  const isRolePlayTurn = (window.DialogueState.rolePlayMode && window.DialogueState.rolePlayActive && window.DialogueState.rolePlayTurnIndex === index);
+  const isPassed = Boolean(window.DialogueState.rolePlayPassedLines && window.DialogueState.rolePlayPassedLines[index]);
 
   return `
     <div id="dlg-line-${index}" class="flex items-start gap-3 transition-all duration-300 ${
@@ -304,12 +334,14 @@ function renderDialogueLine(line, index, roles) {
       <!-- Avatar nhân vật -->
       <div class="flex flex-col items-center flex-shrink-0">
         <div class="w-11 h-11 rounded-2xl flex items-center justify-center text-xl shadow-md border ${
-          isUserRole 
-            ? 'bg-rose-950 border-rose-500 ring-2 ring-rose-400' 
-            : isLeft 
-              ? 'bg-slate-800/90 border-slate-700' 
-              : 'bg-indigo-950/90 border-indigo-700'
-        }">
+          isRolePlayTurn
+            ? (isUserRole ? 'bg-rose-950 border-rose-400 ring-4 ring-rose-500/50 scale-110' : 'bg-blue-950 border-cyan-400 ring-4 ring-cyan-500/50 scale-110')
+            : isUserRole 
+              ? 'bg-rose-950 border-rose-500 ring-2 ring-rose-400' 
+              : isLeft 
+                ? 'bg-slate-800/90 border-slate-700' 
+                : 'bg-indigo-950/90 border-indigo-700'
+        } transition-all">
           ${line.avatar || getSpeakerAvatar(line.speaker)}
         </div>
         <span class="text-[10px] font-bold text-slate-300 mt-1 max-w-[65px] truncate text-center leading-tight">
@@ -321,24 +353,35 @@ function renderDialogueLine(line, index, roles) {
       </div>
 
       <!-- Bong bóng lời thoại -->
-      <div class="max-w-[80%] sm:max-w-[75%] rounded-3xl p-4 transition-all duration-300 ${
-        isPlaying
-          ? 'bg-gradient-to-r from-blue-900/90 to-indigo-900/90 border-2 border-cyan-400 shadow-xl shadow-cyan-500/20 scale-[1.01]'
-          : isUserRole
-            ? 'bg-rose-950/40 border border-rose-700/60 shadow-lg'
-            : isLeft
-              ? 'bg-slate-900/90 border border-slate-800 shadow-md'
-              : 'bg-[#10172d]/90 border border-indigo-900/80 shadow-md'
+      <div class="max-w-[85%] sm:max-w-[75%] rounded-3xl p-4 transition-all duration-300 ${
+        isRolePlayTurn
+          ? (isUserRole 
+              ? 'bg-rose-950/70 border-2 border-rose-500 ring-4 ring-rose-500/30 shadow-2xl shadow-rose-950/80 scale-[1.02]' 
+              : 'bg-gradient-to-r from-blue-950/90 to-indigo-950/90 border-2 border-cyan-400 ring-4 ring-cyan-500/30 shadow-2xl scale-[1.02]')
+          : isPlaying
+            ? 'bg-gradient-to-r from-blue-900/90 to-indigo-900/90 border-2 border-cyan-400 shadow-xl shadow-cyan-500/20 scale-[1.01]'
+            : isUserRole
+              ? 'bg-rose-950/40 border border-rose-700/60 shadow-lg'
+              : isLeft
+                ? 'bg-slate-900/90 border border-slate-800 shadow-md'
+                : 'bg-[#10172d]/90 border border-indigo-900/80 shadow-md'
       }">
         <!-- Header của bong bóng thoại: Tên nhân vật & nút thao tác -->
         <div class="flex items-center justify-between gap-2 border-b border-slate-800/60 pb-1.5 mb-2">
-          <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-1.5 flex-wrap">
             <span class="text-xs font-black text-amber-400">${line.speaker}</span>
             ${isUserRole ? `
               <span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-rose-600 text-white">VAI CỦA BẠN</span>
             ` : ''}
-            ${isPlaying ? `
+            ${isRolePlayTurn ? (
+              isUserRole 
+                ? '<span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-rose-500 text-white animate-pulse">ĐẾN LƯỢT BẠN</span>'
+                : '<span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-cyan-400 text-slate-950 animate-pulse">🤖 MÁY ĐANG TRẢ LỜI...</span>'
+            ) : isPlaying ? `
               <span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-cyan-500 text-slate-950 animate-pulse">ĐANG PHÁT</span>
+            ` : ''}
+            ${isPassed ? `
+              <span class="px-1.5 py-0.2 rounded text-[9px] font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">✓ Đã nói xong</span>
             ` : ''}
           </div>
 
@@ -371,6 +414,31 @@ function renderDialogueLine(line, index, roles) {
             ${line.vi}
           </p>
         ` : ''}
+
+        <!-- KHU VỰC TƯƠNG TÁC ĐÓNG VAI: MICRO ĐANG LẮNG NGHE TRỰC TIẾP TẠI Ô THOẠI NÀY -->
+        ${isRolePlayTurn && isUserRole ? `
+          <div id="roleplay-status-box-${index}" class="mt-3 p-3 rounded-2xl bg-rose-950/90 border border-rose-500/80 shadow-lg flex items-center justify-between gap-3 flex-wrap animate-fadeIn">
+            <div class="flex items-center gap-3">
+              <!-- Nút micro đỏ nhấp nháy phát sáng -->
+              <div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center animate-pulse shadow-lg shadow-rose-600/60 ring-2 ring-rose-400/50 flex-shrink-0">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs font-black text-rose-300 flex items-center gap-1.5">
+                  <span>🎙️ Mic đang nghe bạn nói...</span>
+                </p>
+                <p id="roleplay-live-text-${index}" class="text-[11px] text-cyan-300 font-bold mt-0.5">
+                  ${window.DialogueState.rolePlaySpokenText ? 'Đang nhận diện: "' + window.DialogueState.rolePlaySpokenText + '"' : 'Hãy đọc to câu thoại trên vào micro!'}
+                </p>
+              </div>
+            </div>
+
+            <button onclick="skipRolePlayUserTurn(${index})" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold border border-slate-700 transition-all flex items-center gap-1 shadow-sm">
+              <span>Máy đọc hộ</span> ⏭️
+            </button>
+          </div>
+        ` : ''}
+
       </div>
     </div>
   `;
@@ -413,9 +481,11 @@ function setDialogueSpeed(speed) {
  */
 function toggleRolePlayMode() {
   window.DialogueState.rolePlayMode = !window.DialogueState.rolePlayMode;
-  if (window.DialogueState.rolePlayMode && !window.DialogueState.selectedRole) {
+  if (!window.DialogueState.rolePlayMode) {
+    stopInteractiveRolePlay();
+  } else {
     const data = getCurrentDialogueData();
-    if (data && data.dialogue.lines.length) {
+    if (data && data.dialogue.lines.length && !window.DialogueState.selectedRole) {
       window.DialogueState.selectedRole = data.dialogue.lines[0].speaker;
     }
   }
@@ -423,11 +493,281 @@ function toggleRolePlayMode() {
 }
 
 /**
- * Chọn nhân vật đóng vai
+ * Chọn nhân vật đóng vai & Bắt đầu đối thoại ngay
  */
 function selectRolePlayRole(role) {
   window.DialogueState.selectedRole = role;
+  startInteractiveRolePlay(0);
+}
+
+/**
+ * Chuẩn hóa chuỗi tiếng Trung để so sánh
+ */
+function cleanChineseText(str) {
+  if (!str) return "";
+  return str.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "").toLowerCase();
+}
+
+/**
+ * So khớp xem người dùng đã nói đúng câu thoại chưa
+ */
+function isDialogueSentenceMatched(targetHanzi, spokenText) {
+  const cleanTarget = cleanChineseText(targetHanzi);
+  const cleanSpoken = cleanChineseText(spokenText);
+  if (!cleanSpoken || !cleanTarget) return false;
+
+  // 1. Trùng khớp hoàn toàn hoặc chứa câu mục tiêu
+  if (cleanSpoken.includes(cleanTarget) || (cleanTarget.includes(cleanSpoken) && cleanSpoken.length >= Math.min(2, cleanTarget.length * 0.5))) {
+    return true;
+  }
+
+  // 2. So khớp từng chữ Hán (đạt >= 50% số chữ)
+  const targetChars = Array.from(cleanTarget);
+  let matched = 0;
+  for (let c of targetChars) {
+    if (cleanSpoken.includes(c)) matched++;
+  }
+  return (matched / targetChars.length) >= 0.5;
+}
+
+/**
+ * Bắt đầu luồng đóng vai tương tác 2 chiều (Turn-by-turn Interactive Role-Play)
+ */
+function startInteractiveRolePlay(startIdx = 0) {
+  stopDialogueAudio();
+  stopRolePlayRecognition();
+
+  const data = getCurrentDialogueData();
+  if (!data || !data.dialogue.lines.length) return;
+
+  if (!window.DialogueState.selectedRole) {
+    window.DialogueState.selectedRole = data.dialogue.lines[0].speaker;
+  }
+
+  window.DialogueState.rolePlayActive = true;
+  window.DialogueState.rolePlayTurnIndex = startIdx;
+  window.DialogueState.rolePlayPassedLines = {};
+  window.DialogueState.rolePlaySpokenText = "";
+
   renderDialogueView();
+  executeRolePlayTurn(startIdx);
+}
+
+/**
+ * Dừng chế độ đóng vai tương tác
+ */
+function stopInteractiveRolePlay() {
+  window.DialogueState.rolePlayActive = false;
+  window.DialogueState.rolePlayTurnIndex = -1;
+  window.DialogueState.rolePlayListening = false;
+  stopRolePlayRecognition();
+
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+  }
+  renderDialogueView();
+}
+
+/**
+ * Bật/Tắt đóng vai tương tác qua nút bấm
+ */
+function toggleInteractiveRolePlay() {
+  if (window.DialogueState.rolePlayActive) {
+    stopInteractiveRolePlay();
+  } else {
+    startInteractiveRolePlay(0);
+  }
+}
+
+/**
+ * Thực thi từng lượt đối thoại (Lượt của Máy hoặc Lượt của Bạn)
+ */
+function executeRolePlayTurn(index) {
+  if (!window.DialogueState.rolePlayActive) return;
+
+  const data = getCurrentDialogueData();
+  if (!data || index >= data.dialogue.lines.length) {
+    // Hoàn thành xuất sắc toàn bộ đoạn hội thoại
+    window.DialogueState.rolePlayActive = false;
+    window.DialogueState.rolePlayTurnIndex = -1;
+    stopRolePlayRecognition();
+    renderDialogueView();
+
+    if (typeof playSoundEffect === 'function') {
+      playSoundEffect('match');
+    }
+    if (typeof showToast === 'function') {
+      showToast("🎉 Xuất sắc! Bạn đã hoàn thành trọn vẹn đoạn hội thoại!");
+    }
+    return;
+  }
+
+  window.DialogueState.rolePlayTurnIndex = index;
+  window.DialogueState.rolePlaySpokenText = "";
+  const line = data.dialogue.lines[index];
+  const isUserTurn = (line.speaker === window.DialogueState.selectedRole);
+
+  renderDialogueView();
+
+  // Tự động cuộn êm đến câu đang đối thoại
+  setTimeout(() => {
+    const el = document.getElementById(`dlg-line-${index}`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 100);
+
+  if (!isUserTurn) {
+    // ==========================================
+    // 1. LƯỢT CỦA MÁY (AI ĐỐI THOẠI ĐỌC CÂU CỦA NÓ)
+    // ==========================================
+    stopRolePlayRecognition();
+
+    setTimeout(() => {
+      if (!window.DialogueState.rolePlayActive || window.DialogueState.rolePlayTurnIndex !== index) return;
+      speakChineseText(line.hanzi, () => {
+        if (!window.DialogueState.rolePlayActive) return;
+        // Máy đọc xong câu của nó -> Tự động nhường lượt tiếp theo cho Bạn
+        setTimeout(() => {
+          if (window.DialogueState.rolePlayActive) {
+            executeRolePlayTurn(index + 1);
+          }
+        }, 500);
+      });
+    }, 400);
+
+  } else {
+    // ==========================================
+    // 2. LƯỢT CỦA BẠN (MICROPHONE TỰ ĐỘNG LẮNG NGHE TẠI Ô THOẠI ĐÓ)
+    // ==========================================
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    startRolePlayRecognition(line, index);
+  }
+}
+
+/**
+ * Kích hoạt nhận diện giọng nói khi đến lượt người dùng đọc
+ */
+function startRolePlayRecognition(line, index) {
+  stopRolePlayRecognition();
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    if (typeof showToast === 'function') {
+      showToast("⚠️ Trình duyệt chưa hỗ trợ Web Speech API. Bấm 'Máy đọc hộ' để tiếp tục.");
+    }
+    return;
+  }
+
+  try {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'zh-CN';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.maxAlternatives = 3;
+    window.DialogueState.rolePlayRecognition = recognition;
+    window.DialogueState.rolePlayListening = true;
+
+    recognition.onresult = (event) => {
+      let interim = "";
+      let finalStr = "";
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalStr += event.results[i][0].transcript;
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      const rawCombined = (finalStr + " " + interim).trim();
+      if (!rawCombined) return;
+
+      window.DialogueState.rolePlaySpokenText = rawCombined;
+      const liveTextEl = document.getElementById(`roleplay-live-text-${index}`);
+      if (liveTextEl) {
+        liveTextEl.textContent = `Bạn đang nói: "${rawCombined}"`;
+      }
+
+      // Kiểm tra nếu người dùng đã nói đúng câu này
+      if (isDialogueSentenceMatched(line.hanzi, rawCombined)) {
+        // ĐÚNG CÂU THOẠI!
+        window.DialogueState.rolePlayPassedLines[index] = true;
+        stopRolePlayRecognition();
+
+        if (typeof playSoundEffect === 'function') {
+          playSoundEffect('correct');
+        }
+
+        // Cập nhật giao diện ô thoại báo thành công
+        const statusBox = document.getElementById(`roleplay-status-box-${index}`);
+        if (statusBox) {
+          statusBox.innerHTML = `
+            <span class="text-xs font-black text-emerald-400 flex items-center gap-1.5 animate-bounce">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+              Đúng rồi! Rất xuất sắc 🎉
+            </span>
+          `;
+        }
+
+        // Chuyển sang lượt tiếp theo của Máy sau 650ms
+        setTimeout(() => {
+          if (window.DialogueState.rolePlayActive) {
+            executeRolePlayTurn(index + 1);
+          }
+        }, 650);
+      }
+    };
+
+    recognition.onerror = (err) => {
+      console.warn("Lỗi nhận dạng giọng nói đóng vai:", err);
+    };
+
+    recognition.onend = () => {
+      // Nếu vẫn đang đến lượt bạn và chưa nói đúng câu -> tự động lắng nghe tiếp
+      if (window.DialogueState.rolePlayActive && 
+          window.DialogueState.rolePlayTurnIndex === index && 
+          !window.DialogueState.rolePlayPassedLines[index]) {
+        try { recognition.start(); } catch(e) {}
+      }
+    };
+
+    recognition.start();
+  } catch (e) {
+    console.warn("Không khởi động được SpeechRecognition đóng vai:", e);
+  }
+}
+
+/**
+ * Tắt nhận dạng giọng nói đóng vai
+ */
+function stopRolePlayRecognition() {
+  window.DialogueState.rolePlayListening = false;
+  if (window.DialogueState.rolePlayRecognition) {
+    try {
+      window.DialogueState.rolePlayRecognition.abort();
+    } catch (e) {}
+    window.DialogueState.rolePlayRecognition = null;
+  }
+}
+
+/**
+ * Người dùng bỏ qua lượt nói (Nhường máy đọc hộ)
+ */
+function skipRolePlayUserTurn(index) {
+  stopRolePlayRecognition();
+  const data = getCurrentDialogueData();
+  if (!data || !data.dialogue.lines[index]) return;
+
+  window.DialogueState.rolePlayPassedLines[index] = true;
+  const line = data.dialogue.lines[index];
+
+  // Máy đọc hộ câu này rồi chuyển tiếp lượt sau
+  speakChineseText(line.hanzi, () => {
+    setTimeout(() => {
+      if (window.DialogueState.rolePlayActive) {
+        executeRolePlayTurn(index + 1);
+      }
+    }, 450);
+  });
 }
 
 /**
@@ -508,7 +848,7 @@ function startFullDialoguePlayback() {
 }
 
 /**
- * Phát từng bước trong bài thoại
+ * Phát từng bước trong bài thoại (khi phát bình thường)
  */
 function playDialogueStep(index) {
   if (!window.DialogueState.isPlaying) return;
@@ -527,29 +867,22 @@ function playDialogueStep(index) {
 
   const line = data.dialogue.lines[index];
 
-  // Nếu đang ở chế độ Role-Play và đây là vai người dùng chọn:
-  if (window.DialogueState.rolePlayMode && window.DialogueState.selectedRole === line.speaker) {
-    if (typeof showToast === 'function') {
-      showToast(`🎙️ Đến lượt bạn đọc vai [${line.speaker}]!`);
-    }
-
-    // Tạm dừng 4.5 giây để người dùng đọc to theo vai của mình
-    setTimeout(() => {
-      if (window.DialogueState.isPlaying) {
-        playDialogueStep(index + 1);
-      }
-    }, 4500);
-  } else {
-    // Đọc bình thường
-    speakChineseText(line.hanzi, () => {
-      if (window.DialogueState.isPlaying) {
-        // Nghỉ 700ms giữa 2 câu
-        setTimeout(() => {
-          playDialogueStep(index + 1);
-        }, 700);
-      }
-    });
+  // Nếu đang ở chế độ Role-Play: chuyển qua luồng đóng vai tương tác
+  if (window.DialogueState.rolePlayMode) {
+    stopDialogueAudio();
+    startInteractiveRolePlay(index);
+    return;
   }
+
+  // Đọc bình thường
+  speakChineseText(line.hanzi, () => {
+    if (window.DialogueState.isPlaying) {
+      // Nghỉ 700ms giữa 2 câu
+      setTimeout(() => {
+        playDialogueStep(index + 1);
+      }, 700);
+    }
+  });
 }
 
 /**
@@ -646,6 +979,10 @@ window.toggleDialogueTranslation = toggleDialogueTranslation;
 window.setDialogueSpeed = setDialogueSpeed;
 window.toggleRolePlayMode = toggleRolePlayMode;
 window.selectRolePlayRole = selectRolePlayRole;
+window.startInteractiveRolePlay = startInteractiveRolePlay;
+window.stopInteractiveRolePlay = stopInteractiveRolePlay;
+window.toggleInteractiveRolePlay = toggleInteractiveRolePlay;
+window.skipRolePlayUserTurn = skipRolePlayUserTurn;
 window.playSingleLine = playSingleLine;
 window.togglePlayFullDialogue = togglePlayFullDialogue;
 window.stopDialogueAudio = stopDialogueAudio;
