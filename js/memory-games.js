@@ -503,11 +503,10 @@ function renderHanziRecall(container) {
   if (!word) { renderSummaryScreen(); return; }
 
   const chars = Array.from(word.hanzi);
-  const targetChar = chars[hub.recall.charIndex] || chars[0] || '你';
 
   container.innerHTML = `
     <div class="space-y-4 animate-in fade-in zoom-in-95 duration-200">
-      <!-- Đề bài: Cho Pinyin & Nghĩa tiếng Việt -->
+      <!-- Đề bài: Cho Pinyin & Nghĩa tiếng Việt (Viết trọn vẹn từ Hán) -->
       <div class="p-4 rounded-2xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-4">
         <div>
           <span class="text-xs text-blue-400 font-black uppercase tracking-wider block">Hãy viết chữ Hán:</span>
@@ -516,41 +515,39 @@ function renderHanziRecall(container) {
         </div>
 
         <div class="flex items-center gap-2">
-          ${chars.length > 1 ? `
-            <div class="flex gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
-              ${chars.map((c, idx) => `
-                <button onclick="selectRecallChar(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-bold ${idx === hub.recall.charIndex ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}">
-                  Chữ ${idx + 1} (${c})
-                </button>
-              `).join('')}
-            </div>
-          ` : ''}
           <button onclick="speakChinese('${word.hanzi}')" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-200 hover:text-white flex items-center justify-center transition-all shadow-md" title="Nghe phát âm">
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
           </button>
         </div>
       </div>
 
-      <!-- Khung vẽ chữ Hán Canvas tự do -->
+      <!-- Khung vẽ chữ Hán thống nhất (Không chia thành Chữ 1, Chữ 2 - Viết trọn vẹn cả từ trong 1 ô) -->
       <div class="flex flex-col items-center justify-center space-y-3">
-        <!-- Vùng vẽ kích thước chuẩn 260x260 với lưới 米 tự (Tianzige) -->
-        <div id="recall-draw-container" class="w-[260px] h-[260px] bg-slate-950 rounded-3xl border-2 border-slate-700 shadow-2xl relative overflow-hidden flex items-center justify-center select-none touch-none">
+        <!-- Vùng vẽ kích thước động với các ô lưới 米 tự (Tianzige) cho từng chữ trong từ -->
+        <div id="recall-draw-container" class="bg-slate-950 rounded-3xl border-2 border-slate-700 shadow-2xl relative overflow-hidden flex items-center justify-center select-none touch-none mx-auto transition-all" style="width: min(100%, ${chars.length === 1 ? '260px' : (chars.length === 2 ? '480px' : '540px')}); aspect-ratio: ${chars.length} / 1;">
           
-          <!-- Lưới ô chữ điền 米 tự mờ -->
-          <svg class="absolute inset-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 260 260">
-            <line x1="0" y1="130" x2="260" y2="130" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
-            <line x1="130" y1="0" x2="130" y2="260" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
-            <line x1="0" y1="0" x2="260" y2="260" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
-            <line x1="260" y1="0" x2="0" y2="260" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
-          </svg>
+          <!-- Lưới và nét mờ của từng chữ trong từ -->
+          <div class="absolute inset-0 h-full w-full pointer-events-none" style="display: grid; grid-template-columns: repeat(${chars.length}, 1fr);">
+            ${chars.map((c, idx) => `
+              <div class="relative h-full w-full flex items-center justify-center ${idx > 0 ? 'border-l border-slate-800' : ''}">
+                <!-- Lưới ô chữ điền 米 tự mờ -->
+                <svg class="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 240 240">
+                  <line x1="0" y1="120" x2="240" y2="120" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
+                  <line x1="120" y1="0" x2="120" y2="240" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 5"/>
+                  <line x1="0" y1="0" x2="240" y2="240" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+                  <line x1="240" y1="0" x2="0" y2="240" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+                </svg>
 
-          <!-- Nét mờ chữ mẫu trong nền (HanziWriter Outline hoặc Font mờ) -->
-          <div id="recall-outline-target" class="absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300">
-            <span id="recall-outline-char" class="text-[170px] font-black text-slate-700/60 chinese-font leading-none select-none">${targetChar}</span>
+                <!-- Nét mờ chữ mẫu trong nền -->
+                <div id="recall-char-outline-${idx}" class="recall-outline-cell absolute inset-0 flex items-center justify-center transition-opacity duration-300">
+                  <span class="font-black text-slate-700/60 chinese-font leading-none select-none" style="font-size: clamp(65px, ${Math.round(55 / chars.length)}vw, 145px);">${c}</span>
+                </div>
+              </div>
+            `).join('')}
           </div>
 
-          <!-- HTML5 Canvas để người dùng tự do vẽ mọi nét theo ý muốn -->
-          <canvas id="recall-canvas" width="260" height="260" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+          <!-- HTML5 Canvas duy nhất bao phủ toàn bộ ô vẽ để người dùng viết trọn vẹn cả từ -->
+          <canvas id="recall-canvas" width="${chars.length * 240}" height="240" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
         </div>
 
         <!-- Trạng thái nét vẽ -->
@@ -571,7 +568,7 @@ function renderHanziRecall(container) {
           </button>
 
           <!-- Xem chữ mẫu phát động -->
-          <button onclick="animateRecallChar('${targetChar}')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
+          <button onclick="animateRecallWord()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 text-xs font-bold border border-slate-700 transition-all flex items-center gap-1.5 shadow-md">
             ▶️ Xem mẫu viết
           </button>
 
@@ -590,11 +587,6 @@ function renderHanziRecall(container) {
   `;
 
   initRecallCanvas();
-}
-
-function selectRecallChar(idx) {
-  window.MEMORY_HUB.recall.charIndex = idx;
-  renderHanziRecall(document.getElementById('hub-game-area'));
 }
 
 /**
@@ -670,17 +662,21 @@ function clearRecallCanvas() {
     hub.recall.hasDrawn = false;
     const st = document.getElementById('recall-status-text');
     if (st) st.innerHTML = "✍️ Vẽ tự do bằng chuột hoặc chạm tay vào ô trên";
+    const drawContainer = document.getElementById('recall-draw-container');
+    if (drawContainer) {
+      drawContainer.classList.remove('ring-4', 'ring-emerald-500/70', 'ring-rose-500/70', 'border-emerald-500', 'border-rose-500');
+    }
   }
 }
 
 function toggleRecallOutline() {
   const hub = window.MEMORY_HUB;
   hub.recall.outlineVisible = !hub.recall.outlineVisible;
-  const target = document.getElementById('recall-outline-target');
+  const cells = document.querySelectorAll('.recall-outline-cell');
+  cells.forEach(cell => {
+    cell.style.opacity = hub.recall.outlineVisible ? '1' : '0';
+  });
   const btn = document.getElementById('btn-toggle-outline');
-  if (target) {
-    target.style.opacity = hub.recall.outlineVisible ? '1' : '0';
-  }
   if (btn) {
     btn.innerHTML = hub.recall.outlineVisible ? '👁️ Nét mờ: Bật' : '👁️ Nét mờ: Tắt';
     btn.className = btn.className.replace(
@@ -690,52 +686,67 @@ function toggleRecallOutline() {
   }
 }
 
-function animateRecallChar(char) {
-  const container = document.getElementById('recall-outline-target');
-  if (!container || !window.HanziWriter) return;
-  container.innerHTML = '';
+/**
+ * Xem animation mẫu viết lần lượt từng chữ trong từ
+ */
+function animateRecallWord() {
+  const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  if (!word || !window.HanziWriter) return;
 
-  try {
-    const writer = HanziWriter.create(container, char, {
-      width: 260,
-      height: 260,
-      padding: 20,
-      showOutline: true,
-      strokeAnimationSpeed: 1.2,
-      delayBetweenStrokes: 120,
-      strokeColor: '#38bdf8',
-      radicalColor: '#f43f5e',
-      outlineColor: '#475569'
-    });
-    writer.animateCharacter();
-  } catch (e) {
-    console.warn("Lỗi animation chữ mẫu:", e);
+  const chars = Array.from(word.hanzi);
+
+  function animateCell(idx) {
+    if (idx >= chars.length) return;
+    const targetCell = document.getElementById(`recall-char-outline-${idx}`);
+    if (!targetCell) return;
+
+    const originalHtml = targetCell.innerHTML;
+    targetCell.innerHTML = '';
+    const rect = targetCell.getBoundingClientRect();
+    const size = Math.min(rect.width, rect.height) || 200;
+
+    try {
+      const writer = HanziWriter.create(targetCell, chars[idx], {
+        width: size,
+        height: size,
+        padding: 16,
+        showOutline: true,
+        strokeAnimationSpeed: 1.4,
+        delayBetweenStrokes: 100,
+        strokeColor: '#38bdf8',
+        radicalColor: '#f43f5e',
+        outlineColor: '#475569'
+      });
+      writer.animateCharacter({
+        onComplete: () => {
+          setTimeout(() => {
+            targetCell.innerHTML = originalHtml;
+            animateCell(idx + 1);
+          }, 350);
+        }
+      });
+    } catch (e) {
+      console.warn("Lỗi animation chữ:", e);
+      targetCell.innerHTML = originalHtml;
+      animateCell(idx + 1);
+    }
   }
+
+  animateCell(0);
 }
 
 /**
- * Đánh giá chữ Hán người dùng đã vẽ trên Canvas:
- * - So sánh giữa nét vẽ của người dùng và hình mẫu chữ Hán mục tiêu
- * - KHÔNG ép thứ tự từng nét
- * - Kiểm tra độ phủ (Coverage >= 42%) và độ chính xác (Precision >= 42%)
- * - Tránh việc vẽ 1 nét gạch, vẽ bậy bạ, hoặc vẽ thiếu nét
+ * Đánh giá nét vẽ của một ô chữ đơn lẻ (240x240 px)
  */
-function evaluateDrawnCharacter(userCanvas, targetChar) {
-  if (!userCanvas) return { isPassed: false, score: 0, reason: "Không tìm thấy bảng vẽ." };
-
-  const W = userCanvas.width || 260;
-  const H = userCanvas.height || 260;
-  const userCtx = userCanvas.getContext('2d');
-  const userImgData = userCtx.getImageData(0, 0, W, H);
-  const userPixels = userImgData.data;
-
+function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
   // 1. Tạo Canvas đối chiếu vẽ chữ Hán mẫu
   const refCanvas = document.createElement('canvas');
   refCanvas.width = W;
   refCanvas.height = H;
   const refCtx = refCanvas.getContext('2d');
   refCtx.fillStyle = '#ffffff';
-  refCtx.font = 'bold 165px "Ma Shan Zheng", "STKaiti", "KaiTi", "SimSun", "Noto Serif SC", "Microsoft YaHei", sans-serif';
+  refCtx.font = 'bold 155px "Ma Shan Zheng", "STKaiti", "KaiTi", "SimSun", "Noto Serif SC", "Microsoft YaHei", sans-serif';
   refCtx.textAlign = 'center';
   refCtx.textBaseline = 'middle';
   refCtx.fillText(targetChar, W / 2, H / 2);
@@ -743,7 +754,7 @@ function evaluateDrawnCharacter(userCanvas, targetChar) {
   const refImgData = refCtx.getImageData(0, 0, W, H);
   const refPixels = refImgData.data;
 
-  // 2. Thu thập các điểm người dùng đã vẽ (lấy mẫu step = 4)
+  // 2. Thu thập các điểm người dùng đã vẽ trong ô này (step = 4)
   const step = 4;
   const drawnPoints = [];
   let userPointCount = 0;
@@ -758,19 +769,19 @@ function evaluateDrawnCharacter(userCanvas, targetChar) {
     }
   }
 
-  // Nếu vẽ quá ít (dưới 45 điểm lấy mẫu, tương đương chưa viết nổi 1 nét tử tế)
-  if (userPointCount < 45) {
+  // Nếu vẽ quá ít trong ô này (dưới 35 điểm lấy mẫu)
+  if (userPointCount < 35) {
     return {
       isPassed: false,
       score: 10,
-      coverage: 10,
-      precision: 10,
-      reason: `Bạn vẽ quá ít nét. Hãy vẽ trọn vẹn chữ "${targetChar}" vào ô nhé!`
+      coverage: 0,
+      precision: 0,
+      userPointCount: userPointCount,
+      reason: `Bạn chưa viết chữ "${targetChar}" vào ô.`
     };
   }
 
-  // 3. Tính độ phủ (Coverage): Bao nhiêu % của chữ mẫu đã được tô trúng?
-  // Bán kính dung sai cho nét cọ vẽ tay: 16px
+  // 3. Tính độ phủ (Coverage): Bao nhiêu % của chữ mẫu đã được vẽ qua?
   const hitRadiusSq = 16 * 16;
   let targetTotal = 0;
   let targetHit = 0;
@@ -829,19 +840,19 @@ function evaluateDrawnCharacter(userCanvas, targetChar) {
   const precision = userPointCount > 0 ? Math.round((userValidPoints / userPointCount) * 100) : 0;
   const finalScore = Math.min(100, Math.round(coverage * 0.65 + precision * 0.35));
 
-  // TIÊU CHÍ ĐÁNH GIÁ CHỮ CUỐI CÙNG:
-  // - Độ phủ hình dáng chữ >= 42% (phải vẽ đủ các nét cấu thành chữ)
-  // - Độ chính xác bám nét >= 42% (không vẽ bậy bạ ngoài khung)
-  // - Điểm tổng hợp >= 45%
-  const isPassed = coverage >= 42 && precision >= 42 && userPointCount >= 45;
+  // Tiêu chí đánh giá chữ:
+  // - Độ phủ hình dáng chữ >= 40% (phải vẽ đủ các nét cấu thành chữ)
+  // - Độ chính xác bám nét >= 40% (không vẽ lệch bậy ra ngoài)
+  // - Điểm tổng hợp >= 40%
+  const isPassed = coverage >= 40 && precision >= 40 && userPointCount >= 40;
 
   let reason = "";
   if (isPassed) {
-    reason = `🎉 Xuất sắc! Nét viết chữ "${targetChar}" đạt ${finalScore}% độ chuẩn xác!`;
-  } else if (coverage < 42) {
-    reason = `⚠️ Chữ viết chưa hoàn thiện (độ phủ mới đạt ${coverage}%). Bạn vẽ thiếu nét rồi, hãy xem chữ mẫu và vẽ đủ các nét của chữ "${targetChar}" nhé!`;
+    reason = `Chữ "${targetChar}" đạt ${finalScore}% độ chuẩn xác`;
+  } else if (coverage < 40) {
+    reason = `Chữ "${targetChar}" bị thiếu nét (độ phủ mới đạt ${coverage}%)`;
   } else {
-    reason = `⚠️ Nét vẽ bị lệch ra ngoài quá nhiều (độ chuẩn ${precision}%). Hãy bấm "Xóa nét" và vẽ lại bám theo chữ mẫu nhé!`;
+    reason = `Nét vẽ chữ "${targetChar}" bị lệch ra ngoài chữ mẫu`;
   }
 
   return {
@@ -849,8 +860,68 @@ function evaluateDrawnCharacter(userCanvas, targetChar) {
     score: finalScore,
     coverage,
     precision,
+    userPointCount,
     reason
   };
+}
+
+/**
+ * Đánh giá toàn bộ từ Hán trên Canvas (Hỗ trợ từ 1 chữ, 2 chữ như 没事, hoặc 3 chữ)
+ */
+function evaluateDrawnCharacter(userCanvas, targetHanzi) {
+  if (!userCanvas) return { isPassed: false, score: 0, reason: "Không tìm thấy bảng vẽ." };
+
+  const chars = Array.from(targetHanzi || "");
+  if (chars.length === 0) return { isPassed: true, score: 100, reason: "Hoàn thành." };
+
+  const N = chars.length;
+  const totalW = userCanvas.width || (N * 240);
+  const totalH = userCanvas.height || 240;
+  const cellW = Math.floor(totalW / N);
+  const cellH = totalH;
+  const userCtx = userCanvas.getContext('2d');
+
+  let allPassed = true;
+  let totalScore = 0;
+  let firstFailReason = "";
+
+  for (let idx = 0; idx < N; idx++) {
+    const c = chars[idx];
+    const cellImgData = userCtx.getImageData(idx * cellW, 0, cellW, cellH);
+    const res = evaluateSingleCharacterCell(cellImgData.data, cellW, cellH, c);
+
+    totalScore += res.score;
+    if (!res.isPassed) {
+      allPassed = false;
+      if (!firstFailReason) {
+        if (N > 1) {
+          if (res.userPointCount < 35) {
+            firstFailReason = `⚠️ Bạn chưa viết chữ thứ ${idx + 1} "${c}". Hãy viết đủ cả từ "${targetHanzi}" nhé!`;
+          } else {
+            firstFailReason = `⚠️ ${res.reason}. Hãy xem nét mờ và vẽ lại nhé!`;
+          }
+        } else {
+          firstFailReason = `⚠️ ${res.reason}. Hãy xem nét mờ và vẽ lại nhé!`;
+        }
+      }
+    }
+  }
+
+  const finalAvgScore = Math.round(totalScore / N);
+
+  if (allPassed) {
+    return {
+      isPassed: true,
+      score: finalAvgScore,
+      reason: `🎉 Xuất sắc! Nét viết từ "${targetHanzi}" đạt ${finalAvgScore}% độ chuẩn xác!`
+    };
+  } else {
+    return {
+      isPassed: false,
+      score: finalAvgScore,
+      reason: firstFailReason
+    };
+  }
 }
 
 /**
@@ -870,14 +941,11 @@ function submitRecallWord() {
     return;
   }
 
-  const chars = Array.from(word.hanzi);
-  const targetChar = chars[hub.recall.charIndex] || chars[0] || '你';
-
-  // Đánh giá thực chất nét vẽ của người dùng so với chữ mẫu
-  const evalResult = evaluateDrawnCharacter(hub.recall.canvas, targetChar);
+  // Đánh giá thực chất nét vẽ của người dùng trên toàn bộ từ Hán
+  const evalResult = evaluateDrawnCharacter(hub.recall.canvas, word.hanzi);
 
   if (!evalResult.isPassed) {
-    // CHƯA ĐẠT: Báo lỗi cụ thể (thiếu nét hoặc vẽ lệch), rung viền đỏ, KHÔNG cho qua
+    // CHƯA ĐẠT: Báo lỗi cụ thể (thiếu chữ nào, thiếu nét hay vẽ lệch), rung viền đỏ, KHÔNG cho qua
     playSoundEffect('wrong');
     if (st) st.innerHTML = `<span class="text-rose-400 font-bold text-xs">${evalResult.reason}</span>`;
     if (drawContainer) {
@@ -890,7 +958,7 @@ function submitRecallWord() {
     return;
   }
 
-  // ĐẠT CHUẨN: Viết trọn vẹn chữ Hán!
+  // ĐẠT CHUẨN: Viết trọn vẹn cả từ Hán!
   playSoundEffect('match');
   if (st) st.innerHTML = `<span class="text-emerald-400 font-black text-sm">${evalResult.reason}</span>`;
   if (drawContainer) {
@@ -901,15 +969,6 @@ function submitRecallWord() {
   const mode = 'hanzi_recall';
   hub.gameStats[mode].score += 15;
   hub.gameStats[mode].correct++;
-
-  // Nếu từ ghép có nhiều chữ (ví dụ: 你好 có 2 chữ)
-  if (chars.length > 1 && hub.recall.charIndex < chars.length - 1) {
-    setTimeout(() => {
-      hub.recall.charIndex++;
-      renderHanziRecall(document.getElementById('hub-game-area'));
-    }, 1000);
-    return;
-  }
 
   // Đã viết xong tất cả chữ trong từ này
   if (!hub.gameCompleted[mode].includes(word.id)) {
@@ -1399,10 +1458,11 @@ window.handleFlashcardRating = handleFlashcardRating;
 window.toggleListeningSubMode = toggleListeningSubMode;
 window.clearRecallCanvas = clearRecallCanvas;
 window.toggleRecallOutline = toggleRecallOutline;
-window.animateRecallChar = animateRecallChar;
+window.animateRecallWord = animateRecallWord;
+window.animateRecallChar = animateRecallWord;
 window.submitRecallWord = submitRecallWord;
 window.skipRecallWord = skipRecallWord;
-window.selectRecallChar = selectRecallChar;
+window.selectRecallChar = function() {};
 window.resetCurrentModeQueue = resetCurrentModeQueue;
 window.getMasteredWords = getMasteredWords;
 window.setWordMastered = setWordMastered;
