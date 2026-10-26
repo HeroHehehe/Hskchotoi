@@ -17,7 +17,7 @@ window.HSK_LESSONS = [
     "title": "我叫李文",
     "title_vi": "Tôi tên là Lý Văn",
     "desc": "Hỏi và tự giới thiệu tên, xin lỗi và cảm ơn",
-    "vocab_count": 15
+    "vocab_count": 17
   },
   {
     "id": 3,
@@ -25,7 +25,7 @@ window.HSK_LESSONS = [
     "title": "我是中国人",
     "title_vi": "Tôi là người Trung Quốc",
     "desc": "Hỏi quốc tịch, giới thiệu bạn bè, cấu trúc câu chữ 是",
-    "vocab_count": 20
+    "vocab_count": 22
   },
   {
     "id": 4,
@@ -803,7 +803,8 @@ window.VOCAB_DATABASE = [
       "王",
       "老",
       "师"
-    ]
+    ],
+    "is_proper_noun": true
   },
   {
     "id": 14,
@@ -1166,64 +1167,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 26,
-    "lesson_id": 2,
-    "hanzi": "没事",
-    "pinyin": "méishì",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "một sự",
-    "meaning": "không có việc gì",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "没事，我可以帮你。",
-    "ex_py": "Méi shì, wǒ kě yǐ bāng nǐ.",
-    "ex_vi": "Không sao, tôi có thể giúp bạn.",
-    "chars": [
-      "没",
-      "事"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "没",
-        "py": "méi",
-        "highlight": true
-      },
-      {
-        "hz": "事",
-        "py": "shì",
-        "highlight": true
-      },
-      {
-        "hz": "，",
-        "py": ""
-      },
-      {
-        "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "可",
-        "py": "kě"
-      },
-      {
-        "hz": "以",
-        "py": "yǐ"
-      },
-      {
-        "hz": "帮",
-        "py": "bāng"
-      },
-      {
-        "hz": "你",
-        "py": "nǐ"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
     "id": 21,
     "lesson_id": 2,
     "hanzi": "请问",
@@ -1340,6 +1283,46 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 20,
+    "lesson_id": 2,
+    "hanzi": "很",
+    "pinyin": "hěn",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "ngận",
+    "meaning": "rất",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天很冷。",
+    "ex_py": "Jīn tiān hěn lěng.",
+    "ex_vi": "Hôm nay rất lạnh.",
+    "chars": [
+      "很"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "今",
+        "py": "jīn"
+      },
+      {
+        "hz": "天",
+        "py": "tiān"
+      },
+      {
+        "hz": "很",
+        "py": "hěn",
+        "highlight": true
+      },
+      {
+        "hz": "冷",
+        "py": "lěng"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
     "id": 19,
     "lesson_id": 2,
     "hanzi": "高兴",
@@ -1402,46 +1385,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 20,
-    "lesson_id": 2,
-    "hanzi": "很",
-    "pinyin": "hěn",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "ngận",
-    "meaning": "rất",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天很冷。",
-    "ex_py": "Jīn tiān hěn lěng.",
-    "ex_vi": "Hôm nay rất lạnh.",
-    "chars": [
-      "很"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "今",
-        "py": "jīn"
-      },
-      {
-        "hz": "天",
-        "py": "tiān"
-      },
-      {
-        "hz": "很",
-        "py": "hěn",
-        "highlight": true
-      },
-      {
-        "hz": "冷",
-        "py": "lěng"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
     "id": 27,
     "lesson_id": 2,
     "hanzi": "也",
@@ -1474,6 +1417,64 @@ window.VOCAB_DATABASE = [
       {
         "hz": "好",
         "py": "hǎo"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "lesson_id": 2,
+    "hanzi": "没事",
+    "pinyin": "méishì",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "một sự",
+    "meaning": "không có việc gì",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "没事，我可以帮你。",
+    "ex_py": "Méi shì, wǒ kě yǐ bāng nǐ.",
+    "ex_vi": "Không sao, tôi có thể giúp bạn.",
+    "chars": [
+      "没",
+      "事"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "没",
+        "py": "méi",
+        "highlight": true
+      },
+      {
+        "hz": "事",
+        "py": "shì",
+        "highlight": true
+      },
+      {
+        "hz": "，",
+        "py": ""
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "可",
+        "py": "kě"
+      },
+      {
+        "hz": "以",
+        "py": "yǐ"
+      },
+      {
+        "hz": "帮",
+        "py": "bāng"
+      },
+      {
+        "hz": "你",
+        "py": "nǐ"
       },
       {
         "hz": "。",
@@ -1578,57 +1579,119 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 298,
-    "lesson_id": 3,
-    "hanzi": "中国",
-    "pinyin": "Zhōngguó",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "Trung Quốc",
-    "meaning": "Trung Quốc",
+    "id": 304,
+    "lesson_id": 2,
+    "hanzi": "李文",
+    "pinyin": "Lǐ Wén",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Lý Văn",
+    "meaning": "Lý Văn (tên riêng).",
+    "is_proper_noun": true,
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我想去中国学习。",
-    "ex_py": "Wǒ xiǎng qù zhōng guó xué xí.",
-    "ex_vi": "Tôi muốn đi Trung Quốc học.",
-    "chars": [
-      "中",
-      "国"
-    ],
+    "ex_hz": "我叫李文。",
+    "ex_py": "Wǒ jiào lǐ wén.",
+    "ex_vi": "Tôi tên là Lý Văn.",
     "ex_tokens": [
       {
         "hz": "我",
         "py": "wǒ"
       },
       {
-        "hz": "想",
-        "py": "xiǎng"
+        "hz": "叫",
+        "py": "jiào"
       },
       {
-        "hz": "去",
-        "py": "qù"
-      },
-      {
-        "hz": "中",
-        "py": "zhōng",
+        "hz": "李",
+        "py": "lǐ",
         "highlight": true
       },
       {
-        "hz": "国",
-        "py": "guó",
+        "hz": "文",
+        "py": "wén",
         "highlight": true
-      },
-      {
-        "hz": "学",
-        "py": "xué"
-      },
-      {
-        "hz": "习",
-        "py": "xí"
       },
       {
         "hz": "。",
         "py": ""
       }
+    ],
+    "chars": [
+      "李",
+      "文"
+    ]
+  },
+  {
+    "id": 305,
+    "lesson_id": 2,
+    "hanzi": "白家月",
+    "pinyin": "Bái Jiāyuè",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Bạch Gia Nguyệt",
+    "meaning": "Bạch Gia Nguyệt (tên riêng).",
+    "is_proper_noun": true,
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我不叫李文，我叫白家月。",
+    "ex_py": "Wǒ bù jiào lǐ wén, wǒ jiào bái jiā yuè.",
+    "ex_vi": "Tôi không tên là Lý Văn, tôi tên là Bạch Gia Nguyệt.",
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "不",
+        "py": "bù"
+      },
+      {
+        "hz": "叫",
+        "py": "jiào"
+      },
+      {
+        "hz": "李",
+        "py": "lǐ"
+      },
+      {
+        "hz": "文",
+        "py": "wén"
+      },
+      {
+        "hz": "，",
+        "py": ""
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "叫",
+        "py": "jiào"
+      },
+      {
+        "hz": "白",
+        "py": "bái",
+        "highlight": true
+      },
+      {
+        "hz": "家",
+        "py": "jiā",
+        "highlight": true
+      },
+      {
+        "hz": "月",
+        "py": "yuè",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "chars": [
+      "白",
+      "家",
+      "月"
     ]
   },
   {
@@ -1680,20 +1743,212 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 44,
+    "id": 31,
     "lesson_id": 3,
-    "hanzi": "吗",
-    "pinyin": "ma",
+    "hanzi": "的",
+    "pinyin": "de",
     "type": "TRỢ",
     "type_detail": "Trợ",
-    "hv": "ma",
-    "meaning": "trợ từ hỏi",
+    "hv": "đích",
+    "meaning": "trợ từ",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你是学生吗？",
-    "ex_py": "Nǐ shì xué sheng ma?",
-    "ex_vi": "Bạn là học sinh phải không?",
+    "ex_hz": "这是我的手机。",
+    "ex_py": "Zhè shì wǒ de shǒu jī.",
+    "ex_vi": "Đây là điện thoại của tôi.",
     "chars": [
-      "吗"
+      "的"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "这",
+        "py": "zhè"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "的",
+        "py": "de",
+        "highlight": true
+      },
+      {
+        "hz": "手",
+        "py": "shǒu"
+      },
+      {
+        "hz": "机",
+        "py": "jī"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "lesson_id": 3,
+    "hanzi": "这",
+    "pinyin": "zhè",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "giá",
+    "meaning": "này",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这是我的书。",
+    "ex_py": "Zhè shì wǒ de shū.",
+    "ex_vi": "Đây là sách của tôi.",
+    "chars": [
+      "这"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "这",
+        "py": "zhè",
+        "highlight": true
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "的",
+        "py": "de"
+      },
+      {
+        "hz": "书",
+        "py": "shū"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "lesson_id": 3,
+    "hanzi": "谁",
+    "pinyin": "shéi/shuí",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "thùy",
+    "meaning": "ai",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "那个人是谁？",
+    "ex_py": "Nà gè rén shì shéi?",
+    "ex_vi": "Người kia là ai?",
+    "chars": [
+      "谁"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "那",
+        "py": "nà"
+      },
+      {
+        "hz": "个",
+        "py": "gè"
+      },
+      {
+        "hz": "人",
+        "py": "rén"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "谁",
+        "py": "shéi",
+        "highlight": true
+      },
+      {
+        "hz": "？",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "lesson_id": 3,
+    "hanzi": "女朋友",
+    "pinyin": "nǚpéngyou",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "nữ bằng hữu",
+    "meaning": "bạn gái, người yêu",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他有一个女朋友。",
+    "ex_py": "Tā yǒu yī gè nǚ péng you.",
+    "ex_vi": "Anh ấy có bạn gái.",
+    "chars": [
+      "女",
+      "朋",
+      "友"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "他",
+        "py": "tā"
+      },
+      {
+        "hz": "有",
+        "py": "yǒu"
+      },
+      {
+        "hz": "一",
+        "py": "yī"
+      },
+      {
+        "hz": "个",
+        "py": "gè"
+      },
+      {
+        "hz": "女",
+        "py": "nǚ",
+        "highlight": true
+      },
+      {
+        "hz": "朋",
+        "py": "péng",
+        "highlight": true
+      },
+      {
+        "hz": "友",
+        "py": "you",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "lesson_id": 3,
+    "hanzi": "哪",
+    "pinyin": "nǎ",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "nả",
+    "meaning": "nào",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你去哪儿？",
+    "ex_py": "Nǐ qù nǎ r?",
+    "ex_vi": "Bạn đi đâu?",
+    "chars": [
+      "哪"
     ],
     "ex_tokens": [
       {
@@ -1701,21 +1956,17 @@ window.VOCAB_DATABASE = [
         "py": "nǐ"
       },
       {
-        "hz": "是",
-        "py": "shì"
+        "hz": "去",
+        "py": "qù"
       },
       {
-        "hz": "学",
-        "py": "xué"
-      },
-      {
-        "hz": "生",
-        "py": "sheng"
-      },
-      {
-        "hz": "吗",
-        "py": "ma",
+        "hz": "哪",
+        "py": "nǎ",
         "highlight": true
+      },
+      {
+        "hz": "儿",
+        "py": "r"
       },
       {
         "hz": "？",
@@ -1793,192 +2044,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 299,
-    "lesson_id": 3,
-    "hanzi": "中文",
-    "pinyin": "Zhōngwén",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "Trung văn",
-    "meaning": "tiếng Trung",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "中文不太容易学。",
-    "ex_py": "Zhōng wén bù tài róng yì xué.",
-    "ex_vi": "Tiếng Trung không dễ học.",
-    "chars": [
-      "中",
-      "文"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "中",
-        "py": "zhōng",
-        "highlight": true
-      },
-      {
-        "hz": "文",
-        "py": "wén",
-        "highlight": true
-      },
-      {
-        "hz": "不",
-        "py": "bù"
-      },
-      {
-        "hz": "太",
-        "py": "tài"
-      },
-      {
-        "hz": "容",
-        "py": "róng"
-      },
-      {
-        "hz": "易",
-        "py": "yì"
-      },
-      {
-        "hz": "学",
-        "py": "xué"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 288,
-    "lesson_id": 3,
-    "hanzi": "对",
-    "pinyin": "duì",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "đối",
-    "meaning": "đúng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你说得对。",
-    "ex_py": "Nǐ shuō de duì.",
-    "ex_vi": "Bạn nói đúng.",
-    "chars": [
-      "对"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "你",
-        "py": "nǐ"
-      },
-      {
-        "hz": "说",
-        "py": "shuō"
-      },
-      {
-        "hz": "得",
-        "py": "de"
-      },
-      {
-        "hz": "对",
-        "py": "duì",
-        "highlight": true
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 42,
-    "lesson_id": 3,
-    "hanzi": "这",
-    "pinyin": "zhè",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "giá",
-    "meaning": "này",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这是我的书。",
-    "ex_py": "Zhè shì wǒ de shū.",
-    "ex_vi": "Đây là sách của tôi.",
-    "chars": [
-      "这"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "这",
-        "py": "zhè",
-        "highlight": true
-      },
-      {
-        "hz": "是",
-        "py": "shì"
-      },
-      {
-        "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "的",
-        "py": "de"
-      },
-      {
-        "hz": "书",
-        "py": "shū"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 31,
-    "lesson_id": 3,
-    "hanzi": "的",
-    "pinyin": "de",
-    "type": "TRỢ",
-    "type_detail": "Trợ",
-    "hv": "đích",
-    "meaning": "trợ từ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这是我的手机。",
-    "ex_py": "Zhè shì wǒ de shǒu jī.",
-    "ex_vi": "Đây là điện thoại của tôi.",
-    "chars": [
-      "的"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "这",
-        "py": "zhè"
-      },
-      {
-        "hz": "是",
-        "py": "shì"
-      },
-      {
-        "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "的",
-        "py": "de",
-        "highlight": true
-      },
-      {
-        "hz": "手",
-        "py": "shǒu"
-      },
-      {
-        "hz": "机",
-        "py": "jī"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
     "id": 33,
     "lesson_id": 3,
     "hanzi": "她",
@@ -2035,42 +2100,58 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 34,
+    "id": 39,
     "lesson_id": 3,
-    "hanzi": "谁",
-    "pinyin": "shéi/shuí",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "thùy",
-    "meaning": "ai",
+    "hanzi": "喂",
+    "pinyin": "wèi",
+    "type": "THÁN",
+    "type_detail": "Thán",
+    "hv": "uy",
+    "meaning": "a lô",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "那个人是谁？",
-    "ex_py": "Nà gè rén shì shéi?",
-    "ex_vi": "Người kia là ai?",
+    "ex_hz": "喂，请问是王老师吗？",
+    "ex_py": "Wèi, qǐng wèn shì wáng lǎo shī ma?",
+    "ex_vi": "A lô, xin hỏi có phải thầy Vương không?",
     "chars": [
-      "谁"
+      "喂"
     ],
     "ex_tokens": [
       {
-        "hz": "那",
-        "py": "nà"
+        "hz": "喂",
+        "py": "wèi",
+        "highlight": true
       },
       {
-        "hz": "个",
-        "py": "gè"
+        "hz": "，",
+        "py": ""
       },
       {
-        "hz": "人",
-        "py": "rén"
+        "hz": "请",
+        "py": "qǐng"
+      },
+      {
+        "hz": "问",
+        "py": "wèn"
       },
       {
         "hz": "是",
         "py": "shì"
       },
       {
-        "hz": "谁",
-        "py": "shéi",
-        "highlight": true
+        "hz": "王",
+        "py": "wáng"
+      },
+      {
+        "hz": "老",
+        "py": "lǎo"
+      },
+      {
+        "hz": "师",
+        "py": "shī"
+      },
+      {
+        "hz": "吗",
+        "py": "ma"
       },
       {
         "hz": "？",
@@ -2079,100 +2160,56 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 30,
+    "id": 36,
     "lesson_id": 3,
-    "hanzi": "哪",
-    "pinyin": "nǎ",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "nả",
-    "meaning": "nào",
+    "hanzi": "姐姐",
+    "pinyin": "jiějie",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tỷ tỷ",
+    "meaning": "chị gái",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你去哪儿？",
-    "ex_py": "Nǐ qù nǎ r?",
-    "ex_vi": "Bạn đi đâu?",
+    "ex_hz": "我姐姐在银行工作。",
+    "ex_py": "Wǒ jiě jie zài yín háng gōng zuò.",
+    "ex_vi": "Chị tôi làm việc ở ngân hàng.",
     "chars": [
-      "哪"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "你",
-        "py": "nǐ"
-      },
-      {
-        "hz": "去",
-        "py": "qù"
-      },
-      {
-        "hz": "哪",
-        "py": "nǎ",
-        "highlight": true
-      },
-      {
-        "hz": "儿",
-        "py": "r"
-      },
-      {
-        "hz": "？",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 40,
-    "lesson_id": 3,
-    "hanzi": "我们",
-    "pinyin": "wǒmen",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "ngã môn",
-    "meaning": "chúng tôi, chúng ta (đại từ nhân xưng ngôi thứ nhất số nhiều)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我们明天一起去学校。",
-    "ex_py": "Wǒ men míng tiān yī qǐ qù xué xiào.",
-    "ex_vi": "Ngày mai chúng tôi cùng đi học.",
-    "chars": [
-      "我",
-      "们"
+      "姐",
+      "姐"
     ],
     "ex_tokens": [
       {
         "hz": "我",
-        "py": "wǒ",
+        "py": "wǒ"
+      },
+      {
+        "hz": "姐",
+        "py": "jiě",
         "highlight": true
       },
       {
-        "hz": "们",
-        "py": "men",
+        "hz": "姐",
+        "py": "jie",
         "highlight": true
       },
       {
-        "hz": "明",
-        "py": "míng"
+        "hz": "在",
+        "py": "zài"
       },
       {
-        "hz": "天",
-        "py": "tiān"
+        "hz": "银",
+        "py": "yín"
       },
       {
-        "hz": "一",
-        "py": "yī"
+        "hz": "行",
+        "py": "háng"
       },
       {
-        "hz": "起",
-        "py": "qǐ"
+        "hz": "工",
+        "py": "gōng"
       },
       {
-        "hz": "去",
-        "py": "qù"
-      },
-      {
-        "hz": "学",
-        "py": "xué"
-      },
-      {
-        "hz": "校",
-        "py": "xiào"
+        "hz": "作",
+        "py": "zuò"
       },
       {
         "hz": "。",
@@ -2243,30 +2280,42 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 41,
+    "id": 32,
     "lesson_id": 3,
-    "hanzi": "想",
-    "pinyin": "xiǎng",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "tưởng",
-    "meaning": "nghĩ, muốn",
+    "hanzi": "还",
+    "pinyin": "hái",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "hoàn",
+    "meaning": "vẫn, còn",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我想学习汉语。",
-    "ex_py": "Wǒ xiǎng xué xí hàn yǔ.",
-    "ex_vi": "Tôi muốn học tiếng Trung.",
+    "ex_hz": "他还在学校学习。",
+    "ex_py": "Tā hái zài xué xiào xué xí.",
+    "ex_vi": "Anh ấy vẫn còn đang học ở trường.",
     "chars": [
-      "想"
+      "还"
     ],
     "ex_tokens": [
       {
-        "hz": "我",
-        "py": "wǒ"
+        "hz": "他",
+        "py": "tā"
       },
       {
-        "hz": "想",
-        "py": "xiǎng",
+        "hz": "还",
+        "py": "hái",
         "highlight": true
+      },
+      {
+        "hz": "在",
+        "py": "zài"
+      },
+      {
+        "hz": "学",
+        "py": "xué"
+      },
+      {
+        "hz": "校",
+        "py": "xiào"
       },
       {
         "hz": "学",
@@ -2277,12 +2326,132 @@ window.VOCAB_DATABASE = [
         "py": "xí"
       },
       {
-        "hz": "汉",
-        "py": "hàn"
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "lesson_id": 3,
+    "hanzi": "忙",
+    "pinyin": "máng",
+    "type": "TÍNH/ĐỘNG",
+    "type_detail": "Tính/Động",
+    "hv": "mang",
+    "meaning": "bận, bận rộn",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "最近我很忙。",
+    "ex_py": "Zuì jìn wǒ hěn máng.",
+    "ex_vi": "Gần đây tôi rất bận.",
+    "chars": [
+      "忙"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "最",
+        "py": "zuì"
       },
       {
-        "hz": "语",
-        "py": "yǔ"
+        "hz": "近",
+        "py": "jìn"
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "很",
+        "py": "hěn"
+      },
+      {
+        "hz": "忙",
+        "py": "máng",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "lesson_id": 3,
+    "hanzi": "吗",
+    "pinyin": "ma",
+    "type": "TRỢ",
+    "type_detail": "Trợ",
+    "hv": "ma",
+    "meaning": "trợ từ hỏi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你是学生吗？",
+    "ex_py": "Nǐ shì xué sheng ma?",
+    "ex_vi": "Bạn là học sinh phải không?",
+    "chars": [
+      "吗"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "你",
+        "py": "nǐ"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "学",
+        "py": "xué"
+      },
+      {
+        "hz": "生",
+        "py": "sheng"
+      },
+      {
+        "hz": "吗",
+        "py": "ma",
+        "highlight": true
+      },
+      {
+        "hz": "？",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 288,
+    "lesson_id": 3,
+    "hanzi": "对",
+    "pinyin": "duì",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "đối",
+    "meaning": "đúng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你说得对。",
+    "ex_py": "Nǐ shuō de duì.",
+    "ex_vi": "Bạn nói đúng.",
+    "chars": [
+      "对"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "你",
+        "py": "nǐ"
+      },
+      {
+        "hz": "说",
+        "py": "shuō"
+      },
+      {
+        "hz": "得",
+        "py": "de"
+      },
+      {
+        "hz": "对",
+        "py": "duì",
+        "highlight": true
       },
       {
         "hz": "。",
@@ -2339,252 +2508,52 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 38,
+    "id": 40,
     "lesson_id": 3,
-    "hanzi": "忙",
-    "pinyin": "máng",
-    "type": "TÍNH/ĐỘNG",
-    "type_detail": "Tính/Động",
-    "hv": "mang",
-    "meaning": "bận, bận rộn",
+    "hanzi": "我们",
+    "pinyin": "wǒmen",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "ngã môn",
+    "meaning": "chúng tôi, chúng ta (đại từ nhân xưng ngôi thứ nhất số nhiều)",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "最近我很忙。",
-    "ex_py": "Zuì jìn wǒ hěn máng.",
-    "ex_vi": "Gần đây tôi rất bận.",
+    "ex_hz": "我们明天一起去学校。",
+    "ex_py": "Wǒ men míng tiān yī qǐ qù xué xiào.",
+    "ex_vi": "Ngày mai chúng tôi cùng đi học.",
     "chars": [
-      "忙"
+      "我",
+      "们"
     ],
     "ex_tokens": [
-      {
-        "hz": "最",
-        "py": "zuì"
-      },
-      {
-        "hz": "近",
-        "py": "jìn"
-      },
       {
         "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "很",
-        "py": "hěn"
-      },
-      {
-        "hz": "忙",
-        "py": "máng",
+        "py": "wǒ",
         "highlight": true
       },
       {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 39,
-    "lesson_id": 3,
-    "hanzi": "喂",
-    "pinyin": "wèi",
-    "type": "THÁN",
-    "type_detail": "Thán",
-    "hv": "uy",
-    "meaning": "a lô",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "喂，请问是王老师吗？",
-    "ex_py": "Wèi, qǐng wèn shì wáng lǎo shī ma?",
-    "ex_vi": "A lô, xin hỏi có phải thầy Vương không?",
-    "chars": [
-      "喂"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "喂",
-        "py": "wèi",
+        "hz": "们",
+        "py": "men",
         "highlight": true
       },
       {
-        "hz": "，",
-        "py": ""
+        "hz": "明",
+        "py": "míng"
       },
       {
-        "hz": "请",
-        "py": "qǐng"
-      },
-      {
-        "hz": "问",
-        "py": "wèn"
-      },
-      {
-        "hz": "是",
-        "py": "shì"
-      },
-      {
-        "hz": "王",
-        "py": "wáng"
-      },
-      {
-        "hz": "老",
-        "py": "lǎo"
-      },
-      {
-        "hz": "师",
-        "py": "shī"
-      },
-      {
-        "hz": "吗",
-        "py": "ma"
-      },
-      {
-        "hz": "？",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 35,
-    "lesson_id": 3,
-    "hanzi": "女朋友",
-    "pinyin": "nǚpéngyou",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "nữ bằng hữu",
-    "meaning": "bạn gái, người yêu",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他有一个女朋友。",
-    "ex_py": "Tā yǒu yī gè nǚ péng you.",
-    "ex_vi": "Anh ấy có bạn gái.",
-    "chars": [
-      "女",
-      "朋",
-      "友"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "他",
-        "py": "tā"
-      },
-      {
-        "hz": "有",
-        "py": "yǒu"
+        "hz": "天",
+        "py": "tiān"
       },
       {
         "hz": "一",
         "py": "yī"
       },
       {
-        "hz": "个",
-        "py": "gè"
+        "hz": "起",
+        "py": "qǐ"
       },
       {
-        "hz": "女",
-        "py": "nǚ",
-        "highlight": true
-      },
-      {
-        "hz": "朋",
-        "py": "péng",
-        "highlight": true
-      },
-      {
-        "hz": "友",
-        "py": "you",
-        "highlight": true
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 36,
-    "lesson_id": 3,
-    "hanzi": "姐姐",
-    "pinyin": "jiějie",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tỷ tỷ",
-    "meaning": "chị gái",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我姐姐在银行工作。",
-    "ex_py": "Wǒ jiě jie zài yín háng gōng zuò.",
-    "ex_vi": "Chị tôi làm việc ở ngân hàng.",
-    "chars": [
-      "姐",
-      "姐"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "姐",
-        "py": "jiě",
-        "highlight": true
-      },
-      {
-        "hz": "姐",
-        "py": "jie",
-        "highlight": true
-      },
-      {
-        "hz": "在",
-        "py": "zài"
-      },
-      {
-        "hz": "银",
-        "py": "yín"
-      },
-      {
-        "hz": "行",
-        "py": "háng"
-      },
-      {
-        "hz": "工",
-        "py": "gōng"
-      },
-      {
-        "hz": "作",
-        "py": "zuò"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 32,
-    "lesson_id": 3,
-    "hanzi": "还",
-    "pinyin": "hái",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "hoàn",
-    "meaning": "vẫn, còn",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他还在学校学习。",
-    "ex_py": "Tā hái zài xué xiào xué xí.",
-    "ex_vi": "Anh ấy vẫn còn đang học ở trường.",
-    "chars": [
-      "还"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "他",
-        "py": "tā"
-      },
-      {
-        "hz": "还",
-        "py": "hái",
-        "highlight": true
-      },
-      {
-        "hz": "在",
-        "py": "zài"
+        "hz": "去",
+        "py": "qù"
       },
       {
         "hz": "学",
@@ -2593,6 +2562,100 @@ window.VOCAB_DATABASE = [
       {
         "hz": "校",
         "py": "xiào"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "lesson_id": 3,
+    "hanzi": "想",
+    "pinyin": "xiǎng",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tưởng",
+    "meaning": "nghĩ, muốn",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我想学习汉语。",
+    "ex_py": "Wǒ xiǎng xué xí hàn yǔ.",
+    "ex_vi": "Tôi muốn học tiếng Trung.",
+    "chars": [
+      "想"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "想",
+        "py": "xiǎng",
+        "highlight": true
+      },
+      {
+        "hz": "学",
+        "py": "xué"
+      },
+      {
+        "hz": "习",
+        "py": "xí"
+      },
+      {
+        "hz": "汉",
+        "py": "hàn"
+      },
+      {
+        "hz": "语",
+        "py": "yǔ"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ]
+  },
+  {
+    "id": 298,
+    "lesson_id": 3,
+    "hanzi": "中国",
+    "pinyin": "Zhōngguó",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Trung Quốc",
+    "meaning": "Trung Quốc (tên nước).",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我想去中国学习。",
+    "ex_py": "Wǒ xiǎng qù zhōng guó xué xí.",
+    "ex_vi": "Tôi muốn đi Trung Quốc học.",
+    "chars": [
+      "中",
+      "国"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "想",
+        "py": "xiǎng"
+      },
+      {
+        "hz": "去",
+        "py": "qù"
+      },
+      {
+        "hz": "中",
+        "py": "zhōng",
+        "highlight": true
+      },
+      {
+        "hz": "国",
+        "py": "guó",
+        "highlight": true
       },
       {
         "hz": "学",
@@ -2606,6 +2669,194 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
+    ],
+    "is_proper_noun": true
+  },
+  {
+    "id": 302,
+    "lesson_id": 3,
+    "hanzi": "法国",
+    "pinyin": "Fǎguó",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Pháp quốc",
+    "meaning": "Pháp (tên nước).",
+    "is_proper_noun": true,
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我不是中国人，我是法国人。",
+    "ex_py": "Wǒ bù shì zhōng guó rén, wǒ shì fǎ guó rén.",
+    "ex_vi": "Tôi không phải người Trung Quốc, tôi là người Pháp.",
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "不",
+        "py": "bù"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "中",
+        "py": "zhōng"
+      },
+      {
+        "hz": "国",
+        "py": "guó"
+      },
+      {
+        "hz": "人",
+        "py": "rén"
+      },
+      {
+        "hz": "，",
+        "py": ""
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "法",
+        "py": "fǎ",
+        "highlight": true
+      },
+      {
+        "hz": "国",
+        "py": "guó",
+        "highlight": true
+      },
+      {
+        "hz": "人",
+        "py": "rén"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "radicals": [
+      "氵 (Thủy)",
+      "去 (Khứ)",
+      "囗 (Vi)"
+    ],
+    "chars": [
+      "法",
+      "国"
+    ]
+  },
+  {
+    "id": 299,
+    "lesson_id": 3,
+    "hanzi": "中文",
+    "pinyin": "Zhōngwén",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Trung văn",
+    "meaning": "tiếng Trung Quốc.",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "中文不太容易学。",
+    "ex_py": "Zhōng wén bù tài róng yì xué.",
+    "ex_vi": "Tiếng Trung không dễ học.",
+    "chars": [
+      "中",
+      "文"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "中",
+        "py": "zhōng",
+        "highlight": true
+      },
+      {
+        "hz": "文",
+        "py": "wén",
+        "highlight": true
+      },
+      {
+        "hz": "不",
+        "py": "bù"
+      },
+      {
+        "hz": "太",
+        "py": "tài"
+      },
+      {
+        "hz": "容",
+        "py": "róng"
+      },
+      {
+        "hz": "易",
+        "py": "yì"
+      },
+      {
+        "hz": "学",
+        "py": "xué"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "is_proper_noun": true
+  },
+  {
+    "id": 303,
+    "lesson_id": 3,
+    "hanzi": "泰国",
+    "pinyin": "Tàiguó",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Thái quốc",
+    "meaning": "Thái Lan (tên nước).",
+    "is_proper_noun": true,
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他是泰国人。",
+    "ex_py": "Tā shì tài guó rén.",
+    "ex_vi": "Anh ấy là người Thái Lan.",
+    "ex_tokens": [
+      {
+        "hz": "他",
+        "py": "tā"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "泰",
+        "py": "tài",
+        "highlight": true
+      },
+      {
+        "hz": "国",
+        "py": "guó",
+        "highlight": true
+      },
+      {
+        "hz": "人",
+        "py": "rén"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "radicals": [
+      "大 (Đại)",
+      "水 (Thủy)",
+      "囗 (Vi)"
+    ],
+    "chars": [
+      "泰",
+      "国"
     ]
   },
   {

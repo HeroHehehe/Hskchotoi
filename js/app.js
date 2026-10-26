@@ -247,7 +247,14 @@ function renderVocabList(filteredList = null) {
   if (!container) return;
 
   const list = filteredList || getCurrentLessonWords();
-  if (countBadge) countBadge.textContent = `${list.length} từ`;
+  const properNounsTotal = list.filter(item => item.is_proper_noun || item.type === 'DANH TỪ RIÊNG').length;
+  if (countBadge) {
+    if (properNounsTotal > 0) {
+      countBadge.textContent = `${list.length - properNounsTotal} từ mới + ${properNounsTotal} danh từ riêng`;
+    } else {
+      countBadge.textContent = `${list.length} từ`;
+    }
+  }
 
   container.innerHTML = '';
 
@@ -261,7 +268,42 @@ function renderVocabList(filteredList = null) {
     return;
   }
 
+  let wordIndex = 0;
+  let properNounIndex = 0;
+
   list.forEach((item, index) => {
+    const isProper = !!item.is_proper_noun || item.type === 'DANH TỪ RIÊNG';
+    if (isProper) {
+      properNounIndex++;
+      // Chèn tiêu đề phân mục riêng cho Danh từ riêng nếu là từ đầu tiên của nhóm
+      if (properNounIndex === 1) {
+        const divider = document.createElement('div');
+        divider.className = "pt-8 pb-3 border-t-2 border-dashed border-amber-500/40 flex items-center justify-between";
+        divider.innerHTML = `
+          <div class="flex items-center gap-2.5">
+            <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 shadow-md shadow-amber-500/50"></span>
+            <h3 class="text-xl font-extrabold text-amber-300 tracking-wide flex items-center gap-2 chinese-font">
+              专有名词 · DANH TỪ RIÊNG
+            </h3>
+          </div>
+          <span class="text-xs px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-700/60 font-bold shadow-sm">
+            Tên riêng, quốc gia, địa danh trong sách
+          </span>
+        `;
+        container.appendChild(divider);
+      }
+    } else {
+      wordIndex++;
+    }
+
+    const badgeNumber = isProper ? properNounIndex : wordIndex;
+    const badgeClass = isProper 
+      ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-amber-500/30'
+      : 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-red-500/30';
+    const badgeLabel = isProper
+      ? `<span class="text-[10px] mr-0.5 opacity-90 font-mono">专</span>${badgeNumber}`
+      : `${badgeNumber}`;
+
     const isLearned = learnedWords.has(item.id);
     const isFav = favoriteWords.has(item.id);
     const isMastered = (typeof window.getMasteredWords === 'function') && window.getMasteredWords().includes(item.id);
@@ -269,7 +311,7 @@ function renderVocabList(filteredList = null) {
     const card = document.createElement('div');
     card.id = `vocab-card-${item.id}`;
     card.className = `p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 shadow-xl transition-all duration-300 relative hover:border-slate-700/80 hover:bg-slate-900 ${
-      isLearned ? 'border-emerald-500/40' : ''
+      isLearned ? 'border-emerald-500/40' : (isProper ? 'border-amber-500/20' : '')
     }`;
 
     // Render Ruby HTML cho câu ví dụ
@@ -296,9 +338,9 @@ function renderVocabList(filteredList = null) {
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
         <!-- Bên trái: Badge số, Hình ảnh, Chữ Hán lớn & Pinyin -->
         <div class="flex items-center gap-4">
-          <!-- Số thứ tự đỏ bo góc (Ảnh 1) -->
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center font-extrabold text-white text-lg shadow-md flex-shrink-0">
-            ${index + 1}
+          <!-- Số thứ tự đỏ/vàng cam bo góc chuẩn sách -->
+          <div class="w-10 h-10 rounded-xl ${badgeClass} flex items-center justify-center font-extrabold text-lg shadow-md flex-shrink-0" title="${isProper ? 'Danh từ riêng số ' + badgeNumber : 'Từ mới số ' + badgeNumber}">
+            ${badgeLabel}
           </div>
 
           <!-- Ảnh minh họa từ vựng -->
@@ -371,8 +413,12 @@ function renderVocabList(filteredList = null) {
 
       <!-- Hàng giữa: Loại từ & Nghĩa tiếng Việt -->
       <div class="py-3 flex items-center gap-3 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider border border-red-500/60 text-red-400 bg-red-950/30">
-          ${item.type}
+        <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider ${
+          isProper 
+            ? 'border-amber-500/60 text-amber-300 bg-amber-950/50 shadow-sm' 
+            : 'border-red-500/60 text-red-400 bg-red-950/30'
+        }">
+          ${isProper ? '⭐ DANH TỪ RIÊNG' : item.type}
         </span>
         <span class="text-sm font-medium text-slate-200">
           ${item.meaning}
