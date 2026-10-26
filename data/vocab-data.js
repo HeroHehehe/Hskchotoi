@@ -121,7 +121,7 @@ window.HSK_LESSONS = [
     "title": "大兴机场见！",
     "title_vi": "Hẹn gặp ở sân bay Đại Hưng!",
     "desc": "Ẩm thực Trung Hoa, kế hoạch du lịch, câu ghép đẳng lập 还/也",
-    "vocab_count": 11
+    "vocab_count": 13
   }
 ];
 
@@ -189,7 +189,8 @@ window.VOCAB_DATABASE = [
     "chars": [
       "你",
       "好"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 7,
@@ -230,7 +231,8 @@ window.VOCAB_DATABASE = [
     "chars": [
       "大",
       "家"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 2,
@@ -281,7 +283,8 @@ window.VOCAB_DATABASE = [
     ],
     "chars": [
       "好"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 9,
@@ -330,7 +333,8 @@ window.VOCAB_DATABASE = [
     "chars": [
       "学",
       "生"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 3,
@@ -381,7 +385,8 @@ window.VOCAB_DATABASE = [
     ],
     "chars": [
       "们"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 6,
@@ -442,7 +447,8 @@ window.VOCAB_DATABASE = [
     "chars": [
       "老",
       "师"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 5,
@@ -489,7 +495,8 @@ window.VOCAB_DATABASE = [
     ],
     "chars": [
       "您"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 4,
@@ -530,7 +537,8 @@ window.VOCAB_DATABASE = [
     "chars": [
       "你",
       "们"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 10,
@@ -587,7 +595,8 @@ window.VOCAB_DATABASE = [
     ],
     "chars": [
       "谢"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 11,
@@ -643,7 +652,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 8,
@@ -700,7 +710,8 @@ window.VOCAB_DATABASE = [
     "chars": [
       "同",
       "学"
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 12,
@@ -746,7 +757,8 @@ window.VOCAB_DATABASE = [
         "hz": "！",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 301,
@@ -844,7 +856,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 16,
@@ -890,7 +903,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 17,
@@ -944,7 +958,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 13,
@@ -980,7 +995,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 24,
@@ -1040,7 +1056,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 23,
@@ -1092,7 +1109,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 25,
@@ -1164,7 +1182,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 21,
@@ -1226,7 +1245,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 18,
@@ -1280,7 +1300,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 20,
@@ -1320,7 +1341,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 19,
@@ -1382,7 +1404,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 27,
@@ -1422,7 +1445,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 26,
@@ -1480,7 +1504,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 22,
@@ -1528,7 +1553,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 15,
@@ -1576,7 +1602,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 304,
@@ -1740,7 +1767,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 31,
@@ -1788,7 +1816,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 42,
@@ -1832,7 +1861,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 34,
@@ -1876,7 +1906,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 35,
@@ -1932,7 +1963,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 30,
@@ -1972,7 +2004,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 28,
@@ -2041,7 +2074,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 33,
@@ -2097,7 +2131,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 39,
@@ -2157,7 +2192,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 36,
@@ -2215,7 +2251,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 43,
@@ -2277,7 +2314,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 32,
@@ -2329,7 +2367,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 38,
@@ -2373,7 +2412,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 44,
@@ -2417,7 +2457,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 288,
@@ -2457,7 +2498,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 37,
@@ -2505,7 +2547,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 40,
@@ -2567,7 +2610,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 41,
@@ -2615,7 +2659,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 298,
@@ -2905,7 +2950,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 56,
@@ -2951,7 +2997,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 47,
@@ -3007,7 +3054,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 57,
@@ -3063,7 +3111,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 46,
@@ -3111,7 +3160,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 53,
@@ -3161,7 +3211,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 63,
@@ -3193,7 +3244,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 292,
@@ -3241,7 +3293,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 61,
@@ -3293,7 +3346,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 55,
@@ -3341,7 +3395,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 51,
@@ -3399,7 +3454,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 52,
@@ -3453,7 +3509,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 54,
@@ -3507,7 +3564,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 64,
@@ -3547,7 +3605,8 @@ window.VOCAB_DATABASE = [
         "hz": "生",
         "py": "sheng"
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 48,
@@ -3601,7 +3660,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 49,
@@ -3651,7 +3711,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 50,
@@ -3701,7 +3762,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 58,
@@ -3745,7 +3807,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 62,
@@ -3797,7 +3860,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 59,
@@ -3843,7 +3907,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 60,
@@ -3887,7 +3952,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 149,
@@ -3935,7 +4001,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 65,
@@ -3983,7 +4050,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 66,
@@ -4031,7 +4099,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 67,
@@ -4075,7 +4144,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 68,
@@ -4119,7 +4189,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 69,
@@ -4163,7 +4234,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 70,
@@ -4207,7 +4279,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 71,
@@ -4251,7 +4324,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 72,
@@ -4299,7 +4373,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 73,
@@ -4343,7 +4418,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 74,
@@ -4379,7 +4455,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 75,
@@ -4431,7 +4508,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 76,
@@ -4483,7 +4561,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 77,
@@ -4527,7 +4606,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 78,
@@ -4581,7 +4661,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 83,
@@ -4629,7 +4710,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 84,
@@ -4681,7 +4763,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 85,
@@ -4733,7 +4816,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 80,
@@ -4787,7 +4871,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 81,
@@ -4847,7 +4932,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 82,
@@ -4911,7 +4997,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 79,
@@ -4965,7 +5052,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 99,
@@ -5021,7 +5109,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 95,
@@ -5069,7 +5158,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 96,
@@ -5123,7 +5213,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 93,
@@ -5177,7 +5268,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 91,
@@ -5237,7 +5329,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 89,
@@ -5293,7 +5386,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 90,
@@ -5347,7 +5441,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 97,
@@ -5401,7 +5496,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 86,
@@ -5451,7 +5547,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 92,
@@ -5507,7 +5604,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 94,
@@ -5563,7 +5661,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 88,
@@ -5617,7 +5716,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 87,
@@ -5675,7 +5775,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 98,
@@ -5747,7 +5848,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 100,
@@ -5801,7 +5903,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 101,
@@ -5855,7 +5958,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 112,
@@ -5905,7 +6009,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 103,
@@ -5953,7 +6058,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 293,
@@ -5995,7 +6101,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 104,
@@ -6065,7 +6172,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 105,
@@ -6117,7 +6225,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 106,
@@ -6175,7 +6284,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 111,
@@ -6233,7 +6343,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 116,
@@ -6285,7 +6396,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 107,
@@ -6337,7 +6449,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 117,
@@ -6391,7 +6504,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 115,
@@ -6437,7 +6551,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 109,
@@ -6499,7 +6614,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 110,
@@ -6553,7 +6669,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 108,
@@ -6603,7 +6720,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 118,
@@ -6661,7 +6779,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 102,
@@ -6711,7 +6830,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 114,
@@ -6751,7 +6871,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 113,
@@ -6815,7 +6936,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 281,
@@ -6873,7 +6995,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 130,
@@ -6919,7 +7042,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 119,
@@ -6963,7 +7087,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 121,
@@ -7015,7 +7140,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 122,
@@ -7069,7 +7195,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 129,
@@ -7119,7 +7246,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 126,
@@ -7165,7 +7293,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 132,
@@ -7221,7 +7350,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 127,
@@ -7283,7 +7413,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 135,
@@ -7327,7 +7458,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 134,
@@ -7383,7 +7515,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 124,
@@ -7441,7 +7574,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 125,
@@ -7503,7 +7637,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 128,
@@ -7549,7 +7684,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 133,
@@ -7597,7 +7733,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 136,
@@ -7661,7 +7798,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 137,
@@ -7715,7 +7853,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 138,
@@ -7775,7 +7914,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 141,
@@ -7819,7 +7959,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 140,
@@ -7863,7 +8004,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 120,
@@ -7911,7 +8053,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 143,
@@ -7961,7 +8104,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 123,
@@ -8007,7 +8151,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 139,
@@ -8055,7 +8200,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 131,
@@ -8111,7 +8257,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 146,
@@ -8185,7 +8332,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 156,
@@ -8241,7 +8389,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 158,
@@ -8289,7 +8438,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 150,
@@ -8333,7 +8483,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 148,
@@ -8381,159 +8532,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
-  },
-  {
-    "id": 147,
-    "lesson_id": 8,
-    "hanzi": "桌子",
-    "pinyin": "zhuōzi",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "trác tử",
-    "meaning": "cái bàn",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "桌子上有书。",
-    "ex_py": "Zhuō zi shàng yǒu shū.",
-    "ex_vi": "Trên bàn có sách.",
-    "chars": [
-      "桌",
-      "子"
     ],
-    "ex_tokens": [
-      {
-        "hz": "桌",
-        "py": "zhuō",
-        "highlight": true
-      },
-      {
-        "hz": "子",
-        "py": "zi",
-        "highlight": true
-      },
-      {
-        "hz": "上",
-        "py": "shàng"
-      },
-      {
-        "hz": "有",
-        "py": "yǒu"
-      },
-      {
-        "hz": "书",
-        "py": "shū"
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 157,
-    "lesson_id": 8,
-    "hanzi": "下",
-    "pinyin": "xià",
-    "type": "DANH/ĐỘNG/LƯỢNG",
-    "type_detail": "Danh/Động/Lượng",
-    "hv": "hạ",
-    "meaning": "dưới / xuống",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "书在桌子下。",
-    "ex_py": "Shū zài zhuō zi xià.",
-    "ex_vi": "Sách ở dưới bàn.",
-    "chars": [
-      "下"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "书",
-        "py": "shū"
-      },
-      {
-        "hz": "在",
-        "py": "zài"
-      },
-      {
-        "hz": "桌",
-        "py": "zhuō"
-      },
-      {
-        "hz": "子",
-        "py": "zi"
-      },
-      {
-        "hz": "下",
-        "py": "xià",
-        "highlight": true
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
-  },
-  {
-    "id": 151,
-    "lesson_id": 8,
-    "hanzi": "漂亮",
-    "pinyin": "piàoliang",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "phiêu lượng",
-    "meaning": "đẹp",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "她的中文写得很漂亮。",
-    "ex_py": "Tā de zhōng wén xiě de hěn piào liang.",
-    "ex_vi": "Cô ấy viết chữ Trung rất đẹp.",
-    "chars": [
-      "漂",
-      "亮"
-    ],
-    "ex_tokens": [
-      {
-        "hz": "她",
-        "py": "tā"
-      },
-      {
-        "hz": "的",
-        "py": "de"
-      },
-      {
-        "hz": "中",
-        "py": "zhōng"
-      },
-      {
-        "hz": "文",
-        "py": "wén"
-      },
-      {
-        "hz": "写",
-        "py": "xiě"
-      },
-      {
-        "hz": "得",
-        "py": "de"
-      },
-      {
-        "hz": "很",
-        "py": "hěn"
-      },
-      {
-        "hz": "漂",
-        "py": "piào",
-        "highlight": true
-      },
-      {
-        "hz": "亮",
-        "py": "liang",
-        "highlight": true
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ]
+    "is_proper_noun": false
   },
   {
     "id": 153,
@@ -8595,7 +8595,163 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
+  },
+  {
+    "id": 147,
+    "lesson_id": 8,
+    "hanzi": "桌子",
+    "pinyin": "zhuōzi",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "trác tử",
+    "meaning": "cái bàn",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "桌子上有书。",
+    "ex_py": "Zhuō zi shàng yǒu shū.",
+    "ex_vi": "Trên bàn có sách.",
+    "chars": [
+      "桌",
+      "子"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "桌",
+        "py": "zhuō",
+        "highlight": true
+      },
+      {
+        "hz": "子",
+        "py": "zi",
+        "highlight": true
+      },
+      {
+        "hz": "上",
+        "py": "shàng"
+      },
+      {
+        "hz": "有",
+        "py": "yǒu"
+      },
+      {
+        "hz": "书",
+        "py": "shū"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "is_proper_noun": false
+  },
+  {
+    "id": 157,
+    "lesson_id": 8,
+    "hanzi": "下",
+    "pinyin": "xià",
+    "type": "DANH/ĐỘNG/LƯỢNG",
+    "type_detail": "Danh/Động/Lượng",
+    "hv": "hạ",
+    "meaning": "dưới / xuống",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "书在桌子下。",
+    "ex_py": "Shū zài zhuō zi xià.",
+    "ex_vi": "Sách ở dưới bàn.",
+    "chars": [
+      "下"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "书",
+        "py": "shū"
+      },
+      {
+        "hz": "在",
+        "py": "zài"
+      },
+      {
+        "hz": "桌",
+        "py": "zhuō"
+      },
+      {
+        "hz": "子",
+        "py": "zi"
+      },
+      {
+        "hz": "下",
+        "py": "xià",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "is_proper_noun": false
+  },
+  {
+    "id": 151,
+    "lesson_id": 8,
+    "hanzi": "漂亮",
+    "pinyin": "piàoliang",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "phiêu lượng",
+    "meaning": "đẹp",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "她的中文写得很漂亮。",
+    "ex_py": "Tā de zhōng wén xiě de hěn piào liang.",
+    "ex_vi": "Cô ấy viết chữ Trung rất đẹp.",
+    "chars": [
+      "漂",
+      "亮"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "她",
+        "py": "tā"
+      },
+      {
+        "hz": "的",
+        "py": "de"
+      },
+      {
+        "hz": "中",
+        "py": "zhōng"
+      },
+      {
+        "hz": "文",
+        "py": "wén"
+      },
+      {
+        "hz": "写",
+        "py": "xiě"
+      },
+      {
+        "hz": "得",
+        "py": "de"
+      },
+      {
+        "hz": "很",
+        "py": "hěn"
+      },
+      {
+        "hz": "漂",
+        "py": "piào",
+        "highlight": true
+      },
+      {
+        "hz": "亮",
+        "py": "liang",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 155,
@@ -8643,7 +8799,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 145,
@@ -8697,7 +8854,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 154,
@@ -8745,7 +8903,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 160,
@@ -8807,7 +8966,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 159,
@@ -8867,7 +9027,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 144,
@@ -8917,7 +9078,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 210,
@@ -8967,7 +9129,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 142,
@@ -9025,7 +9188,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 152,
@@ -9073,7 +9237,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 178,
@@ -9115,7 +9280,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 177,
@@ -9163,7 +9329,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 174,
@@ -9213,7 +9380,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 175,
@@ -9265,7 +9433,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 173,
@@ -9323,7 +9492,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 176,
@@ -9367,7 +9537,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 165,
@@ -9423,7 +9594,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 166,
@@ -9467,7 +9639,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 164,
@@ -9527,7 +9700,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 161,
@@ -9589,7 +9763,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 163,
@@ -9643,7 +9818,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 162,
@@ -9709,7 +9885,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 167,
@@ -9771,7 +9948,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 168,
@@ -9823,7 +10001,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 169,
@@ -9876,7 +10055,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 170,
@@ -9930,7 +10110,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 171,
@@ -9996,7 +10177,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 172,
@@ -10056,7 +10238,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 289,
@@ -10108,7 +10291,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 191,
@@ -10166,7 +10350,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 195,
@@ -10204,7 +10389,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 196,
@@ -10254,7 +10440,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 197,
@@ -10308,7 +10495,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 182,
@@ -10356,7 +10544,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 184,
@@ -10408,7 +10597,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 183,
@@ -10456,7 +10646,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 181,
@@ -10508,7 +10699,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 179,
@@ -10558,7 +10750,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 180,
@@ -10612,7 +10805,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 187,
@@ -10662,7 +10856,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 186,
@@ -10716,7 +10911,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 189,
@@ -10768,7 +10964,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 188,
@@ -10822,7 +11019,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 190,
@@ -10886,7 +11084,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 192,
@@ -10930,7 +11129,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 193,
@@ -10974,7 +11174,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 194,
@@ -11018,7 +11219,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 297,
@@ -11070,7 +11272,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 198,
@@ -11120,7 +11323,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 199,
@@ -11170,7 +11374,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 185,
@@ -11222,7 +11427,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 202,
@@ -11282,7 +11488,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 200,
@@ -11340,7 +11547,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 201,
@@ -11396,7 +11604,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 216,
@@ -11450,7 +11659,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 219,
@@ -11502,7 +11712,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 221,
@@ -11546,7 +11757,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 215,
@@ -11616,7 +11828,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 220,
@@ -11670,7 +11883,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 212,
@@ -11724,7 +11938,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 213,
@@ -11780,7 +11995,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 214,
@@ -11834,7 +12050,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 203,
@@ -11874,7 +12091,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 204,
@@ -11931,7 +12149,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 217,
@@ -11983,7 +12202,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 218,
@@ -12033,7 +12253,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 205,
@@ -12077,7 +12298,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 206,
@@ -12131,7 +12353,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 207,
@@ -12201,7 +12424,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 208,
@@ -12255,7 +12479,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 209,
@@ -12327,7 +12552,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 211,
@@ -12381,7 +12607,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 222,
@@ -12435,7 +12662,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 226,
@@ -12483,7 +12711,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 227,
@@ -12523,7 +12752,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 229,
@@ -12563,7 +12793,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 225,
@@ -12619,7 +12850,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 224,
@@ -12663,7 +12895,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 223,
@@ -12717,7 +12950,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 228,
@@ -12773,7 +13007,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 235,
@@ -12821,7 +13056,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 230,
@@ -12869,7 +13105,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 238,
@@ -12935,7 +13172,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 239,
@@ -12995,7 +13233,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 240,
@@ -13041,7 +13280,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 241,
@@ -13085,7 +13325,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 237,
@@ -13137,7 +13378,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 236,
@@ -13189,7 +13431,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 231,
@@ -13253,7 +13496,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 232,
@@ -13303,7 +13547,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 233,
@@ -13369,7 +13614,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 234,
@@ -13435,7 +13681,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 242,
@@ -13467,7 +13714,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 245,
@@ -13521,7 +13769,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 254,
@@ -13571,7 +13820,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 246,
@@ -13617,7 +13867,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 243,
@@ -13669,7 +13920,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 256,
@@ -13711,7 +13963,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 244,
@@ -13763,7 +14016,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 252,
@@ -13813,7 +14067,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 251,
@@ -13875,7 +14130,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 253,
@@ -13925,7 +14181,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 247,
@@ -13975,7 +14232,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 248,
@@ -14033,7 +14291,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 249,
@@ -14091,7 +14350,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 250,
@@ -14139,7 +14399,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 255,
@@ -14203,7 +14464,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 276,
@@ -14261,7 +14523,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 259,
@@ -14317,7 +14580,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 296,
@@ -14371,7 +14635,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 270,
@@ -14417,7 +14682,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 271,
@@ -14471,7 +14737,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 257,
@@ -14531,7 +14798,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 258,
@@ -14593,7 +14861,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 260,
@@ -14643,7 +14912,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 263,
@@ -14699,7 +14969,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 264,
@@ -14765,7 +15036,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 265,
@@ -14815,7 +15087,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 291,
@@ -14873,7 +15146,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 290,
@@ -14927,7 +15201,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 262,
@@ -14975,7 +15250,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 261,
@@ -15023,7 +15299,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 269,
@@ -15077,7 +15354,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 268,
@@ -15129,7 +15407,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 274,
@@ -15187,7 +15466,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 272,
@@ -15245,7 +15525,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 273,
@@ -15295,7 +15576,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 295,
@@ -15355,7 +15637,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 300,
@@ -15403,7 +15686,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 266,
@@ -15457,7 +15741,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 267,
@@ -15511,7 +15796,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 294,
@@ -15585,7 +15871,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 277,
@@ -15637,7 +15924,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 278,
@@ -15695,7 +15983,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 279,
@@ -15751,7 +16040,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 280,
@@ -15803,7 +16093,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 282,
@@ -15857,7 +16148,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 283,
@@ -15919,7 +16211,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 284,
@@ -15971,7 +16264,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 285,
@@ -16015,7 +16309,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 287,
@@ -16057,7 +16352,8 @@ window.VOCAB_DATABASE = [
         "hz": "？",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 286,
@@ -16117,7 +16413,8 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
-    ]
+    ],
+    "is_proper_noun": false
   },
   {
     "id": 275,
@@ -16183,6 +16480,133 @@ window.VOCAB_DATABASE = [
         "hz": "。",
         "py": ""
       }
+    ],
+    "is_proper_noun": false
+  },
+  {
+    "id": 306,
+    "lesson_id": 15,
+    "hanzi": "上海",
+    "pinyin": "Shànghǎi",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Thượng Hải",
+    "meaning": "Thượng Hải (thành phố lớn của Trung Quốc).",
+    "is_proper_noun": true,
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我去年去过上海旅游。",
+    "ex_py": "Wǒ qù nián qù guò shàng hǎi lǚ yóu.",
+    "ex_vi": "Năm ngoái tôi đã từng đi Thượng Hải du lịch.",
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "去",
+        "py": "qù"
+      },
+      {
+        "hz": "年",
+        "py": "nián"
+      },
+      {
+        "hz": "去",
+        "py": "qù"
+      },
+      {
+        "hz": "过",
+        "py": "guò"
+      },
+      {
+        "hz": "上",
+        "py": "shàng",
+        "highlight": true
+      },
+      {
+        "hz": "海",
+        "py": "hǎi",
+        "highlight": true
+      },
+      {
+        "hz": "旅",
+        "py": "lǚ"
+      },
+      {
+        "hz": "游",
+        "py": "yóu"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "chars": [
+      "上",
+      "海"
+    ]
+  },
+  {
+    "id": 307,
+    "lesson_id": 15,
+    "hanzi": "大兴机场",
+    "pinyin": "Dàxīng Jīchǎng",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Đại Hưng cơ trường",
+    "meaning": "Sân bay Đại Hưng (Bắc Kinh).",
+    "is_proper_noun": true,
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我们在大兴机场见！",
+    "ex_py": "Wǒ men zài dà xīng jī chǎng jiàn!",
+    "ex_vi": "Chúng ta gặp nhau ở sân bay Đại Hưng nhé!",
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "们",
+        "py": "men"
+      },
+      {
+        "hz": "在",
+        "py": "zài"
+      },
+      {
+        "hz": "大",
+        "py": "dà",
+        "highlight": true
+      },
+      {
+        "hz": "兴",
+        "py": "xīng",
+        "highlight": true
+      },
+      {
+        "hz": "机",
+        "py": "jī",
+        "highlight": true
+      },
+      {
+        "hz": "场",
+        "py": "chǎng",
+        "highlight": true
+      },
+      {
+        "hz": "见",
+        "py": "jiàn"
+      },
+      {
+        "hz": "！",
+        "py": ""
+      }
+    ],
+    "chars": [
+      "大",
+      "兴",
+      "机",
+      "场"
     ]
   }
 ];
