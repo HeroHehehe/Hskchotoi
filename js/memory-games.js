@@ -602,6 +602,8 @@ function initRecallCanvas() {
   hub.recall.ctx = ctx;
   hub.recall.isDrawing = false;
   hub.recall.hasDrawn = false;
+  hub.recall.strokes = [];
+  let currentStroke = null;
 
   ctx.strokeStyle = '#38bdf8'; // Màu xanh cyan đẹp mắt
   ctx.lineWidth = 14;
@@ -623,6 +625,9 @@ function initRecallCanvas() {
     hub.recall.isDrawing = true;
     hub.recall.hasDrawn = true;
     const pos = getCanvasPos(e);
+    currentStroke = [pos];
+    if (!hub.recall.strokes) hub.recall.strokes = [];
+    hub.recall.strokes.push(currentStroke);
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
   }
@@ -631,6 +636,7 @@ function initRecallCanvas() {
     if (!hub.recall.isDrawing) return;
     e.preventDefault();
     const pos = getCanvasPos(e);
+    if (currentStroke) currentStroke.push(pos);
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
   }
@@ -639,6 +645,7 @@ function initRecallCanvas() {
     if (hub.recall.isDrawing) {
       hub.recall.isDrawing = false;
       ctx.closePath();
+      currentStroke = null;
     }
   }
 
@@ -660,6 +667,7 @@ function clearRecallCanvas() {
   if (hub.recall.ctx && hub.recall.canvas) {
     hub.recall.ctx.clearRect(0, 0, hub.recall.canvas.width, hub.recall.canvas.height);
     hub.recall.hasDrawn = false;
+    hub.recall.strokes = [];
     const st = document.getElementById('recall-status-text');
     if (st) st.innerHTML = "✍️ Vẽ tự do bằng chuột hoặc chạm tay vào ô trên";
     const drawContainer = document.getElementById('recall-draw-container');
@@ -737,9 +745,44 @@ function animateRecallWord() {
 }
 
 /**
- * Đánh giá nét vẽ của một ô chữ đơn lẻ (240x240 px)
+ * Lấy số nét dự kiến của một chữ Hán
  */
-function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
+function getExpectedStrokeCount(char) {
+  if (window.HANZI_STROKE_DATA && window.HANZI_STROKE_DATA[char] && window.HANZI_STROKE_DATA[char].strokes) {
+    return window.HANZI_STROKE_DATA[char].strokes.length;
+  }
+  if (window.RADICALS_DATABASE) {
+    for (const rad of window.RADICALS_DATABASE) {
+      if (rad.characters) {
+        const found = rad.characters.find(c => c.char === char);
+        if (found && found.strokes) return found.strokes;
+      }
+    }
+  }
+  const hsk1Strokes = {
+    '一': 1, '二': 2, '三': 3, '四': 5, '五': 4, '六': 4, '七': 2, '八': 2, '九': 2, '十': 2,
+    '人': 2, '大': 3, '小': 3, '天': 4, '中': 4, '日': 4, '月': 4, '水': 4, '火': 4, '木': 4,
+    '你': 7, '我': 7, '他': 5, '她': 6, '好': 6, '叫': 5, '是': 9, '不': 4, '没': 7, '事': 8,
+    '星': 9, '期': 12, '谢': 12, '见': 4, '再': 6, '学': 8, '生': 5, '老': 6, '师': 6, '同': 6,
+    '国': 8, '去': 5, '吃': 6, '喝': 12, '看': 9, '听': 7, '说': 9, '读': 10, '写': 5, '买': 6,
+    '做': 11, '住': 7, '坐': 7, '想': 13, '爱': 10, '喜': 12, '欢': 6, '能': 10, '会': 6, '有': 6,
+    '在': 6, '现': 8, '点': 9, '分': 4, '岁': 6, '钱': 10, '块': 7, '零': 13, '多': 6, '少': 4,
+    '很': 9, '太': 4, '都': 10, '这': 7, '那': 6, '哪': 9, '谁': 10, '什': 4, '么': 3, '怎': 9,
+    '样': 10, '个': 3, '只': 5, '本': 5, '张': 7, '件': 6, '客': 9, '气': 4, '关': 6, '系': 7
+  };
+  return hsk1Strokes[char] || 6;
+}
+
+/**
+ * Đánh giá nét vẽ của một ô chữ đơn lẻ (240x240 px):
+ * - Kiểm tra độ phủ thực chất (Coverage >= 48%) với bán kính chuẩn xác 12px
+ * - Kiểm tra độ bám nét (Precision >= 45%)
+ * - Kiểm tra phân bố không gian (Lưới 3x3: không được bỏ trống các góc/vùng quan trọng của chữ)
+ * - Kiểm tra tỷ lệ khung hình (Chiều cao và bề ngang nét vẽ phải đạt tối thiểu 65% chữ mẫu)
+ * - Kiểm tra nét vẽ tràn viền (Tránh kẻ ngang/dọc bậy qua các ô)
+ * - Kiểm tra số nét tối thiểu (Tránh vẽ 1-2 nét gạch cho chữ có 9-12 nét)
+ */
+function evaluateSingleCharacterCell(userPixels, W, H, targetChar, cellStrokeCount = 0) {
   // 1. Tạo Canvas đối chiếu vẽ chữ Hán mẫu
   const refCanvas = document.createElement('canvas');
   refCanvas.width = W;
@@ -759,12 +802,22 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
   const drawnPoints = [];
   let userPointCount = 0;
 
+  let uMinX = W, uMaxX = 0, uMinY = H, uMaxY = 0;
+  let outOfBoundsPoints = 0;
+
   for (let y = 0; y < H; y += step) {
     for (let x = 0; x < W; x += step) {
       const idx = (y * W + x) * 4;
       if (userPixels[idx + 3] > 50) {
         drawnPoints.push({ x, y });
         userPointCount++;
+        if (x < uMinX) uMinX = x;
+        if (x > uMaxX) uMaxX = x;
+        if (y < uMinY) uMinY = y;
+        if (y > uMaxY) uMaxY = y;
+        if (x < 14 || x > W - 14 || y < 14 || y > H - 14) {
+          outOfBoundsPoints++;
+        }
       }
     }
   }
@@ -781,11 +834,28 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
     };
   }
 
-  // 3. Tính độ phủ (Coverage): Bao nhiêu % của chữ mẫu đã được vẽ qua?
-  const hitRadiusSq = 16 * 16;
+  // 3. Kiểm tra số nét vẽ tối thiểu (Tránh vẽ 1-2 đường kẻ ngang/dọc cho chữ nhiều nét)
+  const expectedStrokes = getExpectedStrokeCount(targetChar);
+  if (expectedStrokes >= 4 && cellStrokeCount > 0 && cellStrokeCount < Math.max(2, Math.floor(expectedStrokes * 0.4))) {
+    return {
+      isPassed: false,
+      score: 25,
+      coverage: 25,
+      precision: 25,
+      userPointCount: userPointCount,
+      reason: `Chữ "${targetChar}" có ${expectedStrokes} nét nhưng bạn mới vẽ ${cellStrokeCount} nét. Hãy vẽ đủ các nét của chữ này nhé!`
+    };
+  }
+
+  // 4. Thu thập điểm và khung hình chữ mẫu
+  let tMinX = W, tMaxX = 0, tMinY = H, tMaxY = 0;
   let targetTotal = 0;
-  let targetHit = 0;
+  const tPoints = [];
   const targetMap = new Uint8Array(W * H);
+
+  // Phân chia 9 vùng lưới 3x3 (mỗi vùng 80x80 px)
+  const regionTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const regionHit = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   for (let y = 0; y < H; y += step) {
     for (let x = 0; x < W; x += step) {
@@ -793,36 +863,95 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
       if (refPixels[idx + 3] > 50) {
         targetTotal++;
         targetMap[y * W + x] = 1;
+        tPoints.push({ x, y });
+        if (x < tMinX) tMinX = x;
+        if (x > tMaxX) tMaxX = x;
+        if (y < tMinY) tMinY = y;
+        if (y > tMaxY) tMaxY = y;
 
-        let hit = false;
-        for (let i = 0; i < drawnPoints.length; i++) {
-          const dx = drawnPoints[i].x - x;
-          const dy = drawnPoints[i].y - y;
-          if (dx * dx + dy * dy <= hitRadiusSq) {
-            hit = true;
-            break;
-          }
-        }
-        if (hit) {
-          targetHit++;
-        }
+        const regIdx = Math.min(2, Math.floor(y / 80)) * 3 + Math.min(2, Math.floor(x / 80));
+        regionTarget[regIdx]++;
       }
     }
   }
 
   if (targetTotal === 0) targetTotal = 1;
 
-  // 4. Tính độ chính xác (Precision): Bao nhiêu % nét vẽ nằm trên hoặc sát chữ mẫu?
+  // 5. Kiểm tra tỷ lệ chiều cao và bề ngang nét vẽ so với chữ mẫu
+  const targetHeight = tMaxY - tMinY;
+  const targetWidth = tMaxX - tMinX;
+  const userHeight = uMaxY - uMinY;
+  const userWidth = uMaxX - uMinX;
+
+  if (targetHeight > 45 && (userHeight / targetHeight) < 0.65) {
+    return {
+      isPassed: false,
+      score: 25,
+      coverage: 30,
+      precision: 30,
+      userPointCount: userPointCount,
+      reason: `Nét vẽ chữ "${targetChar}" bị dẹt, thiếu chiều cao. Hãy vẽ đầy đủ cả phần trên và phần dưới nhé!`
+    };
+  }
+
+  if (targetWidth > 45 && (userWidth / targetWidth) < 0.65) {
+    return {
+      isPassed: false,
+      score: 25,
+      coverage: 30,
+      precision: 30,
+      userPointCount: userPointCount,
+      reason: `Nét vẽ chữ "${targetChar}" bị hẹp, thiếu bề ngang. Hãy vẽ đầy đủ các nét bên trái và phải nhé!`
+    };
+  }
+
+  // 6. Kiểm tra vẽ tràn ra ngoài mép ô (vạch ngang/dọc bậy xuyên qua các ô)
+  const outRatio = (outOfBoundsPoints / userPointCount) * 100;
+  if (outRatio > 18) {
+    return {
+      isPassed: false,
+      score: 30,
+      coverage: 35,
+      precision: 30,
+      userPointCount: userPointCount,
+      reason: `Nét vẽ chữ "${targetChar}" bị gạch tràn ra ngoài viền ô quá nhiều. Hãy vẽ gọn gàng trong ô nhé!`
+    };
+  }
+
+  // 7. Tính độ phủ (Coverage) với bán kính chuẩn xác 12px (bán kính cọ vẽ)
+  const hitRadiusSq = 12 * 12;
+  let targetHit = 0;
+
+  for (let i = 0; i < tPoints.length; i++) {
+    const tx = tPoints[i].x;
+    const ty = tPoints[i].y;
+    let hit = false;
+    for (let j = 0; j < drawnPoints.length; j++) {
+      const dx = drawnPoints[j].x - tx;
+      const dy = drawnPoints[j].y - ty;
+      if (dx * dx + dy * dy <= hitRadiusSq) {
+        hit = true;
+        break;
+      }
+    }
+    if (hit) {
+      targetHit++;
+      const regIdx = Math.min(2, Math.floor(ty / 80)) * 3 + Math.min(2, Math.floor(tx / 80));
+      regionHit[regIdx]++;
+    }
+  }
+
+  // 8. Tính độ chính xác (Precision)
   let userValidPoints = 0;
   for (let i = 0; i < drawnPoints.length; i++) {
     const px = drawnPoints[i].x;
     const py = drawnPoints[i].y;
     let nearTarget = false;
 
-    for (let dy = -16; dy <= 16; dy += step) {
+    for (let dy = -12; dy <= 12; dy += step) {
       const ny = py + dy;
       if (ny < 0 || ny >= H) continue;
-      for (let dx = -16; dx <= 16; dx += step) {
+      for (let dx = -12; dx <= 12; dx += step) {
         const nx = px + dx;
         if (nx < 0 || nx >= W) continue;
         if (targetMap[ny * W + nx] === 1) {
@@ -836,23 +965,51 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
     if (nearTarget) userValidPoints++;
   }
 
+  // 9. Kiểm tra phân bố 9 vùng lưới 3x3: Không được bỏ trống các vùng trọng yếu
+  const regionNames = [
+    "góc trên-trái", "phía trên-giữa", "góc trên-phải",
+    "bên trái-giữa", "trung tâm", "bên phải-giữa",
+    "góc dưới-trái", "phía dưới-giữa", "góc dưới-phải"
+  ];
+  let missingRegions = [];
+  for (let r = 0; r < 9; r++) {
+    // Vùng trọng yếu nếu chiếm từ 5% diện tích nét chữ trở lên
+    if (regionTarget[r] >= targetTotal * 0.05) {
+      const regCov = (regionHit[r] / regionTarget[r]) * 100;
+      if (regCov < 22) {
+        missingRegions.append ? missingRegions.append(regionNames[r]) : missingRegions.push(regionNames[r]);
+      }
+    }
+  }
+
+  if (missingRegions.length > 0) {
+    return {
+      isPassed: false,
+      score: 35,
+      coverage: Math.round((targetHit / targetTotal) * 100),
+      precision: Math.round((userValidPoints / userPointCount) * 100),
+      userPointCount: userPointCount,
+      reason: `Chữ "${targetChar}" bị thiếu nét ở ${missingRegions.slice(0, 2).join(' và ')}. Hãy xem nét mờ và vẽ đầy đủ nhé!`
+    };
+  }
+
   const coverage = Math.round((targetHit / targetTotal) * 100);
   const precision = userPointCount > 0 ? Math.round((userValidPoints / userPointCount) * 100) : 0;
-  const finalScore = Math.min(100, Math.round(coverage * 0.65 + precision * 0.35));
+  const finalScore = Math.min(100, Math.round(coverage * 0.55 + precision * 0.45));
 
-  // Tiêu chí đánh giá chữ:
-  // - Độ phủ hình dáng chữ >= 40% (phải vẽ đủ các nét cấu thành chữ)
-  // - Độ chính xác bám nét >= 40% (không vẽ lệch bậy ra ngoài)
-  // - Điểm tổng hợp >= 40%
-  const isPassed = coverage >= 40 && precision >= 40 && userPointCount >= 40;
+  // Tiêu chuẩn đậu:
+  // - Độ phủ hình dáng chữ >= 48% (phải vẽ đủ các nét)
+  // - Độ chính xác bám nét >= 45% (không vẽ lệch ra ngoài)
+  // - Đạt các tiêu chí phân bố không gian và tỷ lệ khung hình
+  const isPassed = coverage >= 48 && precision >= 45;
 
   let reason = "";
   if (isPassed) {
     reason = `Chữ "${targetChar}" đạt ${finalScore}% độ chuẩn xác`;
-  } else if (coverage < 40) {
+  } else if (coverage < 48) {
     reason = `Chữ "${targetChar}" bị thiếu nét (độ phủ mới đạt ${coverage}%)`;
   } else {
-    reason = `Nét vẽ chữ "${targetChar}" bị lệch ra ngoài chữ mẫu`;
+    reason = `Nét vẽ chữ "${targetChar}" bị lệch ra ngoài chữ mẫu quá nhiều`;
   }
 
   return {
@@ -881,6 +1038,9 @@ function evaluateDrawnCharacter(userCanvas, targetHanzi) {
   const cellH = totalH;
   const userCtx = userCanvas.getContext('2d');
 
+  // Lấy danh sách các nét vẽ của người dùng
+  const userStrokes = (window.MEMORY_HUB && window.MEMORY_HUB.recall && window.MEMORY_HUB.recall.strokes) || [];
+
   let allPassed = true;
   let totalScore = 0;
   let firstFailReason = "";
@@ -888,7 +1048,13 @@ function evaluateDrawnCharacter(userCanvas, targetHanzi) {
   for (let idx = 0; idx < N; idx++) {
     const c = chars[idx];
     const cellImgData = userCtx.getImageData(idx * cellW, 0, cellW, cellH);
-    const res = evaluateSingleCharacterCell(cellImgData.data, cellW, cellH, c);
+
+    // Đếm số nét vẽ có điểm chạm vào ô này
+    const cellStrokeCount = userStrokes.filter(stroke => {
+      return stroke.some(p => p.x >= idx * cellW && p.x < (idx + 1) * cellW);
+    }).length;
+
+    const res = evaluateSingleCharacterCell(cellImgData.data, cellW, cellH, c, cellStrokeCount);
 
     totalScore += res.score;
     if (!res.isPassed) {
@@ -898,10 +1064,10 @@ function evaluateDrawnCharacter(userCanvas, targetHanzi) {
           if (res.userPointCount < 35) {
             firstFailReason = `⚠️ Bạn chưa viết chữ thứ ${idx + 1} "${c}". Hãy viết đủ cả từ "${targetHanzi}" nhé!`;
           } else {
-            firstFailReason = `⚠️ ${res.reason}. Hãy xem nét mờ và vẽ lại nhé!`;
+            firstFailReason = `⚠️ ${res.reason}`;
           }
         } else {
-          firstFailReason = `⚠️ ${res.reason}. Hãy xem nét mờ và vẽ lại nhé!`;
+          firstFailReason = `⚠️ ${res.reason}`;
         }
       }
     }
