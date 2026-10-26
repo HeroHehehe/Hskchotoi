@@ -198,3 +198,13 @@ input:checked + .slider:before {
   transform: translateX(18px);
   background-color: white;
 }
+
+/* Shake animation for wrong typing input */
+@keyframes shake-horizontal {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.animate-shake {
+  animation: shake-horizontal 0.35s ease-in-out;
+}

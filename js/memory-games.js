@@ -20,7 +20,7 @@
 
 // Trạng thái chung của hệ thống Luyện Nhớ
 window.MEMORY_HUB = {
-  activeMode: 'meaning_quiz', // 'meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard'
+  activeMode: 'meaning_quiz', // 'meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard', 'typing_game'
   listeningSubMode: 'vi', // 'vi' (nghe -> đoán tiếng Việt) hoặc 'zh' (nghe -> đoán chữ Hán)
   currentLessonId: null,
 
@@ -34,7 +34,8 @@ window.MEMORY_HUB = {
     hanzi_recall: [],
     match_cards: [],
     hanzi_quiz: [],
-    flashcard: []
+    flashcard: [],
+    typing_game: []
   },
   gameCompleted: {
     meaning_quiz: [],
@@ -42,7 +43,8 @@ window.MEMORY_HUB = {
     hanzi_recall: [],
     match_cards: [],
     hanzi_quiz: [],
-    flashcard: []
+    flashcard: [],
+    typing_game: []
   },
   gameStats: {
     meaning_quiz: { correct: 0, wrong: 0, score: 0 },
@@ -50,7 +52,16 @@ window.MEMORY_HUB = {
     hanzi_recall: { correct: 0, wrong: 0, score: 0 },
     match_cards: { correct: 0, wrong: 0, score: 0 },
     hanzi_quiz: { correct: 0, wrong: 0, score: 0 },
-    flashcard: { correct: 0, wrong: 0, score: 0 }
+    flashcard: { correct: 0, wrong: 0, score: 0 },
+    typing_game: { correct: 0, wrong: 0, score: 0 }
+  },
+
+  // Cấu hình linh hoạt cho Mini Game Đánh máy & Dịch
+  typingSettings: {
+    targetType: 'hanzi', // 'hanzi' (Gõ Chữ Hán) | 'vi' (Gõ Tiếng Việt - Dịch) | 'pinyin' (Gõ Pinyin)
+    showHanzi: true,     // Hiển thị Chữ Hán ở đề bài
+    showPinyin: true,    // Hiển thị Pinyin ở đề bài
+    showMeaning: true    // Hiển thị Tiếng Việt ở đề bài
   },
 
   currentWord: null,
@@ -184,7 +195,7 @@ function initGameQueues(lessonId, forceReset = false) {
   hub.currentLessonId = lessonId;
 
   const lessonWords = window.getCurrentLessonWords ? window.getCurrentLessonWords() : (window.VOCAB_DATABASE || []);
-  const modes = ['meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard'];
+  const modes = ['meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard', 'typing_game'];
 
   modes.forEach(m => {
     if (forceReset || lessonChanged || !hub.gameQueues[m] || hub.gameQueues[m].length === 0 && hub.gameCompleted[m].length === 0) {
@@ -254,7 +265,7 @@ function setHubTab(mode) {
   const hub = window.MEMORY_HUB;
   hub.activeMode = mode;
 
-  const tabs = ['meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard'];
+  const tabs = ['meaning_quiz', 'listening_quiz', 'hanzi_recall', 'match_cards', 'hanzi_quiz', 'flashcard', 'typing_game'];
   tabs.forEach(m => {
     const btn = document.getElementById(`hub-tab-${m}`);
     if (btn) {
@@ -312,6 +323,9 @@ function loadCurrentQuestion() {
       break;
     case 'flashcard':
       renderFlashcard(gameArea);
+      break;
+    case 'typing_game':
+      renderTypingGame(gameArea);
       break;
     default:
       renderMeaningQuiz(gameArea);
@@ -1475,6 +1489,375 @@ function handleFlashcardRating(isKnown) {
 }
 
 /**
+ * ==============================================================================
+ * TRÒ 7: ⌨️ LUYỆN ĐÁNH MÁY & DỊCH (Typing & Translation Master)
+ * ==============================================================================
+ */
+
+function removeVietnameseTones(str) {
+  if (!str) return '';
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+    .toLowerCase()
+    .trim();
+}
+
+function matchVietnameseMeaning(input, meaning) {
+  if (!input || !meaning) return false;
+  const cleanInput = input.trim().toLowerCase();
+  const cleanInputNoTone = removeVietnameseTones(cleanInput);
+
+  const cleanMeaning = meaning.toLowerCase().replace(/\(.*?\)/g, '').trim();
+  const cleanMeaningNoTone = removeVietnameseTones(cleanMeaning);
+
+  if (cleanInput === cleanMeaning || cleanInputNoTone === cleanMeaningNoTone) return true;
+
+  const rawParts = meaning.replace(/\(.*?\)/g, '');
+  const parts = rawParts.split(/[,;\/]/).map(p => p.trim().toLowerCase()).filter(p => p.length > 0);
+
+  for (const part of parts) {
+    const partNoTone = removeVietnameseTones(part);
+    if (cleanInput === part || cleanInputNoTone === partNoTone) return true;
+    if (cleanInput.length >= 2 && (part.includes(cleanInput) || cleanInput.includes(part))) return true;
+    if (cleanInputNoTone.length >= 2 && (partNoTone.includes(cleanInputNoTone) || cleanInputNoTone.includes(partNoTone))) return true;
+  }
+
+  return false;
+}
+
+function matchPinyin(input, pinyin) {
+  if (!input || !pinyin) return false;
+  const cleanInput = input.trim().toLowerCase().replace(/\s+/g, '');
+  const cleanPinyin = pinyin.trim().toLowerCase().replace(/\s+/g, '');
+
+  if (cleanInput === cleanPinyin) return true;
+
+  // Bỏ thanh điệu
+  const stripTone = (s) => s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ü/g, 'v')
+    .replace(/ǖ|ǘ|ǚ|ǜ/g, 'v')
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, '');
+
+  return stripTone(input) === stripTone(pinyin);
+}
+
+function renderTypingGame(container) {
+  const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  if (!word) { renderSummaryScreen(); return; }
+
+  // Khôi phục cài đặt lưu từ trước nếu có
+  if (!hub.typingSettings) {
+    hub.typingSettings = {
+      targetType: 'hanzi',
+      showHanzi: true,
+      showPinyin: true,
+      showMeaning: true
+    };
+    try {
+      const saved = localStorage.getItem('hihsk_typing_settings');
+      if (saved) Object.assign(hub.typingSettings, JSON.parse(saved));
+    } catch(e) {}
+  }
+
+  const cfg = hub.typingSettings;
+
+  // Đảm bảo có ít nhất 1 gợi ý hiển thị
+  let effectiveShowHanzi = cfg.showHanzi;
+  let effectiveShowPinyin = cfg.showPinyin;
+  let effectiveShowMeaning = cfg.showMeaning;
+
+  if (!effectiveShowHanzi && !effectiveShowPinyin && !effectiveShowMeaning) {
+    if (cfg.targetType === 'hanzi') effectiveShowMeaning = true;
+    else effectiveShowHanzi = true;
+  }
+
+  let targetLabel = "Gõ Chữ Hán (Bàn phím IME)";
+  let placeholderText = "Gõ chữ Hán vào đây (Ví dụ: " + word.hanzi + ")...";
+  let targetHelp = "Gõ Pinyin trên bàn phím để chọn Chữ Hán chính xác";
+  if (cfg.targetType === 'vi') {
+    targetLabel = "Gõ Tiếng Việt (Kiểm tra dịch nghĩa)";
+    placeholderText = "Nhập nghĩa tiếng Việt (Ví dụ: " + word.meaning.split(/[,;(]/)[0].trim() + ")...";
+    targetHelp = "Nhập nghĩa tiếng Việt (hỗ trợ cả gõ có dấu lẫn không dấu)";
+  } else if (cfg.targetType === 'pinyin') {
+    targetLabel = "Gõ Pinyin (Phiên âm)";
+    placeholderText = "Gõ pinyin vào đây (Ví dụ: " + word.pinyin + ")...";
+    targetHelp = "Nhập phiên âm pinyin (hỗ trợ có dấu hoặc không dấu)";
+  }
+
+  container.innerHTML = `
+    <div class="space-y-5 animate-in fade-in zoom-in-95 duration-200">
+      <!-- 1. Bảng điều khiển tùy chọn mục tiêu gõ & bật tắt gợi ý -->
+      <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3 shadow-lg">
+        <!-- Dòng chọn mục tiêu gõ -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2.5 border-b border-slate-800/80">
+          <div class="flex items-center gap-2">
+            <span class="text-base">🎯</span>
+            <span class="text-xs font-black text-slate-200 uppercase tracking-wider">Mục tiêu bạn muốn gõ:</span>
+          </div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button onclick="setTypingTarget('hanzi')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${cfg.targetType === 'hanzi' ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-md shadow-red-600/30 font-black scale-105' : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800'}">
+              <span>🀄</span> Gõ Chữ Hán (IME)
+            </button>
+            <button onclick="setTypingTarget('vi')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${cfg.targetType === 'vi' ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-600/30 font-black scale-105' : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800'}">
+              <span>🇻🇳</span> Gõ Tiếng Việt (Dịch)
+            </button>
+            <button onclick="setTypingTarget('pinyin')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${cfg.targetType === 'pinyin' ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-600/30 font-black scale-105' : 'bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800'}">
+              <span>🔤</span> Gõ Pinyin
+            </button>
+          </div>
+        </div>
+
+        <!-- Dòng bật tắt gợi ý hiển thị đề bài -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+          <span class="text-[11px] font-bold text-slate-400 flex items-center gap-1.5">
+            <span>👁️</span> Hiển thị ở câu hỏi:
+          </span>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="toggleTypingShowOption('showHanzi')" class="px-2.5 py-1 rounded-lg font-bold border transition-all flex items-center gap-1.5 ${effectiveShowHanzi ? 'bg-blue-950/80 border-blue-600/80 text-blue-300' : 'bg-slate-900 border-slate-800 text-slate-500 line-through'}">
+              <span>🀄</span> Chữ Hán: ${effectiveShowHanzi ? 'BẬT' : 'TẮT'}
+            </button>
+            <button onclick="toggleTypingShowOption('showPinyin')" class="px-2.5 py-1 rounded-lg font-bold border transition-all flex items-center gap-1.5 ${effectiveShowPinyin ? 'bg-cyan-950/80 border-cyan-600/80 text-cyan-300' : 'bg-slate-900 border-slate-800 text-slate-500 line-through'}">
+              <span>🔤</span> Pinyin: ${effectiveShowPinyin ? 'BẬT' : 'TẮT'}
+            </button>
+            <button onclick="toggleTypingShowOption('showMeaning')" class="px-2.5 py-1 rounded-lg font-bold border transition-all flex items-center gap-1.5 ${effectiveShowMeaning ? 'bg-emerald-950/80 border-emerald-600/80 text-emerald-300' : 'bg-slate-900 border-slate-800 text-slate-500 line-through'}">
+              <span>🇻🇳</span> Tiếng Việt: ${effectiveShowMeaning ? 'BẬT' : 'TẮT'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Thẻ Đề Bài Gợi Ý -->
+      <div class="p-6 rounded-3xl bg-slate-950/80 border border-slate-800 text-center relative overflow-hidden group shadow-xl">
+        <button onclick="speakChinese('${word.hanzi}')" class="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-slate-800/80 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all shadow-md" title="Nghe phát âm">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        </button>
+
+        <!-- Chữ Hán -->
+        ${effectiveShowHanzi ? `
+          <div class="text-5xl sm:text-6xl font-black text-white chinese-font drop-shadow-md tracking-wider mb-2">
+            ${word.hanzi}
+          </div>
+        ` : `
+          <div class="py-2 text-slate-600 text-3xl font-mono tracking-widest select-none">
+            [ ? ? ? ]
+          </div>
+        `}
+
+        <!-- Pinyin -->
+        ${effectiveShowPinyin ? `
+          <p class="text-xl font-bold text-cyan-400 italic font-mono mb-1">
+            ${word.pinyin}
+          </p>
+        ` : ''}
+
+        <!-- Nghĩa Tiếng Việt -->
+        ${effectiveShowMeaning ? `
+          <p class="text-base font-bold text-slate-200 mt-2 px-4 py-1.5 rounded-xl bg-slate-900/60 inline-block border border-slate-800/60">
+            ${word.meaning}
+          </p>
+        ` : ''}
+
+        <!-- Câu ví dụ minh họa -->
+        ${word.ex_hz ? `
+          <div class="mt-4 pt-3 border-t border-slate-800/60 text-xs text-slate-400 flex items-center justify-center gap-2 flex-wrap">
+            <span class="text-cyan-400/80 chinese-font font-medium">${word.ex_hz}</span>
+            <span class="text-slate-600">•</span>
+            <span class="text-slate-400 italic">${word.ex_vi || ''}</span>
+          </div>
+        ` : ''}
+      </div>
+
+      <!-- 3. Khu vực ô gõ bàn phím & nút nộp bài -->
+      <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-xl">
+        <div class="flex items-center justify-between text-xs">
+          <label for="typing-user-input" class="font-extrabold text-slate-200 flex items-center gap-1.5">
+            <span>⌨️</span> ${targetLabel}
+          </label>
+          <span class="text-[11px] text-slate-400 italic">${targetHelp}</span>
+        </div>
+
+        <div class="relative">
+          <input 
+            id="typing-user-input" 
+            type="text" 
+            autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            spellcheck="false"
+            placeholder="${placeholderText}" 
+            onkeydown="if(event.key === 'Enter') submitTypingAnswer()"
+            class="w-full px-4 py-3.5 rounded-xl bg-slate-950 border-2 border-slate-700 text-white text-lg font-bold text-center focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/20 transition-all placeholder:text-slate-600 placeholder:text-sm ${cfg.targetType === 'hanzi' ? 'chinese-font text-2xl sm:text-3xl tracking-widest' : ''}" 
+          />
+        </div>
+
+        <!-- Thông báo phản hồi kết quả -->
+        <div id="typing-feedback-box" class="min-h-[28px] flex items-center justify-center text-xs font-bold transition-all"></div>
+
+        <!-- Dãy nút Kiểm tra & Xem đáp án -->
+        <div class="flex items-center gap-3 pt-1">
+          <button onclick="skipTypingWord()" class="py-2.5 px-4 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 transition-all flex items-center justify-center gap-1.5">
+            <span>💡</span> Bỏ qua / Xem đáp án
+          </button>
+          <button onclick="submitTypingAnswer()" class="flex-1 py-2.5 px-5 rounded-xl text-xs font-black bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 active:scale-95">
+            <span>✓</span> KIỂM TRA (Nhấn Enter)
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Tự động focus vào ô input
+  setTimeout(() => {
+    const inputEl = document.getElementById('typing-user-input');
+    if (inputEl) inputEl.focus();
+  }, 100);
+}
+
+function setTypingTarget(targetType) {
+  const hub = window.MEMORY_HUB;
+  if (!hub.typingSettings) hub.typingSettings = {};
+  hub.typingSettings.targetType = targetType;
+  try {
+    localStorage.setItem('hihsk_typing_settings', JSON.stringify(hub.typingSettings));
+  } catch (e) {}
+
+  const gameArea = document.getElementById('hub-game-area');
+  if (gameArea) renderTypingGame(gameArea);
+}
+
+function toggleTypingShowOption(key) {
+  const hub = window.MEMORY_HUB;
+  if (!hub.typingSettings) hub.typingSettings = {};
+  hub.typingSettings[key] = !hub.typingSettings[key];
+  try {
+    localStorage.setItem('hihsk_typing_settings', JSON.stringify(hub.typingSettings));
+  } catch (e) {}
+
+  const gameArea = document.getElementById('hub-game-area');
+  if (gameArea) renderTypingGame(gameArea);
+}
+
+function submitTypingAnswer() {
+  const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  const inputEl = document.getElementById('typing-user-input');
+  const feedbackEl = document.getElementById('typing-feedback-box');
+  if (!word || !inputEl || !feedbackEl) return;
+
+  const val = inputEl.value.trim();
+  if (!val) {
+    feedbackEl.innerHTML = `<span class="text-amber-400 font-bold">⚠️ Vui lòng gõ câu trả lời trước khi kiểm tra!</span>`;
+    inputEl.focus();
+    return;
+  }
+
+  const mode = 'typing_game';
+  const cfg = hub.typingSettings || { targetType: 'hanzi' };
+
+  let isCorrect = false;
+  let expectedAnswer = '';
+
+  if (cfg.targetType === 'hanzi') {
+    expectedAnswer = word.hanzi;
+    isCorrect = (val === word.hanzi);
+  } else if (cfg.targetType === 'vi') {
+    expectedAnswer = word.meaning;
+    isCorrect = matchVietnameseMeaning(val, word.meaning);
+  } else if (cfg.targetType === 'pinyin') {
+    expectedAnswer = word.pinyin;
+    isCorrect = matchPinyin(val, word.pinyin);
+  }
+
+  if (isCorrect) {
+    playSoundEffect('correct');
+    speakChinese(word.hanzi);
+    inputEl.className = inputEl.className.replace(/border-slate-[0-9]+/, 'border-emerald-500 bg-emerald-950/40 text-emerald-300');
+    feedbackEl.innerHTML = `
+      <span class="text-emerald-400 flex items-center gap-1.5 animate-in fade-in zoom-in-95">
+        <span>🎉</span> <b>Chính xác 100%!</b> (+10 điểm)
+      </span>
+    `;
+
+    hub.gameStats[mode].score += 10;
+    hub.gameStats[mode].correct++;
+
+    if (!hub.gameCompleted[mode].includes(word.id)) {
+      hub.gameCompleted[mode].push(word.id);
+    }
+    hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
+
+    setWordMastered(word.id, true);
+    updateProgressBar();
+
+    setTimeout(() => {
+      loadCurrentQuestion();
+    }, 750);
+  } else {
+    playSoundEffect('wrong');
+    inputEl.classList.add('animate-shake');
+    setTimeout(() => inputEl.classList.remove('animate-shake'), 400);
+
+    inputEl.className = inputEl.className.replace(/border-slate-[0-9]+/, 'border-rose-500 bg-rose-950/40 text-rose-300');
+    feedbackEl.innerHTML = `
+      <span class="text-rose-400 flex items-center gap-1.5 animate-in fade-in">
+        <span>❌</span> Chưa đúng! Đáp án đúng: <b class="text-white ml-1 underline underline-offset-2">${expectedAnswer}</b>
+      </span>
+    `;
+
+    hub.gameStats[mode].wrong++;
+    updateProgressBar();
+
+    // Đưa từ này về cuối hàng đợi để gặp lại
+    if (hub.gameQueues[mode].length > 1) {
+      const wrongW = hub.gameQueues[mode].shift();
+      hub.gameQueues[mode].push(wrongW);
+    }
+
+    inputEl.select();
+  }
+}
+
+function skipTypingWord() {
+  const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  const inputEl = document.getElementById('typing-user-input');
+  const feedbackEl = document.getElementById('typing-feedback-box');
+  if (!word || !feedbackEl) return;
+
+  const cfg = hub.typingSettings || { targetType: 'hanzi' };
+  let expectedAnswer = cfg.targetType === 'hanzi' ? word.hanzi : (cfg.targetType === 'vi' ? word.meaning : word.pinyin);
+
+  feedbackEl.innerHTML = `
+    <span class="text-amber-400 flex items-center gap-1.5">
+      <span>💡</span> Đáp án đúng là: <b class="text-white ml-1">${expectedAnswer}</b> (Đang chuyển câu tiếp theo...)
+    </span>
+  `;
+
+  if (inputEl) {
+    inputEl.value = expectedAnswer;
+    inputEl.className = inputEl.className.replace(/border-slate-[0-9]+/, 'border-amber-500 bg-amber-950/40 text-amber-300');
+  }
+
+  // Đưa từ về cuối queue
+  const mode = 'typing_game';
+  if (hub.gameQueues[mode].length > 1) {
+    const wrongW = hub.gameQueues[mode].shift();
+    hub.gameQueues[mode].push(wrongW);
+  }
+
+  setTimeout(() => {
+    loadCurrentQuestion();
+  }, 1200);
+}
+
+/**
  * Xử lý khi người dùng chọn đáp án trong trắc nghiệm
  */
 function handleOptionSelect(btnEl, selectedVal, correctVal) {
@@ -1549,7 +1932,8 @@ function renderSummaryScreen() {
     hanzi_recall: '✍️ Luyện viết tự do',
     match_cards: '🧩 Ghép cặp nối từ',
     hanzi_quiz: '🔍 Nhìn tiếng Việt đoán chữ Hán',
-    flashcard: '⚡ Flashcard 3D'
+    flashcard: '⚡ Flashcard 3D',
+    typing_game: '⌨️ Luyện đánh máy & Dịch'
   };
 
   const stats = hub.gameStats[mode] || { correct: 0, wrong: 0, score: 0 };
