@@ -33,7 +33,7 @@ window.HSK_LESSONS = [
     "title": "我有两个孩子",
     "title_vi": "Tôi có hai đứa con",
     "desc": "Gia đình, hỏi số lượng, tuổi tác, câu chữ 有 và lượng từ",
-    "vocab_count": 34
+    "vocab_count": 35
   },
   {
     "id": 5,
@@ -193,6 +193,47 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 7,
+    "lesson_id": 1,
+    "hanzi": "大家",
+    "pinyin": "dàjiā",
+    "type": "ĐẠI TỪ",
+    "type_detail": "Đại từ",
+    "meaning": "mọi người, tất cả mọi người.",
+    "image": "assets/images/vocab10_311_一起_1773159977553.webp",
+    "ex_hz": "大家好！",
+    "ex_py": "dà jiā hǎo!",
+    "ex_vi": "Xin chào mọi người!",
+    "ex_tokens": [
+      {
+        "hz": "大",
+        "py": "dà",
+        "highlight": true
+      },
+      {
+        "hz": "家",
+        "py": "jiā",
+        "highlight": true
+      },
+      {
+        "hz": "好",
+        "py": "hǎo"
+      },
+      {
+        "hz": "！",
+        "py": ""
+      }
+    ],
+    "radicals": [
+      "大 (Đại)",
+      "家 (Gia)"
+    ],
+    "chars": [
+      "大",
+      "家"
+    ]
+  },
+  {
     "id": 2,
     "lesson_id": 1,
     "hanzi": "好",
@@ -244,6 +285,55 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 9,
+    "lesson_id": 1,
+    "hanzi": "学生",
+    "pinyin": "xuésheng",
+    "type": "DANH TỪ",
+    "type_detail": "Danh từ",
+    "meaning": "học sinh, sinh viên.",
+    "image": "assets/images/vocab10_227_学生_1773159469495.webp",
+    "ex_hz": "我是大学生。",
+    "ex_py": "wǒ shì dà xué shēng.",
+    "ex_vi": "Tôi là sinh viên đại học.",
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "大",
+        "py": "dà"
+      },
+      {
+        "hz": "学",
+        "py": "xué",
+        "highlight": true
+      },
+      {
+        "hz": "生",
+        "py": "shēng",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "radicals": [
+      "学 (Học)",
+      "生 (Sinh)"
+    ],
+    "chars": [
+      "学",
+      "生"
+    ]
+  },
+  {
     "id": 3,
     "lesson_id": 1,
     "hanzi": "们",
@@ -292,94 +382,6 @@ window.VOCAB_DATABASE = [
     ],
     "chars": [
       "们"
-    ]
-  },
-  {
-    "id": 4,
-    "lesson_id": 1,
-    "hanzi": "你们",
-    "pinyin": "nǐmen",
-    "type": "ĐẠI TỪ",
-    "type_detail": "Đại từ",
-    "meaning": "các bạn, các anh, các chị (ngôi thứ 2 số nhiều).",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你们好！",
-    "ex_py": "nǐ men hǎo!",
-    "ex_vi": "Chào các bạn!",
-    "ex_tokens": [
-      {
-        "hz": "你",
-        "py": "nǐ",
-        "highlight": true
-      },
-      {
-        "hz": "们",
-        "py": "men",
-        "highlight": true
-      },
-      {
-        "hz": "好",
-        "py": "hǎo"
-      },
-      {
-        "hz": "！",
-        "py": ""
-      }
-    ],
-    "radicals": [
-      "你",
-      "们"
-    ],
-    "chars": [
-      "你",
-      "们"
-    ]
-  },
-  {
-    "id": 5,
-    "lesson_id": 1,
-    "hanzi": "您",
-    "pinyin": "nín",
-    "type": "ĐẠI TỪ",
-    "type_detail": "Đại từ (Kính ngữ)",
-    "meaning": "ngài, ông, bà (thể hiện sự tôn trọng, kính cẩn).",
-    "image": "assets/images/vocab10_1_你_1773157032852.webp",
-    "ex_hz": "老师，您好！",
-    "ex_py": "lǎo shī, nín hǎo!",
-    "ex_vi": "Em chào thầy/cô ạ!",
-    "ex_tokens": [
-      {
-        "hz": "老",
-        "py": "lǎo"
-      },
-      {
-        "hz": "师",
-        "py": "shī"
-      },
-      {
-        "hz": "，",
-        "py": ""
-      },
-      {
-        "hz": "您",
-        "py": "nín",
-        "highlight": true
-      },
-      {
-        "hz": "好",
-        "py": "hǎo"
-      },
-      {
-        "hz": "！",
-        "py": ""
-      }
-    ],
-    "radicals": [
-      "你",
-      "心 (Tâm)"
-    ],
-    "chars": [
-      "您"
     ]
   },
   {
@@ -444,26 +446,33 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 7,
+    "id": 5,
     "lesson_id": 1,
-    "hanzi": "大家",
-    "pinyin": "dàjiā",
+    "hanzi": "您",
+    "pinyin": "nín",
     "type": "ĐẠI TỪ",
-    "type_detail": "Đại từ",
-    "meaning": "mọi người, tất cả mọi người.",
-    "image": "assets/images/vocab10_311_一起_1773159977553.webp",
-    "ex_hz": "大家好！",
-    "ex_py": "dà jiā hǎo!",
-    "ex_vi": "Xin chào mọi người!",
+    "type_detail": "Đại từ (Kính ngữ)",
+    "meaning": "ngài, ông, bà (thể hiện sự tôn trọng, kính cẩn).",
+    "image": "assets/images/vocab10_1_你_1773157032852.webp",
+    "ex_hz": "老师，您好！",
+    "ex_py": "lǎo shī, nín hǎo!",
+    "ex_vi": "Em chào thầy/cô ạ!",
     "ex_tokens": [
       {
-        "hz": "大",
-        "py": "dà",
-        "highlight": true
+        "hz": "老",
+        "py": "lǎo"
       },
       {
-        "hz": "家",
-        "py": "jiā",
+        "hz": "师",
+        "py": "shī"
+      },
+      {
+        "hz": "，",
+        "py": ""
+      },
+      {
+        "hz": "您",
+        "py": "nín",
         "highlight": true
       },
       {
@@ -476,118 +485,52 @@ window.VOCAB_DATABASE = [
       }
     ],
     "radicals": [
-      "大 (Đại)",
-      "家 (Gia)"
+      "你",
+      "心 (Tâm)"
     ],
     "chars": [
-      "大",
-      "家"
+      "您"
     ]
   },
   {
-    "id": 8,
+    "id": 4,
     "lesson_id": 1,
-    "hanzi": "同学",
-    "pinyin": "tóngxué",
-    "type": "DANH TỪ",
-    "type_detail": "Danh từ",
-    "meaning": "bạn học, bạn cùng lớp.",
-    "image": "assets/images/vocab10_242_同学_1773159559546.webp",
-    "ex_hz": "他们是我的同学。",
-    "ex_py": "tā men shì wǒ de tóng xué.",
-    "ex_vi": "Họ là bạn học của tôi.",
+    "hanzi": "你们",
+    "pinyin": "nǐmen",
+    "type": "ĐẠI TỪ",
+    "type_detail": "Đại từ",
+    "meaning": "các bạn, các anh, các chị (ngôi thứ 2 số nhiều).",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你们好！",
+    "ex_py": "nǐ men hǎo!",
+    "ex_vi": "Chào các bạn!",
     "ex_tokens": [
       {
-        "hz": "他",
-        "py": "tā"
+        "hz": "你",
+        "py": "nǐ",
+        "highlight": true
       },
       {
         "hz": "们",
-        "py": "men"
-      },
-      {
-        "hz": "是",
-        "py": "shì"
-      },
-      {
-        "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "的",
-        "py": "de"
-      },
-      {
-        "hz": "同",
-        "py": "tóng",
+        "py": "men",
         "highlight": true
       },
       {
-        "hz": "学",
-        "py": "xué",
-        "highlight": true
+        "hz": "好",
+        "py": "hǎo"
       },
       {
-        "hz": "。",
+        "hz": "！",
         "py": ""
       }
     ],
     "radicals": [
-      "同 (Đồng)",
-      "学 (Học)"
+      "你",
+      "们"
     ],
     "chars": [
-      "同",
-      "学"
-    ]
-  },
-  {
-    "id": 9,
-    "lesson_id": 1,
-    "hanzi": "学生",
-    "pinyin": "xuésheng",
-    "type": "DANH TỪ",
-    "type_detail": "Danh từ",
-    "meaning": "học sinh, sinh viên.",
-    "image": "assets/images/vocab10_227_学生_1773159469495.webp",
-    "ex_hz": "我是大学生。",
-    "ex_py": "wǒ shì dà xué shēng.",
-    "ex_vi": "Tôi là sinh viên đại học.",
-    "ex_tokens": [
-      {
-        "hz": "我",
-        "py": "wǒ"
-      },
-      {
-        "hz": "是",
-        "py": "shì"
-      },
-      {
-        "hz": "大",
-        "py": "dà"
-      },
-      {
-        "hz": "学",
-        "py": "xué",
-        "highlight": true
-      },
-      {
-        "hz": "生",
-        "py": "shēng",
-        "highlight": true
-      },
-      {
-        "hz": "。",
-        "py": ""
-      }
-    ],
-    "radicals": [
-      "学 (Học)",
-      "生 (Sinh)"
-    ],
-    "chars": [
-      "学",
-      "生"
+      "你",
+      "们"
     ]
   },
   {
@@ -667,6 +610,63 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 8,
+    "lesson_id": 1,
+    "hanzi": "同学",
+    "pinyin": "tóngxué",
+    "type": "DANH TỪ",
+    "type_detail": "Danh từ",
+    "meaning": "bạn học, bạn cùng lớp.",
+    "image": "assets/images/vocab10_242_同学_1773159559546.webp",
+    "ex_hz": "他们是我的同学。",
+    "ex_py": "tā men shì wǒ de tóng xué.",
+    "ex_vi": "Họ là bạn học của tôi.",
+    "ex_tokens": [
+      {
+        "hz": "他",
+        "py": "tā"
+      },
+      {
+        "hz": "们",
+        "py": "men"
+      },
+      {
+        "hz": "是",
+        "py": "shì"
+      },
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "的",
+        "py": "de"
+      },
+      {
+        "hz": "同",
+        "py": "tóng",
+        "highlight": true
+      },
+      {
+        "hz": "学",
+        "py": "xué",
+        "highlight": true
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
+    ],
+    "radicals": [
+      "同 (Đồng)",
+      "学 (Học)"
+    ],
+    "chars": [
+      "同",
+      "学"
+    ]
+  },
+  {
     "id": 12,
     "lesson_id": 1,
     "hanzi": "再见",
@@ -685,20 +685,60 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 13,
-    "lesson_id": 2,
-    "hanzi": "我",
-    "pinyin": "wǒ",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "ngã",
-    "meaning": "tôi, mình... (đại từ nhân xưng ngôi thứ nhất số ít)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我很好。",
-    "ex_py": "wǒ",
-    "ex_vi": "Tôi rất khỏe.",
+    "id": 301,
+    "lesson_id": 1,
+    "hanzi": "王老师",
+    "pinyin": "Wáng lǎoshī",
+    "type": "DANH TỪ RIÊNG",
+    "type_detail": "Danh từ riêng",
+    "hv": "Vương lão sư",
+    "meaning": "cô Vương, thầy Vương (họ Vương + giáo viên).",
+    "image": "assets/images/vocab10_70_学校_1773158021000.webp",
+    "ex_hz": "王老师，您好！",
+    "ex_py": "Wáng lǎoshī, nín hǎo!",
+    "ex_vi": "Em chào cô Vương ạ!",
+    "ex_tokens": [
+      {
+        "hz": "王",
+        "py": "Wáng",
+        "highlight": true
+      },
+      {
+        "hz": "老",
+        "py": "lǎo",
+        "highlight": true
+      },
+      {
+        "hz": "师",
+        "py": "shī",
+        "highlight": true
+      },
+      {
+        "hz": "，",
+        "py": ""
+      },
+      {
+        "hz": "您",
+        "py": "nín"
+      },
+      {
+        "hz": "好",
+        "py": "hǎo"
+      },
+      {
+        "hz": "！",
+        "py": ""
+      }
+    ],
+    "radicals": [
+      "王 (Vương)",
+      "老 (Lão)",
+      "师 (Sư)"
+    ],
     "chars": [
-      "我"
+      "王",
+      "老",
+      "师"
     ]
   },
   {
@@ -716,23 +756,6 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Tôi tên là Tiểu Minh.",
     "chars": [
       "叫"
-    ]
-  },
-  {
-    "id": 15,
-    "lesson_id": 2,
-    "hanzi": "你",
-    "pinyin": "nǐ",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "nhĩ",
-    "meaning": "bạn, anh, chị, em... (đại từ nhân xưng ngôi thứ hai số ít)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你是中国人吗？",
-    "ex_py": "nǐ",
-    "ex_vi": "Bạn là người Trung Quốc à?",
-    "chars": [
-      "你"
     ]
   },
   {
@@ -769,6 +792,114 @@ window.VOCAB_DATABASE = [
     "chars": [
       "名",
       "字"
+    ]
+  },
+  {
+    "id": 13,
+    "lesson_id": 2,
+    "hanzi": "我",
+    "pinyin": "wǒ",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "ngã",
+    "meaning": "tôi, mình... (đại từ nhân xưng ngôi thứ nhất số ít)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我很好。",
+    "ex_py": "wǒ",
+    "ex_vi": "Tôi rất khỏe.",
+    "chars": [
+      "我"
+    ]
+  },
+  {
+    "id": 24,
+    "lesson_id": 2,
+    "hanzi": "对不起",
+    "pinyin": "duìbuqǐ",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "đối bất khởi",
+    "meaning": "xin lỗi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "对不起，我来晚了。",
+    "ex_py": "duìbuqǐ",
+    "ex_vi": "Xin lỗi, tôi đến muộn.",
+    "chars": [
+      "对",
+      "不",
+      "起"
+    ]
+  },
+  {
+    "id": 23,
+    "lesson_id": 2,
+    "hanzi": "不",
+    "pinyin": "bù",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "bất",
+    "meaning": "không",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天我不想出门。",
+    "ex_py": "bù",
+    "ex_vi": "Hôm nay tôi không muốn ra ngoài.",
+    "chars": [
+      "不"
+    ]
+  },
+  {
+    "id": 25,
+    "lesson_id": 2,
+    "hanzi": "没关系",
+    "pinyin": "méi guānxi",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "một quan hệ",
+    "meaning": "không sao, không có gì",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "没关系，我们再等一会儿。",
+    "ex_py": "méi guānxi",
+    "ex_vi": "Không sao, chúng ta đợi thêm chút.",
+    "chars": [
+      "没",
+      "关",
+      "系"
+    ]
+  },
+  {
+    "id": 26,
+    "lesson_id": 2,
+    "hanzi": "没事",
+    "pinyin": "méishì",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "một sự",
+    "meaning": "không có việc gì",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "没事，我可以帮你。",
+    "ex_py": "méishì",
+    "ex_vi": "Không sao, tôi có thể giúp bạn.",
+    "chars": [
+      "没",
+      "事"
+    ]
+  },
+  {
+    "id": 21,
+    "lesson_id": 2,
+    "hanzi": "请问",
+    "pinyin": "qǐngwèn",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "thỉnh vấn",
+    "meaning": "xin hỏi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "请问，洗手间在哪儿？",
+    "ex_py": "qǐngwèn",
+    "ex_vi": "Xin hỏi, nhà vệ sinh ở đâu?",
+    "chars": [
+      "请",
+      "问"
     ]
   },
   {
@@ -825,21 +956,20 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 21,
+    "id": 27,
     "lesson_id": 2,
-    "hanzi": "请问",
-    "pinyin": "qǐngwèn",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "thỉnh vấn",
-    "meaning": "xin hỏi",
+    "hanzi": "也",
+    "pinyin": "yě",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "dã",
+    "meaning": "cũng",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "请问，洗手间在哪儿？",
-    "ex_py": "qǐngwèn",
-    "ex_vi": "Xin hỏi, nhà vệ sinh ở đâu?",
+    "ex_hz": "我也很好。",
+    "ex_py": "yě",
+    "ex_vi": "Tôi cũng khỏe.",
     "chars": [
-      "请",
-      "问"
+      "也"
     ]
   },
   {
@@ -860,109 +990,37 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 23,
+    "id": 15,
     "lesson_id": 2,
-    "hanzi": "不",
-    "pinyin": "bù",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "bất",
-    "meaning": "không",
+    "hanzi": "你",
+    "pinyin": "nǐ",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "nhĩ",
+    "meaning": "bạn, anh, chị, em... (đại từ nhân xưng ngôi thứ hai số ít)",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天我不想出门。",
-    "ex_py": "bù",
-    "ex_vi": "Hôm nay tôi không muốn ra ngoài.",
+    "ex_hz": "你是中国人吗？",
+    "ex_py": "nǐ",
+    "ex_vi": "Bạn là người Trung Quốc à?",
     "chars": [
-      "不"
+      "你"
     ]
   },
   {
-    "id": 24,
-    "lesson_id": 2,
-    "hanzi": "对不起",
-    "pinyin": "duìbuqǐ",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "đối bất khởi",
-    "meaning": "xin lỗi",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "对不起，我来晚了。",
-    "ex_py": "duìbuqǐ",
-    "ex_vi": "Xin lỗi, tôi đến muộn.",
-    "chars": [
-      "对",
-      "不",
-      "起"
-    ]
-  },
-  {
-    "id": 25,
-    "lesson_id": 2,
-    "hanzi": "没关系",
-    "pinyin": "méi guānxi",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "một quan hệ",
-    "meaning": "không sao, không có gì",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "没关系，我们再等一会儿。",
-    "ex_py": "méi guānxi",
-    "ex_vi": "Không sao, chúng ta đợi thêm chút.",
-    "chars": [
-      "没",
-      "关",
-      "系"
-    ]
-  },
-  {
-    "id": 26,
-    "lesson_id": 2,
-    "hanzi": "没事",
-    "pinyin": "méishì",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "một sự",
-    "meaning": "không có việc gì",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "没事，我可以帮你。",
-    "ex_py": "méishì",
-    "ex_vi": "Không sao, tôi có thể giúp bạn.",
-    "chars": [
-      "没",
-      "事"
-    ]
-  },
-  {
-    "id": 27,
-    "lesson_id": 2,
-    "hanzi": "也",
-    "pinyin": "yě",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "dã",
-    "meaning": "cũng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我也很好。",
-    "ex_py": "yě",
-    "ex_vi": "Tôi cũng khỏe.",
-    "chars": [
-      "也"
-    ]
-  },
-  {
-    "id": 28,
+    "id": 298,
     "lesson_id": 3,
-    "hanzi": "国",
-    "pinyin": "guó",
+    "hanzi": "中国",
+    "pinyin": "Zhōngguó",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "quốc",
-    "meaning": "nước",
+    "hv": "Trung Quốc",
+    "meaning": "Trung Quốc",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他是哪国人？他是中国人。",
-    "ex_py": "guó",
-    "ex_vi": "Anh ấy là người nước nào? Anh ấy là người Trung Quốc.",
+    "ex_hz": "我想去中国学习。",
+    "ex_py": "Zhōngguó",
+    "ex_vi": "Tôi muốn đi Trung Quốc học.",
     "chars": [
+      "中",
       "国"
     ]
   },
@@ -984,20 +1042,89 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 30,
+    "id": 44,
     "lesson_id": 3,
-    "hanzi": "哪",
-    "pinyin": "nǎ",
+    "hanzi": "吗",
+    "pinyin": "ma",
+    "type": "TRỢ",
+    "type_detail": "Trợ",
+    "hv": "ma",
+    "meaning": "trợ từ hỏi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你是学生吗？",
+    "ex_py": "ma",
+    "ex_vi": "Bạn là học sinh phải không?",
+    "chars": [
+      "吗"
+    ]
+  },
+  {
+    "id": 28,
+    "lesson_id": 3,
+    "hanzi": "国",
+    "pinyin": "guó",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "quốc",
+    "meaning": "nước",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他是哪国人？他是中国人。",
+    "ex_py": "guó",
+    "ex_vi": "Anh ấy là người nước nào? Anh ấy là người Trung Quốc.",
+    "chars": [
+      "国"
+    ]
+  },
+  {
+    "id": 299,
+    "lesson_id": 3,
+    "hanzi": "中文",
+    "pinyin": "Zhōngwén",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "Trung văn",
+    "meaning": "tiếng Trung",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "中文不太容易学。",
+    "ex_py": "Zhōngwén",
+    "ex_vi": "Tiếng Trung không dễ học.",
+    "chars": [
+      "中",
+      "文"
+    ]
+  },
+  {
+    "id": 288,
+    "lesson_id": 3,
+    "hanzi": "对",
+    "pinyin": "duì",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "đối",
+    "meaning": "đúng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你说得对。",
+    "ex_py": "duì",
+    "ex_vi": "Bạn nói đúng.",
+    "chars": [
+      "对"
+    ]
+  },
+  {
+    "id": 42,
+    "lesson_id": 3,
+    "hanzi": "这",
+    "pinyin": "zhè",
     "type": "ĐẠI",
     "type_detail": "Đại",
-    "hv": "nả",
-    "meaning": "nào",
+    "hv": "giá",
+    "meaning": "này",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你去哪儿？",
-    "ex_py": "nǎ",
-    "ex_vi": "Bạn đi đâu?",
+    "ex_hz": "这是我的书。",
+    "ex_py": "zhè",
+    "ex_vi": "Đây là sách của tôi.",
     "chars": [
-      "哪"
+      "这"
     ]
   },
   {
@@ -1015,23 +1142,6 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Đây là điện thoại của tôi.",
     "chars": [
       "的"
-    ]
-  },
-  {
-    "id": 32,
-    "lesson_id": 3,
-    "hanzi": "还",
-    "pinyin": "hái",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "hoàn",
-    "meaning": "vẫn, còn",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他还在学校学习。",
-    "ex_py": "hái",
-    "ex_vi": "Anh ấy vẫn còn đang học ở trường.",
-    "chars": [
-      "还"
     ]
   },
   {
@@ -1069,40 +1179,73 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 35,
+    "id": 30,
     "lesson_id": 3,
-    "hanzi": "女朋友",
-    "pinyin": "nǚpéngyou",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "nữ bằng hữu",
-    "meaning": "bạn gái, người yêu",
+    "hanzi": "哪",
+    "pinyin": "nǎ",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "nả",
+    "meaning": "nào",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他有一个女朋友。",
-    "ex_py": "nǚpéngyou",
-    "ex_vi": "Anh ấy có bạn gái.",
+    "ex_hz": "你去哪儿？",
+    "ex_py": "nǎ",
+    "ex_vi": "Bạn đi đâu?",
     "chars": [
-      "女",
-      "朋",
-      "友"
+      "哪"
     ]
   },
   {
-    "id": 36,
+    "id": 40,
     "lesson_id": 3,
-    "hanzi": "姐姐",
-    "pinyin": "jiějie",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tỷ tỷ",
-    "meaning": "chị gái",
+    "hanzi": "我们",
+    "pinyin": "wǒmen",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "ngã môn",
+    "meaning": "chúng tôi, chúng ta (đại từ nhân xưng ngôi thứ nhất số nhiều)",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我姐姐在银行工作。",
-    "ex_py": "jiějie",
-    "ex_vi": "Chị tôi làm việc ở ngân hàng.",
+    "ex_hz": "我们明天一起去学校。",
+    "ex_py": "wǒmen",
+    "ex_vi": "Ngày mai chúng tôi cùng đi học.",
     "chars": [
-      "姐",
-      "姐"
+      "我",
+      "们"
+    ]
+  },
+  {
+    "id": 43,
+    "lesson_id": 3,
+    "hanzi": "工作",
+    "pinyin": "gōngzuò",
+    "type": "DANH/ĐỘNG",
+    "type_detail": "Danh/Động",
+    "hv": "công tác",
+    "meaning": "công việc / làm việc",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天工作八个小时。",
+    "ex_py": "gōngzuò",
+    "ex_vi": "Tôi làm việc 8 tiếng mỗi ngày.",
+    "chars": [
+      "工",
+      "作"
+    ]
+  },
+  {
+    "id": 41,
+    "lesson_id": 3,
+    "hanzi": "想",
+    "pinyin": "xiǎng",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tưởng",
+    "meaning": "nghĩ, muốn",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我想学习汉语。",
+    "ex_py": "xiǎng",
+    "ex_vi": "Tôi muốn học tiếng Trung.",
+    "chars": [
+      "想"
     ]
   },
   {
@@ -1157,90 +1300,57 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 40,
+    "id": 35,
     "lesson_id": 3,
-    "hanzi": "我们",
-    "pinyin": "wǒmen",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "ngã môn",
-    "meaning": "chúng tôi, chúng ta (đại từ nhân xưng ngôi thứ nhất số nhiều)",
+    "hanzi": "女朋友",
+    "pinyin": "nǚpéngyou",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "nữ bằng hữu",
+    "meaning": "bạn gái, người yêu",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我们明天一起去学校。",
-    "ex_py": "wǒmen",
-    "ex_vi": "Ngày mai chúng tôi cùng đi học.",
+    "ex_hz": "他有一个女朋友。",
+    "ex_py": "nǚpéngyou",
+    "ex_vi": "Anh ấy có bạn gái.",
     "chars": [
-      "我",
-      "们"
+      "女",
+      "朋",
+      "友"
     ]
   },
   {
-    "id": 41,
+    "id": 36,
     "lesson_id": 3,
-    "hanzi": "想",
-    "pinyin": "xiǎng",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "tưởng",
-    "meaning": "nghĩ, muốn",
+    "hanzi": "姐姐",
+    "pinyin": "jiějie",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tỷ tỷ",
+    "meaning": "chị gái",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我想学习汉语。",
-    "ex_py": "xiǎng",
-    "ex_vi": "Tôi muốn học tiếng Trung.",
+    "ex_hz": "我姐姐在银行工作。",
+    "ex_py": "jiějie",
+    "ex_vi": "Chị tôi làm việc ở ngân hàng.",
     "chars": [
-      "想"
+      "姐",
+      "姐"
     ]
   },
   {
-    "id": 42,
+    "id": 32,
     "lesson_id": 3,
-    "hanzi": "这",
-    "pinyin": "zhè",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "giá",
-    "meaning": "này",
+    "hanzi": "还",
+    "pinyin": "hái",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "hoàn",
+    "meaning": "vẫn, còn",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这是我的书。",
-    "ex_py": "zhè",
-    "ex_vi": "Đây là sách của tôi.",
+    "ex_hz": "他还在学校学习。",
+    "ex_py": "hái",
+    "ex_vi": "Anh ấy vẫn còn đang học ở trường.",
     "chars": [
-      "这"
-    ]
-  },
-  {
-    "id": 43,
-    "lesson_id": 3,
-    "hanzi": "工作",
-    "pinyin": "gōngzuò",
-    "type": "DANH/ĐỘNG",
-    "type_detail": "Danh/Động",
-    "hv": "công tác",
-    "meaning": "công việc / làm việc",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天工作八个小时。",
-    "ex_py": "gōngzuò",
-    "ex_vi": "Tôi làm việc 8 tiếng mỗi ngày.",
-    "chars": [
-      "工",
-      "作"
-    ]
-  },
-  {
-    "id": 44,
-    "lesson_id": 3,
-    "hanzi": "吗",
-    "pinyin": "ma",
-    "type": "TRỢ",
-    "type_detail": "Trợ",
-    "hv": "ma",
-    "meaning": "trợ từ hỏi",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你是学生吗？",
-    "ex_py": "ma",
-    "ex_vi": "Bạn là học sinh phải không?",
-    "chars": [
-      "吗"
+      "还"
     ]
   },
   {
@@ -1261,20 +1371,21 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 46,
+    "id": 56,
     "lesson_id": 4,
-    "hanzi": "两",
-    "pinyin": "liǎng",
-    "type": "SỐ",
-    "type_detail": "Số",
-    "hv": "lưỡng",
-    "meaning": "hai",
+    "hanzi": "多少",
+    "pinyin": "duōshao",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "đa thiểu",
+    "meaning": "bao nhiêu",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我有两个朋友。",
-    "ex_py": "liǎng",
-    "ex_vi": "Tôi có hai người bạn.",
+    "ex_hz": "这个多少钱？",
+    "ex_py": "duōshao",
+    "ex_vi": "Cái này bao nhiêu tiền?",
     "chars": [
-      "两"
+      "多",
+      "少"
     ]
   },
   {
@@ -1292,6 +1403,200 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Tôi có ba người bạn Trung Quốc.",
     "chars": [
       "个"
+    ]
+  },
+  {
+    "id": 57,
+    "lesson_id": 4,
+    "hanzi": "几",
+    "pinyin": "jǐ",
+    "type": "ĐẠI/SỐ",
+    "type_detail": "Đại/Số",
+    "hv": "kỷ",
+    "meaning": "mấy",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你有几个兄弟姐妹？",
+    "ex_py": "jǐ",
+    "ex_vi": "Bạn có mấy anh chị em?",
+    "chars": [
+      "几"
+    ]
+  },
+  {
+    "id": 46,
+    "lesson_id": 4,
+    "hanzi": "两",
+    "pinyin": "liǎng",
+    "type": "SỐ",
+    "type_detail": "Số",
+    "hv": "lưỡng",
+    "meaning": "hai",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我有两个朋友。",
+    "ex_py": "liǎng",
+    "ex_vi": "Tôi có hai người bạn.",
+    "chars": [
+      "两"
+    ]
+  },
+  {
+    "id": 53,
+    "lesson_id": 4,
+    "hanzi": "哥哥",
+    "pinyin": "gēge",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "ca ca",
+    "meaning": "anh trai",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我哥哥比我高。",
+    "ex_py": "gēge",
+    "ex_vi": "Anh trai tôi cao hơn tôi.",
+    "chars": [
+      "哥",
+      "哥"
+    ]
+  },
+  {
+    "id": 63,
+    "lesson_id": 4,
+    "hanzi": "呢",
+    "pinyin": "ne",
+    "type": "TRỢ",
+    "type_detail": "Trợ",
+    "hv": "ni",
+    "meaning": "trợ từ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你呢？",
+    "ex_py": "ne",
+    "ex_vi": "Còn bạn thì sao?",
+    "chars": [
+      "呢"
+    ]
+  },
+  {
+    "id": 292,
+    "lesson_id": 4,
+    "hanzi": "没（有）",
+    "pinyin": "méi(yǒu)",
+    "type": "PHÓ/ĐỘNG",
+    "type_detail": "Phó/Động",
+    "hv": "một hữu",
+    "meaning": "không có",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我没有时间。",
+    "ex_py": "méi(yǒu)",
+    "ex_vi": "Tôi không có thời gian.",
+    "chars": [
+      "没",
+      "（",
+      "有",
+      "）"
+    ]
+  },
+  {
+    "id": 61,
+    "lesson_id": 4,
+    "hanzi": "家",
+    "pinyin": "jiā",
+    "type": "DANH/LƯỢNG",
+    "type_detail": "Danh/Lượng",
+    "hv": "gia",
+    "meaning": "nhà",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我家离学校很近。",
+    "ex_py": "jiā",
+    "ex_vi": "Nhà tôi gần trường.",
+    "chars": [
+      "家"
+    ]
+  },
+  {
+    "id": 55,
+    "lesson_id": 4,
+    "hanzi": "口",
+    "pinyin": "kǒu",
+    "type": "DANH/LƯỢNG",
+    "type_detail": "Danh/Lượng",
+    "hv": "khẩu",
+    "meaning": "miệng / người",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我家有五口人。",
+    "ex_py": "kǒu",
+    "ex_vi": "Nhà tôi có 5 người.",
+    "chars": [
+      "口"
+    ]
+  },
+  {
+    "id": 51,
+    "lesson_id": 4,
+    "hanzi": "爸爸",
+    "pinyin": "bàba",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "ba ba",
+    "meaning": "bố",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我爸爸在公司工作。",
+    "ex_py": "bàba",
+    "ex_vi": "Bố tôi làm việc ở công ty.",
+    "chars": [
+      "爸",
+      "爸"
+    ]
+  },
+  {
+    "id": 52,
+    "lesson_id": 4,
+    "hanzi": "妈妈",
+    "pinyin": "māma",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "mẫu mẫu",
+    "meaning": "mẹ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我妈妈在家做饭。",
+    "ex_py": "māma",
+    "ex_vi": "Mẹ tôi nấu ăn ở nhà.",
+    "chars": [
+      "妈",
+      "妈"
+    ]
+  },
+  {
+    "id": 54,
+    "lesson_id": 4,
+    "hanzi": "妹妹",
+    "pinyin": "mèimei",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "muội muội",
+    "meaning": "em gái",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我妹妹在上小学。",
+    "ex_py": "mèimei",
+    "ex_vi": "Em gái tôi học tiểu học.",
+    "chars": [
+      "妹",
+      "妹"
+    ]
+  },
+  {
+    "id": 64,
+    "lesson_id": 4,
+    "hanzi": "和",
+    "pinyin": "hé",
+    "type": "LIÊN/GIỚI",
+    "type_detail": "Liên/Giới",
+    "hv": "hòa",
+    "meaning": "và",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "老师和学生",
+    "ex_py": "hé",
+    "ex_vi": "giáo viên và học sinh",
+    "chars": [
+      "和"
     ]
   },
   {
@@ -1349,130 +1654,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 51,
-    "lesson_id": 4,
-    "hanzi": "爸爸",
-    "pinyin": "bàba",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "ba ba",
-    "meaning": "bố",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我爸爸在公司工作。",
-    "ex_py": "bàba",
-    "ex_vi": "Bố tôi làm việc ở công ty.",
-    "chars": [
-      "爸",
-      "爸"
-    ]
-  },
-  {
-    "id": 52,
-    "lesson_id": 4,
-    "hanzi": "妈妈",
-    "pinyin": "māma",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "mẫu mẫu",
-    "meaning": "mẹ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我妈妈在家做饭。",
-    "ex_py": "māma",
-    "ex_vi": "Mẹ tôi nấu ăn ở nhà.",
-    "chars": [
-      "妈",
-      "妈"
-    ]
-  },
-  {
-    "id": 53,
-    "lesson_id": 4,
-    "hanzi": "哥哥",
-    "pinyin": "gēge",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "ca ca",
-    "meaning": "anh trai",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我哥哥比我高。",
-    "ex_py": "gēge",
-    "ex_vi": "Anh trai tôi cao hơn tôi.",
-    "chars": [
-      "哥",
-      "哥"
-    ]
-  },
-  {
-    "id": 54,
-    "lesson_id": 4,
-    "hanzi": "妹妹",
-    "pinyin": "mèimei",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "muội muội",
-    "meaning": "em gái",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我妹妹在上小学。",
-    "ex_py": "mèimei",
-    "ex_vi": "Em gái tôi học tiểu học.",
-    "chars": [
-      "妹",
-      "妹"
-    ]
-  },
-  {
-    "id": 55,
-    "lesson_id": 4,
-    "hanzi": "口",
-    "pinyin": "kǒu",
-    "type": "DANH/LƯỢNG",
-    "type_detail": "Danh/Lượng",
-    "hv": "khẩu",
-    "meaning": "miệng / người",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我家有五口人。",
-    "ex_py": "kǒu",
-    "ex_vi": "Nhà tôi có 5 người.",
-    "chars": [
-      "口"
-    ]
-  },
-  {
-    "id": 56,
-    "lesson_id": 4,
-    "hanzi": "多少",
-    "pinyin": "duōshao",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "đa thiểu",
-    "meaning": "bao nhiêu",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这个多少钱？",
-    "ex_py": "duōshao",
-    "ex_vi": "Cái này bao nhiêu tiền?",
-    "chars": [
-      "多",
-      "少"
-    ]
-  },
-  {
-    "id": 57,
-    "lesson_id": 4,
-    "hanzi": "几",
-    "pinyin": "jǐ",
-    "type": "ĐẠI/SỐ",
-    "type_detail": "Đại/Số",
-    "hv": "kỷ",
-    "meaning": "mấy",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你有几个兄弟姐妹？",
-    "ex_py": "jǐ",
-    "ex_vi": "Bạn có mấy anh chị em?",
-    "chars": [
-      "几"
-    ]
-  },
-  {
     "id": 58,
     "lesson_id": 4,
     "hanzi": "岁",
@@ -1487,6 +1668,23 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Năm nay cậu ấy 10 tuổi.",
     "chars": [
       "岁"
+    ]
+  },
+  {
+    "id": 62,
+    "lesson_id": 4,
+    "hanzi": "他",
+    "pinyin": "tā",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "tha",
+    "meaning": "anh ấy, cậu ấy, ông ấy...",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他是我的好朋友。",
+    "ex_py": "tā",
+    "ex_vi": "Anh ấy là bạn tốt của tôi.",
+    "chars": [
+      "他"
     ]
   },
   {
@@ -1525,88 +1723,68 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 61,
+    "id": 149,
     "lesson_id": 4,
-    "hanzi": "家",
-    "pinyin": "jiā",
-    "type": "DANH/LƯỢNG",
-    "type_detail": "Danh/Lượng",
-    "hv": "gia",
-    "meaning": "nhà",
+    "hanzi": "大",
+    "pinyin": "dà",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "đại",
+    "meaning": "to",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我家离学校很近。",
-    "ex_py": "jiā",
-    "ex_vi": "Nhà tôi gần trường.",
+    "ex_hz": "这所学校很大。",
+    "ex_py": "dà",
+    "ex_vi": "Ngôi trường này rất lớn.",
     "chars": [
-      "家"
-    ]
-  },
-  {
-    "id": 62,
-    "lesson_id": 4,
-    "hanzi": "他",
-    "pinyin": "tā",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "tha",
-    "meaning": "anh ấy, cậu ấy, ông ấy...",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他是我的好朋友。",
-    "ex_py": "tā",
-    "ex_vi": "Anh ấy là bạn tốt của tôi.",
-    "chars": [
-      "他"
-    ]
-  },
-  {
-    "id": 63,
-    "lesson_id": 4,
-    "hanzi": "呢",
-    "pinyin": "ne",
-    "type": "TRỢ",
-    "type_detail": "Trợ",
-    "hv": "ni",
-    "meaning": "trợ từ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你呢？",
-    "ex_py": "ne",
-    "ex_vi": "Còn bạn thì sao?",
-    "chars": [
-      "呢"
-    ]
-  },
-  {
-    "id": 64,
-    "lesson_id": 4,
-    "hanzi": "和",
-    "pinyin": "hé",
-    "type": "LIÊN/GIỚI",
-    "type_detail": "Liên/Giới",
-    "hv": "hòa",
-    "meaning": "và",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "老师和学生",
-    "ex_py": "hé",
-    "ex_vi": "giáo viên và học sinh",
-    "chars": [
-      "和"
+      "大"
     ]
   },
   {
     "id": 65,
-    "lesson_id": 1,
+    "lesson_id": 4,
     "hanzi": "一",
     "pinyin": "yī",
-    "type": "SỐ",
-    "type_detail": "Số",
+    "type": "SỐ TỪ",
+    "type_detail": "Số từ",
     "hv": "nhất",
-    "meaning": "một",
+    "meaning": "một (số 1).",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我只有一个问题。",
-    "ex_py": "yī",
-    "ex_vi": "Tôi chỉ có một câu hỏi.",
+    "ex_hz": "我有一个苹果。",
+    "ex_py": "wǒ yǒu yí gè píngguǒ.",
+    "ex_vi": "Tôi có một quả táo.",
     "chars": [
       "一"
+    ],
+    "ex_tokens": [
+      {
+        "hz": "我",
+        "py": "wǒ"
+      },
+      {
+        "hz": "有",
+        "py": "yǒu"
+      },
+      {
+        "hz": "一",
+        "py": "yí",
+        "highlight": true
+      },
+      {
+        "hz": "个",
+        "py": "gè"
+      },
+      {
+        "hz": "苹",
+        "py": "píng"
+      },
+      {
+        "hz": "果",
+        "py": "guǒ"
+      },
+      {
+        "hz": "。",
+        "py": ""
+      }
     ]
   },
   {
@@ -1832,21 +2010,54 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 79,
+    "id": 83,
     "lesson_id": 5,
-    "hanzi": "休息",
-    "pinyin": "xiūxi",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "hưu tức",
-    "meaning": "nghỉ, nghỉ ngơi",
+    "hanzi": "月",
+    "pinyin": "yuè",
+    "type": "DANH/LƯỢNG",
+    "type_detail": "Danh/Lượng",
+    "hv": "nguyệt",
+    "meaning": "tháng",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "周末我在家休息。",
-    "ex_py": "xiūxi",
-    "ex_vi": "Cuối tuần tôi nghỉ ở nhà.",
+    "ex_hz": "这个月我很忙。",
+    "ex_py": "yuè",
+    "ex_vi": "Tháng này tôi rất bận.",
     "chars": [
-      "休",
-      "息"
+      "月"
+    ]
+  },
+  {
+    "id": 84,
+    "lesson_id": 5,
+    "hanzi": "日",
+    "pinyin": "rì",
+    "type": "DANH/LƯỢNG",
+    "type_detail": "Danh/Lượng",
+    "hv": "nhật",
+    "meaning": "ngày",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天是五月八日。",
+    "ex_py": "rì",
+    "ex_vi": "Hôm nay là ngày 8 tháng 5.",
+    "chars": [
+      "日"
+    ]
+  },
+  {
+    "id": 85,
+    "lesson_id": 5,
+    "hanzi": "号",
+    "pinyin": "hào",
+    "type": "DANH/LƯỢNG",
+    "type_detail": "Danh/Lượng",
+    "hv": "hào",
+    "meaning": "ngày, mùng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天是五月一号。",
+    "ex_py": "hào",
+    "ex_vi": "Hôm nay là ngày 1 tháng 5.",
+    "chars": [
+      "号"
     ]
   },
   {
@@ -1906,108 +2117,108 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 83,
+    "id": 79,
     "lesson_id": 5,
-    "hanzi": "月",
-    "pinyin": "yuè",
-    "type": "DANH/LƯỢNG",
-    "type_detail": "Danh/Lượng",
-    "hv": "nguyệt",
-    "meaning": "tháng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这个月我很忙。",
-    "ex_py": "yuè",
-    "ex_vi": "Tháng này tôi rất bận.",
-    "chars": [
-      "月"
-    ]
-  },
-  {
-    "id": 84,
-    "lesson_id": 5,
-    "hanzi": "日",
-    "pinyin": "rì",
-    "type": "DANH/LƯỢNG",
-    "type_detail": "Danh/Lượng",
-    "hv": "nhật",
-    "meaning": "ngày",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天是五月八日。",
-    "ex_py": "rì",
-    "ex_vi": "Hôm nay là ngày 8 tháng 5.",
-    "chars": [
-      "日"
-    ]
-  },
-  {
-    "id": 85,
-    "lesson_id": 5,
-    "hanzi": "号",
-    "pinyin": "hào",
-    "type": "DANH/LƯỢNG",
-    "type_detail": "Danh/Lượng",
-    "hv": "hào",
-    "meaning": "ngày, mùng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天是五月一号。",
-    "ex_py": "hào",
-    "ex_vi": "Hôm nay là ngày 1 tháng 5.",
-    "chars": [
-      "号"
-    ]
-  },
-  {
-    "id": 86,
-    "lesson_id": 5,
-    "hanzi": "电脑",
-    "pinyin": "diànnǎo",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "điện não",
-    "meaning": "máy tính, máy vi tính",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这是我的电脑。",
-    "ex_py": "diànnǎo",
-    "ex_vi": "Đây là máy tính của tôi.",
-    "chars": [
-      "电",
-      "脑"
-    ]
-  },
-  {
-    "id": 87,
-    "lesson_id": 5,
-    "hanzi": "喜欢",
-    "pinyin": "xǐhuan",
+    "hanzi": "休息",
+    "pinyin": "xiūxi",
     "type": "ĐỘNG",
     "type_detail": "Động",
-    "hv": "hỷ hoan",
-    "meaning": "thích",
+    "hv": "hưu tức",
+    "meaning": "nghỉ, nghỉ ngơi",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我很喜欢中国文化。",
-    "ex_py": "xǐhuan",
-    "ex_vi": "Tôi rất thích văn hóa Trung Quốc.",
+    "ex_hz": "周末我在家休息。",
+    "ex_py": "xiūxi",
+    "ex_vi": "Cuối tuần tôi nghỉ ở nhà.",
     "chars": [
-      "喜",
-      "欢"
+      "休",
+      "息"
     ]
   },
   {
-    "id": 88,
+    "id": 99,
     "lesson_id": 5,
-    "hanzi": "好看",
-    "pinyin": "hǎokàn",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "hảo khán",
-    "meaning": "đẹp",
+    "hanzi": "会",
+    "pinyin": "huì",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "hội",
+    "meaning": "biết, sẽ",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这部电影很好看。",
-    "ex_py": "hǎokàn",
-    "ex_vi": "Bộ phim này rất hay.",
+    "ex_hz": "我会说一点儿汉语。",
+    "ex_py": "huì",
+    "ex_vi": "Tôi biết nói một chút tiếng Trung.",
     "chars": [
-      "好",
-      "看"
+      "会"
+    ]
+  },
+  {
+    "id": 95,
+    "lesson_id": 5,
+    "hanzi": "做",
+    "pinyin": "zuò",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tác",
+    "meaning": "làm, nấu",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我在家做作业。",
+    "ex_py": "zuò",
+    "ex_vi": "Tôi làm bài tập ở nhà.",
+    "chars": [
+      "做"
+    ]
+  },
+  {
+    "id": 96,
+    "lesson_id": 5,
+    "hanzi": "做饭",
+    "pinyin": "zuòfàn",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tác phạn",
+    "meaning": "nấu ăn",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我妈妈每天做饭。",
+    "ex_py": "zuòfàn",
+    "ex_vi": "Mẹ tôi nấu ăn mỗi ngày.",
+    "chars": [
+      "做",
+      "饭"
+    ]
+  },
+  {
+    "id": 93,
+    "lesson_id": 5,
+    "hanzi": "一些",
+    "pinyin": "yìxiē",
+    "type": "LƯỢNG",
+    "type_detail": "Lượng",
+    "hv": "nhất ta",
+    "meaning": "một số, một vài",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我买了一些水果。",
+    "ex_py": "yìxiē",
+    "ex_vi": "Tôi mua một ít trái cây.",
+    "chars": [
+      "一",
+      "些"
+    ]
+  },
+  {
+    "id": 91,
+    "lesson_id": 5,
+    "hanzi": "菜",
+    "pinyin": "cài",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "thái",
+    "meaning": "món ăn",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这家饭店的菜很好吃。",
+    "ex_py": "cài",
+    "ex_vi": "Món ăn ở nhà hàng này rất ngon.",
+    "chars": [
+      "菜"
     ]
   },
   {
@@ -2048,20 +2259,39 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 91,
+    "id": 97,
     "lesson_id": 5,
-    "hanzi": "菜",
-    "pinyin": "cài",
+    "hanzi": "下班",
+    "pinyin": "xiàbān",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "hạ ban",
+    "meaning": "tan làm, tan ca",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我六点下班回家。",
+    "ex_py": "xiàbān",
+    "ex_vi": "Tôi tan làm lúc 6 giờ rồi về nhà.",
+    "chars": [
+      "下",
+      "班"
+    ]
+  },
+  {
+    "id": 86,
+    "lesson_id": 5,
+    "hanzi": "电脑",
+    "pinyin": "diànnǎo",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "thái",
-    "meaning": "món ăn",
+    "hv": "điện não",
+    "meaning": "máy tính, máy vi tính",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这家饭店的菜很好吃。",
-    "ex_py": "cài",
-    "ex_vi": "Món ăn ở nhà hàng này rất ngon.",
+    "ex_hz": "这是我的电脑。",
+    "ex_py": "diànnǎo",
+    "ex_vi": "Đây là máy tính của tôi.",
     "chars": [
-      "菜"
+      "电",
+      "脑"
     ]
   },
   {
@@ -2082,24 +2312,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 93,
-    "lesson_id": 5,
-    "hanzi": "一些",
-    "pinyin": "yìxiē",
-    "type": "LƯỢNG",
-    "type_detail": "Lượng",
-    "hv": "nhất ta",
-    "meaning": "một số, một vài",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我买了一些水果。",
-    "ex_py": "yìxiē",
-    "ex_vi": "Tôi mua một ít trái cây.",
-    "chars": [
-      "一",
-      "些"
-    ]
-  },
-  {
     "id": 94,
     "lesson_id": 5,
     "hanzi": "真",
@@ -2117,56 +2329,39 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 95,
+    "id": 88,
     "lesson_id": 5,
-    "hanzi": "做",
-    "pinyin": "zuò",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "tác",
-    "meaning": "làm, nấu",
+    "hanzi": "好看",
+    "pinyin": "hǎokàn",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "hảo khán",
+    "meaning": "đẹp",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我在家做作业。",
-    "ex_py": "zuò",
-    "ex_vi": "Tôi làm bài tập ở nhà.",
+    "ex_hz": "这部电影很好看。",
+    "ex_py": "hǎokàn",
+    "ex_vi": "Bộ phim này rất hay.",
     "chars": [
-      "做"
+      "好",
+      "看"
     ]
   },
   {
-    "id": 96,
+    "id": 87,
     "lesson_id": 5,
-    "hanzi": "做饭",
-    "pinyin": "zuòfàn",
+    "hanzi": "喜欢",
+    "pinyin": "xǐhuan",
     "type": "ĐỘNG",
     "type_detail": "Động",
-    "hv": "tác phạn",
-    "meaning": "nấu ăn",
+    "hv": "hỷ hoan",
+    "meaning": "thích",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我妈妈每天做饭。",
-    "ex_py": "zuòfàn",
-    "ex_vi": "Mẹ tôi nấu ăn mỗi ngày.",
+    "ex_hz": "我很喜欢中国文化。",
+    "ex_py": "xǐhuan",
+    "ex_vi": "Tôi rất thích văn hóa Trung Quốc.",
     "chars": [
-      "做",
-      "饭"
-    ]
-  },
-  {
-    "id": 97,
-    "lesson_id": 5,
-    "hanzi": "下班",
-    "pinyin": "xiàbān",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "hạ ban",
-    "meaning": "tan làm, tan ca",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我六点下班回家。",
-    "ex_py": "xiàbān",
-    "ex_vi": "Tôi tan làm lúc 6 giờ rồi về nhà.",
-    "chars": [
-      "下",
-      "班"
+      "喜",
+      "欢"
     ]
   },
   {
@@ -2184,23 +2379,6 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Con mèo kia rất đáng yêu, tôi rất thích nó.",
     "chars": [
       "它"
-    ]
-  },
-  {
-    "id": 99,
-    "lesson_id": 5,
-    "hanzi": "会",
-    "pinyin": "huì",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "hội",
-    "meaning": "biết, sẽ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我会说一点儿汉语。",
-    "ex_py": "huì",
-    "ex_vi": "Tôi biết nói một chút tiếng Trung.",
-    "chars": [
-      "会"
     ]
   },
   {
@@ -2240,21 +2418,21 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 102,
+    "id": 112,
     "lesson_id": 6,
-    "hanzi": "怎么",
-    "pinyin": "zěnme",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "chẩm ma",
-    "meaning": "thế nào",
+    "hanzi": "明天",
+    "pinyin": "míngtiān",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "minh thiên",
+    "meaning": "ngày mai",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你怎么来学校？",
-    "ex_py": "zěnme",
-    "ex_vi": "Bạn đến trường bằng cách nào?",
+    "ex_hz": "明天我们考试。",
+    "ex_py": "míngtiān",
+    "ex_vi": "Ngày mai chúng tôi thi.",
     "chars": [
-      "怎",
-      "么"
+      "明",
+      "天"
     ]
   },
   {
@@ -2272,6 +2450,24 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Ngày mai tôi đi học.",
     "chars": [
       "去"
+    ]
+  },
+  {
+    "id": 293,
+    "lesson_id": 6,
+    "hanzi": "哪儿",
+    "pinyin": "nǎr",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "nả nhi",
+    "meaning": "ở đâu",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你去哪儿？",
+    "ex_py": "nǎr",
+    "ex_vi": "Bạn đi đâu?",
+    "chars": [
+      "哪",
+      "儿"
     ]
   },
   {
@@ -2328,6 +2524,41 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 111,
+    "lesson_id": 6,
+    "hanzi": "牛奶",
+    "pinyin": "niúnǎi",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "ngưu nãi",
+    "meaning": "sữa (bò)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天早上喝牛奶。",
+    "ex_py": "niúnǎi",
+    "ex_vi": "Mỗi sáng tôi uống sữa.",
+    "chars": [
+      "牛",
+      "奶"
+    ]
+  },
+  {
+    "id": 116,
+    "lesson_id": 6,
+    "hanzi": "些",
+    "pinyin": "xiē",
+    "type": "LƯỢNG",
+    "type_detail": "Lượng",
+    "hv": "ta",
+    "meaning": "một ít",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我买了一些水果。",
+    "ex_py": "xiē",
+    "ex_vi": "Tôi mua một ít trái cây.",
+    "chars": [
+      "些"
+    ]
+  },
+  {
     "id": 107,
     "lesson_id": 6,
     "hanzi": "吃",
@@ -2345,21 +2576,39 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 108,
+    "id": 117,
     "lesson_id": 6,
-    "hanzi": "好吃",
-    "pinyin": "hǎochī",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "hảo thực",
-    "meaning": "ngon",
+    "hanzi": "晚饭",
+    "pinyin": "wǎnfàn",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "vãn phạn",
+    "meaning": "bữa tối",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "中国菜很好吃。",
-    "ex_py": "hǎochī",
-    "ex_vi": "Món Trung Quốc rất ngon.",
+    "ex_hz": "我们六点吃晚饭。",
+    "ex_py": "wǎnfàn",
+    "ex_vi": "Chúng tôi ăn tối lúc 6 giờ.",
     "chars": [
-      "好",
-      "吃"
+      "晚",
+      "饭"
+    ]
+  },
+  {
+    "id": 115,
+    "lesson_id": 6,
+    "hanzi": "那边",
+    "pinyin": "nàbiān",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "na biên",
+    "meaning": "bên kia, chỗ đó",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "那边是超市。",
+    "ex_py": "nàbiān",
+    "ex_vi": "Bên kia là siêu thị.",
+    "chars": [
+      "那",
+      "边"
     ]
   },
   {
@@ -2399,39 +2648,74 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 111,
+    "id": 108,
     "lesson_id": 6,
-    "hanzi": "牛奶",
-    "pinyin": "niúnǎi",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "ngưu nãi",
-    "meaning": "sữa (bò)",
+    "hanzi": "好吃",
+    "pinyin": "hǎochī",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "hảo thực",
+    "meaning": "ngon",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天早上喝牛奶。",
-    "ex_py": "niúnǎi",
-    "ex_vi": "Mỗi sáng tôi uống sữa.",
+    "ex_hz": "中国菜很好吃。",
+    "ex_py": "hǎochī",
+    "ex_vi": "Món Trung Quốc rất ngon.",
     "chars": [
-      "牛",
-      "奶"
+      "好",
+      "吃"
     ]
   },
   {
-    "id": 112,
+    "id": 118,
     "lesson_id": 6,
-    "hanzi": "明天",
-    "pinyin": "míngtiān",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "minh thiên",
-    "meaning": "ngày mai",
+    "hanzi": "非常",
+    "pinyin": "fēicháng",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "phi thường",
+    "meaning": "rất",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "明天我们考试。",
-    "ex_py": "míngtiān",
-    "ex_vi": "Ngày mai chúng tôi thi.",
+    "ex_hz": "今天的天气非常好。",
+    "ex_py": "fēicháng",
+    "ex_vi": "Thời tiết hôm nay rất tốt.",
     "chars": [
-      "明",
-      "天"
+      "非",
+      "常"
+    ]
+  },
+  {
+    "id": 102,
+    "lesson_id": 6,
+    "hanzi": "怎么",
+    "pinyin": "zěnme",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "chẩm ma",
+    "meaning": "thế nào",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你怎么来学校？",
+    "ex_py": "zěnme",
+    "ex_vi": "Bạn đến trường bằng cách nào?",
+    "chars": [
+      "怎",
+      "么"
+    ]
+  },
+  {
+    "id": 114,
+    "lesson_id": 6,
+    "hanzi": "坐",
+    "pinyin": "zuò",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tọa",
+    "meaning": "ngồi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "请坐这儿。",
+    "ex_py": "zuò",
+    "ex_vi": "Mời ngồi ở đây.",
+    "chars": [
+      "坐"
     ]
   },
   {
@@ -2454,91 +2738,39 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 114,
+    "id": 281,
     "lesson_id": 6,
-    "hanzi": "坐",
-    "pinyin": "zuò",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "tọa",
-    "meaning": "ngồi",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "请坐这儿。",
-    "ex_py": "zuò",
-    "ex_vi": "Mời ngồi ở đây.",
-    "chars": [
-      "坐"
-    ]
-  },
-  {
-    "id": 115,
-    "lesson_id": 6,
-    "hanzi": "那边",
-    "pinyin": "nàbiān",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "na biên",
-    "meaning": "bên kia, chỗ đó",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "那边是超市。",
-    "ex_py": "nàbiān",
-    "ex_vi": "Bên kia là siêu thị.",
-    "chars": [
-      "那",
-      "边"
-    ]
-  },
-  {
-    "id": 116,
-    "lesson_id": 6,
-    "hanzi": "些",
-    "pinyin": "xiē",
-    "type": "LƯỢNG",
-    "type_detail": "Lượng",
-    "hv": "ta",
-    "meaning": "một ít",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我买了一些水果。",
-    "ex_py": "xiē",
-    "ex_vi": "Tôi mua một ít trái cây.",
-    "chars": [
-      "些"
-    ]
-  },
-  {
-    "id": 117,
-    "lesson_id": 6,
-    "hanzi": "晚饭",
-    "pinyin": "wǎnfàn",
+    "hanzi": "去年",
+    "pinyin": "qùnián",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "vãn phạn",
-    "meaning": "bữa tối",
+    "hv": "khứ niên",
+    "meaning": "năm ngoái",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我们六点吃晚饭。",
-    "ex_py": "wǎnfàn",
-    "ex_vi": "Chúng tôi ăn tối lúc 6 giờ.",
+    "ex_hz": "去年我开始学汉语。",
+    "ex_py": "qùnián",
+    "ex_vi": "Năm ngoái tôi bắt đầu học tiếng Trung.",
     "chars": [
-      "晚",
-      "饭"
+      "去",
+      "年"
     ]
   },
   {
-    "id": 118,
-    "lesson_id": 6,
-    "hanzi": "非常",
-    "pinyin": "fēicháng",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "phi thường",
-    "meaning": "rất",
+    "id": 130,
+    "lesson_id": 7,
+    "hanzi": "现在",
+    "pinyin": "xiànzài",
+    "type": "DANH/PHÓ",
+    "type_detail": "Danh/Phó",
+    "hv": "hiện tại",
+    "meaning": "bây giờ, hiện tại",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天的天气非常好。",
-    "ex_py": "fēicháng",
-    "ex_vi": "Thời tiết hôm nay rất tốt.",
+    "ex_hz": "现在我很忙。",
+    "ex_py": "xiànzài",
+    "ex_vi": "Bây giờ tôi rất bận.",
     "chars": [
-      "非",
-      "常"
+      "现",
+      "在"
     ]
   },
   {
@@ -2556,23 +2788,6 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Bây giờ là 3 giờ rưỡi.",
     "chars": [
       "点"
-    ]
-  },
-  {
-    "id": 120,
-    "lesson_id": 7,
-    "hanzi": "半",
-    "pinyin": "bàn",
-    "type": "SỐ",
-    "type_detail": "Số",
-    "hv": "bán",
-    "meaning": "một nửa",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我只吃了一半。",
-    "ex_py": "bàn",
-    "ex_vi": "Tôi chỉ ăn một nửa.",
-    "chars": [
-      "半"
     ]
   },
   {
@@ -2611,21 +2826,108 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 123,
+    "id": 129,
     "lesson_id": 7,
-    "hanzi": "上班",
-    "pinyin": "shàngbān",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "thượng ban",
-    "meaning": "đi làm, vào ca",
+    "hanzi": "早上",
+    "pinyin": "zǎoshang",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tảo thượng",
+    "meaning": "buổi sáng",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我八点上班。",
-    "ex_py": "shàngbān",
-    "ex_vi": "Tôi đi làm lúc 8 giờ.",
+    "ex_hz": "早上我去学校。",
+    "ex_py": "zǎoshang",
+    "ex_vi": "Buổi sáng tôi đi học.",
+    "chars": [
+      "早",
+      "上"
+    ]
+  },
+  {
+    "id": 126,
+    "lesson_id": 7,
+    "hanzi": "上午",
+    "pinyin": "shàngwǔ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "thượng ngọ",
+    "meaning": "buổi sáng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "上午我在家。",
+    "ex_py": "shàngwǔ",
+    "ex_vi": "Buổi sáng tôi ở nhà.",
     "chars": [
       "上",
-      "班"
+      "午"
+    ]
+  },
+  {
+    "id": 132,
+    "lesson_id": 7,
+    "hanzi": "课",
+    "pinyin": "kè",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "khóa",
+    "meaning": "tiết học",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天我们有三节课。",
+    "ex_py": "kè",
+    "ex_vi": "Hôm nay chúng tôi có ba tiết học.",
+    "chars": [
+      "课"
+    ]
+  },
+  {
+    "id": 127,
+    "lesson_id": 7,
+    "hanzi": "下午",
+    "pinyin": "xiàwǔ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "hạ ngọ",
+    "meaning": "buổi chiều",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "下午我去超市买东西。",
+    "ex_py": "xiàwǔ",
+    "ex_vi": "Buổi chiều tôi đi siêu thị mua đồ.",
+    "chars": [
+      "下",
+      "午"
+    ]
+  },
+  {
+    "id": 135,
+    "lesson_id": 7,
+    "hanzi": "见",
+    "pinyin": "jiàn",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "kiến",
+    "meaning": "gặp, gặp mặt",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "明天见老师。",
+    "ex_py": "jiàn",
+    "ex_vi": "Ngày mai gặp thầy giáo.",
+    "chars": [
+      "见"
+    ]
+  },
+  {
+    "id": 134,
+    "lesson_id": 7,
+    "hanzi": "吧",
+    "pinyin": "ba",
+    "type": "TRỢ",
+    "type_detail": "Trợ",
+    "hv": "ba",
+    "meaning": "trợ từ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我们一起去吃饭吧。",
+    "ex_py": "ba",
+    "ex_vi": "Chúng ta cùng đi ăn cơm nhé.",
+    "chars": [
+      "吧"
     ]
   },
   {
@@ -2665,42 +2967,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 126,
-    "lesson_id": 7,
-    "hanzi": "上午",
-    "pinyin": "shàngwǔ",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "thượng ngọ",
-    "meaning": "buổi sáng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "上午我在家。",
-    "ex_py": "shàngwǔ",
-    "ex_vi": "Buổi sáng tôi ở nhà.",
-    "chars": [
-      "上",
-      "午"
-    ]
-  },
-  {
-    "id": 127,
-    "lesson_id": 7,
-    "hanzi": "下午",
-    "pinyin": "xiàwǔ",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "hạ ngọ",
-    "meaning": "buổi chiều",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "下午我去超市买东西。",
-    "ex_py": "xiàwǔ",
-    "ex_vi": "Buổi chiều tôi đi siêu thị mua đồ.",
-    "chars": [
-      "下",
-      "午"
-    ]
-  },
-  {
     "id": 128,
     "lesson_id": 7,
     "hanzi": "晚上",
@@ -2719,76 +2985,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 129,
-    "lesson_id": 7,
-    "hanzi": "早上",
-    "pinyin": "zǎoshang",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tảo thượng",
-    "meaning": "buổi sáng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "早上我去学校。",
-    "ex_py": "zǎoshang",
-    "ex_vi": "Buổi sáng tôi đi học.",
-    "chars": [
-      "早",
-      "上"
-    ]
-  },
-  {
-    "id": 130,
-    "lesson_id": 7,
-    "hanzi": "现在",
-    "pinyin": "xiànzài",
-    "type": "DANH/PHÓ",
-    "type_detail": "Danh/Phó",
-    "hv": "hiện tại",
-    "meaning": "bây giờ, hiện tại",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "现在我很忙。",
-    "ex_py": "xiànzài",
-    "ex_vi": "Bây giờ tôi rất bận.",
-    "chars": [
-      "现",
-      "在"
-    ]
-  },
-  {
-    "id": 131,
-    "lesson_id": 7,
-    "hanzi": "后",
-    "pinyin": "hòu",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "hậu",
-    "meaning": "sau, sau đó",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "下课后我们去吃饭。",
-    "ex_py": "hòu",
-    "ex_vi": "Sau giờ học chúng tôi đi ăn.",
-    "chars": [
-      "后"
-    ]
-  },
-  {
-    "id": 132,
-    "lesson_id": 7,
-    "hanzi": "课",
-    "pinyin": "kè",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "khóa",
-    "meaning": "tiết học",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天我们有三节课。",
-    "ex_py": "kè",
-    "ex_vi": "Hôm nay chúng tôi có ba tiết học.",
-    "chars": [
-      "课"
-    ]
-  },
-  {
     "id": 133,
     "lesson_id": 7,
     "hanzi": "事",
@@ -2803,40 +2999,6 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Việc này rất quan trọng.",
     "chars": [
       "事"
-    ]
-  },
-  {
-    "id": 134,
-    "lesson_id": 7,
-    "hanzi": "吧",
-    "pinyin": "ba",
-    "type": "TRỢ",
-    "type_detail": "Trợ",
-    "hv": "ba",
-    "meaning": "trợ từ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我们一起去吃饭吧。",
-    "ex_py": "ba",
-    "ex_vi": "Chúng ta cùng đi ăn cơm nhé.",
-    "chars": [
-      "吧"
-    ]
-  },
-  {
-    "id": 135,
-    "lesson_id": 7,
-    "hanzi": "见",
-    "pinyin": "jiàn",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "kiến",
-    "meaning": "gặp, gặp mặt",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "明天见老师。",
-    "ex_py": "jiàn",
-    "ex_vi": "Ngày mai gặp thầy giáo.",
-    "chars": [
-      "见"
     ]
   },
   {
@@ -2894,20 +3056,20 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 139,
+    "id": 141,
     "lesson_id": 7,
-    "hanzi": "店",
-    "pinyin": "diàn",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "điếm",
-    "meaning": "cửa hàng, cửa tiệm",
+    "hanzi": "在",
+    "pinyin": "zài",
+    "type": "ĐỘNG/GIỚI",
+    "type_detail": "Động/Giới",
+    "hv": "tại",
+    "meaning": "ở",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这家店很有名。",
-    "ex_py": "diàn",
-    "ex_vi": "Cửa hàng này rất nổi tiếng.",
+    "ex_hz": "我在家学习。",
+    "ex_py": "zài",
+    "ex_vi": "Tôi học ở nhà.",
     "chars": [
-      "店"
+      "在"
     ]
   },
   {
@@ -2928,38 +3090,20 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 141,
+    "id": 120,
     "lesson_id": 7,
-    "hanzi": "在",
-    "pinyin": "zài",
-    "type": "ĐỘNG/GIỚI",
-    "type_detail": "Động/Giới",
-    "hv": "tại",
-    "meaning": "ở",
+    "hanzi": "半",
+    "pinyin": "bàn",
+    "type": "SỐ",
+    "type_detail": "Số",
+    "hv": "bán",
+    "meaning": "một nửa",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我在家学习。",
-    "ex_py": "zài",
-    "ex_vi": "Tôi học ở nhà.",
+    "ex_hz": "我只吃了一半。",
+    "ex_py": "bàn",
+    "ex_vi": "Tôi chỉ ăn một nửa.",
     "chars": [
-      "在"
-    ]
-  },
-  {
-    "id": 142,
-    "lesson_id": 8,
-    "hanzi": "医生",
-    "pinyin": "yīshēng",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "y sinh",
-    "meaning": "bác sĩ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "医生说我需要休息。",
-    "ex_py": "yīshēng",
-    "ex_vi": "Bác sĩ nói tôi cần nghỉ ngơi.",
-    "chars": [
-      "医",
-      "生"
+      "半"
     ]
   },
   {
@@ -2981,39 +3125,55 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 144,
-    "lesson_id": 8,
-    "hanzi": "学校",
-    "pinyin": "xuéxiào",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "học hiệu",
-    "meaning": "trường học",
+    "id": 123,
+    "lesson_id": 7,
+    "hanzi": "上班",
+    "pinyin": "shàngbān",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "thượng ban",
+    "meaning": "đi làm, vào ca",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这是我的学校。",
-    "ex_py": "xuéxiào",
-    "ex_vi": "Đây là trường học của tôi.",
+    "ex_hz": "我八点上班。",
+    "ex_py": "shàngbān",
+    "ex_vi": "Tôi đi làm lúc 8 giờ.",
     "chars": [
-      "学",
-      "校"
+      "上",
+      "班"
     ]
   },
   {
-    "id": 145,
-    "lesson_id": 8,
-    "hanzi": "书店",
-    "pinyin": "shūdiàn",
+    "id": 139,
+    "lesson_id": 7,
+    "hanzi": "店",
+    "pinyin": "diàn",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "thư điếm",
-    "meaning": "hiệu sách, nhà sách",
+    "hv": "điếm",
+    "meaning": "cửa hàng, cửa tiệm",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "学校旁边有书店。",
-    "ex_py": "shūdiàn",
-    "ex_vi": "Bên cạnh trường có hiệu sách.",
+    "ex_hz": "这家店很有名。",
+    "ex_py": "diàn",
+    "ex_vi": "Cửa hàng này rất nổi tiếng.",
     "chars": [
-      "书",
       "店"
+    ]
+  },
+  {
+    "id": 131,
+    "lesson_id": 7,
+    "hanzi": "后",
+    "pinyin": "hòu",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "hậu",
+    "meaning": "sau, sau đó",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "下课后我们去吃饭。",
+    "ex_py": "hòu",
+    "ex_vi": "Sau giờ học chúng tôi đi ăn.",
+    "chars": [
+      "后"
     ]
   },
   {
@@ -3035,21 +3195,54 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 147,
+    "id": 156,
     "lesson_id": 8,
-    "hanzi": "桌子",
-    "pinyin": "zhuōzi",
+    "hanzi": "外",
+    "pinyin": "wài",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "trác tử",
-    "meaning": "cái bàn",
+    "hv": "ngoại",
+    "meaning": "ngoài, bên ngoài",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "桌子上有书。",
-    "ex_py": "zhuōzi",
-    "ex_vi": "Trên bàn có sách.",
+    "ex_hz": "学校外有很多饭店。",
+    "ex_py": "wài",
+    "ex_vi": "Bên ngoài trường có rất nhiều quán ăn.",
     "chars": [
-      "桌",
-      "子"
+      "外"
+    ]
+  },
+  {
+    "id": 158,
+    "lesson_id": 8,
+    "hanzi": "只",
+    "pinyin": "zhī",
+    "type": "LƯỢNG",
+    "type_detail": "Lượng",
+    "hv": "chi",
+    "meaning": "con (chim, chó, hổ...)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我家有一只猫。",
+    "ex_py": "zhī",
+    "ex_vi": "Nhà tôi có một con mèo.",
+    "chars": [
+      "只"
+    ]
+  },
+  {
+    "id": 150,
+    "lesson_id": 8,
+    "hanzi": "小",
+    "pinyin": "xiǎo",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "tiểu",
+    "meaning": "nhỏ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这只猫很小。",
+    "ex_py": "xiǎo",
+    "ex_vi": "Con mèo này rất nhỏ.",
+    "chars": [
+      "小"
     ]
   },
   {
@@ -3070,37 +3263,38 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 149,
-    "lesson_id": 4,
-    "hanzi": "大",
-    "pinyin": "dà",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "đại",
-    "meaning": "to",
+    "id": 147,
+    "lesson_id": 8,
+    "hanzi": "桌子",
+    "pinyin": "zhuōzi",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "trác tử",
+    "meaning": "cái bàn",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这所学校很大。",
-    "ex_py": "dà",
-    "ex_vi": "Ngôi trường này rất lớn.",
+    "ex_hz": "桌子上有书。",
+    "ex_py": "zhuōzi",
+    "ex_vi": "Trên bàn có sách.",
     "chars": [
-      "大"
+      "桌",
+      "子"
     ]
   },
   {
-    "id": 150,
+    "id": 157,
     "lesson_id": 8,
-    "hanzi": "小",
-    "pinyin": "xiǎo",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "tiểu",
-    "meaning": "nhỏ",
+    "hanzi": "下",
+    "pinyin": "xià",
+    "type": "DANH/ĐỘNG/LƯỢNG",
+    "type_detail": "Danh/Động/Lượng",
+    "hv": "hạ",
+    "meaning": "dưới / xuống",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这只猫很小。",
-    "ex_py": "xiǎo",
-    "ex_vi": "Con mèo này rất nhỏ.",
+    "ex_hz": "书在桌子下。",
+    "ex_py": "xià",
+    "ex_vi": "Sách ở dưới bàn.",
     "chars": [
-      "小"
+      "下"
     ]
   },
   {
@@ -3122,23 +3316,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 152,
-    "lesson_id": 8,
-    "hanzi": "到",
-    "pinyin": "dào",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "đáo",
-    "meaning": "đến",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我八点到学校。",
-    "ex_py": "dào",
-    "ex_vi": "Tôi đến trường lúc 8 giờ.",
-    "chars": [
-      "到"
-    ]
-  },
-  {
     "id": 153,
     "lesson_id": 8,
     "hanzi": "看见",
@@ -3154,23 +3331,6 @@ window.VOCAB_DATABASE = [
     "chars": [
       "看",
       "见"
-    ]
-  },
-  {
-    "id": 154,
-    "lesson_id": 8,
-    "hanzi": "能",
-    "pinyin": "néng",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "năng",
-    "meaning": "có thể",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我今天不能去。",
-    "ex_py": "néng",
-    "ex_vi": "Hôm nay tôi không thể đi.",
-    "chars": [
-      "能"
     ]
   },
   {
@@ -3191,71 +3351,38 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 156,
+    "id": 145,
     "lesson_id": 8,
-    "hanzi": "外",
-    "pinyin": "wài",
+    "hanzi": "书店",
+    "pinyin": "shūdiàn",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "ngoại",
-    "meaning": "ngoài, bên ngoài",
+    "hv": "thư điếm",
+    "meaning": "hiệu sách, nhà sách",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "学校外有很多饭店。",
-    "ex_py": "wài",
-    "ex_vi": "Bên ngoài trường có rất nhiều quán ăn.",
+    "ex_hz": "学校旁边有书店。",
+    "ex_py": "shūdiàn",
+    "ex_vi": "Bên cạnh trường có hiệu sách.",
     "chars": [
-      "外"
+      "书",
+      "店"
     ]
   },
   {
-    "id": 157,
+    "id": 154,
     "lesson_id": 8,
-    "hanzi": "下",
-    "pinyin": "xià",
-    "type": "DANH/ĐỘNG/LƯỢNG",
-    "type_detail": "Danh/Động/Lượng",
-    "hv": "hạ",
-    "meaning": "dưới / xuống",
+    "hanzi": "能",
+    "pinyin": "néng",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "năng",
+    "meaning": "có thể",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "书在桌子下。",
-    "ex_py": "xià",
-    "ex_vi": "Sách ở dưới bàn.",
+    "ex_hz": "我今天不能去。",
+    "ex_py": "néng",
+    "ex_vi": "Hôm nay tôi không thể đi.",
     "chars": [
-      "下"
-    ]
-  },
-  {
-    "id": 158,
-    "lesson_id": 8,
-    "hanzi": "只",
-    "pinyin": "zhī",
-    "type": "LƯỢNG",
-    "type_detail": "Lượng",
-    "hv": "chi",
-    "meaning": "con (chim, chó, hổ...)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我家有一只猫。",
-    "ex_py": "zhī",
-    "ex_vi": "Nhà tôi có một con mèo.",
-    "chars": [
-      "只"
-    ]
-  },
-  {
-    "id": 159,
-    "lesson_id": 8,
-    "hanzi": "饭",
-    "pinyin": "fàn",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "phạn",
-    "meaning": "cơm",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我想吃饭，不想喝水。",
-    "ex_py": "fàn",
-    "ex_vi": "Tôi muốn ăn cơm, không muốn uống nước.",
-    "chars": [
-      "饭"
+      "能"
     ]
   },
   {
@@ -3277,74 +3404,196 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 161,
-    "lesson_id": 9,
-    "hanzi": "学习",
-    "pinyin": "xuéxí",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "học tập",
-    "meaning": "học, học tập",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天认真学习汉语。",
-    "ex_py": "xuéxí",
-    "ex_vi": "Tôi học tiếng Trung chăm chỉ mỗi ngày.",
-    "chars": [
-      "学",
-      "习"
-    ]
-  },
-  {
-    "id": 162,
-    "lesson_id": 9,
-    "hanzi": "白天",
-    "pinyin": "báitiān",
+    "id": 159,
+    "lesson_id": 8,
+    "hanzi": "饭",
+    "pinyin": "fàn",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "bạch thiên",
-    "meaning": "ban ngày",
+    "hv": "phạn",
+    "meaning": "cơm",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我白天上班，晚上学习。",
-    "ex_py": "báitiān",
-    "ex_vi": "Ban ngày tôi đi làm, tối học.",
+    "ex_hz": "我想吃饭，不想喝水。",
+    "ex_py": "fàn",
+    "ex_vi": "Tôi muốn ăn cơm, không muốn uống nước.",
     "chars": [
-      "白",
-      "天"
+      "饭"
     ]
   },
   {
-    "id": 163,
-    "lesson_id": 9,
-    "hanzi": "读书",
-    "pinyin": "dúshū",
+    "id": 144,
+    "lesson_id": 8,
+    "hanzi": "学校",
+    "pinyin": "xuéxiào",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "học hiệu",
+    "meaning": "trường học",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这是我的学校。",
+    "ex_py": "xuéxiào",
+    "ex_vi": "Đây là trường học của tôi.",
+    "chars": [
+      "学",
+      "校"
+    ]
+  },
+  {
+    "id": 210,
+    "lesson_id": 8,
+    "hanzi": "哪里",
+    "pinyin": "nǎlǐ",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "nả lý",
+    "meaning": "đâu, chỗ nào, nơi nào",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "洗手间在哪里？",
+    "ex_py": "nǎlǐ",
+    "ex_vi": "Nhà vệ sinh ở đâu?",
+    "chars": [
+      "哪",
+      "里"
+    ]
+  },
+  {
+    "id": 142,
+    "lesson_id": 8,
+    "hanzi": "医生",
+    "pinyin": "yīshēng",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "y sinh",
+    "meaning": "bác sĩ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "医生说我需要休息。",
+    "ex_py": "yīshēng",
+    "ex_vi": "Bác sĩ nói tôi cần nghỉ ngơi.",
+    "chars": [
+      "医",
+      "生"
+    ]
+  },
+  {
+    "id": 152,
+    "lesson_id": 8,
+    "hanzi": "到",
+    "pinyin": "dào",
     "type": "ĐỘNG",
     "type_detail": "Động",
-    "hv": "độc thư",
-    "meaning": "học",
+    "hv": "đáo",
+    "meaning": "đến",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他在图书馆读书。",
-    "ex_py": "dúshū",
-    "ex_vi": "Anh ấy học ở thư viện.",
+    "ex_hz": "我八点到学校。",
+    "ex_py": "dào",
+    "ex_vi": "Tôi đến trường lúc 8 giờ.",
     "chars": [
-      "读",
-      "书"
+      "到"
     ]
   },
   {
-    "id": 164,
+    "id": 178,
     "lesson_id": 9,
-    "hanzi": "第",
-    "pinyin": "dì",
-    "type": "TIỀN TỐ",
-    "type_detail": "Tiền tố",
-    "hv": "đệ",
-    "meaning": "thứ",
+    "hanzi": "那个",
+    "pinyin": "nàge",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "na cá",
+    "meaning": "cái kia",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这是我第一次来中国。",
-    "ex_py": "dì",
-    "ex_vi": "Đây là lần đầu tôi đến Trung Quốc.",
+    "ex_hz": "我要那个。",
+    "ex_py": "nàge",
+    "ex_vi": "Tôi muốn cái kia.",
     "chars": [
-      "第"
+      "那",
+      "个"
+    ]
+  },
+  {
+    "id": 177,
+    "lesson_id": 9,
+    "hanzi": "那",
+    "pinyin": "nà",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "na",
+    "meaning": "kia",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "那是我的老师。",
+    "ex_py": "nà",
+    "ex_vi": "Kia là thầy giáo của tôi.",
+    "chars": [
+      "那"
+    ]
+  },
+  {
+    "id": 174,
+    "lesson_id": 9,
+    "hanzi": "外边",
+    "pinyin": "wàibian",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "ngoại biên",
+    "meaning": "phía ngoài, bên ngoài",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他在外边等你。",
+    "ex_py": "wàibian",
+    "ex_vi": "Anh ấy đang đợi bạn ở bên ngoài.",
+    "chars": [
+      "外",
+      "边"
+    ]
+  },
+  {
+    "id": 175,
+    "lesson_id": 9,
+    "hanzi": "边",
+    "pinyin": "biān",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "biên",
+    "meaning": "phía, bên",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "桌子边有一只猫。",
+    "ex_py": "biān",
+    "ex_vi": "Bên cạnh cái bàn có một con mèo.",
+    "chars": [
+      "边"
+    ]
+  },
+  {
+    "id": 173,
+    "lesson_id": 9,
+    "hanzi": "椅子",
+    "pinyin": "yǐzi",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "ỷ tử",
+    "meaning": "cái ghế",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "房间里有三把椅子。",
+    "ex_py": "yǐzi",
+    "ex_vi": "Trong phòng có ba cái ghế.",
+    "chars": [
+      "椅",
+      "子"
+    ]
+  },
+  {
+    "id": 176,
+    "lesson_id": 9,
+    "hanzi": "上",
+    "pinyin": "shàng",
+    "type": "DANH/ĐỘNG",
+    "type_detail": "Danh/Động",
+    "hv": "thượng",
+    "meaning": "trên / lên",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "书在桌子上。",
+    "ex_py": "shàng",
+    "ex_vi": "Sách ở trên bàn.",
+    "chars": [
+      "上"
     ]
   },
   {
@@ -3379,6 +3628,77 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Tôi thích đọc sách.",
     "chars": [
       "书"
+    ]
+  },
+  {
+    "id": 164,
+    "lesson_id": 9,
+    "hanzi": "第",
+    "pinyin": "dì",
+    "type": "TIỀN TỐ",
+    "type_detail": "Tiền tố",
+    "hv": "đệ",
+    "meaning": "thứ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这是我第一次来中国。",
+    "ex_py": "dì",
+    "ex_vi": "Đây là lần đầu tôi đến Trung Quốc.",
+    "chars": [
+      "第"
+    ]
+  },
+  {
+    "id": 161,
+    "lesson_id": 9,
+    "hanzi": "学习",
+    "pinyin": "xuéxí",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "học tập",
+    "meaning": "học, học tập",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天认真学习汉语。",
+    "ex_py": "xuéxí",
+    "ex_vi": "Tôi học tiếng Trung chăm chỉ mỗi ngày.",
+    "chars": [
+      "学",
+      "习"
+    ]
+  },
+  {
+    "id": 163,
+    "lesson_id": 9,
+    "hanzi": "读书",
+    "pinyin": "dúshū",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "độc thư",
+    "meaning": "học",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他在图书馆读书。",
+    "ex_py": "dúshū",
+    "ex_vi": "Anh ấy học ở thư viện.",
+    "chars": [
+      "读",
+      "书"
+    ]
+  },
+  {
+    "id": 162,
+    "lesson_id": 9,
+    "hanzi": "白天",
+    "pinyin": "báitiān",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "bạch thiên",
+    "meaning": "ban ngày",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我白天上班，晚上学习。",
+    "ex_py": "báitiān",
+    "ex_vi": "Ban ngày tôi đi làm, tối học.",
+    "chars": [
+      "白",
+      "天"
     ]
   },
   {
@@ -3487,319 +3807,20 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 173,
+    "id": 289,
     "lesson_id": 9,
-    "hanzi": "椅子",
-    "pinyin": "yǐzi",
+    "hanzi": "狗",
+    "pinyin": "gǒu",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "ỷ tử",
-    "meaning": "cái ghế",
+    "hv": "cẩu",
+    "meaning": "chó",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "房间里有三把椅子。",
-    "ex_py": "yǐzi",
-    "ex_vi": "Trong phòng có ba cái ghế.",
+    "ex_hz": "他家的狗很可爱。",
+    "ex_py": "gǒu",
+    "ex_vi": "Con chó nhà anh ấy rất đáng yêu.",
     "chars": [
-      "椅",
-      "子"
-    ]
-  },
-  {
-    "id": 174,
-    "lesson_id": 9,
-    "hanzi": "外边",
-    "pinyin": "wàibian",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "ngoại biên",
-    "meaning": "phía ngoài, bên ngoài",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他在外边等你。",
-    "ex_py": "wàibian",
-    "ex_vi": "Anh ấy đang đợi bạn ở bên ngoài.",
-    "chars": [
-      "外",
-      "边"
-    ]
-  },
-  {
-    "id": 175,
-    "lesson_id": 9,
-    "hanzi": "边",
-    "pinyin": "biān",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "biên",
-    "meaning": "phía, bên",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "桌子边有一只猫。",
-    "ex_py": "biān",
-    "ex_vi": "Bên cạnh cái bàn có một con mèo.",
-    "chars": [
-      "边"
-    ]
-  },
-  {
-    "id": 176,
-    "lesson_id": 9,
-    "hanzi": "上",
-    "pinyin": "shàng",
-    "type": "DANH/ĐỘNG",
-    "type_detail": "Danh/Động",
-    "hv": "thượng",
-    "meaning": "trên / lên",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "书在桌子上。",
-    "ex_py": "shàng",
-    "ex_vi": "Sách ở trên bàn.",
-    "chars": [
-      "上"
-    ]
-  },
-  {
-    "id": 177,
-    "lesson_id": 9,
-    "hanzi": "那",
-    "pinyin": "nà",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "na",
-    "meaning": "kia",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "那是我的老师。",
-    "ex_py": "nà",
-    "ex_vi": "Kia là thầy giáo của tôi.",
-    "chars": [
-      "那"
-    ]
-  },
-  {
-    "id": 178,
-    "lesson_id": 9,
-    "hanzi": "那个",
-    "pinyin": "nàge",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "na cá",
-    "meaning": "cái kia",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我要那个。",
-    "ex_py": "nàge",
-    "ex_vi": "Tôi muốn cái kia.",
-    "chars": [
-      "那",
-      "个"
-    ]
-  },
-  {
-    "id": 179,
-    "lesson_id": 10,
-    "hanzi": "苹果",
-    "pinyin": "píngguǒ",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "bình quả",
-    "meaning": "táo",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我喜欢吃苹果。",
-    "ex_py": "píngguǒ",
-    "ex_vi": "Tôi thích ăn táo.",
-    "chars": [
-      "苹",
-      "果"
-    ]
-  },
-  {
-    "id": 180,
-    "lesson_id": 10,
-    "hanzi": "便宜",
-    "pinyin": "piányi",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "tiện nghi",
-    "meaning": "rẻ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这件衣服很便宜。",
-    "ex_py": "piányi",
-    "ex_vi": "Bộ quần áo này rất rẻ.",
-    "chars": [
-      "便",
-      "宜"
-    ]
-  },
-  {
-    "id": 181,
-    "lesson_id": 10,
-    "hanzi": "贵",
-    "pinyin": "guì",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "quý",
-    "meaning": "đắt",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这件衣服太贵了。",
-    "ex_py": "guì",
-    "ex_vi": "Bộ quần áo này đắt quá.",
-    "chars": [
-      "贵"
-    ]
-  },
-  {
-    "id": 182,
-    "lesson_id": 10,
-    "hanzi": "钱",
-    "pinyin": "qián",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tiền",
-    "meaning": "tiền",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我没有很多钱。",
-    "ex_py": "qián",
-    "ex_vi": "Tôi không có nhiều tiền.",
-    "chars": [
-      "钱"
-    ]
-  },
-  {
-    "id": 183,
-    "lesson_id": 10,
-    "hanzi": "元",
-    "pinyin": "yuán",
-    "type": "LƯỢNG",
-    "type_detail": "Lượng",
-    "hv": "nguyên",
-    "meaning": "đồng (nhân dân tệ)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这本书二十元。",
-    "ex_py": "yuán",
-    "ex_vi": "Quyển sách này 20 tệ.",
-    "chars": [
-      "元"
-    ]
-  },
-  {
-    "id": 184,
-    "lesson_id": 10,
-    "hanzi": "块",
-    "pinyin": "kuài",
-    "type": "LƯỢNG",
-    "type_detail": "Lượng",
-    "hv": "khối",
-    "meaning": "đồng / miếng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这件衣服一百块。",
-    "ex_py": "kuài",
-    "ex_vi": "Bộ quần áo này 100 tệ.",
-    "chars": [
-      "块"
-    ]
-  },
-  {
-    "id": 185,
-    "lesson_id": 10,
-    "hanzi": "怎么样",
-    "pinyin": "zěnmeyàng",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "chẩm ma dạng",
-    "meaning": "thế nào, như thế nào",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这本书怎么样？",
-    "ex_py": "zěnmeyàng",
-    "ex_vi": "Quyển sách này thế nào?",
-    "chars": [
-      "怎",
-      "么",
-      "样"
-    ]
-  },
-  {
-    "id": 186,
-    "lesson_id": 10,
-    "hanzi": "商店",
-    "pinyin": "shāngdiàn",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "thương điếm",
-    "meaning": "cửa hàng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这家商店卖衣服。",
-    "ex_py": "shāngdiàn",
-    "ex_vi": "Cửa hàng này bán quần áo.",
-    "chars": [
-      "商",
-      "店"
-    ]
-  },
-  {
-    "id": 187,
-    "lesson_id": 10,
-    "hanzi": "水果",
-    "pinyin": "shuǐguǒ",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "thủy quả",
-    "meaning": "hoa quả, trái cây",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天吃水果。",
-    "ex_py": "shuǐguǒ",
-    "ex_vi": "Tôi ăn trái cây mỗi ngày.",
-    "chars": [
-      "水",
-      "果"
-    ]
-  },
-  {
-    "id": 188,
-    "lesson_id": 10,
-    "hanzi": "衣服",
-    "pinyin": "yīfu",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "y phục",
-    "meaning": "quần áo",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这件衣服很漂亮。",
-    "ex_py": "yīfu",
-    "ex_vi": "Bộ quần áo này rất đẹp.",
-    "chars": [
-      "衣",
-      "服"
-    ]
-  },
-  {
-    "id": 189,
-    "lesson_id": 10,
-    "hanzi": "件",
-    "pinyin": "jiàn",
-    "type": "LƯỢNG",
-    "type_detail": "Lượng",
-    "hv": "kiện",
-    "meaning": "cái",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我买了两件衣服。",
-    "ex_py": "jiàn",
-    "ex_vi": "Tôi mua hai bộ quần áo.",
-    "chars": [
-      "件"
-    ]
-  },
-  {
-    "id": 190,
-    "lesson_id": 10,
-    "hanzi": "穿",
-    "pinyin": "chuān",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "xuyên",
-    "meaning": "mặc",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天他穿了一件新衣服。",
-    "ex_py": "chuān",
-    "ex_vi": "Hôm nay anh ấy mặc đồ mới.",
-    "chars": [
-      "穿"
+      "狗"
     ]
   },
   {
@@ -3818,57 +3839,6 @@ window.VOCAB_DATABASE = [
     "chars": [
       "杯",
       "子"
-    ]
-  },
-  {
-    "id": 192,
-    "lesson_id": 10,
-    "hanzi": "男",
-    "pinyin": "nán",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "nam",
-    "meaning": "nam, con trai",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他是男老师。",
-    "ex_py": "nán",
-    "ex_vi": "Anh ấy là giáo viên nam.",
-    "chars": [
-      "男"
-    ]
-  },
-  {
-    "id": 193,
-    "lesson_id": 10,
-    "hanzi": "女",
-    "pinyin": "nǚ",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "nữ",
-    "meaning": "nữ, con gái",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "她是女老师。",
-    "ex_py": "nǚ",
-    "ex_vi": "Cô ấy là giáo viên nữ.",
-    "chars": [
-      "女"
-    ]
-  },
-  {
-    "id": 194,
-    "lesson_id": 10,
-    "hanzi": "少",
-    "pinyin": "shǎo",
-    "type": "TÍNH/ĐỘNG",
-    "type_detail": "Tính/Động",
-    "hv": "thiểu",
-    "meaning": "ít",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这里人很少。",
-    "ex_py": "shǎo",
-    "ex_vi": "Ở đây rất ít người.",
-    "chars": [
-      "少"
     ]
   },
   {
@@ -3926,6 +3896,271 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 182,
+    "lesson_id": 10,
+    "hanzi": "钱",
+    "pinyin": "qián",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tiền",
+    "meaning": "tiền",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我没有很多钱。",
+    "ex_py": "qián",
+    "ex_vi": "Tôi không có nhiều tiền.",
+    "chars": [
+      "钱"
+    ]
+  },
+  {
+    "id": 184,
+    "lesson_id": 10,
+    "hanzi": "块",
+    "pinyin": "kuài",
+    "type": "LƯỢNG",
+    "type_detail": "Lượng",
+    "hv": "khối",
+    "meaning": "đồng / miếng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这件衣服一百块。",
+    "ex_py": "kuài",
+    "ex_vi": "Bộ quần áo này 100 tệ.",
+    "chars": [
+      "块"
+    ]
+  },
+  {
+    "id": 183,
+    "lesson_id": 10,
+    "hanzi": "元",
+    "pinyin": "yuán",
+    "type": "LƯỢNG",
+    "type_detail": "Lượng",
+    "hv": "nguyên",
+    "meaning": "đồng (nhân dân tệ)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这本书二十元。",
+    "ex_py": "yuán",
+    "ex_vi": "Quyển sách này 20 tệ.",
+    "chars": [
+      "元"
+    ]
+  },
+  {
+    "id": 181,
+    "lesson_id": 10,
+    "hanzi": "贵",
+    "pinyin": "guì",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "quý",
+    "meaning": "đắt",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这件衣服太贵了。",
+    "ex_py": "guì",
+    "ex_vi": "Bộ quần áo này đắt quá.",
+    "chars": [
+      "贵"
+    ]
+  },
+  {
+    "id": 179,
+    "lesson_id": 10,
+    "hanzi": "苹果",
+    "pinyin": "píngguǒ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "bình quả",
+    "meaning": "táo",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我喜欢吃苹果。",
+    "ex_py": "píngguǒ",
+    "ex_vi": "Tôi thích ăn táo.",
+    "chars": [
+      "苹",
+      "果"
+    ]
+  },
+  {
+    "id": 180,
+    "lesson_id": 10,
+    "hanzi": "便宜",
+    "pinyin": "piányi",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "tiện nghi",
+    "meaning": "rẻ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这件衣服很便宜。",
+    "ex_py": "piányi",
+    "ex_vi": "Bộ quần áo này rất rẻ.",
+    "chars": [
+      "便",
+      "宜"
+    ]
+  },
+  {
+    "id": 187,
+    "lesson_id": 10,
+    "hanzi": "水果",
+    "pinyin": "shuǐguǒ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "thủy quả",
+    "meaning": "hoa quả, trái cây",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天吃水果。",
+    "ex_py": "shuǐguǒ",
+    "ex_vi": "Tôi ăn trái cây mỗi ngày.",
+    "chars": [
+      "水",
+      "果"
+    ]
+  },
+  {
+    "id": 186,
+    "lesson_id": 10,
+    "hanzi": "商店",
+    "pinyin": "shāngdiàn",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "thương điếm",
+    "meaning": "cửa hàng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这家商店卖衣服。",
+    "ex_py": "shāngdiàn",
+    "ex_vi": "Cửa hàng này bán quần áo.",
+    "chars": [
+      "商",
+      "店"
+    ]
+  },
+  {
+    "id": 189,
+    "lesson_id": 10,
+    "hanzi": "件",
+    "pinyin": "jiàn",
+    "type": "LƯỢNG",
+    "type_detail": "Lượng",
+    "hv": "kiện",
+    "meaning": "cái",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我买了两件衣服。",
+    "ex_py": "jiàn",
+    "ex_vi": "Tôi mua hai bộ quần áo.",
+    "chars": [
+      "件"
+    ]
+  },
+  {
+    "id": 188,
+    "lesson_id": 10,
+    "hanzi": "衣服",
+    "pinyin": "yīfu",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "y phục",
+    "meaning": "quần áo",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这件衣服很漂亮。",
+    "ex_py": "yīfu",
+    "ex_vi": "Bộ quần áo này rất đẹp.",
+    "chars": [
+      "衣",
+      "服"
+    ]
+  },
+  {
+    "id": 190,
+    "lesson_id": 10,
+    "hanzi": "穿",
+    "pinyin": "chuān",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "xuyên",
+    "meaning": "mặc",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天他穿了一件新衣服。",
+    "ex_py": "chuān",
+    "ex_vi": "Hôm nay anh ấy mặc đồ mới.",
+    "chars": [
+      "穿"
+    ]
+  },
+  {
+    "id": 192,
+    "lesson_id": 10,
+    "hanzi": "男",
+    "pinyin": "nán",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "nam",
+    "meaning": "nam, con trai",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他是男老师。",
+    "ex_py": "nán",
+    "ex_vi": "Anh ấy là giáo viên nam.",
+    "chars": [
+      "男"
+    ]
+  },
+  {
+    "id": 193,
+    "lesson_id": 10,
+    "hanzi": "女",
+    "pinyin": "nǚ",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "nữ",
+    "meaning": "nữ, con gái",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "她是女老师。",
+    "ex_py": "nǚ",
+    "ex_vi": "Cô ấy là giáo viên nữ.",
+    "chars": [
+      "女"
+    ]
+  },
+  {
+    "id": 194,
+    "lesson_id": 10,
+    "hanzi": "少",
+    "pinyin": "shǎo",
+    "type": "TÍNH/ĐỘNG",
+    "type_detail": "Tính/Động",
+    "hv": "thiểu",
+    "meaning": "ít",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这里人很少。",
+    "ex_py": "shǎo",
+    "ex_vi": "Ở đây rất ít người.",
+    "chars": [
+      "少"
+    ]
+  },
+  {
+    "id": 297,
+    "lesson_id": 10,
+    "hanzi": "有（一）点儿",
+    "pinyin": "yǒu(yì)diǎnr",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "hữu điểm nhi",
+    "meaning": "hơi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天有点儿冷。",
+    "ex_py": "yǒu(yì)diǎnr",
+    "ex_vi": "Hôm nay hơi lạnh.",
+    "chars": [
+      "有",
+      "（",
+      "一",
+      "）",
+      "点",
+      "儿"
+    ]
+  },
+  {
     "id": 198,
     "lesson_id": 10,
     "hanzi": "那儿",
@@ -3959,6 +4194,42 @@ window.VOCAB_DATABASE = [
     "chars": [
       "那",
       "些"
+    ]
+  },
+  {
+    "id": 185,
+    "lesson_id": 10,
+    "hanzi": "怎么样",
+    "pinyin": "zěnmeyàng",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "chẩm ma dạng",
+    "meaning": "thế nào, như thế nào",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这本书怎么样？",
+    "ex_py": "zěnmeyàng",
+    "ex_vi": "Quyển sách này thế nào?",
+    "chars": [
+      "怎",
+      "么",
+      "样"
+    ]
+  },
+  {
+    "id": 202,
+    "lesson_id": 11,
+    "hanzi": "读",
+    "pinyin": "dú",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "độc",
+    "meaning": "đọc",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他每天读书两个小时。",
+    "ex_py": "dú",
+    "ex_vi": "Anh ấy đọc sách 2 tiếng mỗi ngày.",
+    "chars": [
+      "读"
     ]
   },
   {
@@ -3999,20 +4270,144 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 202,
+    "id": 216,
     "lesson_id": 11,
-    "hanzi": "读",
-    "pinyin": "dú",
+    "hanzi": "正在",
+    "pinyin": "zhèngzài",
+    "type": "PHÓ",
+    "type_detail": "Phó",
+    "hv": "chính tại",
+    "meaning": "đang (làm gì)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我正在学习汉语。",
+    "ex_py": "zhèngzài",
+    "ex_vi": "Tôi đang học tiếng Trung.",
+    "chars": [
+      "正",
+      "在"
+    ]
+  },
+  {
+    "id": 219,
+    "lesson_id": 11,
+    "hanzi": "学",
+    "pinyin": "xué",
     "type": "ĐỘNG",
     "type_detail": "Động",
-    "hv": "độc",
-    "meaning": "đọc",
+    "hv": "học",
+    "meaning": "học",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他每天读书两个小时。",
-    "ex_py": "dú",
-    "ex_vi": "Anh ấy đọc sách 2 tiếng mỗi ngày.",
+    "ex_hz": "我学汉语一年了。",
+    "ex_py": "xué",
+    "ex_vi": "Tôi học tiếng Trung được một năm rồi.",
     "chars": [
-      "读"
+      "学"
+    ]
+  },
+  {
+    "id": 221,
+    "lesson_id": 11,
+    "hanzi": "要",
+    "pinyin": "yào",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "yếu",
+    "meaning": "muốn / cần",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我要一杯茶。",
+    "ex_py": "yào",
+    "ex_vi": "Tôi muốn một cốc trà.",
+    "chars": [
+      "要"
+    ]
+  },
+  {
+    "id": 215,
+    "lesson_id": 11,
+    "hanzi": "时候",
+    "pinyin": "shíhou",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "thời hậu",
+    "meaning": "lúc",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "有时间的时候给我打电话。",
+    "ex_py": "shíhou",
+    "ex_vi": "Khi có thời gian thì gọi cho tôi.",
+    "chars": [
+      "时",
+      "候"
+    ]
+  },
+  {
+    "id": 220,
+    "lesson_id": 11,
+    "hanzi": "昨天",
+    "pinyin": "zuótiān",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tạc thiên",
+    "meaning": "hôm qua",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "昨天我没有上班。",
+    "ex_py": "zuótiān",
+    "ex_vi": "Hôm qua tôi không đi làm.",
+    "chars": [
+      "昨",
+      "天"
+    ]
+  },
+  {
+    "id": 212,
+    "lesson_id": 11,
+    "hanzi": "起床",
+    "pinyin": "qǐchuáng",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "khởi sàng",
+    "meaning": "thức dậy, ngủ dậy, dậy",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天六点起床。",
+    "ex_py": "qǐchuáng",
+    "ex_vi": "Tôi dậy lúc 6 giờ mỗi ngày.",
+    "chars": [
+      "起",
+      "床"
+    ]
+  },
+  {
+    "id": 213,
+    "lesson_id": 11,
+    "hanzi": "睡",
+    "pinyin": "shuì",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "thụy",
+    "meaning": "ngủ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "太晚了，我想睡了。",
+    "ex_py": "shuì",
+    "ex_vi": "Muộn quá rồi, tôi muốn đi ngủ.",
+    "chars": [
+      "睡"
+    ]
+  },
+  {
+    "id": 214,
+    "lesson_id": 11,
+    "hanzi": "睡觉",
+    "pinyin": "shuìjiào",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "thụy giác",
+    "meaning": "ngủ",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "孩子已经睡觉了。",
+    "ex_py": "shuìjiào",
+    "ex_vi": "Đứa trẻ đã ngủ rồi.",
+    "chars": [
+      "睡",
+      "觉"
     ]
   },
   {
@@ -4047,6 +4442,41 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Có câu hỏi thì có thể hỏi giáo viên.",
     "chars": [
       "问"
+    ]
+  },
+  {
+    "id": 217,
+    "lesson_id": 11,
+    "hanzi": "找",
+    "pinyin": "zhǎo",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "trảo",
+    "meaning": "tìm, kiếm",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我在找我的手机。",
+    "ex_py": "zhǎo",
+    "ex_vi": "Tôi đang tìm điện thoại.",
+    "chars": [
+      "找"
+    ]
+  },
+  {
+    "id": 218,
+    "lesson_id": 11,
+    "hanzi": "知道",
+    "pinyin": "zhīdào",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tri đạo",
+    "meaning": "biết, nhận ra",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我知道这件事。",
+    "ex_py": "zhīdào",
+    "ex_vi": "Tôi biết việc này.",
+    "chars": [
+      "知",
+      "道"
     ]
   },
   {
@@ -4140,24 +4570,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 210,
-    "lesson_id": 8,
-    "hanzi": "哪里",
-    "pinyin": "nǎlǐ",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "nả lý",
-    "meaning": "đâu, chỗ nào, nơi nào",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "洗手间在哪里？",
-    "ex_py": "nǎlǐ",
-    "ex_vi": "Nhà vệ sinh ở đâu?",
-    "chars": [
-      "哪",
-      "里"
-    ]
-  },
-  {
     "id": 211,
     "lesson_id": 11,
     "hanzi": "那里",
@@ -4176,182 +4588,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 212,
-    "lesson_id": 11,
-    "hanzi": "起床",
-    "pinyin": "qǐchuáng",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "khởi sàng",
-    "meaning": "thức dậy, ngủ dậy, dậy",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天六点起床。",
-    "ex_py": "qǐchuáng",
-    "ex_vi": "Tôi dậy lúc 6 giờ mỗi ngày.",
-    "chars": [
-      "起",
-      "床"
-    ]
-  },
-  {
-    "id": 213,
-    "lesson_id": 11,
-    "hanzi": "睡",
-    "pinyin": "shuì",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "thụy",
-    "meaning": "ngủ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "太晚了，我想睡了。",
-    "ex_py": "shuì",
-    "ex_vi": "Muộn quá rồi, tôi muốn đi ngủ.",
-    "chars": [
-      "睡"
-    ]
-  },
-  {
-    "id": 214,
-    "lesson_id": 11,
-    "hanzi": "睡觉",
-    "pinyin": "shuìjiào",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "thụy giác",
-    "meaning": "ngủ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "孩子已经睡觉了。",
-    "ex_py": "shuìjiào",
-    "ex_vi": "Đứa trẻ đã ngủ rồi.",
-    "chars": [
-      "睡",
-      "觉"
-    ]
-  },
-  {
-    "id": 215,
-    "lesson_id": 11,
-    "hanzi": "时候",
-    "pinyin": "shíhou",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "thời hậu",
-    "meaning": "lúc",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "有时间的时候给我打电话。",
-    "ex_py": "shíhou",
-    "ex_vi": "Khi có thời gian thì gọi cho tôi.",
-    "chars": [
-      "时",
-      "候"
-    ]
-  },
-  {
-    "id": 216,
-    "lesson_id": 11,
-    "hanzi": "正在",
-    "pinyin": "zhèngzài",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "chính tại",
-    "meaning": "đang (làm gì)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我正在学习汉语。",
-    "ex_py": "zhèngzài",
-    "ex_vi": "Tôi đang học tiếng Trung.",
-    "chars": [
-      "正",
-      "在"
-    ]
-  },
-  {
-    "id": 217,
-    "lesson_id": 11,
-    "hanzi": "找",
-    "pinyin": "zhǎo",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "trảo",
-    "meaning": "tìm, kiếm",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我在找我的手机。",
-    "ex_py": "zhǎo",
-    "ex_vi": "Tôi đang tìm điện thoại.",
-    "chars": [
-      "找"
-    ]
-  },
-  {
-    "id": 218,
-    "lesson_id": 11,
-    "hanzi": "知道",
-    "pinyin": "zhīdào",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "tri đạo",
-    "meaning": "biết, nhận ra",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我知道这件事。",
-    "ex_py": "zhīdào",
-    "ex_vi": "Tôi biết việc này.",
-    "chars": [
-      "知",
-      "道"
-    ]
-  },
-  {
-    "id": 219,
-    "lesson_id": 11,
-    "hanzi": "学",
-    "pinyin": "xué",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "học",
-    "meaning": "học",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我学汉语一年了。",
-    "ex_py": "xué",
-    "ex_vi": "Tôi học tiếng Trung được một năm rồi.",
-    "chars": [
-      "学"
-    ]
-  },
-  {
-    "id": 220,
-    "lesson_id": 11,
-    "hanzi": "昨天",
-    "pinyin": "zuótiān",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tạc thiên",
-    "meaning": "hôm qua",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "昨天我没有上班。",
-    "ex_py": "zuótiān",
-    "ex_vi": "Hôm qua tôi không đi làm.",
-    "chars": [
-      "昨",
-      "天"
-    ]
-  },
-  {
-    "id": 221,
-    "lesson_id": 11,
-    "hanzi": "要",
-    "pinyin": "yào",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "yếu",
-    "meaning": "muốn / cần",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我要一杯茶。",
-    "ex_py": "yào",
-    "ex_vi": "Tôi muốn một cốc trà.",
-    "chars": [
-      "要"
-    ]
-  },
-  {
     "id": 222,
     "lesson_id": 12,
     "hanzi": "天气",
@@ -4367,58 +4603,6 @@ window.VOCAB_DATABASE = [
     "chars": [
       "天",
       "气"
-    ]
-  },
-  {
-    "id": 223,
-    "lesson_id": 12,
-    "hanzi": "下雨",
-    "pinyin": "xiàyǔ",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "hạ vũ",
-    "meaning": "mưa, mưa rơi",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天下午下雨了。",
-    "ex_py": "xiàyǔ",
-    "ex_vi": "Chiều nay trời mưa.",
-    "chars": [
-      "下",
-      "雨"
-    ]
-  },
-  {
-    "id": 224,
-    "lesson_id": 12,
-    "hanzi": "雨",
-    "pinyin": "yǔ",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "vũ",
-    "meaning": "mưa",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "外面下雨了。",
-    "ex_py": "yǔ",
-    "ex_vi": "Bên ngoài trời mưa rồi.",
-    "chars": [
-      "雨"
-    ]
-  },
-  {
-    "id": 225,
-    "lesson_id": 12,
-    "hanzi": "雪",
-    "pinyin": "xuě",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tuyết",
-    "meaning": "tuyết",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "冬天这里常常下雪。",
-    "ex_py": "xuě",
-    "ex_vi": "Mùa đông ở đây thường có tuyết.",
-    "chars": [
-      "雪"
     ]
   },
   {
@@ -4456,23 +4640,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 228,
-    "lesson_id": 12,
-    "hanzi": "天",
-    "pinyin": "tiān",
-    "type": "DANH/LƯỢNG",
-    "type_detail": "Danh/Lượng",
-    "hv": "thiên",
-    "meaning": "ngày, trời",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我在中国住了三天。",
-    "ex_py": "tiān",
-    "ex_vi": "Tôi ở Trung Quốc ba ngày.",
-    "chars": [
-      "天"
-    ]
-  },
-  {
     "id": 229,
     "lesson_id": 12,
     "hanzi": "了",
@@ -4490,91 +4657,72 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 230,
+    "id": 225,
     "lesson_id": 12,
-    "hanzi": "水",
-    "pinyin": "shuǐ",
+    "hanzi": "雪",
+    "pinyin": "xuě",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "thủy",
-    "meaning": "nước",
+    "hv": "tuyết",
+    "meaning": "tuyết",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "请给我一杯水。",
-    "ex_py": "shuǐ",
-    "ex_vi": "Làm ơn cho tôi một cốc nước.",
+    "ex_hz": "冬天这里常常下雪。",
+    "ex_py": "xuě",
+    "ex_vi": "Mùa đông ở đây thường có tuyết.",
     "chars": [
-      "水"
+      "雪"
     ]
   },
   {
-    "id": 231,
+    "id": 224,
     "lesson_id": 12,
-    "hanzi": "病",
-    "pinyin": "bìng",
-    "type": "DANH/ĐỘNG",
-    "type_detail": "Danh/Động",
-    "hv": "bệnh",
-    "meaning": "bệnh",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他病了，今天没来上课。",
-    "ex_py": "bìng",
-    "ex_vi": "Anh ấy bị ốm, hôm nay không đến lớp.",
-    "chars": [
-      "病"
-    ]
-  },
-  {
-    "id": 232,
-    "lesson_id": 12,
-    "hanzi": "生病",
-    "pinyin": "shēngbìng",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "sinh bệnh",
-    "meaning": "ốm, bị ốm, bệnh, bị bệnh",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他昨天生病了。",
-    "ex_py": "shēngbìng",
-    "ex_vi": "Hôm qua anh ấy bị bệnh.",
-    "chars": [
-      "生",
-      "病"
-    ]
-  },
-  {
-    "id": 233,
-    "lesson_id": 12,
-    "hanzi": "看病",
-    "pinyin": "kànbìng",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "khán bệnh",
-    "meaning": "khám bệnh",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他生病了，去医院看病。",
-    "ex_py": "kànbìng",
-    "ex_vi": "Anh ấy bị bệnh nên đi khám.",
-    "chars": [
-      "看",
-      "病"
-    ]
-  },
-  {
-    "id": 234,
-    "lesson_id": 12,
-    "hanzi": "公司",
-    "pinyin": "gōngsī",
+    "hanzi": "雨",
+    "pinyin": "yǔ",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "công ty",
-    "meaning": "công ty",
+    "hv": "vũ",
+    "meaning": "mưa",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "她在一家外国公司工作。",
-    "ex_py": "gōngsī",
-    "ex_vi": "Cô ấy làm ở một công ty nước ngoài.",
+    "ex_hz": "外面下雨了。",
+    "ex_py": "yǔ",
+    "ex_vi": "Bên ngoài trời mưa rồi.",
     "chars": [
-      "公",
-      "司"
+      "雨"
+    ]
+  },
+  {
+    "id": 223,
+    "lesson_id": 12,
+    "hanzi": "下雨",
+    "pinyin": "xiàyǔ",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "hạ vũ",
+    "meaning": "mưa, mưa rơi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "今天下午下雨了。",
+    "ex_py": "xiàyǔ",
+    "ex_vi": "Chiều nay trời mưa.",
+    "chars": [
+      "下",
+      "雨"
+    ]
+  },
+  {
+    "id": 228,
+    "lesson_id": 12,
+    "hanzi": "天",
+    "pinyin": "tiān",
+    "type": "DANH/LƯỢNG",
+    "type_detail": "Danh/Lượng",
+    "hv": "thiên",
+    "meaning": "ngày, trời",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我在中国住了三天。",
+    "ex_py": "tiān",
+    "ex_vi": "Tôi ở Trung Quốc ba ngày.",
+    "chars": [
+      "天"
     ]
   },
   {
@@ -4595,37 +4743,20 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 236,
+    "id": 230,
     "lesson_id": 12,
-    "hanzi": "回",
-    "pinyin": "huí",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "hồi",
-    "meaning": "về, quay về",
+    "hanzi": "水",
+    "pinyin": "shuǐ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "thủy",
+    "meaning": "nước",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "晚上我回家做饭。",
-    "ex_py": "huí",
-    "ex_vi": "Buổi tối tôi về nhà nấu ăn.",
+    "ex_hz": "请给我一杯水。",
+    "ex_py": "shuǐ",
+    "ex_vi": "Làm ơn cho tôi một cốc nước.",
     "chars": [
-      "回"
-    ]
-  },
-  {
-    "id": 237,
-    "lesson_id": 12,
-    "hanzi": "来",
-    "pinyin": "lái",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "lai",
-    "meaning": "đến",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "明天你来我家吧。",
-    "ex_py": "lái",
-    "ex_vi": "Ngày mai bạn đến nhà tôi nhé.",
-    "chars": [
-      "来"
+      "水"
     ]
   },
   {
@@ -4701,6 +4832,111 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 237,
+    "lesson_id": 12,
+    "hanzi": "来",
+    "pinyin": "lái",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "lai",
+    "meaning": "đến",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "明天你来我家吧。",
+    "ex_py": "lái",
+    "ex_vi": "Ngày mai bạn đến nhà tôi nhé.",
+    "chars": [
+      "来"
+    ]
+  },
+  {
+    "id": 236,
+    "lesson_id": 12,
+    "hanzi": "回",
+    "pinyin": "huí",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "hồi",
+    "meaning": "về, quay về",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "晚上我回家做饭。",
+    "ex_py": "huí",
+    "ex_vi": "Buổi tối tôi về nhà nấu ăn.",
+    "chars": [
+      "回"
+    ]
+  },
+  {
+    "id": 231,
+    "lesson_id": 12,
+    "hanzi": "病",
+    "pinyin": "bìng",
+    "type": "DANH/ĐỘNG",
+    "type_detail": "Danh/Động",
+    "hv": "bệnh",
+    "meaning": "bệnh",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他病了，今天没来上课。",
+    "ex_py": "bìng",
+    "ex_vi": "Anh ấy bị ốm, hôm nay không đến lớp.",
+    "chars": [
+      "病"
+    ]
+  },
+  {
+    "id": 232,
+    "lesson_id": 12,
+    "hanzi": "生病",
+    "pinyin": "shēngbìng",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "sinh bệnh",
+    "meaning": "ốm, bị ốm, bệnh, bị bệnh",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他昨天生病了。",
+    "ex_py": "shēngbìng",
+    "ex_vi": "Hôm qua anh ấy bị bệnh.",
+    "chars": [
+      "生",
+      "病"
+    ]
+  },
+  {
+    "id": 233,
+    "lesson_id": 12,
+    "hanzi": "看病",
+    "pinyin": "kànbìng",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "khán bệnh",
+    "meaning": "khám bệnh",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "他生病了，去医院看病。",
+    "ex_py": "kànbìng",
+    "ex_vi": "Anh ấy bị bệnh nên đi khám.",
+    "chars": [
+      "看",
+      "病"
+    ]
+  },
+  {
+    "id": 234,
+    "lesson_id": 12,
+    "hanzi": "公司",
+    "pinyin": "gōngsī",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "công ty",
+    "meaning": "công ty",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "她在一家外国公司工作。",
+    "ex_py": "gōngsī",
+    "ex_vi": "Cô ấy làm ở một công ty nước ngoài.",
+    "chars": [
+      "公",
+      "司"
+    ]
+  },
+  {
     "id": 242,
     "lesson_id": 13,
     "hanzi": "请",
@@ -4715,40 +4951,6 @@ window.VOCAB_DATABASE = [
     "ex_vi": "Mời ngồi.",
     "chars": [
       "请"
-    ]
-  },
-  {
-    "id": 243,
-    "lesson_id": 13,
-    "hanzi": "给",
-    "pinyin": "gěi",
-    "type": "ĐỘNG/GIỚI",
-    "type_detail": "Động/Giới",
-    "hv": "cấp",
-    "meaning": "cho",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "老师给我们作业。",
-    "ex_py": "gěi",
-    "ex_vi": "Giáo viên giao bài tập cho chúng tôi.",
-    "chars": [
-      "给"
-    ]
-  },
-  {
-    "id": 244,
-    "lesson_id": 13,
-    "hanzi": "茶",
-    "pinyin": "chá",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "trà",
-    "meaning": "trà, chè",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我爸爸喜欢喝茶。",
-    "ex_py": "chá",
-    "ex_vi": "Bố tôi thích uống trà.",
-    "chars": [
-      "茶"
     ]
   },
   {
@@ -4770,6 +4972,24 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 254,
+    "lesson_id": 13,
+    "hanzi": "问题",
+    "pinyin": "wèntí",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "vấn đề",
+    "meaning": "câu hỏi",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这个问题不难。",
+    "ex_py": "wèntí",
+    "ex_vi": "Câu hỏi này không khó.",
+    "chars": [
+      "问",
+      "题"
+    ]
+  },
+  {
     "id": 246,
     "lesson_id": 13,
     "hanzi": "一下",
@@ -4785,6 +5005,112 @@ window.VOCAB_DATABASE = [
     "chars": [
       "一",
       "下"
+    ]
+  },
+  {
+    "id": 243,
+    "lesson_id": 13,
+    "hanzi": "给",
+    "pinyin": "gěi",
+    "type": "ĐỘNG/GIỚI",
+    "type_detail": "Động/Giới",
+    "hv": "cấp",
+    "meaning": "cho",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "老师给我们作业。",
+    "ex_py": "gěi",
+    "ex_vi": "Giáo viên giao bài tập cho chúng tôi.",
+    "chars": [
+      "给"
+    ]
+  },
+  {
+    "id": 256,
+    "lesson_id": 13,
+    "hanzi": "这个",
+    "pinyin": "zhège",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "giá cá",
+    "meaning": "cái này",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我要这个。",
+    "ex_py": "zhège",
+    "ex_vi": "Tôi muốn cái này.",
+    "chars": [
+      "这",
+      "个"
+    ]
+  },
+  {
+    "id": 244,
+    "lesson_id": 13,
+    "hanzi": "茶",
+    "pinyin": "chá",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "trà",
+    "meaning": "trà, chè",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我爸爸喜欢喝茶。",
+    "ex_py": "chá",
+    "ex_vi": "Bố tôi thích uống trà.",
+    "chars": [
+      "茶"
+    ]
+  },
+  {
+    "id": 252,
+    "lesson_id": 13,
+    "hanzi": "面包",
+    "pinyin": "miànbāo",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "diện bao",
+    "meaning": "bánh mì",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "早餐我吃面包。",
+    "ex_py": "miànbāo",
+    "ex_vi": "Bữa sáng tôi ăn bánh mì.",
+    "chars": [
+      "面",
+      "包"
+    ]
+  },
+  {
+    "id": 251,
+    "lesson_id": 13,
+    "hanzi": "鸡蛋",
+    "pinyin": "jīdàn",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "kê đản",
+    "meaning": "trứng gà",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "早餐我吃鸡蛋和面包。",
+    "ex_py": "jīdàn",
+    "ex_vi": "Bữa sáng tôi ăn trứng và bánh mì.",
+    "chars": [
+      "鸡",
+      "蛋"
+    ]
+  },
+  {
+    "id": 253,
+    "lesson_id": 13,
+    "hanzi": "早饭",
+    "pinyin": "zǎofàn",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tảo phạn",
+    "meaning": "bữa sáng",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天吃早饭。",
+    "ex_py": "zǎofàn",
+    "ex_vi": "Tôi ăn sáng mỗi ngày.",
+    "chars": [
+      "早",
+      "饭"
     ]
   },
   {
@@ -4859,78 +5185,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 251,
-    "lesson_id": 13,
-    "hanzi": "鸡蛋",
-    "pinyin": "jīdàn",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "kê đản",
-    "meaning": "trứng gà",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "早餐我吃鸡蛋和面包。",
-    "ex_py": "jīdàn",
-    "ex_vi": "Bữa sáng tôi ăn trứng và bánh mì.",
-    "chars": [
-      "鸡",
-      "蛋"
-    ]
-  },
-  {
-    "id": 252,
-    "lesson_id": 13,
-    "hanzi": "面包",
-    "pinyin": "miànbāo",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "diện bao",
-    "meaning": "bánh mì",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "早餐我吃面包。",
-    "ex_py": "miànbāo",
-    "ex_vi": "Bữa sáng tôi ăn bánh mì.",
-    "chars": [
-      "面",
-      "包"
-    ]
-  },
-  {
-    "id": 253,
-    "lesson_id": 13,
-    "hanzi": "早饭",
-    "pinyin": "zǎofàn",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tảo phạn",
-    "meaning": "bữa sáng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天吃早饭。",
-    "ex_py": "zǎofàn",
-    "ex_vi": "Tôi ăn sáng mỗi ngày.",
-    "chars": [
-      "早",
-      "饭"
-    ]
-  },
-  {
-    "id": 254,
-    "lesson_id": 13,
-    "hanzi": "问题",
-    "pinyin": "wèntí",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "vấn đề",
-    "meaning": "câu hỏi",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这个问题不难。",
-    "ex_py": "wèntí",
-    "ex_vi": "Câu hỏi này không khó.",
-    "chars": [
-      "问",
-      "题"
-    ]
-  },
-  {
     "id": 255,
     "lesson_id": 13,
     "hanzi": "打电话",
@@ -4950,21 +5204,92 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 256,
-    "lesson_id": 13,
-    "hanzi": "这个",
-    "pinyin": "zhège",
+    "id": 276,
+    "lesson_id": 14,
+    "hanzi": "火车",
+    "pinyin": "huǒchē",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "hỏa xa",
+    "meaning": "tàu hỏa",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我们坐火车去上海。",
+    "ex_py": "huǒchē",
+    "ex_vi": "Chúng tôi đi Thượng Hải bằng tàu hỏa.",
+    "chars": [
+      "火",
+      "车"
+    ]
+  },
+  {
+    "id": 259,
+    "lesson_id": 14,
+    "hanzi": "开",
+    "pinyin": "kāi",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "khai",
+    "meaning": "lái, chạy, khởi hành (phương tiện giao thông)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "老师开门走进教室。",
+    "ex_py": "kāi",
+    "ex_vi": "Thầy giáo mở cửa bước vào lớp.",
+    "chars": [
+      "开"
+    ]
+  },
+  {
+    "id": 296,
+    "lesson_id": 14,
+    "hanzi": "有些",
+    "pinyin": "yǒuxiē",
+    "type": "ĐẠI/PHÓ",
+    "type_detail": "Đại/Phó",
+    "hv": "hữu ta",
+    "meaning": "một số",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "有些问题不太难。",
+    "ex_py": "yǒuxiē",
+    "ex_vi": "Một số câu hỏi không quá khó.",
+    "chars": [
+      "有",
+      "些"
+    ]
+  },
+  {
+    "id": 270,
+    "lesson_id": 14,
+    "hanzi": "哪些",
+    "pinyin": "nǎxiē",
     "type": "ĐẠI",
     "type_detail": "Đại",
-    "hv": "giá cá",
-    "meaning": "cái này",
+    "hv": "nả ta",
+    "meaning": "những... nào",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我要这个。",
-    "ex_py": "zhège",
-    "ex_vi": "Tôi muốn cái này.",
+    "ex_hz": "你喜欢哪些？",
+    "ex_py": "nǎxiē",
+    "ex_vi": "Bạn thích những cái nào?",
     "chars": [
-      "这",
-      "个"
+      "哪",
+      "些"
+    ]
+  },
+  {
+    "id": 271,
+    "lesson_id": 14,
+    "hanzi": "有的",
+    "pinyin": "yǒude",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "hữu đích",
+    "meaning": "có cái",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "有的人喜欢喝茶。",
+    "ex_py": "yǒude",
+    "ex_vi": "Có người thích uống trà.",
+    "chars": [
+      "有",
+      "的"
     ]
   },
   {
@@ -5003,23 +5328,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 259,
-    "lesson_id": 14,
-    "hanzi": "开",
-    "pinyin": "kāi",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "khai",
-    "meaning": "lái, chạy, khởi hành (phương tiện giao thông)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "老师开门走进教室。",
-    "ex_py": "kāi",
-    "ex_vi": "Thầy giáo mở cửa bước vào lớp.",
-    "chars": [
-      "开"
-    ]
-  },
-  {
     "id": 260,
     "lesson_id": 14,
     "hanzi": "上学",
@@ -5035,40 +5343,6 @@ window.VOCAB_DATABASE = [
     "chars": [
       "上",
       "学"
-    ]
-  },
-  {
-    "id": 261,
-    "lesson_id": 14,
-    "hanzi": "写",
-    "pinyin": "xiě",
-    "type": "ĐỘNG",
-    "type_detail": "Động",
-    "hv": "tả",
-    "meaning": "viết",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天写汉字。",
-    "ex_py": "xiě",
-    "ex_vi": "Tôi viết chữ Hán mỗi ngày.",
-    "chars": [
-      "写"
-    ]
-  },
-  {
-    "id": 262,
-    "lesson_id": 14,
-    "hanzi": "字",
-    "pinyin": "zì",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tự",
-    "meaning": "chữ",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这个字很难写。",
-    "ex_py": "zì",
-    "ex_vi": "Chữ này rất khó viết.",
-    "chars": [
-      "字"
     ]
   },
   {
@@ -5125,56 +5399,73 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 266,
+    "id": 291,
     "lesson_id": 14,
-    "hanzi": "他们",
-    "pinyin": "tāmen",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "tha môn",
-    "meaning": "họ (nam/nhiều)",
+    "hanzi": "汉字",
+    "pinyin": "Hànzì",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "Hán tự",
+    "meaning": "chữ Hán",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他们都是大学生。",
-    "ex_py": "tāmen",
-    "ex_vi": "Họ đều là sinh viên.",
+    "ex_hz": "我每天练习写汉字。",
+    "ex_py": "Hànzì",
+    "ex_vi": "Tôi luyện viết chữ Hán mỗi ngày.",
     "chars": [
-      "他",
-      "们"
+      "汉",
+      "字"
     ]
   },
   {
-    "id": 267,
+    "id": 290,
     "lesson_id": 14,
-    "hanzi": "她们",
-    "pinyin": "tāmen",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "tha môn",
-    "meaning": "họ, chúng, bọn họ, các chị ấy, các em ấy...",
+    "hanzi": "汉语",
+    "pinyin": "Hànyǔ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "Hán ngữ",
+    "meaning": "tiếng Trung",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "她们是我的同学。",
-    "ex_py": "tāmen",
-    "ex_vi": "Họ là bạn học của tôi.",
+    "ex_hz": "学好汉语不容易。",
+    "ex_py": "Hànyǔ",
+    "ex_vi": "Học tốt tiếng Trung không dễ.",
     "chars": [
-      "她",
-      "们"
+      "汉",
+      "语"
     ]
   },
   {
-    "id": 268,
+    "id": 262,
     "lesson_id": 14,
-    "hanzi": "晚",
-    "pinyin": "wǎn",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "vãn",
-    "meaning": "muộn, trễ",
+    "hanzi": "字",
+    "pinyin": "zì",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "tự",
+    "meaning": "chữ",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "现在不早也不晚。",
-    "ex_py": "wǎn",
-    "ex_vi": "Bây giờ không sớm cũng không muộn.",
+    "ex_hz": "这个字很难写。",
+    "ex_py": "zì",
+    "ex_vi": "Chữ này rất khó viết.",
     "chars": [
-      "晚"
+      "字"
+    ]
+  },
+  {
+    "id": 261,
+    "lesson_id": 14,
+    "hanzi": "写",
+    "pinyin": "xiě",
+    "type": "ĐỘNG",
+    "type_detail": "Động",
+    "hv": "tả",
+    "meaning": "viết",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "我每天写汉字。",
+    "ex_py": "xiě",
+    "ex_vi": "Tôi viết chữ Hán mỗi ngày.",
+    "chars": [
+      "写"
     ]
   },
   {
@@ -5196,39 +5487,38 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 270,
+    "id": 268,
     "lesson_id": 14,
-    "hanzi": "哪些",
-    "pinyin": "nǎxiē",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "nả ta",
-    "meaning": "những... nào",
+    "hanzi": "晚",
+    "pinyin": "wǎn",
+    "type": "TÍNH",
+    "type_detail": "Tính",
+    "hv": "vãn",
+    "meaning": "muộn, trễ",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你喜欢哪些？",
-    "ex_py": "nǎxiē",
-    "ex_vi": "Bạn thích những cái nào?",
+    "ex_hz": "现在不早也不晚。",
+    "ex_py": "wǎn",
+    "ex_vi": "Bây giờ không sớm cũng không muộn.",
     "chars": [
-      "哪",
-      "些"
+      "晚"
     ]
   },
   {
-    "id": 271,
+    "id": 274,
     "lesson_id": 14,
-    "hanzi": "有的",
-    "pinyin": "yǒude",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "hữu đích",
-    "meaning": "có cái",
+    "hanzi": "中午",
+    "pinyin": "zhōngwǔ",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "trung ngọ",
+    "meaning": "buổi trưa",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "有的人喜欢喝茶。",
-    "ex_py": "yǒude",
-    "ex_vi": "Có người thích uống trà.",
+    "ex_hz": "中午我们一起吃饭。",
+    "ex_py": "zhōngwǔ",
+    "ex_vi": "Buổi trưa chúng tôi ăn cùng nhau.",
     "chars": [
-      "有",
-      "的"
+      "中",
+      "午"
     ]
   },
   {
@@ -5268,57 +5558,95 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 274,
+    "id": 295,
     "lesson_id": 14,
-    "hanzi": "中午",
-    "pinyin": "zhōngwǔ",
+    "hanzi": "小学生",
+    "pinyin": "xiǎoxuéshēng",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "trung ngọ",
-    "meaning": "buổi trưa",
+    "hv": "tiểu học sinh",
+    "meaning": "học sinh tiểu học",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "中午我们一起吃饭。",
-    "ex_py": "zhōngwǔ",
-    "ex_vi": "Buổi trưa chúng tôi ăn cùng nhau.",
+    "ex_hz": "这个小学生很聪明。",
+    "ex_py": "xiǎoxuéshēng",
+    "ex_vi": "Học sinh tiểu học này rất thông minh.",
+    "chars": [
+      "小",
+      "学",
+      "生"
+    ]
+  },
+  {
+    "id": 300,
+    "lesson_id": 14,
+    "hanzi": "中学生",
+    "pinyin": "zhōngxuéshēng",
+    "type": "DANH",
+    "type_detail": "Danh",
+    "hv": "trung học sinh",
+    "meaning": "học sinh THCS/THPT",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "她是中学生。",
+    "ex_py": "zhōngxuéshēng",
+    "ex_vi": "Cô ấy là học sinh trung học.",
     "chars": [
       "中",
-      "午"
+      "学",
+      "生"
     ]
   },
   {
-    "id": 275,
-    "lesson_id": 15,
-    "hanzi": "飞机",
-    "pinyin": "fēijī",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "phi cơ",
-    "meaning": "máy bay",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我第一次坐飞机去中国。",
-    "ex_py": "fēijī",
-    "ex_vi": "Lần đầu tôi đi Trung Quốc bằng máy bay.",
-    "chars": [
-      "飞",
-      "机"
-    ]
-  },
-  {
-    "id": 276,
+    "id": 266,
     "lesson_id": 14,
-    "hanzi": "火车",
-    "pinyin": "huǒchē",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "hỏa xa",
-    "meaning": "tàu hỏa",
+    "hanzi": "他们",
+    "pinyin": "tāmen",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "tha môn",
+    "meaning": "họ (nam/nhiều)",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我们坐火车去上海。",
-    "ex_py": "huǒchē",
-    "ex_vi": "Chúng tôi đi Thượng Hải bằng tàu hỏa.",
+    "ex_hz": "他们都是大学生。",
+    "ex_py": "tāmen",
+    "ex_vi": "Họ đều là sinh viên.",
     "chars": [
-      "火",
-      "车"
+      "他",
+      "们"
+    ]
+  },
+  {
+    "id": 267,
+    "lesson_id": 14,
+    "hanzi": "她们",
+    "pinyin": "tāmen",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "tha môn",
+    "meaning": "họ, chúng, bọn họ, các chị ấy, các em ấy...",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "她们是我的同学。",
+    "ex_py": "tāmen",
+    "ex_vi": "Họ là bạn học của tôi.",
+    "chars": [
+      "她",
+      "们"
+    ]
+  },
+  {
+    "id": 294,
+    "lesson_id": 14,
+    "hanzi": "它们",
+    "pinyin": "tāmen",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "tha môn",
+    "meaning": "chúng (đồ vật/con vật)",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "这些书很新，我很喜欢它们。",
+    "ex_py": "tāmen",
+    "ex_vi": "Những quyển sách này rất mới, tôi rất thích chúng.",
+    "chars": [
+      "它",
+      "们"
     ]
   },
   {
@@ -5393,24 +5721,6 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 281,
-    "lesson_id": 6,
-    "hanzi": "去年",
-    "pinyin": "qùnián",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "khứ niên",
-    "meaning": "năm ngoái",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "去年我开始学汉语。",
-    "ex_py": "qùnián",
-    "ex_vi": "Năm ngoái tôi bắt đầu học tiếng Trung.",
-    "chars": [
-      "去",
-      "年"
-    ]
-  },
-  {
     "id": 282,
     "lesson_id": 15,
     "hanzi": "时间",
@@ -5481,6 +5791,24 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
+    "id": 287,
+    "lesson_id": 15,
+    "hanzi": "哪个",
+    "pinyin": "nǎge",
+    "type": "ĐẠI",
+    "type_detail": "Đại",
+    "hv": "nả cá",
+    "meaning": "cái nào, nào",
+    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
+    "ex_hz": "你要哪个？",
+    "ex_py": "nǎge",
+    "ex_vi": "Bạn muốn cái nào?",
+    "chars": [
+      "哪",
+      "个"
+    ]
+  },
+  {
     "id": 286,
     "lesson_id": 15,
     "hanzi": "好玩儿",
@@ -5500,261 +5828,21 @@ window.VOCAB_DATABASE = [
     ]
   },
   {
-    "id": 287,
+    "id": 275,
     "lesson_id": 15,
-    "hanzi": "哪个",
-    "pinyin": "nǎge",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "nả cá",
-    "meaning": "cái nào, nào",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你要哪个？",
-    "ex_py": "nǎge",
-    "ex_vi": "Bạn muốn cái nào?",
-    "chars": [
-      "哪",
-      "个"
-    ]
-  },
-  {
-    "id": 288,
-    "lesson_id": 3,
-    "hanzi": "对",
-    "pinyin": "duì",
-    "type": "TÍNH",
-    "type_detail": "Tính",
-    "hv": "đối",
-    "meaning": "đúng",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你说得对。",
-    "ex_py": "duì",
-    "ex_vi": "Bạn nói đúng.",
-    "chars": [
-      "对"
-    ]
-  },
-  {
-    "id": 289,
-    "lesson_id": 9,
-    "hanzi": "狗",
-    "pinyin": "gǒu",
+    "hanzi": "飞机",
+    "pinyin": "fēijī",
     "type": "DANH",
     "type_detail": "Danh",
-    "hv": "cẩu",
-    "meaning": "chó",
+    "hv": "phi cơ",
+    "meaning": "máy bay",
     "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "他家的狗很可爱。",
-    "ex_py": "gǒu",
-    "ex_vi": "Con chó nhà anh ấy rất đáng yêu.",
+    "ex_hz": "我第一次坐飞机去中国。",
+    "ex_py": "fēijī",
+    "ex_vi": "Lần đầu tôi đi Trung Quốc bằng máy bay.",
     "chars": [
-      "狗"
-    ]
-  },
-  {
-    "id": 290,
-    "lesson_id": 14,
-    "hanzi": "汉语",
-    "pinyin": "Hànyǔ",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "Hán ngữ",
-    "meaning": "tiếng Trung",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "学好汉语不容易。",
-    "ex_py": "Hànyǔ",
-    "ex_vi": "Học tốt tiếng Trung không dễ.",
-    "chars": [
-      "汉",
-      "语"
-    ]
-  },
-  {
-    "id": 291,
-    "lesson_id": 14,
-    "hanzi": "汉字",
-    "pinyin": "Hànzì",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "Hán tự",
-    "meaning": "chữ Hán",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我每天练习写汉字。",
-    "ex_py": "Hànzì",
-    "ex_vi": "Tôi luyện viết chữ Hán mỗi ngày.",
-    "chars": [
-      "汉",
-      "字"
-    ]
-  },
-  {
-    "id": 292,
-    "lesson_id": 4,
-    "hanzi": "没（有）",
-    "pinyin": "méi(yǒu)",
-    "type": "PHÓ/ĐỘNG",
-    "type_detail": "Phó/Động",
-    "hv": "một hữu",
-    "meaning": "không có",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我没有时间。",
-    "ex_py": "méi(yǒu)",
-    "ex_vi": "Tôi không có thời gian.",
-    "chars": [
-      "没",
-      "（",
-      "有",
-      "）"
-    ]
-  },
-  {
-    "id": 293,
-    "lesson_id": 6,
-    "hanzi": "哪儿",
-    "pinyin": "nǎr",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "nả nhi",
-    "meaning": "ở đâu",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "你去哪儿？",
-    "ex_py": "nǎr",
-    "ex_vi": "Bạn đi đâu?",
-    "chars": [
-      "哪",
-      "儿"
-    ]
-  },
-  {
-    "id": 294,
-    "lesson_id": 14,
-    "hanzi": "它们",
-    "pinyin": "tāmen",
-    "type": "ĐẠI",
-    "type_detail": "Đại",
-    "hv": "tha môn",
-    "meaning": "chúng (đồ vật/con vật)",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这些书很新，我很喜欢它们。",
-    "ex_py": "tāmen",
-    "ex_vi": "Những quyển sách này rất mới, tôi rất thích chúng.",
-    "chars": [
-      "它",
-      "们"
-    ]
-  },
-  {
-    "id": 295,
-    "lesson_id": 14,
-    "hanzi": "小学生",
-    "pinyin": "xiǎoxuéshēng",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "tiểu học sinh",
-    "meaning": "học sinh tiểu học",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "这个小学生很聪明。",
-    "ex_py": "xiǎoxuéshēng",
-    "ex_vi": "Học sinh tiểu học này rất thông minh.",
-    "chars": [
-      "小",
-      "学",
-      "生"
-    ]
-  },
-  {
-    "id": 296,
-    "lesson_id": 14,
-    "hanzi": "有些",
-    "pinyin": "yǒuxiē",
-    "type": "ĐẠI/PHÓ",
-    "type_detail": "Đại/Phó",
-    "hv": "hữu ta",
-    "meaning": "một số",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "有些问题不太难。",
-    "ex_py": "yǒuxiē",
-    "ex_vi": "Một số câu hỏi không quá khó.",
-    "chars": [
-      "有",
-      "些"
-    ]
-  },
-  {
-    "id": 297,
-    "lesson_id": 10,
-    "hanzi": "有（一）点儿",
-    "pinyin": "yǒu(yì)diǎnr",
-    "type": "PHÓ",
-    "type_detail": "Phó",
-    "hv": "hữu điểm nhi",
-    "meaning": "hơi",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "今天有点儿冷。",
-    "ex_py": "yǒu(yì)diǎnr",
-    "ex_vi": "Hôm nay hơi lạnh.",
-    "chars": [
-      "有",
-      "（",
-      "一",
-      "）",
-      "点",
-      "儿"
-    ]
-  },
-  {
-    "id": 298,
-    "lesson_id": 3,
-    "hanzi": "中国",
-    "pinyin": "Zhōngguó",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "Trung Quốc",
-    "meaning": "Trung Quốc",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "我想去中国学习。",
-    "ex_py": "Zhōngguó",
-    "ex_vi": "Tôi muốn đi Trung Quốc học.",
-    "chars": [
-      "中",
-      "国"
-    ]
-  },
-  {
-    "id": 299,
-    "lesson_id": 3,
-    "hanzi": "中文",
-    "pinyin": "Zhōngwén",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "Trung văn",
-    "meaning": "tiếng Trung",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "中文不太容易学。",
-    "ex_py": "Zhōngwén",
-    "ex_vi": "Tiếng Trung không dễ học.",
-    "chars": [
-      "中",
-      "文"
-    ]
-  },
-  {
-    "id": 300,
-    "lesson_id": 14,
-    "hanzi": "中学生",
-    "pinyin": "zhōngxuéshēng",
-    "type": "DANH",
-    "type_detail": "Danh",
-    "hv": "trung học sinh",
-    "meaning": "học sinh THCS/THPT",
-    "image": "assets/images/vocab10_4_你好_1773157051094.webp",
-    "ex_hz": "她是中学生。",
-    "ex_py": "zhōngxuéshēng",
-    "ex_vi": "Cô ấy là học sinh trung học.",
-    "chars": [
-      "中",
-      "学",
-      "生"
+      "飞",
+      "机"
     ]
   }
 ];
