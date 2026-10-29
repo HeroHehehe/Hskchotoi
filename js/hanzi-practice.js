@@ -1,7 +1,12 @@
 /**
- * Hướng dẫn & Kiểm tra Viết Chữ Hán (Modal Tập Viết - Chuẩn Ảnh 3)
- * Tích hợp HanziWriter, Ô vuông Mễ Tự Cách, Chế độ Hoạt Họa & Quiz Tô Nét
+ * Hướng dẫn & Kiểm tra Viết Chữ Hán (Modal Tập Viết - Chuẩn Thư Pháp Khải Thư)
+ * Tích hợp HanziWriter, Ô vuông Mễ Tự Cách, Chế độ Hoạt Họa, Quiz Tô Nét & Hệ Thống Chấm Điểm Thư Pháp
  */
+
+window.WritingSettings = {
+  nibWidth: parseFloat(localStorage.getItem('hihsk_writing_nib') || '3.5'), // Nét thanh mảnh chuẩn đẹp
+  inkColor: '#2563eb' // Mực xanh lam cao cấp
+};
 
 let currentWriter = null;
 let currentChar = null;
@@ -15,6 +20,52 @@ let isAudioEnabled = false;
 let showOutline = true;
 let showNumbers = true;
 let showArrows = true;
+
+// Web Audio API Synth cho âm thanh chấm điểm
+let writingAudioCtx = null;
+function playWritingSound(type) {
+  try {
+    if (!writingAudioCtx) {
+      writingAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (writingAudioCtx.state === 'suspended') {
+      writingAudioCtx.resume();
+    }
+    const now = writingAudioCtx.currentTime;
+    const osc = writingAudioCtx.createOscillator();
+    const gain = writingAudioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(writingAudioCtx.destination);
+
+    if (type === 'fanfare') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.1);
+      osc.frequency.setValueAtTime(783.99, now + 0.2);
+      osc.frequency.setValueAtTime(1046.50, now + 0.3);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+      osc.start(now);
+      osc.stop(now + 0.7);
+    } else if (type === 'success' || type === 'good') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.exponentialRampToValueAtTime(880.00, now + 0.18);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      osc.start(now);
+      osc.stop(now + 0.4);
+    } else {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.linearRampToValueAtTime(330, now + 0.25);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    }
+  } catch(e) {}
+}
 
 /**
  * Khởi động Modal tập viết chữ Hán
@@ -52,6 +103,9 @@ function openWritingModal(wordId, targetChar = null) {
     charTabsContainer.appendChild(btn);
   });
 
+  // Cập nhật trạng thái nút ngòi bút
+  updateNibButtonsUI();
+
   loadCharacter(selectedChar);
 }
 
@@ -62,8 +116,39 @@ function closeWritingModal() {
   if (currentWriter) {
     currentWriter.cancelQuiz();
   }
+  closeGradeOverlay();
   const modal = document.getElementById('writing-modal');
   modal.classList.add('hidden');
+}
+
+/**
+ * Đổi cỡ ngòi bút
+ */
+function setWritingNib(width) {
+  window.WritingSettings.nibWidth = width;
+  try {
+    localStorage.setItem('hihsk_writing_nib', width.toString());
+  } catch(e) {}
+  
+  updateNibButtonsUI();
+
+  if (currentChar) {
+    loadCharacter(currentChar);
+  }
+}
+
+function updateNibButtonsUI() {
+  const currentW = window.WritingSettings.nibWidth || 3.5;
+  document.querySelectorAll('.nib-select-btn').forEach(btn => {
+    btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+    btn.classList.add('bg-slate-800', 'text-slate-300');
+  });
+
+  const activeBtn = document.getElementById(`nib-btn-${currentW.toFixed(1)}`) || document.getElementById(`nib-btn-${currentW}`);
+  if (activeBtn) {
+    activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+    activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+  }
 }
 
 /**
@@ -73,6 +158,8 @@ function loadCharacter(char) {
   currentChar = char;
   window.currentChar = char;
   currentMode = 'idle';
+
+  closeGradeOverlay();
 
   // Highlight tab
   const tabs = document.querySelectorAll('#writing-char-tabs button');
@@ -92,7 +179,9 @@ function loadCharacter(char) {
   const delayVal = parseFloat(document.getElementById('opt-delay')?.value || '400');
   const missVal = parseInt(document.getElementById('opt-miss')?.value || '3');
 
-  // Khởi tạo HanziWriter
+  const nibW = window.WritingSettings.nibWidth || 3.5;
+
+  // Khởi tạo HanziWriter với nét thanh mảnh và độ nhạy nét hất cao
   currentWriter = HanziWriter.create('hanzi-canvas', char, {
     width: 320,
     height: 320,
@@ -100,12 +189,15 @@ function loadCharacter(char) {
     showOutline: showOutline,
     strokeAnimationSpeed: speedVal,
     delayBetweenStrokes: delayVal,
-    strokeColor: '#ef4444', // Màu đỏ rực rỡ như Ảnh 3
+    strokeColor: '#ef4444', // Màu đỏ nét mẫu
     outlineColor: '#334155', // Viền xám mờ
-    drawingColor: '#38bdf8', // Nét vẽ màu cyan
-    drawingWidth: 22,
+    drawingColor: window.WritingSettings.inkColor || '#2563eb', // Mực xanh lam cao cấp
+    drawingWidth: nibW, // Ngòi nét thanh mảnh chuẩn thư pháp (3.5px)
+    drawingFadeDuration: 280,
+    strokeFadeDuration: 300,
     showCharacter: false,
     showHintAfterMisses: missVal,
+    leniency: 1.45, // Tăng độ nhạy để hất và móc câu bắt dứt khoát
     charDataLoader: function(c, onComplete) {
       // Ưu tiên tải dữ liệu offline đã nhúng sẵn
       if (window.HANZI_STROKE_DATA && window.HANZI_STROKE_DATA[c]) {
@@ -122,6 +214,7 @@ function loadCharacter(char) {
     onCorrectStroke: function(strokeData) {
       correctStrokes = strokeData.strokeNum + 1;
       updateStats();
+      updateLiveScore();
       highlightFilmstripStep(correctStrokes);
       if (isAudioEnabled) {
         speakChinese(`第${correctStrokes}笔`);
@@ -130,14 +223,15 @@ function loadCharacter(char) {
     onMistake: function(strokeData) {
       mistakeCount++;
       updateStats();
+      updateLiveScore();
       const canvasEl = document.getElementById('hanzi-canvas');
       canvasEl.classList.add('ring-2', 'ring-red-500');
       setTimeout(() => canvasEl.classList.remove('ring-2', 'ring-red-500'), 400);
     },
     onComplete: function(summaryData) {
       updatePlayBtn(false);
-      showToast(`🎉 Xuất sắc! Bạn đã viết đúng toàn bộ chữ "${currentChar}"!`);
       highlightFilmstripStep(totalStrokes);
+      showGradingReport(summaryData);
     }
   });
 
@@ -148,6 +242,7 @@ function loadCharacter(char) {
       correctStrokes = 0;
       mistakeCount = 0;
       updateStats();
+      updateLiveScore();
       renderFilmstrip(strokeData);
       renderStrokeGuides(strokeData);
     }
@@ -187,6 +282,145 @@ function updateStats() {
 }
 
 /**
+ * Tính điểm chữ viết hiện tại (0 - 100 điểm)
+ */
+function calculateWritingScore() {
+  if (totalStrokes === 0) return 100;
+  
+  if (correctStrokes === totalStrokes) {
+    if (mistakeCount === 0) return 100;
+    const penaltyPerMistake = Math.max(5, Math.round(50 / totalStrokes));
+    return Math.max(50, 100 - (mistakeCount * penaltyPerMistake));
+  }
+
+  const completionRatio = correctStrokes / totalStrokes;
+  const baseScore = completionRatio * 100;
+  const penalty = mistakeCount * 5;
+  return Math.max(0, Math.min(100, Math.round(baseScore - penalty)));
+}
+
+/**
+ * Cập nhật điểm số thời gian thực
+ */
+function updateLiveScore() {
+  const scoreEl = document.getElementById('stat-live-score');
+  if (scoreEl) {
+    const score = calculateWritingScore();
+    scoreEl.textContent = score;
+    if (score >= 80) {
+      scoreEl.className = 'text-white text-xs';
+    } else if (score >= 60) {
+      scoreEl.className = 'text-amber-300 text-xs';
+    } else {
+      scoreEl.className = 'text-rose-400 text-xs';
+    }
+  }
+}
+
+/**
+ * Người dùng bấm nút "Chấm điểm"
+ */
+function triggerWritingGrading() {
+  if (correctStrokes === 0 && mistakeCount === 0) {
+    if (typeof showToast === 'function') {
+      showToast('💡 Bạn chưa viết nét nào! Hãy dùng ngòi bút tô theo các nét trong ô vuông rồi bấm Chấm điểm nhé!');
+    }
+    return;
+  }
+  showGradingReport();
+}
+
+/**
+ * Hiển thị Bảng Chấm Điểm Thư Pháp
+ */
+function showGradingReport(summaryData = null) {
+  const overlay = document.getElementById('writing-grade-overlay');
+  if (!overlay) return;
+
+  const score = calculateWritingScore();
+  
+  const scoreNumEl = document.getElementById('grade-score-num');
+  const titleEl = document.getElementById('grade-title');
+  const feedbackEl = document.getElementById('grade-feedback');
+  const strokesEl = document.getElementById('grade-detail-strokes');
+  const mistakesEl = document.getElementById('grade-detail-mistakes');
+  const flickEl = document.getElementById('grade-detail-flick');
+  const badgeCircle = document.getElementById('grade-badge-circle');
+  const nextCharBtn = document.getElementById('btn-next-char-grade');
+
+  if (scoreNumEl) scoreNumEl.textContent = score;
+  if (strokesEl) strokesEl.textContent = `${correctStrokes}/${totalStrokes}`;
+  if (mistakesEl) mistakesEl.textContent = `${mistakeCount} lần`;
+  
+  const flickRating = mistakeCount === 0 ? '100% Chuẩn' : (mistakeCount <= 2 ? '90% Rất tốt' : '75% Đạt');
+  if (flickEl) flickEl.textContent = flickRating;
+
+  if (score >= 90) {
+    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-emerald-500/80 bg-emerald-950/60 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/30 mb-2';
+    scoreNumEl.className = 'text-2xl font-black text-emerald-400';
+    titleEl.textContent = '🏆 Xuất Sắc - Thư Pháp Chuẩn Mực';
+    titleEl.className = 'text-sm font-black text-emerald-300';
+    feedbackEl.textContent = 'Nét bút thanh thoát, dứt khoát. Các nét hất và móc câu cực kỳ chuẩn xác, quy tắc thuận bút hoàn hảo!';
+    playWritingSound('fanfare');
+  } else if (score >= 75) {
+    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-cyan-500/80 bg-cyan-950/60 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/30 mb-2';
+    scoreNumEl.className = 'text-2xl font-black text-cyan-400';
+    titleEl.textContent = '🌟 Rất Tốt - Nét Bút Thanh Thoát';
+    titleEl.className = 'text-sm font-black text-cyan-300';
+    feedbackEl.textContent = 'Bạn viết đúng quy tắc thuận bút. Nét hất/móc khá dứt khoát, rèn luyện thêm chút nữa sẽ hoàn hảo!';
+    playWritingSound('success');
+  } else if (score >= 50) {
+    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-amber-500/80 bg-amber-950/60 flex flex-col items-center justify-center shadow-lg shadow-amber-500/30 mb-2';
+    scoreNumEl.className = 'text-2xl font-black text-amber-400';
+    titleEl.textContent = '👍 Đạt Yêu Cầu - Cần Rèn Thêm';
+    titleEl.className = 'text-sm font-black text-amber-300';
+    feedbackEl.textContent = 'Đã viết được cấu trúc chữ. Hãy chú ý nét hất và nét móc dứt khoát hơn để chữ cân đối hơn nhé!';
+    playWritingSound('good');
+  } else {
+    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-rose-500/80 bg-rose-950/60 flex flex-col items-center justify-center shadow-lg shadow-rose-500/30 mb-2';
+    scoreNumEl.className = 'text-2xl font-black text-rose-400';
+    titleEl.textContent = '✍️ Cần Luyện Thêm Thứ Tự Nét';
+    titleEl.className = 'text-sm font-black text-rose-300';
+    feedbackEl.textContent = 'Nét viết còn hơi chệch hoặc chưa đúng thứ tự. Hãy bấm "Xem mẫu" để xem lại các bước rồi thử lại nhé!';
+    playWritingSound('try_again');
+  }
+
+  // Nút chữ tiếp theo nếu từ có nhiều chữ
+  if (currentWord && currentWord.hanzi) {
+    const chars = currentWord.chars || Array.from(currentWord.hanzi);
+    const currIdx = chars.indexOf(currentChar);
+    if (currIdx !== -1 && currIdx < chars.length - 1) {
+      if (nextCharBtn) nextCharBtn.classList.remove('hidden');
+    } else {
+      if (nextCharBtn) nextCharBtn.classList.add('hidden');
+    }
+  }
+
+  overlay.classList.remove('hidden');
+}
+
+function closeGradeOverlay() {
+  const overlay = document.getElementById('writing-grade-overlay');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+function retryWritingCurrentChar() {
+  closeGradeOverlay();
+  resetWriting();
+}
+
+function nextWritingChar() {
+  closeGradeOverlay();
+  if (currentWord && currentWord.hanzi) {
+    const chars = currentWord.chars || Array.from(currentWord.hanzi);
+    const currIdx = chars.indexOf(currentChar);
+    if (currIdx !== -1 && currIdx < chars.length - 1) {
+      loadCharacter(chars[currIdx + 1]);
+    }
+  }
+}
+
+/**
  * Vẽ filmstrip hiển thị từng bước nét tích lũy (Nét 1, Nét 2, Nét 3...)
  */
 function renderFilmstrip(data) {
@@ -195,7 +429,6 @@ function renderFilmstrip(data) {
   container.innerHTML = '';
 
   const strokes = data.strokes;
-  const medians = data.medians;
 
   strokes.forEach((stroke, idx) => {
     const item = document.createElement('div');
@@ -203,8 +436,6 @@ function renderFilmstrip(data) {
     item.id = `filmstrip-step-${idx + 1}`;
     item.title = `Nét ${idx + 1}/${strokes.length}`;
 
-    // Tạo SVG mini 52x52
-    // Strokes 0..idx-1 là màu trắng xám, stroke idx là màu đỏ
     let pathElements = '';
     for (let i = 0; i <= idx; i++) {
       const isCurrent = (i === idx);
@@ -255,21 +486,15 @@ function renderStrokeGuides(data) {
   medians.forEach((median, idx) => {
     if (!median || median.length < 2) return;
     
-    // Tọa độ gốc: 1024x1024 (trục Y hướng lên trên trong dữ liệu MakeMeAHanzi)
-    // Canvas: 320x320, padding 20px -> scale factor: 280 / 1024
     const scale = 280 / 1024;
     const offsetX = 20;
     const offsetY = 20;
 
     const startPt = median[0];
-    const midPt = median[Math.floor(median.length / 2)];
     const endPt = median[median.length - 1];
 
     const startX = offsetX + startPt[0] * scale;
     const startY = 320 - (offsetY + startPt[1] * scale);
-
-    const endX = offsetX + endPt[0] * scale;
-    const endY = 320 - (offsetY + endPt[1] * scale);
 
     // Điểm hiển thị số thứ tự nét
     if (showNumbers) {
@@ -327,6 +552,7 @@ function toggleAnimate() {
     updatePlayBtn(false);
   } else {
     currentWriter.cancelQuiz();
+    closeGradeOverlay();
     currentMode = 'animating';
     updatePlayBtn(true);
     currentWriter.animateCharacter({
@@ -334,7 +560,6 @@ function toggleAnimate() {
         currentMode = 'idle';
         updatePlayBtn(false);
         highlightFilmstripStep(totalStrokes);
-        // Xem mẫu xong thì tự động bật lại chế độ sẵn sàng viết trên iPad / chuột
         setTimeout(() => {
           startQuizMode();
         }, 500);
@@ -350,16 +575,25 @@ function startQuizMode() {
   if (!currentWriter) return;
   currentMode = 'quiz';
   updatePlayBtn(false);
+  closeGradeOverlay();
   correctStrokes = 0;
   mistakeCount = 0;
   updateStats();
+  updateLiveScore();
   highlightFilmstripStep(1);
+
+  const nibW = window.WritingSettings.nibWidth || 3.5;
 
   currentWriter.quiz({
     showOutline: showOutline,
+    leniency: 1.45, // Tăng độ nhạy cho nét hất và nét móc
+    drawingWidth: nibW,
+    drawingColor: window.WritingSettings.inkColor || '#2563eb',
+    drawingFadeDuration: 280,
     onCorrectStroke: function(strokeData) {
       correctStrokes = strokeData.strokeNum + 1;
       updateStats();
+      updateLiveScore();
       highlightFilmstripStep(correctStrokes + 1);
       if (isAudioEnabled) {
         speakChinese(`第${correctStrokes}笔`);
@@ -368,12 +602,14 @@ function startQuizMode() {
     onMistake: function(strokeData) {
       mistakeCount++;
       updateStats();
+      updateLiveScore();
       const canvasEl = document.getElementById('hanzi-canvas');
       canvasEl.classList.add('ring-2', 'ring-red-500');
       setTimeout(() => canvasEl.classList.remove('ring-2', 'ring-red-500'), 400);
     },
     onComplete: function(summaryData) {
-      showToast(`🎉 Chúc mừng! Bạn đã hoàn thành viết chữ "${currentChar}"!`);
+      updatePlayBtn(false);
+      showGradingReport(summaryData);
     }
   });
 }
@@ -385,6 +621,7 @@ function resetWriting() {
   if (currentWriter) {
     currentWriter.cancelQuiz();
   }
+  closeGradeOverlay();
   loadCharacter(currentChar);
 }
 
@@ -496,3 +733,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+window.openWritingModal = openWritingModal;
+window.closeWritingModal = closeWritingModal;
+window.setWritingNib = setWritingNib;
+window.triggerWritingGrading = triggerWritingGrading;
+window.showGradingReport = showGradingReport;
+window.closeGradeOverlay = closeGradeOverlay;
+window.retryWritingCurrentChar = retryWritingCurrentChar;
+window.nextWritingChar = nextWritingChar;
+window.toggleAnimate = toggleAnimate;
+window.startQuizMode = startQuizMode;
+window.resetWriting = resetWriting;
+window.printPracticeSheet = printPracticeSheet;

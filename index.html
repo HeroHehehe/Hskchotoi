@@ -922,6 +922,30 @@
           </div>
         </div>
 
+        <!-- Thanh công cụ Ngòi Bút Thư Pháp (Nét thanh mảnh chuẩn đẹp) -->
+        <div class="flex items-center justify-between bg-slate-950/70 p-2 rounded-xl border border-slate-800 text-xs flex-wrap gap-2">
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-bold flex items-center gap-1">
+              <span>✒️</span> Ngòi bút:
+            </span>
+            <div class="flex items-center gap-1">
+              <button type="button" onclick="setWritingNib(3.5)" id="nib-btn-3.5" class="nib-select-btn px-2.5 py-1 rounded-lg font-bold text-xs bg-blue-600 text-white shadow-sm transition-all" title="Nét thanh mảnh (3.5px) - Khuyên dùng viết chữ Hán đẹp nhất">
+                Thanh (3.5px)
+              </button>
+              <button type="button" onclick="setWritingNib(5.5)" id="nib-btn-5.5" class="nib-select-btn px-2.5 py-1 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 hover:text-white transition-all" title="Nét vừa (5.5px)">
+                Vừa (5.5px)
+              </button>
+              <button type="button" onclick="setWritingNib(8.0)" id="nib-btn-8.0" class="nib-select-btn px-2.5 py-1 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 hover:text-white transition-all" title="Nét đậm (8px)">
+                Đậm (8px)
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1 text-[11px] text-emerald-400 font-bold">
+            <span>⚡</span> Nhạy nét hất & nét móc
+          </div>
+        </div>
+
         <!-- Khung Ô Vuông Mễ Tự Cách (米字格) Chính -->
         <div class="flex justify-center">
           <div class="relative w-[320px] h-[320px] rounded-2xl mizige-box shadow-2xl overflow-hidden flex items-center justify-center">
@@ -929,6 +953,48 @@
             <div id="hanzi-canvas" class="relative z-10 w-full h-full"></div>
             <!-- Lớp phủ số thứ tự nét & mũi tên định hướng -->
             <div id="stroke-guides-overlay" class="absolute inset-0 z-20 pointer-events-none"></div>
+
+            <!-- BẢNG ĐÁNH GIÁ & CHẤM ĐIỂM THƯ PHÁP (OVERLAY) -->
+            <div id="writing-grade-overlay" class="absolute inset-0 z-30 bg-slate-950/95 backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center text-center hidden animate-fadeIn">
+              <div id="grade-badge-circle" class="w-16 h-16 rounded-full border-4 border-emerald-500/80 bg-emerald-950/60 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/30 mb-2">
+                <span id="grade-score-num" class="text-2xl font-black text-emerald-400">100</span>
+                <span class="text-[8px] font-black uppercase text-emerald-300 tracking-wider">ĐIỂM</span>
+              </div>
+
+              <h4 id="grade-title" class="text-sm font-black text-white">Xuất Sắc - Thư Pháp Chuẩn Mực</h4>
+              <p id="grade-feedback" class="text-[11px] text-slate-300 mt-1 max-w-[280px] leading-relaxed">
+                Nét bút thanh thoát, dứt khoát. Các nét hất và móc câu cực kỳ chuẩn xác!
+              </p>
+
+              <!-- Chi tiết thông số -->
+              <div class="grid grid-cols-3 gap-1.5 w-full max-w-[280px] my-2.5 text-[10px] font-bold">
+                <div class="p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                  <span class="text-slate-400 block text-[9px]">Số nét</span>
+                  <span id="grade-detail-strokes" class="text-white">7/7</span>
+                </div>
+                <div class="p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                  <span class="text-slate-400 block text-[9px]">Chệch nét</span>
+                  <span id="grade-detail-mistakes" class="text-rose-400">0 lần</span>
+                </div>
+                <div class="p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                  <span class="text-slate-400 block text-[9px]">Độ dứt khoát</span>
+                  <span id="grade-detail-flick" class="text-cyan-400">100% Chuẩn</span>
+                </div>
+              </div>
+
+              <!-- Nút hành động -->
+              <div class="flex items-center gap-1.5 flex-wrap justify-center">
+                <button onclick="retryWritingCurrentChar()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-1 transition-all">
+                  <span>🔄</span> Viết lại
+                </button>
+                <button id="btn-next-char-grade" onclick="nextWritingChar()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md flex items-center gap-1 transition-all">
+                  <span>Tiếp</span> <span>➡️</span>
+                </button>
+                <button onclick="closeGradeOverlay()" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white border border-slate-800 transition-all">
+                  ✕ Đóng
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -938,8 +1004,8 @@
             <!-- Render động qua JavaScript -->
           </div>
 
-          <!-- Hàng Thống kê (0/7, 0, còn 7) -->
-          <div class="flex items-center justify-center gap-6 text-xs font-bold pt-1">
+          <!-- Hàng Thống kê & Điểm số trực tiếp -->
+          <div class="flex items-center justify-center gap-4 text-xs font-bold pt-1 flex-wrap">
             <div class="flex items-center gap-1 text-emerald-400">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
               <span id="stat-correct">0/7</span>
@@ -951,6 +1017,10 @@
             <div class="flex items-center gap-1 text-slate-400">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
               <span>còn <span id="stat-remaining">7</span></span>
+            </div>
+            <div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-amber-500/20 border border-amber-500/30 text-amber-300 font-extrabold">
+              <span>🎯</span>
+              <span>Điểm: <b id="stat-live-score" class="text-white text-xs">100</b></span>
             </div>
           </div>
         </div>
@@ -1000,6 +1070,12 @@
           <button onclick="startQuizMode()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition-all flex items-center gap-1.5">
             <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
             Viết
+          </button>
+
+          <!-- Nút Chấm điểm chữ viết -->
+          <button id="btn-grade-writing" onclick="triggerWritingGrading()" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg shadow-emerald-600/30 flex items-center gap-1.5 transition-all">
+            <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Chấm điểm</span>
           </button>
 
           <button onclick="resetWriting()" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-all flex items-center gap-1">

@@ -228,3 +228,12 @@ input:checked + .slider:before {
 .animate-shake {
   animation: shake-horizontal 0.35s ease-in-out;
 }
+
+
+/* Touch and stroke optimization for Hanzi Canvas (hất/móc dứt khoát không giật lag) */
+#hanzi-canvas,
+#hanzi-canvas svg {
+  touch-action: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
