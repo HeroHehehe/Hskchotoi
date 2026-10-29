@@ -537,6 +537,17 @@ function renderHanziRecall(container) {
 
       <!-- Khung vẽ chữ Hán thống nhất (Không chia thành Chữ 1, Chữ 2 - Viết trọn vẹn cả từ trong 1 ô) -->
       <div class="flex flex-col items-center justify-center space-y-3">
+        <!-- Thanh chọn cỡ ngòi thư pháp -->
+        <div class="flex items-center justify-between max-w-sm mx-auto bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-800 text-xs flex-wrap gap-2 mb-2">
+          <div class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-bold">✒️ Ngòi bút:</span>
+            <button type="button" onclick="setRecallNib(3.0)" id="recall-nib-3" class="px-2 py-0.5 rounded-lg font-bold text-xs ${((window.MEMORY_HUB.recall.nibWidth || 3.0) === 3.0) ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-300'} transition-all">Thanh (3px)</button>
+            <button type="button" onclick="setRecallNib(5.0)" id="recall-nib-5" class="px-2 py-0.5 rounded-lg font-bold text-xs ${((window.MEMORY_HUB.recall.nibWidth || 3.0) === 5.0) ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-300'} transition-all">Vừa (5px)</button>
+            <button type="button" onclick="setRecallNib(7.5)" id="recall-nib-7" class="px-2 py-0.5 rounded-lg font-bold text-xs ${((window.MEMORY_HUB.recall.nibWidth || 3.0) === 7.5) ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-300'} transition-all">Đậm (7.5px)</button>
+          </div>
+          <span class="text-[11px] text-emerald-400 font-bold">⚡ Nhạy nét hất & móc</span>
+        </div>
+
         <!-- Vùng vẽ kích thước động với các ô lưới 米 tự (Tianzige) cho từng chữ trong từ -->
         <div id="recall-draw-container" class="bg-slate-950 rounded-3xl border-2 border-slate-700 shadow-2xl relative overflow-hidden flex items-center justify-center select-none touch-none mx-auto transition-all" style="width: min(100%, ${chars.length === 1 ? '260px' : (chars.length === 2 ? '480px' : '540px')}); aspect-ratio: ${chars.length} / 1;">
           
@@ -561,7 +572,42 @@ function renderHanziRecall(container) {
           </div>
 
           <!-- HTML5 Canvas duy nhất bao phủ toàn bộ ô vẽ để người dùng viết trọn vẹn cả từ -->
-          <canvas id="recall-canvas" width="${chars.length * 240}" height="240" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+          <canvas id="recall-canvas" width="${chars.length * 240}" height="240" class="absolute inset-0 w-full h-full cursor-crosshair z-10" style="touch-action: none;"></canvas>
+
+          <!-- BẢNG ĐÁNH GIÁ & CHẤM ĐIỂM THƯ PHÁP (OVERLAY) -->
+          <div id="recall-grade-overlay" class="absolute inset-0 z-30 bg-slate-950/95 backdrop-blur-md p-4 flex flex-col items-center justify-center text-center hidden animate-fadeIn">
+            <div id="recall-grade-circle" class="w-16 h-16 rounded-full border-4 border-emerald-500/80 bg-emerald-950/60 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/30 mb-2">
+              <span id="recall-grade-score-num" class="text-2xl font-black text-emerald-400">100</span>
+              <span class="text-[8px] font-black uppercase text-emerald-300 tracking-wider">ĐIỂM</span>
+            </div>
+
+            <h4 id="recall-grade-title" class="text-sm font-black text-white">Xuất Sắc - Thư Pháp Chuẩn Mực</h4>
+            <p id="recall-grade-feedback" class="text-[11px] text-slate-300 mt-1 max-w-[320px] leading-relaxed">
+              Nét bút thanh thoát, dứt khoát! Nét hất và móc câu cực kỳ sắc sảo!
+            </p>
+
+            <!-- Chi tiết thông số -->
+            <div class="grid grid-cols-2 gap-2 w-full max-w-[280px] my-2 text-[10px] font-bold">
+              <div class="p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                <span class="text-slate-400 block text-[9px]">Độ phủ nét</span>
+                <span id="recall-detail-cov" class="text-white">100%</span>
+              </div>
+              <div class="p-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                <span class="text-slate-400 block text-[9px]">Độ dứt khoát</span>
+                <span id="recall-detail-flick" class="text-cyan-400">100% Sắc nét</span>
+              </div>
+            </div>
+
+            <!-- Nút hành động -->
+            <div class="flex items-center gap-2 mt-1">
+              <button onclick="retryRecallWord()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center gap-1 transition-all">
+                <span>🔄</span> Viết lại
+              </button>
+              <button onclick="advanceNextRecallWord()" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 flex items-center gap-1 transition-all">
+                <span>Từ tiếp theo</span> <span>➡️</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- Trạng thái nét vẽ -->
@@ -606,6 +652,25 @@ function renderHanziRecall(container) {
 /**
  * Khởi tạo bảng vẽ Canvas tự do (hỗ trợ cả Chuột và Cảm ứng Mobile mượt mà)
  */
+function setRecallNib(width) {
+  const hub = window.MEMORY_HUB;
+  hub.recall.nibWidth = width;
+  ['3', '5', '7'].forEach(id => {
+    const btn = document.getElementById(`recall-nib-${id}`);
+    if (btn) {
+      btn.className = 'px-2 py-0.5 rounded-lg font-bold text-xs bg-slate-800 text-slate-300 transition-all';
+    }
+  });
+  const activeId = width <= 3.5 ? '3' : (width <= 5.5 ? '5' : '7');
+  const activeBtn = document.getElementById(`recall-nib-${activeId}`);
+  if (activeBtn) {
+    activeBtn.className = 'px-2 py-0.5 rounded-lg font-bold text-xs bg-blue-600 text-white transition-all';
+  }
+  if (hub.recall.ctx) {
+    hub.recall.ctx.lineWidth = width;
+  }
+}
+
 function initRecallCanvas() {
   const canvas = document.getElementById('recall-canvas');
   if (!canvas) return;
@@ -617,10 +682,13 @@ function initRecallCanvas() {
   hub.recall.isDrawing = false;
   hub.recall.hasDrawn = false;
   hub.recall.strokes = [];
+  if (!hub.recall.nibWidth) hub.recall.nibWidth = 3.0; // Mặc định nét thanh mảnh chuẩn thư pháp 3.0px
+
+  let lastPt = null;
   let currentStroke = null;
 
-  ctx.strokeStyle = '#38bdf8'; // Màu xanh cyan đẹp mắt
-  ctx.lineWidth = 14;
+  ctx.strokeStyle = '#1d4ed8'; // Mực xanh lam thư pháp đậm đà
+  ctx.lineWidth = hub.recall.nibWidth;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
@@ -630,46 +698,83 @@ function initRecallCanvas() {
     const clientY = e.touches ? e.touches[0].clientY : e.clientY;
     return {
       x: (clientX - rect.left) * (canvas.width / rect.width),
-      y: (clientY - rect.top) * (canvas.height / rect.height)
+      y: (clientY - rect.top) * (canvas.height / rect.height),
+      time: performance.now()
     };
   }
 
   function startDrawing(e) {
     e.preventDefault();
+    closeRecallGradeOverlay();
     hub.recall.isDrawing = true;
     hub.recall.hasDrawn = true;
     const pos = getCanvasPos(e);
+    pos.width = hub.recall.nibWidth || 3.0;
+    lastPt = pos;
     currentStroke = [pos];
     if (!hub.recall.strokes) hub.recall.strokes = [];
     hub.recall.strokes.push(currentStroke);
+
     ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
+    ctx.arc(pos.x, pos.y, (hub.recall.nibWidth || 3.0) / 2, 0, Math.PI * 2);
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.fill();
   }
 
   function draw(e) {
-    if (!hub.recall.isDrawing) return;
+    if (!hub.recall.isDrawing || !lastPt) return;
     e.preventDefault();
     const pos = getCanvasPos(e);
-    if (currentStroke) currentStroke.push(pos);
-    ctx.lineTo(pos.x, pos.y);
+
+    const dist = Math.hypot(pos.x - lastPt.x, pos.y - lastPt.y);
+    if (dist < 1.5) return;
+
+    const dt = Math.max(1, pos.time - lastPt.time);
+    const speed = dist / dt;
+    const baseW = hub.recall.nibWidth || 3.0;
+
+    // Tự động vuốt nhọn nét hất và nét móc khi tốc độ cao
+    const speedFactor = Math.min(0.75, speed / 1.6);
+    const targetW = Math.max(1.0, baseW * (1.0 - speedFactor));
+    const smoothW = lastPt.width * 0.35 + targetW * 0.65;
+
+    const midX = (lastPt.x + pos.x) / 2;
+    const midY = (lastPt.y + pos.y) / 2;
+
+    ctx.lineWidth = smoothW;
+    ctx.beginPath();
+    ctx.moveTo(lastPt.x, lastPt.y);
+    ctx.quadraticCurveTo(lastPt.x, lastPt.y, midX, midY);
     ctx.stroke();
+
+    pos.width = smoothW;
+    if (currentStroke) currentStroke.push(pos);
+    lastPt = { x: midX, y: midY, time: pos.time, width: smoothW };
   }
 
   function stopDrawing(e) {
     if (hub.recall.isDrawing) {
       hub.recall.isDrawing = false;
-      ctx.closePath();
+      if (lastPt) {
+        ctx.lineWidth = Math.max(0.8, lastPt.width * 0.4);
+        ctx.beginPath();
+        ctx.moveTo(lastPt.x, lastPt.y);
+        ctx.lineTo(lastPt.x, lastPt.y);
+        ctx.stroke();
+      }
+      lastPt = null;
       currentStroke = null;
     }
   }
 
-  // Sự kiện chuột máy tính
-  canvas.onmousedown = startDrawing;
-  canvas.onmousemove = draw;
-  canvas.onmouseup = stopDrawing;
-  canvas.onmouseleave = stopDrawing;
+  // Sự kiện chuột máy tính & bút cảm ứng
+  canvas.onpointerdown = startDrawing;
+  canvas.onpointermove = draw;
+  canvas.onpointerup = stopDrawing;
+  canvas.onpointercancel = stopDrawing;
+  canvas.onpointerleave = stopDrawing;
 
-  // Sự kiện cảm ứng điện thoại / máy tính bảng
+  // Fallback cảm ứng touch
   canvas.ontouchstart = startDrawing;
   canvas.ontouchmove = draw;
   canvas.ontouchend = stopDrawing;
@@ -796,14 +901,49 @@ function getExpectedStrokeCount(char) {
  * - Kiểm tra nét vẽ tràn viền (Tránh kẻ ngang/dọc bậy qua các ô)
  * - Kiểm tra số nét tối thiểu (Tránh vẽ 1-2 nét gạch cho chữ có 9-12 nét)
  */
-function evaluateSingleCharacterCell(userPixels, W, H, targetChar, cellStrokeCount = 0) {
-  // 1. Tạo Canvas đối chiếu vẽ chữ Hán mẫu
+function closeRecallGradeOverlay() {
+  const overlay = document.getElementById('recall-grade-overlay');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+function retryRecallWord() {
+  closeRecallGradeOverlay();
+  clearRecallCanvas();
+}
+
+let lastGradedRecallResult = null;
+function advanceNextRecallWord() {
+  closeRecallGradeOverlay();
+  const hub = window.MEMORY_HUB;
+  const word = hub.currentWord;
+  const mode = 'hanzi_recall';
+
+  if (word) {
+    hub.gameStats[mode].score += 15;
+    hub.gameStats[mode].correct++;
+    if (!hub.gameCompleted[mode].includes(word.id)) {
+      hub.gameCompleted[mode].push(word.id);
+    }
+    hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
+    setWordMastered(word.id, true);
+  }
+
+  hub.recall.charIndex = 0;
+  clearRecallCanvas();
+  loadCurrentQuestion();
+}
+
+/**
+ * Đánh giá nét vẽ từng ô chữ (240x240 px) theo chuẩn Khải Thư
+ */
+function evaluateSingleCharacterCell(userPixels, W, H, targetChar) {
+  // 1. Tạo Canvas đối chiếu vẽ chữ Hán mẫu chuẩn Khải Thư
   const refCanvas = document.createElement('canvas');
   refCanvas.width = W;
   refCanvas.height = H;
   const refCtx = refCanvas.getContext('2d');
   refCtx.fillStyle = '#ffffff';
-  refCtx.font = 'bold 155px "Ma Shan Zheng", "STKaiti", "KaiTi", "SimSun", "Noto Serif SC", "Microsoft YaHei", sans-serif';
+  refCtx.font = "bold 165px 'KaiTi', 'STKaiti', 'KaiTi_GB2312', 'Kaiti SC', 'LXGW WenKai Screen', 'Noto Serif SC', serif";
   refCtx.textAlign = 'center';
   refCtx.textBaseline = 'middle';
   refCtx.fillText(targetChar, W / 2, H / 2);
@@ -811,129 +951,43 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar, cellStrokeCou
   const refImgData = refCtx.getImageData(0, 0, W, H);
   const refPixels = refImgData.data;
 
-  // 2. Thu thập các điểm người dùng đã vẽ trong ô này (step = 4)
+  // 2. Thu thập điểm người dùng và điểm mẫu (step = 4 để chạy cực nhanh và chuẩn)
   const step = 4;
-  const drawnPoints = [];
   let userPointCount = 0;
-
-  let uMinX = W, uMaxX = 0, uMinY = H, uMaxY = 0;
-  let outOfBoundsPoints = 0;
+  let targetTotal = 0;
+  const drawnPoints = [];
+  const targetMap = new Uint8Array(W * H);
+  const tPoints = [];
 
   for (let y = 0; y < H; y += step) {
     for (let x = 0; x < W; x += step) {
       const idx = (y * W + x) * 4;
-      if (userPixels[idx + 3] > 50) {
-        drawnPoints.push({ x, y });
+      if (userPixels[idx + 3] > 40) {
         userPointCount++;
-        if (x < uMinX) uMinX = x;
-        if (x > uMaxX) uMaxX = x;
-        if (y < uMinY) uMinY = y;
-        if (y > uMaxY) uMaxY = y;
-        if (x < 14 || x > W - 14 || y < 14 || y > H - 14) {
-          outOfBoundsPoints++;
-        }
+        drawnPoints.push({ x, y });
+      }
+      if (refPixels[idx + 3] > 40) {
+        targetTotal++;
+        targetMap[y * W + x] = 1;
+        tPoints.push({ x, y });
       }
     }
   }
 
-  // Nếu vẽ quá ít trong ô này (dưới 35 điểm lấy mẫu)
-  if (userPointCount < 35) {
+  if (userPointCount < 25) {
     return {
       isPassed: false,
       score: 10,
       coverage: 0,
       precision: 0,
-      userPointCount: userPointCount,
       reason: `Bạn chưa viết chữ "${targetChar}" vào ô.`
     };
   }
 
-  // 3. Kiểm tra số nét vẽ tối thiểu (Tránh vẽ 1-2 đường kẻ ngang/dọc cho chữ nhiều nét)
-  const expectedStrokes = getExpectedStrokeCount(targetChar);
-  if (expectedStrokes >= 4 && cellStrokeCount > 0 && cellStrokeCount < Math.max(2, Math.floor(expectedStrokes * 0.4))) {
-    return {
-      isPassed: false,
-      score: 25,
-      coverage: 25,
-      precision: 25,
-      userPointCount: userPointCount,
-      reason: `Chữ "${targetChar}" có ${expectedStrokes} nét nhưng bạn mới vẽ ${cellStrokeCount} nét. Hãy vẽ đủ các nét của chữ này nhé!`
-    };
-  }
-
-  // 4. Thu thập điểm và khung hình chữ mẫu
-  let tMinX = W, tMaxX = 0, tMinY = H, tMaxY = 0;
-  let targetTotal = 0;
-  const tPoints = [];
-  const targetMap = new Uint8Array(W * H);
-
-  // Phân chia 9 vùng lưới 3x3 (mỗi vùng 80x80 px)
-  const regionTarget = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const regionHit = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-  for (let y = 0; y < H; y += step) {
-    for (let x = 0; x < W; x += step) {
-      const idx = (y * W + x) * 4;
-      if (refPixels[idx + 3] > 50) {
-        targetTotal++;
-        targetMap[y * W + x] = 1;
-        tPoints.push({ x, y });
-        if (x < tMinX) tMinX = x;
-        if (x > tMaxX) tMaxX = x;
-        if (y < tMinY) tMinY = y;
-        if (y > tMaxY) tMaxY = y;
-
-        const regIdx = Math.min(2, Math.floor(y / 80)) * 3 + Math.min(2, Math.floor(x / 80));
-        regionTarget[regIdx]++;
-      }
-    }
-  }
-
   if (targetTotal === 0) targetTotal = 1;
 
-  // 5. Kiểm tra tỷ lệ chiều cao và bề ngang nét vẽ so với chữ mẫu
-  const targetHeight = tMaxY - tMinY;
-  const targetWidth = tMaxX - tMinX;
-  const userHeight = uMaxY - uMinY;
-  const userWidth = uMaxX - uMinX;
-
-  if (targetHeight > 45 && (userHeight / targetHeight) < 0.65) {
-    return {
-      isPassed: false,
-      score: 25,
-      coverage: 30,
-      precision: 30,
-      userPointCount: userPointCount,
-      reason: `Nét vẽ chữ "${targetChar}" bị dẹt, thiếu chiều cao. Hãy vẽ đầy đủ cả phần trên và phần dưới nhé!`
-    };
-  }
-
-  if (targetWidth > 45 && (userWidth / targetWidth) < 0.65) {
-    return {
-      isPassed: false,
-      score: 25,
-      coverage: 30,
-      precision: 30,
-      userPointCount: userPointCount,
-      reason: `Nét vẽ chữ "${targetChar}" bị hẹp, thiếu bề ngang. Hãy vẽ đầy đủ các nét bên trái và phải nhé!`
-    };
-  }
-
-  // 6. Kiểm tra vẽ tràn ra ngoài mép ô (vạch ngang/dọc bậy xuyên qua các ô)
-  const outRatio = (outOfBoundsPoints / userPointCount) * 100;
-  if (outRatio > 18) {
-    return {
-      isPassed: false,
-      score: 30,
-      coverage: 35,
-      precision: 30,
-      userPointCount: userPointCount,
-      reason: `Nét vẽ chữ "${targetChar}" bị gạch tràn ra ngoài viền ô quá nhiều. Hãy vẽ gọn gàng trong ô nhé!`
-    };
-  }
-
-  // 7. Tính độ phủ (Coverage) với bán kính chuẩn xác 12px (bán kính cọ vẽ)
-  const hitRadiusSq = 12 * 12;
+  // 3. Tính độ phủ nét (Coverage) với bán kính dung sai cọ vẽ 16px
+  const hitRadiusSq = 16 * 16;
   let targetHit = 0;
 
   for (let i = 0; i < tPoints.length; i++) {
@@ -948,24 +1002,20 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar, cellStrokeCou
         break;
       }
     }
-    if (hit) {
-      targetHit++;
-      const regIdx = Math.min(2, Math.floor(ty / 80)) * 3 + Math.min(2, Math.floor(tx / 80));
-      regionHit[regIdx]++;
-    }
+    if (hit) targetHit++;
   }
 
-  // 8. Tính độ chính xác (Precision)
+  // 4. Tính độ bám nét (Precision)
   let userValidPoints = 0;
   for (let i = 0; i < drawnPoints.length; i++) {
     const px = drawnPoints[i].x;
     const py = drawnPoints[i].y;
     let nearTarget = false;
 
-    for (let dy = -12; dy <= 12; dy += step) {
+    for (let dy = -16; dy <= 16; dy += step) {
       const ny = py + dy;
       if (ny < 0 || ny >= H) continue;
-      for (let dx = -12; dx <= 12; dx += step) {
+      for (let dx = -16; dx <= 16; dx += step) {
         const nx = px + dx;
         if (nx < 0 || nx >= W) continue;
         if (targetMap[ny * W + nx] === 1) {
@@ -979,65 +1029,24 @@ function evaluateSingleCharacterCell(userPixels, W, H, targetChar, cellStrokeCou
     if (nearTarget) userValidPoints++;
   }
 
-  // 9. Kiểm tra phân bố 9 vùng lưới 3x3: Không được bỏ trống các vùng trọng yếu
-  const regionNames = [
-    "góc trên-trái", "phía trên-giữa", "góc trên-phải",
-    "bên trái-giữa", "trung tâm", "bên phải-giữa",
-    "góc dưới-trái", "phía dưới-giữa", "góc dưới-phải"
-  ];
-  let missingRegions = [];
-  for (let r = 0; r < 9; r++) {
-    // Vùng trọng yếu nếu chiếm từ 5% diện tích nét chữ trở lên
-    if (regionTarget[r] >= targetTotal * 0.05) {
-      const regCov = (regionHit[r] / regionTarget[r]) * 100;
-      if (regCov < 22) {
-        missingRegions.append ? missingRegions.append(regionNames[r]) : missingRegions.push(regionNames[r]);
-      }
-    }
-  }
-
-  if (missingRegions.length > 0) {
-    return {
-      isPassed: false,
-      score: 35,
-      coverage: Math.round((targetHit / targetTotal) * 100),
-      precision: Math.round((userValidPoints / userPointCount) * 100),
-      userPointCount: userPointCount,
-      reason: `Chữ "${targetChar}" bị thiếu nét ở ${missingRegions.slice(0, 2).join(' và ')}. Hãy xem nét mờ và vẽ đầy đủ nhé!`
-    };
-  }
-
-  const coverage = Math.round((targetHit / targetTotal) * 100);
-  const precision = userPointCount > 0 ? Math.round((userValidPoints / userPointCount) * 100) : 0;
-  const finalScore = Math.min(100, Math.round(coverage * 0.55 + precision * 0.45));
-
-  // Tiêu chuẩn đậu:
-  // - Độ phủ hình dáng chữ >= 48% (phải vẽ đủ các nét)
-  // - Độ chính xác bám nét >= 45% (không vẽ lệch ra ngoài)
-  // - Đạt các tiêu chí phân bố không gian và tỷ lệ khung hình
-  const isPassed = coverage >= 48 && precision >= 45;
-
-  let reason = "";
-  if (isPassed) {
-    reason = `Chữ "${targetChar}" đạt ${finalScore}% độ chuẩn xác`;
-  } else if (coverage < 48) {
-    reason = `Chữ "${targetChar}" bị thiếu nét (độ phủ mới đạt ${coverage}%)`;
-  } else {
-    reason = `Nét vẽ chữ "${targetChar}" bị lệch ra ngoài chữ mẫu quá nhiều`;
-  }
+  const coverage = Math.min(100, Math.round((targetHit / targetTotal) * 100));
+  const precision = userPointCount > 0 ? Math.min(100, Math.round((userValidPoints / userPointCount) * 100)) : 0;
+  
+  // Điểm số công bằng (Coverage 60%, Precision 40%)
+  const score = Math.min(100, Math.max(35, Math.round(coverage * 0.65 + precision * 0.35 + 10)));
+  const isPassed = score >= 50;
 
   return {
     isPassed,
-    score: finalScore,
+    score,
     coverage,
     precision,
-    userPointCount,
-    reason
+    reason: isPassed ? `Chữ "${targetChar}" đạt ${score}% độ chuẩn` : `Chữ "${targetChar}" cần viết rõ nét hơn`
   };
 }
 
 /**
- * Đánh giá toàn bộ từ Hán trên Canvas (Hỗ trợ từ 1 chữ, 2 chữ như 没事, hoặc 3 chữ)
+ * Đánh giá toàn bộ từ Hán trên Canvas
  */
 function evaluateDrawnCharacter(userCanvas, targetHanzi) {
   if (!userCanvas) return { isPassed: false, score: 0, reason: "Không tìm thấy bảng vẽ." };
@@ -1052,60 +1061,33 @@ function evaluateDrawnCharacter(userCanvas, targetHanzi) {
   const cellH = totalH;
   const userCtx = userCanvas.getContext('2d');
 
-  // Lấy danh sách các nét vẽ của người dùng
-  const userStrokes = (window.MEMORY_HUB && window.MEMORY_HUB.recall && window.MEMORY_HUB.recall.strokes) || [];
-
-  let allPassed = true;
   let totalScore = 0;
-  let firstFailReason = "";
+  let totalCov = 0;
+  let allPassed = true;
 
   for (let idx = 0; idx < N; idx++) {
     const c = chars[idx];
     const cellImgData = userCtx.getImageData(idx * cellW, 0, cellW, cellH);
-
-    // Đếm số nét vẽ có điểm chạm vào ô này
-    const cellStrokeCount = userStrokes.filter(stroke => {
-      return stroke.some(p => p.x >= idx * cellW && p.x < (idx + 1) * cellW);
-    }).length;
-
-    const res = evaluateSingleCharacterCell(cellImgData.data, cellW, cellH, c, cellStrokeCount);
+    const res = evaluateSingleCharacterCell(cellImgData.data, cellW, cellH, c);
 
     totalScore += res.score;
-    if (!res.isPassed) {
-      allPassed = false;
-      if (!firstFailReason) {
-        if (N > 1) {
-          if (res.userPointCount < 35) {
-            firstFailReason = `⚠️ Bạn chưa viết chữ thứ ${idx + 1} "${c}". Hãy viết đủ cả từ "${targetHanzi}" nhé!`;
-          } else {
-            firstFailReason = `⚠️ ${res.reason}`;
-          }
-        } else {
-          firstFailReason = `⚠️ ${res.reason}`;
-        }
-      }
-    }
+    totalCov += res.coverage;
+    if (!res.isPassed) allPassed = false;
   }
 
   const finalAvgScore = Math.round(totalScore / N);
+  const finalAvgCov = Math.round(totalCov / N);
 
-  if (allPassed) {
-    return {
-      isPassed: true,
-      score: finalAvgScore,
-      reason: `🎉 Xuất sắc! Nét viết từ "${targetHanzi}" đạt ${finalAvgScore}% độ chuẩn xác!`
-    };
-  } else {
-    return {
-      isPassed: false,
-      score: finalAvgScore,
-      reason: firstFailReason
-    };
-  }
+  return {
+    isPassed: finalAvgScore >= 50,
+    score: finalAvgScore,
+    coverage: finalAvgCov,
+    reason: finalAvgScore >= 80 ? `🎉 Xuất sắc! Nét viết từ "${targetHanzi}" đạt ${finalAvgScore}% chuẩn thư pháp!` : `Nét viết từ "${targetHanzi}" đạt ${finalAvgScore} điểm.`
+  };
 }
 
 /**
- * Người dùng hoàn thành việc viết và bấm Chấm điểm
+ * Người dùng hoàn thành việc viết và bấm "✓ Đã viết xong (Chấm điểm)"
  */
 function submitRecallWord() {
   const hub = window.MEMORY_HUB;
@@ -1113,57 +1095,76 @@ function submitRecallWord() {
   if (!word) return;
 
   const st = document.getElementById('recall-status-text');
-  const drawContainer = document.getElementById('recall-draw-container');
+  const overlay = document.getElementById('recall-grade-overlay');
 
   // Kiểm tra nếu người dùng chưa viết gì
   if (!hub.recall.hasDrawn) {
     if (st) st.innerHTML = `<span class="text-amber-400 font-bold">⚠️ Hãy dùng chuột hoặc ngón tay để vẽ chữ trước khi chấm điểm nhé!</span>`;
-    return;
-  }
-
-  // Đánh giá thực chất nét vẽ của người dùng trên toàn bộ từ Hán
-  const evalResult = evaluateDrawnCharacter(hub.recall.canvas, word.hanzi);
-
-  if (!evalResult.isPassed) {
-    // CHƯA ĐẠT: Báo lỗi cụ thể (thiếu chữ nào, thiếu nét hay vẽ lệch), rung viền đỏ, KHÔNG cho qua
-    playSoundEffect('wrong');
-    if (st) st.innerHTML = `<span class="text-rose-400 font-bold text-xs">${evalResult.reason}</span>`;
-    if (drawContainer) {
-      drawContainer.classList.remove('ring-4', 'ring-emerald-500/70', 'border-emerald-500');
-      drawContainer.classList.add('ring-4', 'ring-rose-500/70', 'border-rose-500');
-      setTimeout(() => {
-        if (drawContainer) drawContainer.classList.remove('ring-4', 'ring-rose-500/70', 'border-rose-500');
-      }, 900);
+    if (overlay) {
+      document.getElementById('recall-grade-score-num').textContent = '0';
+      document.getElementById('recall-grade-title').textContent = 'Chưa Có Nét Viết';
+      document.getElementById('recall-grade-feedback').textContent = 'Bạn chưa đặt bút viết vào ô vẽ. Hãy dùng chuột hoặc chạm tay vẽ chữ Hán rồi bấm Chấm điểm nhé!';
+      document.getElementById('recall-detail-cov').textContent = '0%';
+      document.getElementById('recall-detail-flick').textContent = 'Chưa có';
+      overlay.classList.remove('hidden');
     }
     return;
   }
 
-  // ĐẠT CHUẨN: Viết trọn vẹn cả từ Hán!
-  playSoundEffect('match');
-  if (st) st.innerHTML = `<span class="text-emerald-400 font-black text-sm">${evalResult.reason}</span>`;
-  if (drawContainer) {
-    drawContainer.classList.remove('ring-4', 'ring-rose-500/70', 'border-rose-500');
-    drawContainer.classList.add('ring-4', 'ring-emerald-500/70', 'border-emerald-500');
+  // Đánh giá thực chất nét vẽ
+  const evalResult = evaluateDrawnCharacter(hub.recall.canvas, word.hanzi);
+  lastGradedRecallResult = evalResult;
+
+  // Hiển thị Overlay Chấm Điểm Thư Pháp
+  if (overlay) {
+    const scoreNum = document.getElementById('recall-grade-score-num');
+    const titleEl = document.getElementById('recall-grade-title');
+    const feedbackEl = document.getElementById('recall-grade-feedback');
+    const circle = document.getElementById('recall-grade-circle');
+    const covEl = document.getElementById('recall-detail-cov');
+    const flickEl = document.getElementById('recall-detail-flick');
+
+    const score = evalResult.score;
+    scoreNum.textContent = score;
+    covEl.textContent = `${evalResult.coverage}%`;
+    flickEl.textContent = score >= 80 ? '100% Sắc nét' : (score >= 60 ? '85% Rất tốt' : '70% Đạt');
+
+    if (score >= 85) {
+      circle.className = 'w-16 h-16 rounded-full border-4 border-emerald-500/80 bg-emerald-950/60 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/30 mb-2';
+      scoreNum.className = 'text-2xl font-black text-emerald-400';
+      titleEl.textContent = '🏆 Xuất Sắc - Thư Pháp Chuẩn Mực';
+      titleEl.className = 'text-sm font-black text-emerald-300';
+      feedbackEl.textContent = 'Nét bút thanh thoát, dứt khoát! Nét hất và móc câu cực kỳ chuẩn mực, bạn đã làm chủ chữ này!';
+      playSoundEffect('match');
+    } else if (score >= 70) {
+      circle.className = 'w-16 h-16 rounded-full border-4 border-cyan-500/80 bg-cyan-950/60 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/20 mb-2';
+      scoreNum.className = 'text-2xl font-black text-cyan-400';
+      titleEl.textContent = '🌟 Rất Tốt - Nét Chữ Thanh Thoát';
+      titleEl.className = 'text-sm font-black text-cyan-300';
+      feedbackEl.textContent = 'Nét chữ vững vàng và cân đối. Bấm "Từ tiếp theo" để nhận điểm hoặc bấm "Viết lại" để rèn thêm nhé!';
+      playSoundEffect('match');
+    } else if (score >= 50) {
+      circle.className = 'w-16 h-16 rounded-full border-4 border-amber-500/80 bg-amber-950/60 flex flex-col items-center justify-center shadow-lg shadow-amber-500/30 mb-2';
+      scoreNum.className = 'text-2xl font-black text-amber-400';
+      titleEl.textContent = '👍 Đạt Yêu Cầu - Viết Đúng Dáng Chữ';
+      titleEl.className = 'text-sm font-black text-amber-300';
+      feedbackEl.textContent = 'Đã viết được dáng chữ. Chú ý kéo nét hất và nét móc dứt khoát hơn để nét chữ sắc sảo hơn nhé!';
+      playSoundEffect('match');
+    } else {
+      circle.className = 'w-16 h-16 rounded-full border-4 border-rose-500/80 bg-rose-950/60 flex flex-col items-center justify-center shadow-lg shadow-rose-500/30 mb-2';
+      scoreNum.className = 'text-2xl font-black text-rose-400';
+      titleEl.textContent = '✍️ Cần Luyện Thêm Dáng Chữ';
+      titleEl.className = 'text-sm font-black text-rose-300';
+      feedbackEl.textContent = 'Nét vẽ hơi chệch so với chữ mẫu. Bạn có thể bấm "Xem mẫu viết" rồi bấm "Viết lại" nhé!';
+      playSoundEffect('wrong');
+    }
+
+    overlay.classList.remove('hidden');
   }
 
-  const mode = 'hanzi_recall';
-  hub.gameStats[mode].score += 15;
-  hub.gameStats[mode].correct++;
-
-  // Đã viết xong tất cả chữ trong từ này
-  if (!hub.gameCompleted[mode].includes(word.id)) {
-    hub.gameCompleted[mode].push(word.id);
+  if (st) {
+    st.innerHTML = `<span class="${evalResult.score >= 50 ? 'text-emerald-400' : 'text-amber-400'} font-bold">${evalResult.reason}</span>`;
   }
-
-  // Loại bỏ từ này khỏi hàng đợi hanzi_recall
-  hub.gameQueues[mode] = hub.gameQueues[mode].filter(w => w.id !== word.id);
-  setWordMastered(word.id, true);
-
-  hub.recall.charIndex = 0;
-
-  setTimeout(() => {
-    loadCurrentQuestion();
-  }, 1100);
 }
 
 function skipRecallWord() {
@@ -2012,6 +2013,10 @@ window.animateRecallWord = animateRecallWord;
 window.animateRecallChar = animateRecallWord;
 window.submitRecallWord = submitRecallWord;
 window.skipRecallWord = skipRecallWord;
+window.setRecallNib = setRecallNib;
+window.closeRecallGradeOverlay = closeRecallGradeOverlay;
+window.retryRecallWord = retryRecallWord;
+window.advanceNextRecallWord = advanceNextRecallWord;
 window.selectRecallChar = function() {};
 window.resetCurrentModeQueue = resetCurrentModeQueue;
 window.getMasteredWords = getMasteredWords;
