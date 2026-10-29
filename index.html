@@ -144,7 +144,13 @@
        ========================================== -->
   <div class="max-w-[1440px] mx-auto px-4 py-3">
     <div class="p-2.5 rounded-2xl bg-slate-900/80 border border-slate-800/90 flex items-center gap-2.5 overflow-x-auto no-scrollbar shadow-lg">
-      <!-- 1. Bài khoá SGK -->
+      <!-- 1. Sách Bài Tập (SBT MỚI) -->
+      <button onclick="switchMainView('workbook')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-md shadow-emerald-500/20 ring-1 ring-emerald-400/40">
+        <span>📝</span>
+        <span>Sách Bài Tập (SBT 15 Bài)</span>
+      </button>
+
+      <!-- 2. Bài khoá SGK -->
       <button onclick="switchMainView('dialogue')" class="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 whitespace-nowrap transition-all shadow-md shadow-orange-500/20 ring-1 ring-amber-400/40">
         <svg class="w-4 h-4 text-yellow-200" fill="currentColor" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
         <span>Bài khoá SGK (课文)</span>
@@ -231,18 +237,24 @@
         </div>
       </div>
 
-      <!-- VIEW SWITCHER: TỪ VỰNG VS BÀI KHOÁ (课文) -->
+      <!-- VIEW SWITCHER: TỪ VỰNG VS BÀI KHOÁ (课文) VS SÁCH BÀI TẬP (SBT) -->
       <div class="p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800 flex items-center gap-1.5 shadow-lg">
-        <button id="view-tab-vocab" onclick="switchMainView('vocab')" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20">
+        <button id="view-tab-vocab" onclick="switchMainView('vocab')" class="flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20">
           <span>📚</span>
-          <span>Từ vựng Bài học</span>
+          <span>Từ vựng</span>
           <span id="vocab-view-count" class="px-2 py-0.5 rounded text-[10px] bg-white/20 text-white font-bold">13 từ</span>
         </button>
 
-        <button id="view-tab-dialogue" onclick="switchMainView('dialogue')" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800">
+        <button id="view-tab-dialogue" onclick="switchMainView('dialogue')" class="flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all text-slate-400 hover:text-white hover:bg-slate-800">
           <span class="text-amber-400">💬</span>
-          <span>Bài khoá & Hội thoại (课文)</span>
-          <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">3 Đoạn SGK</span>
+          <span>Bài khoá</span>
+          <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">3 Đoạn</span>
+        </button>
+
+        <button id="view-tab-workbook" onclick="switchMainView('workbook')" class="flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all text-slate-400 hover:text-white hover:bg-slate-800">
+          <span class="text-emerald-400">📝</span>
+          <span>Sách Bài Tập (SBT)</span>
+          <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">15 Bài</span>
         </button>
       </div>
 
@@ -375,6 +387,11 @@
       <!-- VIEW 2: BÀI KHOÁ & HỘI THOẠI SGK (课文) -->
       <div id="dialogue-view-container" class="space-y-4 hidden">
         <!-- Render động qua js/dialogue.js -->
+      </div>
+
+      <!-- VIEW 3: SÁCH BÀI TẬP & LUYỆN NÓI (学练手册) -->
+      <div id="workbook-view-container" class="space-y-4 hidden">
+        <!-- Render động qua js/workbook.js -->
       </div>
     </div>
 
@@ -1196,9 +1213,11 @@
   <script src="js/hanzi-practice.js"></script>
   <script src="js/voice-practice.js"></script>
   <script src="js/pinyin-academy.js"></script>
-  <script src="js/dialogue.js?v=3.2"></script>
-  <script src="js/memory-games.js?v=3.2"></script>
-  <script src="js/app.js?v=3.2"></script>
+  <script src="data/workbook-data.js?v=3.3"></script>
+  <script src="js/dialogue.js?v=3.3"></script>
+  <script src="js/memory-games.js?v=3.3"></script>
+  <script src="js/workbook.js?v=3.3"></script>
+  <script src="js/app.js?v=3.3"></script>
 
   <script>
     // Xử lý Modal LAN & QR Code

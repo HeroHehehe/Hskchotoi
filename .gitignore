@@ -9,3 +9,4 @@ allow_firewall.bat
 HSK*trunghoctiengtrung*/
 *.bak
 scratch/
+data/sbt_extracted/

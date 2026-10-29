@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof initDialogueModule === 'function') {
     initDialogueModule();
   }
+  if (typeof initWorkbookModule === 'function') {
+    initWorkbookModule();
+  }
 });
 
 /**
@@ -129,6 +132,10 @@ function switchLesson(lessonNo) {
   if (currentMainView === 'dialogue' && typeof renderDialogueView === 'function') {
     renderDialogueView(currentLessonId, 0);
   }
+  // Nếu đang ở tab Sách Bài Tập, cập nhật lại bài tập của bài học này
+  if (currentMainView === 'workbook' && typeof renderWorkbookView === 'function') {
+    renderWorkbookView(currentLessonId);
+  }
 
   // Render lại danh sách từ (nếu đang tìm kiếm trong bài thì lọc lại theo bài mới)
   if (typeof searchQuery !== 'undefined' && searchQuery && searchScope === 'current') {
@@ -149,36 +156,48 @@ function switchMainView(viewName) {
   currentMainView = viewName;
   const vocabTab = document.getElementById('view-tab-vocab');
   const dialogueTab = document.getElementById('view-tab-dialogue');
+  const workbookTab = document.getElementById('view-tab-workbook');
   const vocabContainer = document.getElementById('vocab-view-container');
   const dialogueContainer = document.getElementById('dialogue-view-container');
+  const workbookContainer = document.getElementById('workbook-view-container');
+
+  // Reset tất cả tab về trạng thái thường
+  const inactiveClass = "flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
+  if (vocabTab) vocabTab.className = inactiveClass;
+  if (dialogueTab) dialogueTab.className = inactiveClass;
+  if (workbookTab) workbookTab.className = inactiveClass;
+
+  // Ẩn tất cả container
+  if (vocabContainer) vocabContainer.classList.add('hidden');
+  if (dialogueContainer) dialogueContainer.classList.add('hidden');
+  if (workbookContainer) workbookContainer.classList.add('hidden');
+
+  // Dừng audio nếu đang phát
+  if (typeof stopDialogueAudio === 'function') stopDialogueAudio();
+  const wbAudio = document.getElementById('wb-audio-element');
+  if (wbAudio) wbAudio.pause();
 
   if (viewName === 'dialogue') {
-    if (vocabContainer) vocabContainer.classList.add('hidden');
     if (dialogueContainer) dialogueContainer.classList.remove('hidden');
-
-    if (vocabTab) {
-      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
-    }
     if (dialogueTab) {
-      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25";
+      dialogueTab.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25";
     }
-
     if (typeof renderDialogueView === 'function') {
       renderDialogueView(currentLessonId, 0);
     }
+  } else if (viewName === 'workbook') {
+    if (workbookContainer) workbookContainer.classList.remove('hidden');
+    if (workbookTab) {
+      workbookTab.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/25";
+    }
+    if (typeof renderWorkbookView === 'function') {
+      renderWorkbookView(currentLessonId);
+    }
   } else {
-    if (dialogueContainer) dialogueContainer.classList.add('hidden');
+    // Mặc định: Từ vựng
     if (vocabContainer) vocabContainer.classList.remove('hidden');
-
     if (vocabTab) {
-      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20";
-    }
-    if (dialogueTab) {
-      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
-    }
-
-    if (typeof stopDialogueAudio === 'function') {
-      stopDialogueAudio();
+      vocabTab.className = "flex-1 py-2.5 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20";
     }
   }
 }
