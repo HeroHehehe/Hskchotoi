@@ -949,10 +949,14 @@
         <!-- Khung Ô Vuông Mễ Tự Cách (米字格) Chính -->
         <div class="flex justify-center">
           <div class="relative w-[320px] h-[320px] rounded-2xl mizige-box shadow-2xl overflow-hidden flex items-center justify-center">
-            <!-- HanziWriter Container -->
-            <div id="hanzi-canvas" class="relative z-10 w-full h-full"></div>
+            <!-- HanziWriter Container (Nét mẫu & Nét mờ) -->
+            <div id="hanzi-canvas" class="relative z-10 w-full h-full pointer-events-none"></div>
+
+            <!-- Canvas Viết Thư Pháp Thực Thụ (Smooth Calligraphy Engine) -->
+            <canvas id="calligraphy-canvas" width="320" height="320" class="absolute inset-0 z-20 cursor-crosshair" style="touch-action: none;"></canvas>
+
             <!-- Lớp phủ số thứ tự nét & mũi tên định hướng -->
-            <div id="stroke-guides-overlay" class="absolute inset-0 z-20 pointer-events-none"></div>
+            <div id="stroke-guides-overlay" class="absolute inset-0 z-15 pointer-events-none"></div>
 
             <!-- BẢNG ĐÁNH GIÁ & CHẤM ĐIỂM THƯ PHÁP (OVERLAY) -->
             <div id="writing-grade-overlay" class="absolute inset-0 z-30 bg-slate-950/95 backdrop-blur-md rounded-2xl p-4 flex flex-col items-center justify-center text-center hidden animate-fadeIn">
@@ -1061,26 +1065,23 @@
         </div>
 
         <!-- Dãy nút điều khiển chính -->
-        <div class="flex items-center justify-center gap-2 flex-wrap pt-1">
-          <button id="btn-play-pause" onclick="toggleAnimate()" class="px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-lg transition-all flex items-center gap-1.5">
+        <div class="flex items-center justify-center gap-2.5 flex-wrap pt-1">
+          <!-- Nút Chấm điểm chữ viết (Mục tiêu chính) -->
+          <button id="btn-grade-writing" onclick="triggerWritingGrading()" class="px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white shadow-xl shadow-emerald-600/30 flex items-center gap-2 transition-all transform hover:scale-105 ring-2 ring-emerald-400/40">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>Chấm điểm ngay</span>
+          </button>
+
+          <!-- Nút Xem mẫu hoạt họa -->
+          <button id="btn-play-pause" onclick="toggleAnimate()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-lg transition-all flex items-center gap-1.5">
             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             Xem mẫu
           </button>
 
-          <button onclick="startQuizMode()" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition-all flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-            Viết
-          </button>
-
-          <!-- Nút Chấm điểm chữ viết -->
-          <button id="btn-grade-writing" onclick="triggerWritingGrading()" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-lg shadow-emerald-600/30 flex items-center gap-1.5 transition-all">
-            <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            <span>Chấm điểm</span>
-          </button>
-
-          <button onclick="resetWriting()" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-all flex items-center gap-1">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            Reset
+          <!-- Nút Xóa nét viết lại -->
+          <button onclick="clearCalligraphyCanvas()" class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition-all flex items-center gap-1.5" title="Xóa toàn bộ nét vừa viết để viết lại">
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            <span>Xóa nét</span>
           </button>
 
           <button onclick="printPracticeSheet()" class="px-3 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition-all flex items-center gap-1">

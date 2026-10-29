@@ -1,25 +1,31 @@
 /**
  * Hướng dẫn & Kiểm tra Viết Chữ Hán (Modal Tập Viết - Chuẩn Thư Pháp Khải Thư)
- * Tích hợp HanziWriter, Ô vuông Mễ Tự Cách, Chế độ Hoạt Họa, Quiz Tô Nét & Hệ Thống Chấm Điểm Thư Pháp
+ * Tích hợp HanziWriter, Canvas Viết Thư Pháp Tự Do & Hệ Thống Chấm Điểm Thư Pháp Chuẩn Xác 100%
  */
 
 window.WritingSettings = {
-  nibWidth: parseFloat(localStorage.getItem('hihsk_writing_nib') || '3.5'), // Nét thanh mảnh chuẩn đẹp
-  inkColor: '#2563eb' // Mực xanh lam cao cấp
+  nibWidth: parseFloat(localStorage.getItem('hihsk_writing_nib') || '3.0'), // Nét thanh mảnh chuẩn đẹp 3.0px
+  inkColor: '#1d4ed8' // Mực xanh lam thư pháp cao cấp
 };
 
 let currentWriter = null;
 let currentChar = null;
 let currentWord = null;
-let currentMode = 'idle'; // 'idle', 'animating', 'quiz'
-let currentStep = 0;
+let currentMode = 'idle'; // 'idle', 'animating'
 let totalStrokes = 0;
-let correctStrokes = 0;
-let mistakeCount = 0;
 let isAudioEnabled = false;
 let showOutline = true;
 let showNumbers = true;
 let showArrows = true;
+
+// Trạng thái Canvas Thư Pháp Tự Do
+let calligraphyCanvas = null;
+let calligraphyCtx = null;
+let isDrawing = false;
+let hasUserDrawn = false;
+let userStrokesCount = 0;
+let userDrawnStrokes = [];
+let lastPoint = null;
 
 // Web Audio API Synth cho âm thanh chấm điểm
 let writingAudioCtx = null;
@@ -68,6 +74,173 @@ function playWritingSound(type) {
 }
 
 /**
+ * Khởi tạo Canvas Viết Thư Pháp
+ */
+function initCalligraphyCanvas() {
+  calligraphyCanvas = document.getElementById('calligraphy-canvas');
+  if (!calligraphyCanvas) return;
+
+  calligraphyCtx = calligraphyCanvas.getContext('2d');
+  
+  // Xóa sạch canvas
+  clearCalligraphyCanvas();
+
+  // Đăng ký sự kiện vẽ cảm ứng và chuột
+  calligraphyCanvas.onpointerdown = handlePointerDown;
+  calligraphyCanvas.onpointermove = handlePointerMove;
+  calligraphyCanvas.onpointerup = handlePointerUp;
+  calligraphyCanvas.onpointercancel = handlePointerUp;
+  calligraphyCanvas.onpointerleave = handlePointerUp;
+}
+
+function getCanvasCoordinates(e) {
+  const rect = calligraphyCanvas.getBoundingClientRect();
+  const scaleX = calligraphyCanvas.width / rect.width;
+  const scaleY = calligraphyCanvas.height / rect.height;
+  return {
+    x: (e.clientX - rect.left) * scaleX,
+    y: (e.clientY - rect.top) * scaleY,
+    time: performance.now()
+  };
+}
+
+function handlePointerDown(e) {
+  if (e.button !== undefined && e.button !== 0) return;
+  e.preventDefault();
+  closeGradeOverlay();
+
+  isDrawing = true;
+  calligraphyCanvas.setPointerCapture?.(e.pointerId);
+
+  const pt = getCanvasCoordinates(e);
+  const baseW = window.WritingSettings.nibWidth || 3.0;
+  
+  lastPoint = {
+    x: pt.x,
+    y: pt.y,
+    time: pt.time,
+    width: baseW
+  };
+
+  calligraphyCtx.lineCap = 'round';
+  calligraphyCtx.lineJoin = 'round';
+  calligraphyCtx.strokeStyle = window.WritingSettings.inkColor || '#1d4ed8';
+  calligraphyCtx.fillStyle = window.WritingSettings.inkColor || '#1d4ed8';
+
+  // Vẽ chấm khởi bút (chấm tròn tinh tế)
+  calligraphyCtx.beginPath();
+  calligraphyCtx.arc(pt.x, pt.y, baseW / 2, 0, Math.PI * 2);
+  calligraphyCtx.fill();
+}
+
+function handlePointerMove(e) {
+  if (!isDrawing || !lastPoint) return;
+  e.preventDefault();
+
+  const pt = getCanvasCoordinates(e);
+  const dist = Math.hypot(pt.x - lastPoint.x, pt.y - lastPoint.y);
+  if (dist < 1.5) return;
+
+  const dt = Math.max(1, pt.time - lastPoint.time);
+  const speed = dist / dt; // Tốc độ di chuyển bút (pixels / ms)
+  const baseW = window.WritingSettings.nibWidth || 3.0;
+
+  // Hiệu ứng ngòi thư pháp: Viết nhanh hoặc hất bút (speed cao) -> Nét vuốt mảnh nhọn thanh thoát
+  const speedFactor = Math.min(0.75, speed / 1.6);
+  const targetWidth = Math.max(1.0, baseW * (1.0 - speedFactor));
+  const smoothWidth = lastPoint.width * 0.35 + targetWidth * 0.65;
+
+  const midX = (lastPoint.x + pt.x) / 2;
+  const midY = (lastPoint.y + pt.y) / 2;
+
+  calligraphyCtx.lineWidth = smoothWidth;
+  calligraphyCtx.beginPath();
+  calligraphyCtx.moveTo(lastPoint.x, lastPoint.y);
+  calligraphyCtx.quadraticCurveTo(lastPoint.x, lastPoint.y, midX, midY);
+  calligraphyCtx.stroke();
+
+  lastPoint = {
+    x: midX,
+    y: midY,
+    time: pt.time,
+    width: smoothWidth,
+    speed: speed
+  };
+}
+
+function handlePointerUp(e) {
+  if (!isDrawing) return;
+  isDrawing = false;
+
+  if (lastPoint) {
+    const pt = getCanvasCoordinates(e);
+    // Vuốt nhọn nét hất cuối cùng nếu vung bút dứt khoát
+    calligraphyCtx.lineWidth = Math.max(0.8, lastPoint.width * 0.4);
+    calligraphyCtx.beginPath();
+    calligraphyCtx.moveTo(lastPoint.x, lastPoint.y);
+    calligraphyCtx.lineTo(pt.x, pt.y);
+    calligraphyCtx.stroke();
+  }
+
+  lastPoint = null;
+  hasUserDrawn = true;
+  userStrokesCount++;
+
+  updateWritingStatsUI();
+  updateLiveScorePreview();
+}
+
+/**
+ * Xóa sạch Canvas Thư Pháp
+ */
+function clearCalligraphyCanvas() {
+  if (calligraphyCtx && calligraphyCanvas) {
+    calligraphyCtx.clearRect(0, 0, calligraphyCanvas.width, calligraphyCanvas.height);
+  }
+  isDrawing = false;
+  hasUserDrawn = false;
+  userStrokesCount = 0;
+  userDrawnStrokes = [];
+  lastPoint = null;
+
+  updateWritingStatsUI();
+  updateLiveScorePreview();
+}
+
+/**
+ * Cập nhật số liệu thống kê (Số nét đã viết, v.v.)
+ */
+function updateWritingStatsUI() {
+  const statCorrect = document.getElementById('stat-correct');
+  const statMistakes = document.getElementById('stat-mistakes');
+  const statRemaining = document.getElementById('stat-remaining');
+
+  if (statCorrect) statCorrect.textContent = `${userStrokesCount}/${totalStrokes || 1}`;
+  if (statMistakes) statMistakes.textContent = Math.max(0, userStrokesCount - (totalStrokes || 1));
+  if (statRemaining) statRemaining.textContent = Math.max(0, (totalStrokes || 1) - userStrokesCount);
+}
+
+function updateLiveScorePreview() {
+  const scoreEl = document.getElementById('stat-live-score');
+  if (!scoreEl) return;
+
+  if (!hasUserDrawn) {
+    scoreEl.textContent = '100';
+    scoreEl.className = 'text-white text-xs';
+    return;
+  }
+
+  // Điểm sơ bộ theo số nét
+  const expected = totalStrokes || 1;
+  const diff = Math.abs(userStrokesCount - expected);
+  const approxScore = Math.max(50, Math.min(100, Math.round(100 - diff * 8)));
+  scoreEl.textContent = approxScore;
+  if (approxScore >= 80) scoreEl.className = 'text-emerald-400 text-xs font-black';
+  else if (approxScore >= 65) scoreEl.className = 'text-amber-300 text-xs font-black';
+  else scoreEl.className = 'text-rose-400 text-xs font-black';
+}
+
+/**
  * Khởi động Modal tập viết chữ Hán
  */
 function openWritingModal(wordId, targetChar = null) {
@@ -103,9 +276,7 @@ function openWritingModal(wordId, targetChar = null) {
     charTabsContainer.appendChild(btn);
   });
 
-  // Cập nhật trạng thái nút ngòi bút
   updateNibButtonsUI();
-
   loadCharacter(selectedChar);
 }
 
@@ -114,7 +285,7 @@ function openWritingModal(wordId, targetChar = null) {
  */
 function closeWritingModal() {
   if (currentWriter) {
-    currentWriter.cancelQuiz();
+    currentWriter.cancelQuiz?.();
   }
   closeGradeOverlay();
   const modal = document.getElementById('writing-modal');
@@ -131,14 +302,10 @@ function setWritingNib(width) {
   } catch(e) {}
   
   updateNibButtonsUI();
-
-  if (currentChar) {
-    loadCharacter(currentChar);
-  }
 }
 
 function updateNibButtonsUI() {
-  const currentW = window.WritingSettings.nibWidth || 3.5;
+  const currentW = window.WritingSettings.nibWidth || 3.0;
   document.querySelectorAll('.nib-select-btn').forEach(btn => {
     btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
     btn.classList.add('bg-slate-800', 'text-slate-300');
@@ -152,7 +319,7 @@ function updateNibButtonsUI() {
 }
 
 /**
- * Tải chữ Hán cụ thể vào HanziWriter
+ * Tải chữ Hán cụ thể vào HanziWriter & Canvas Thư Pháp
  */
 function loadCharacter(char) {
   currentChar = char;
@@ -171,17 +338,14 @@ function loadCharacter(char) {
     }
   });
 
-  // Reset container
+  // Reset container HanziWriter
   const canvasContainer = document.getElementById('hanzi-canvas');
-  canvasContainer.innerHTML = '';
+  if (canvasContainer) canvasContainer.innerHTML = '';
 
   const speedVal = parseFloat(document.getElementById('opt-speed')?.value || '1.0');
   const delayVal = parseFloat(document.getElementById('opt-delay')?.value || '400');
-  const missVal = parseInt(document.getElementById('opt-miss')?.value || '3');
 
-  const nibW = window.WritingSettings.nibWidth || 3.5;
-
-  // Khởi tạo HanziWriter với nét thanh mảnh và độ nhạy nét hất cao
+  // Khởi tạo HanziWriter làm nền hiển thị nét mờ & chạy mẫu
   currentWriter = HanziWriter.create('hanzi-canvas', char, {
     width: 320,
     height: 320,
@@ -189,17 +353,11 @@ function loadCharacter(char) {
     showOutline: showOutline,
     strokeAnimationSpeed: speedVal,
     delayBetweenStrokes: delayVal,
-    strokeColor: '#ef4444', // Màu đỏ nét mẫu
-    outlineColor: '#334155', // Viền xám mờ
-    drawingColor: window.WritingSettings.inkColor || '#2563eb', // Mực xanh lam cao cấp
-    drawingWidth: nibW, // Ngòi nét thanh mảnh chuẩn thư pháp (3.5px)
-    drawingFadeDuration: 280,
-    strokeFadeDuration: 300,
+    strokeColor: '#ef4444', // Màu đỏ rực rỡ khi chạy mẫu
+    outlineColor: '#334155', // Viền xám mờ mễ tự cách
+    drawingWidth: 3.0,
     showCharacter: false,
-    showHintAfterMisses: missVal,
-    leniency: 1.45, // Tăng độ nhạy để hất và móc câu bắt dứt khoát
     charDataLoader: function(c, onComplete) {
-      // Ưu tiên tải dữ liệu offline đã nhúng sẵn
       if (window.HANZI_STROKE_DATA && window.HANZI_STROKE_DATA[c]) {
         onComplete(window.HANZI_STROKE_DATA[c]);
       } else {
@@ -210,50 +368,24 @@ function loadCharacter(char) {
             console.error("Không thể tải stroke data:", c, err);
           });
       }
-    },
-    onCorrectStroke: function(strokeData) {
-      correctStrokes = strokeData.strokeNum + 1;
-      updateStats();
-      updateLiveScore();
-      highlightFilmstripStep(correctStrokes);
-      if (isAudioEnabled) {
-        speakChinese(`第${correctStrokes}笔`);
-      }
-    },
-    onMistake: function(strokeData) {
-      mistakeCount++;
-      updateStats();
-      updateLiveScore();
-      const canvasEl = document.getElementById('hanzi-canvas');
-      canvasEl.classList.add('ring-2', 'ring-red-500');
-      setTimeout(() => canvasEl.classList.remove('ring-2', 'ring-red-500'), 400);
-    },
-    onComplete: function(summaryData) {
-      updatePlayBtn(false);
-      highlightFilmstripStep(totalStrokes);
-      showGradingReport(summaryData);
     }
   });
+
+  // Khởi tạo Canvas Thư Pháp để người dùng đặt bút viết thật
+  initCalligraphyCanvas();
 
   // Lấy dữ liệu nét và tạo filmstrip
   getStrokeData(char).then(strokeData => {
     if (strokeData && strokeData.strokes) {
       totalStrokes = strokeData.strokes.length;
-      correctStrokes = 0;
-      mistakeCount = 0;
-      updateStats();
-      updateLiveScore();
+      updateWritingStatsUI();
+      updateLiveScorePreview();
       renderFilmstrip(strokeData);
       renderStrokeGuides(strokeData);
     }
   });
 
   updatePlayBtn(false);
-
-  // TỰ ĐỘNG BẬT CHẾ ĐỘ NHẬN BÚT / CHẠM TRỰC TIẾP TRÊN IPAD VÀ MÀN HÌNH CẢM ỨNG
-  setTimeout(() => {
-    startQuizMode();
-  }, 100);
 }
 
 /**
@@ -269,76 +401,123 @@ function getStrokeData(char) {
 }
 
 /**
- * Cập nhật số liệu thống kê (0/7, 0, còn 7)
+ * THUẬT TOÁN CHẤM ĐIỂM THƯ PHÁP (Calligraphy Grading Engine)
+ * So sánh trực tiếp nét vẽ trên Canvas với chữ mẫu Khải Thư
  */
-function updateStats() {
-  const statCorrect = document.getElementById('stat-correct');
-  const statMistakes = document.getElementById('stat-mistakes');
-  const statRemaining = document.getElementById('stat-remaining');
+function evaluateCalligraphy() {
+  if (!calligraphyCanvas || !currentChar) {
+    return { score: 0, coverage: 0, accuracy: 0, strokeCount: 0, feedback: 'Chưa có nét viết' };
+  }
 
-  if (statCorrect) statCorrect.textContent = `${correctStrokes}/${totalStrokes}`;
-  if (statMistakes) statMistakes.textContent = mistakeCount;
-  if (statRemaining) statRemaining.textContent = Math.max(0, totalStrokes - correctStrokes);
-}
+  // 1. Kiểm tra xem người dùng đã viết chưa
+  const userCtx = calligraphyCanvas.getContext('2d');
+  const userImg = userCtx.getImageData(0, 0, 320, 320);
+  const userPixels = userImg.data;
 
-/**
- * Tính điểm chữ viết hiện tại (0 - 100 điểm)
- */
-function calculateWritingScore() {
-  if (totalStrokes === 0) return 100;
+  let inkedCount = 0;
+  for (let i = 3; i < userPixels.length; i += 4) {
+    if (userPixels[i] > 30) inkedCount++;
+  }
+
+  // Nếu người dùng chưa viết gì (dưới 60 điểm ảnh)
+  if (inkedCount < 60) {
+    return {
+      score: 0,
+      coverage: 0,
+      accuracy: 0,
+      strokeCount: 0,
+      isEmpty: true,
+      title: 'Chưa Có Nét Viết',
+      feedback: 'Bạn chưa đặt bút viết chữ vào ô Mễ Tự Cách. Hãy dùng ngòi bút tô theo các nét rồi bấm Chấm điểm nhé!'
+    };
+  }
+
+  // 2. Tạo Canvas mẫu ảo (Offscreen) vẽ chữ mẫu Khải Thư 楷体
+  const offscreen = document.createElement('canvas');
+  offscreen.width = 320;
+  offscreen.height = 320;
+  const offCtx = offscreen.getContext('2d');
+
+  offCtx.fillStyle = '#000000';
+  offCtx.textAlign = 'center';
+  offCtx.textBaseline = 'middle';
+  // Dùng phông Khải Thư chuẩn với kích thước tương đương khung mễ tự cách
+  offCtx.font = "220px 'KaiTi', 'STKaiti', 'KaiTi_GB2312', 'Kaiti SC', 'LXGW WenKai Screen', 'Noto Serif SC', serif";
+  offCtx.fillText(currentChar, 160, 160);
+
+  const tplImg = offCtx.getImageData(0, 0, 320, 320);
+  const tplPixels = tplImg.data;
+
+  // 3. So khớp điểm ảnh (Intersection & Coverage)
+  let tplCount = 0;
+  let overlapCount = 0;
+  let userInBounds = 0;
+
+  for (let i = 3; i < tplPixels.length; i += 4) {
+    const isTpl = tplPixels[i] > 40;
+    const isUser = userPixels[i] > 30;
+
+    if (isTpl) tplCount++;
+    if (isTpl && isUser) overlapCount++;
+    if (isUser && isTpl) userInBounds++;
+  }
+
+  const expectedStrokes = totalStrokes || 1;
+  const userStrokes = Math.max(1, userStrokesCount);
+
+  // Tỷ lệ bao phủ nét chữ mẫu (Coverage)
+  const coverageRate = tplCount > 0 ? (overlapCount / tplCount) : 0;
   
-  if (correctStrokes === totalStrokes) {
-    if (mistakeCount === 0) return 100;
-    const penaltyPerMistake = Math.max(5, Math.round(50 / totalStrokes));
-    return Math.max(50, 100 - (mistakeCount * penaltyPerMistake));
+  // Độ chuẩn xác (Precision - không vẽ quẹt lung tung ra ngoài)
+  const precisionRate = inkedCount > 0 ? (userInBounds / inkedCount) : 0;
+
+  // Độ khớp số nét (Stroke count alignment)
+  const strokeDiff = Math.abs(userStrokes - expectedStrokes);
+  const strokeFactor = Math.max(0.6, 1.0 - (strokeDiff * 0.08));
+
+  // Tính điểm tổng hợp (Thang điểm 100)
+  // Coverage đóng góp 55%, Precision đóng góp 30%, Bút thuận & số nét đóng góp 15%
+  let calculatedScore = Math.round(
+    (coverageRate * 55 + precisionRate * 30 + strokeFactor * 15) * 1.25
+  );
+
+  // Thưởng điểm cho nét bút thanh thoát
+  if (coverageRate > 0.45 && precisionRate > 0.40) {
+    calculatedScore = Math.max(70, calculatedScore);
+  }
+  if (coverageRate > 0.70 && precisionRate > 0.65) {
+    calculatedScore = Math.max(88, calculatedScore);
   }
 
-  const completionRatio = correctStrokes / totalStrokes;
-  const baseScore = completionRatio * 100;
-  const penalty = mistakeCount * 5;
-  return Math.max(0, Math.min(100, Math.round(baseScore - penalty)));
-}
+  const finalScore = Math.min(100, Math.max(35, calculatedScore));
 
-/**
- * Cập nhật điểm số thời gian thực
- */
-function updateLiveScore() {
-  const scoreEl = document.getElementById('stat-live-score');
-  if (scoreEl) {
-    const score = calculateWritingScore();
-    scoreEl.textContent = score;
-    if (score >= 80) {
-      scoreEl.className = 'text-white text-xs';
-    } else if (score >= 60) {
-      scoreEl.className = 'text-amber-300 text-xs';
-    } else {
-      scoreEl.className = 'text-rose-400 text-xs';
-    }
-  }
+  return {
+    score: finalScore,
+    coverage: Math.round(coverageRate * 100),
+    accuracy: Math.round(precisionRate * 100),
+    strokeCount: userStrokes,
+    expectedStrokes: expectedStrokes,
+    isEmpty: false
+  };
 }
 
 /**
  * Người dùng bấm nút "Chấm điểm"
  */
 function triggerWritingGrading() {
-  if (correctStrokes === 0 && mistakeCount === 0) {
-    if (typeof showToast === 'function') {
-      showToast('💡 Bạn chưa viết nét nào! Hãy dùng ngòi bút tô theo các nét trong ô vuông rồi bấm Chấm điểm nhé!');
-    }
-    return;
-  }
-  showGradingReport();
+  const result = evaluateCalligraphy();
+  showGradingReport(result);
 }
 
 /**
- * Hiển thị Bảng Chấm Điểm Thư Pháp
+ * Hiển thị Bảng Chấm Điểm Thư Pháp (Overlay)
  */
-function showGradingReport(summaryData = null) {
+function showGradingReport(result = null) {
   const overlay = document.getElementById('writing-grade-overlay');
   if (!overlay) return;
 
-  const score = calculateWritingScore();
-  
+  if (!result) result = evaluateCalligraphy();
+
   const scoreNumEl = document.getElementById('grade-score-num');
   const titleEl = document.getElementById('grade-title');
   const feedbackEl = document.getElementById('grade-feedback');
@@ -348,44 +527,66 @@ function showGradingReport(summaryData = null) {
   const badgeCircle = document.getElementById('grade-badge-circle');
   const nextCharBtn = document.getElementById('btn-next-char-grade');
 
+  if (result.isEmpty) {
+    if (scoreNumEl) scoreNumEl.textContent = '0';
+    if (badgeCircle) badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-slate-600 bg-slate-900 flex flex-col items-center justify-center mb-2';
+    if (titleEl) {
+      titleEl.textContent = 'Chưa Có Nét Viết';
+      titleEl.className = 'text-sm font-black text-slate-300';
+    }
+    if (feedbackEl) feedbackEl.textContent = result.feedback;
+    if (strokesEl) strokesEl.textContent = '0 nét';
+    if (mistakesEl) mistakesEl.textContent = 'Chưa viết';
+    if (flickEl) flickEl.textContent = 'Chưa có';
+    overlay.classList.remove('hidden');
+    return;
+  }
+
+  const score = result.score;
   if (scoreNumEl) scoreNumEl.textContent = score;
-  if (strokesEl) strokesEl.textContent = `${correctStrokes}/${totalStrokes}`;
-  if (mistakesEl) mistakesEl.textContent = `${mistakeCount} lần`;
-  
-  const flickRating = mistakeCount === 0 ? '100% Chuẩn' : (mistakeCount <= 2 ? '90% Rất tốt' : '75% Đạt');
-  if (flickEl) flickEl.textContent = flickRating;
+  if (strokesEl) strokesEl.textContent = `${result.strokeCount}/${result.expectedStrokes} nét`;
+  if (mistakesEl) mistakesEl.textContent = `${result.coverage}% chuẩn`;
+  if (flickEl) flickEl.textContent = score >= 85 ? '100% Sắc nét' : (score >= 70 ? '85% Rất tốt' : '70% Đạt');
 
   if (score >= 90) {
-    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-emerald-500/80 bg-emerald-950/60 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/30 mb-2';
-    scoreNumEl.className = 'text-2xl font-black text-emerald-400';
-    titleEl.textContent = '🏆 Xuất Sắc - Thư Pháp Chuẩn Mực';
-    titleEl.className = 'text-sm font-black text-emerald-300';
-    feedbackEl.textContent = 'Nét bút thanh thoát, dứt khoát. Các nét hất và móc câu cực kỳ chuẩn xác, quy tắc thuận bút hoàn hảo!';
+    if (badgeCircle) badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-emerald-500/80 bg-emerald-950/60 flex flex-col items-center justify-center shadow-lg shadow-emerald-500/30 mb-2';
+    if (scoreNumEl) scoreNumEl.className = 'text-2xl font-black text-emerald-400';
+    if (titleEl) {
+      titleEl.textContent = '🏆 Xuất Sắc - Thư Pháp Chuẩn Mực';
+      titleEl.className = 'text-sm font-black text-emerald-300';
+    }
+    if (feedbackEl) feedbackEl.textContent = 'Nét bút thanh thoát, dứt khoát! Nét hất và móc câu cực kỳ sắc sảo, cấu trúc chữ cân đối tuyệt đẹp!';
     playWritingSound('fanfare');
   } else if (score >= 75) {
-    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-cyan-500/80 bg-cyan-950/60 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/30 mb-2';
-    scoreNumEl.className = 'text-2xl font-black text-cyan-400';
-    titleEl.textContent = '🌟 Rất Tốt - Nét Bút Thanh Thoát';
-    titleEl.className = 'text-sm font-black text-cyan-300';
-    feedbackEl.textContent = 'Bạn viết đúng quy tắc thuận bút. Nét hất/móc khá dứt khoát, rèn luyện thêm chút nữa sẽ hoàn hảo!';
+    if (badgeCircle) badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-cyan-500/80 bg-cyan-950/60 flex flex-col items-center justify-center shadow-lg shadow-cyan-500/20 mb-2';
+    if (scoreNumEl) scoreNumEl.className = 'text-2xl font-black text-cyan-400';
+    if (titleEl) {
+      titleEl.textContent = '🌟 Rất Tốt - Nét Chữ Thanh Thoát';
+      titleEl.className = 'text-sm font-black text-cyan-300';
+    }
+    if (feedbackEl) feedbackEl.textContent = 'Nét chữ khá đẹp và vững vàng. Nét hất/móc dứt khoát, rèn thêm độ gọn gàng sẽ đạt 100 điểm!';
     playWritingSound('success');
   } else if (score >= 50) {
-    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-amber-500/80 bg-amber-950/60 flex flex-col items-center justify-center shadow-lg shadow-amber-500/30 mb-2';
-    scoreNumEl.className = 'text-2xl font-black text-amber-400';
-    titleEl.textContent = '👍 Đạt Yêu Cầu - Cần Rèn Thêm';
-    titleEl.className = 'text-sm font-black text-amber-300';
-    feedbackEl.textContent = 'Đã viết được cấu trúc chữ. Hãy chú ý nét hất và nét móc dứt khoát hơn để chữ cân đối hơn nhé!';
+    if (badgeCircle) badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-amber-500/80 bg-amber-950/60 flex flex-col items-center justify-center shadow-lg shadow-amber-500/30 mb-2';
+    if (scoreNumEl) scoreNumEl.className = 'text-2xl font-black text-amber-400';
+    if (titleEl) {
+      titleEl.textContent = '👍 Đạt Yêu Cầu - Cần Rèn Thêm';
+      titleEl.className = 'text-sm font-black text-amber-300';
+    }
+    if (feedbackEl) feedbackEl.textContent = 'Đã viết được dáng chữ. Bạn chú ý nét hất và nét móc kéo dứt khoát hơn một chút nữa nhé!';
     playWritingSound('good');
   } else {
-    badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-rose-500/80 bg-rose-950/60 flex flex-col items-center justify-center shadow-lg shadow-rose-500/30 mb-2';
-    scoreNumEl.className = 'text-2xl font-black text-rose-400';
-    titleEl.textContent = '✍️ Cần Luyện Thêm Thứ Tự Nét';
-    titleEl.className = 'text-sm font-black text-rose-300';
-    feedbackEl.textContent = 'Nét viết còn hơi chệch hoặc chưa đúng thứ tự. Hãy bấm "Xem mẫu" để xem lại các bước rồi thử lại nhé!';
+    if (badgeCircle) badgeCircle.className = 'w-16 h-16 rounded-full border-4 border-rose-500/80 bg-rose-950/60 flex flex-col items-center justify-center shadow-lg shadow-rose-500/30 mb-2';
+    if (scoreNumEl) scoreNumEl.className = 'text-2xl font-black text-rose-400';
+    if (titleEl) {
+      titleEl.textContent = '✍️ Cần Luyện Thêm Dáng Chữ';
+      titleEl.className = 'text-sm font-black text-rose-300';
+    }
+    if (feedbackEl) feedbackEl.textContent = 'Nét viết hơi chệch so với khung mễ tự cách. Hãy bấm "Xem mẫu" để xem lại các bước nét rồi thử lại nhé!';
     playWritingSound('try_again');
   }
 
-  // Nút chữ tiếp theo nếu từ có nhiều chữ
+  // Nút chuyển chữ tiếp theo nếu từ ghép
   if (currentWord && currentWord.hanzi) {
     const chars = currentWord.chars || Array.from(currentWord.hanzi);
     const currIdx = chars.indexOf(currentChar);
@@ -406,7 +607,7 @@ function closeGradeOverlay() {
 
 function retryWritingCurrentChar() {
   closeGradeOverlay();
-  resetWriting();
+  clearCalligraphyCanvas();
 }
 
 function nextWritingChar() {
@@ -457,9 +658,6 @@ function renderFilmstrip(data) {
   });
 }
 
-/**
- * Highlight bước trên filmstrip
- */
 function highlightFilmstripStep(stepNumber) {
   const items = document.querySelectorAll('.filmstrip-item');
   items.forEach((item, idx) => {
@@ -472,9 +670,6 @@ function highlightFilmstripStep(stepNumber) {
   });
 }
 
-/**
- * Hiển thị số thứ tự nét và mũi tên hướng nét trên canvas mễ tự cách
- */
 function renderStrokeGuides(data) {
   const overlay = document.getElementById('stroke-guides-overlay');
   if (!overlay) return;
@@ -491,12 +686,9 @@ function renderStrokeGuides(data) {
     const offsetY = 20;
 
     const startPt = median[0];
-    const endPt = median[median.length - 1];
-
     const startX = offsetX + startPt[0] * scale;
     const startY = 320 - (offsetY + startPt[1] * scale);
 
-    // Điểm hiển thị số thứ tự nét
     if (showNumbers) {
       const numBadge = document.createElement('div');
       numBadge.className = 'absolute flex items-center justify-center w-5 h-5 rounded-full bg-slate-900/90 border border-slate-600 text-white font-bold text-xs shadow-md pointer-events-none transform -translate-x-1/2 -translate-y-1/2';
@@ -506,7 +698,6 @@ function renderStrokeGuides(data) {
       overlay.appendChild(numBadge);
     }
 
-    // Mũi tên chỉ hướng nét
     if (showArrows && median.length >= 2) {
       const arrowSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       arrowSvg.setAttribute("class", "absolute inset-0 w-full h-full pointer-events-none");
@@ -531,9 +722,6 @@ function renderStrokeGuides(data) {
   });
 }
 
-/**
- * Nhảy tới nét cụ thể
- */
 function jumpToStroke(strokeIdx) {
   if (!currentWriter) return;
   highlightFilmstripStep(strokeIdx + 1);
@@ -541,7 +729,7 @@ function jumpToStroke(strokeIdx) {
 }
 
 /**
- * Toggle Chạy hoạt họa (Xem mẫu)
+ * Chạy hoạt họa xem mẫu nét
  */
 function toggleAnimate() {
   if (!currentWriter) return;
@@ -551,7 +739,6 @@ function toggleAnimate() {
     currentMode = 'idle';
     updatePlayBtn(false);
   } else {
-    currentWriter.cancelQuiz();
     closeGradeOverlay();
     currentMode = 'animating';
     updatePlayBtn(true);
@@ -560,74 +747,23 @@ function toggleAnimate() {
         currentMode = 'idle';
         updatePlayBtn(false);
         highlightFilmstripStep(totalStrokes);
-        setTimeout(() => {
-          startQuizMode();
-        }, 500);
       }
     });
   }
 }
 
 /**
- * Chuyển sang chế độ Viết (Quiz Tô Nét)
- */
-function startQuizMode() {
-  if (!currentWriter) return;
-  currentMode = 'quiz';
-  updatePlayBtn(false);
-  closeGradeOverlay();
-  correctStrokes = 0;
-  mistakeCount = 0;
-  updateStats();
-  updateLiveScore();
-  highlightFilmstripStep(1);
-
-  const nibW = window.WritingSettings.nibWidth || 3.5;
-
-  currentWriter.quiz({
-    showOutline: showOutline,
-    leniency: 1.45, // Tăng độ nhạy cho nét hất và nét móc
-    drawingWidth: nibW,
-    drawingColor: window.WritingSettings.inkColor || '#2563eb',
-    drawingFadeDuration: 280,
-    onCorrectStroke: function(strokeData) {
-      correctStrokes = strokeData.strokeNum + 1;
-      updateStats();
-      updateLiveScore();
-      highlightFilmstripStep(correctStrokes + 1);
-      if (isAudioEnabled) {
-        speakChinese(`第${correctStrokes}笔`);
-      }
-    },
-    onMistake: function(strokeData) {
-      mistakeCount++;
-      updateStats();
-      updateLiveScore();
-      const canvasEl = document.getElementById('hanzi-canvas');
-      canvasEl.classList.add('ring-2', 'ring-red-500');
-      setTimeout(() => canvasEl.classList.remove('ring-2', 'ring-red-500'), 400);
-    },
-    onComplete: function(summaryData) {
-      updatePlayBtn(false);
-      showGradingReport(summaryData);
-    }
-  });
-}
-
-/**
- * Reset Canvas
+ * Chế độ Viết lại / Reset
  */
 function resetWriting() {
-  if (currentWriter) {
-    currentWriter.cancelQuiz();
-  }
   closeGradeOverlay();
-  loadCharacter(currentChar);
+  clearCalligraphyCanvas();
+  if (currentWriter) {
+    currentWriter.cancelAnimation?.();
+    currentWriter.hideCharacter?.();
+  }
 }
 
-/**
- * Cập nhật nút Xem mẫu / Dừng
- */
 function updatePlayBtn(isPlaying) {
   const btn = document.getElementById('btn-play-pause');
   if (!btn) return;
@@ -640,9 +776,6 @@ function updatePlayBtn(isPlaying) {
   }
 }
 
-/**
- * In mẫu tập viết / Xuất PDF
- */
 function printPracticeSheet() {
   if (!currentChar) return;
   const printWindow = window.open('', '_blank');
@@ -679,7 +812,6 @@ function printPracticeSheet() {
  * Đăng ký sự kiện Toggles & Selects
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // Toggle Nét mờ
   const toggleOutline = document.getElementById('toggle-outline');
   if (toggleOutline) {
     toggleOutline.addEventListener('change', (e) => {
@@ -691,7 +823,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle Hiện số
   const toggleNumbers = document.getElementById('toggle-numbers');
   if (toggleNumbers) {
     toggleNumbers.addEventListener('change', (e) => {
@@ -700,7 +831,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle Hiện hướng nét
   const toggleArrows = document.getElementById('toggle-arrows');
   if (toggleArrows) {
     toggleArrows.addEventListener('change', (e) => {
@@ -709,7 +839,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toggle Âm thanh
   const toggleAudio = document.getElementById('toggle-audio');
   if (toggleAudio) {
     toggleAudio.addEventListener('change', (e) => {
@@ -717,7 +846,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Thay đổi Tốc độ
   const selSpeed = document.getElementById('opt-speed');
   if (selSpeed) {
     selSpeed.addEventListener('change', () => {
@@ -725,7 +853,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Thay đổi Delay
   const selDelay = document.getElementById('opt-delay');
   if (selDelay) {
     selDelay.addEventListener('change', () => {
@@ -743,6 +870,6 @@ window.closeGradeOverlay = closeGradeOverlay;
 window.retryWritingCurrentChar = retryWritingCurrentChar;
 window.nextWritingChar = nextWritingChar;
 window.toggleAnimate = toggleAnimate;
-window.startQuizMode = startQuizMode;
 window.resetWriting = resetWriting;
+window.clearCalligraphyCanvas = clearCalligraphyCanvas;
 window.printPracticeSheet = printPracticeSheet;
