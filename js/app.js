@@ -4,7 +4,6 @@
  */
 
 let currentLessonId = 1;
-let currentMainView = 'vocab'; // 'vocab' | 'dialogue'
 let learnedWords = new Set();
 let favoriteWords = new Set();
 let isPlayingAll = false;
@@ -15,12 +14,9 @@ let playAllTimeout = null;
 document.addEventListener('DOMContentLoaded', () => {
   loadSavedState();
   initLessonDropdown();
-  switchLesson(currentLessonId || 1);
+  switchLesson(1);
   initSearch();
   initVoiceVoices();
-  if (typeof initDialogueModule === 'function') {
-    initDialogueModule();
-  }
 });
 
 /**
@@ -115,64 +111,23 @@ function switchLesson(lessonNo) {
   if (sidebarTitle) sidebarTitle.textContent = `Bài ${currentLessonId}: ${lessonInfo.title}`;
   if (sidebarDesc) sidebarDesc.textContent = lessonInfo.title_vi || lessonInfo.desc;
 
-  // Render lại danh sách từ của bài này
-  const words = getCurrentLessonWords();
-  renderVocabList(words);
-  updateSidebarProgress();
-
-  // Cập nhật số từ hiển thị ở nút tab Từ vựng
-  const vocabCountBadge = document.getElementById('vocab-view-count');
-  if (vocabCountBadge) vocabCountBadge.textContent = `${words.length} từ`;
-
-  // Nếu đang ở tab Bài khoá, cập nhật lại bài khoá của bài học này
-  if (currentMainView === 'dialogue' && typeof renderDialogueView === 'function') {
-    renderDialogueView(currentLessonId, 0);
+  // Cập nhật nhãn phạm vi tìm kiếm
+  const scopeCurrentLabel = document.getElementById('scope-current-label');
+  if (scopeCurrentLabel) {
+    scopeCurrentLabel.textContent = `Trong Bài ${currentLessonId}`;
   }
+
+  // Render lại danh sách từ (nếu đang tìm kiếm trong bài thì lọc lại theo bài mới)
+  if (typeof searchQuery !== 'undefined' && searchQuery && searchScope === 'current') {
+    executeSearch();
+  } else {
+    const words = getCurrentLessonWords();
+    renderVocabList(words, searchScope === 'all');
+  }
+  updateSidebarProgress();
 
   showToast(`📖 Đã chuyển sang Bài ${currentLessonId}: ${lessonInfo.title_vi || lessonInfo.title}`);
 }
-
-/**
- * Chuyển đổi giữa chế độ xem Từ vựng và Bài khoá (课文)
- */
-function switchMainView(viewName) {
-  currentMainView = viewName;
-  const vocabTab = document.getElementById('view-tab-vocab');
-  const dialogueTab = document.getElementById('view-tab-dialogue');
-  const vocabContainer = document.getElementById('vocab-view-container');
-  const dialogueContainer = document.getElementById('dialogue-view-container');
-
-  if (viewName === 'dialogue') {
-    if (vocabContainer) vocabContainer.classList.add('hidden');
-    if (dialogueContainer) dialogueContainer.classList.remove('hidden');
-
-    if (vocabTab) {
-      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
-    }
-    if (dialogueTab) {
-      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25";
-    }
-
-    if (typeof renderDialogueView === 'function') {
-      renderDialogueView(currentLessonId, 0);
-    }
-  } else {
-    if (dialogueContainer) dialogueContainer.classList.add('hidden');
-    if (vocabContainer) vocabContainer.classList.remove('hidden');
-
-    if (vocabTab) {
-      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20";
-    }
-    if (dialogueTab) {
-      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
-    }
-
-    if (typeof stopDialogueAudio === 'function') {
-      stopDialogueAudio();
-    }
-  }
-}
-window.switchMainView = switchMainView;
 
 function prevLesson() {
   if (currentLessonId > 1) {
@@ -241,77 +196,82 @@ function speakChinese(text, rate = 1.0, gender = 'female') {
 /**
  * Render toàn bộ danh sách thẻ từ vựng (Chuẩn giao diện Ảnh 1)
  */
-function renderVocabList(filteredList = null) {
+function renderVocabList(filteredList = null, isGlobalSearch = false) {
   const container = document.getElementById('vocab-card-list');
   const countBadge = document.getElementById('vocab-total-badge');
   if (!container) return;
 
-  const list = filteredList || getCurrentLessonWords();
-  const properNounsTotal = list.filter(item => item.is_proper_noun || item.type === 'DANH TỪ RIÊNG').length;
-  if (countBadge) {
-    if (properNounsTotal > 0) {
-      countBadge.textContent = `${list.length - properNounsTotal} từ mới + ${properNounsTotal} danh từ riêng`;
-    } else {
-      countBadge.textContent = `${list.length} từ`;
-    }
-  }
+  const list = filteredList !== null ? filteredList : (searchScope === 'all' ? (window.VOCAB_DATABASE || []) : getCurrentLessonWords());
+  if (countBadge) countBadge.textContent = `${list.length} từ`;
 
   container.innerHTML = '';
 
   if (list.length === 0) {
+    const isSearching = typeof searchQuery !== 'undefined' && !!searchQuery;
     container.innerHTML = `
-      <div class="py-16 text-center text-slate-500 bg-slate-900/50 rounded-2xl border border-slate-800">
-        <svg class="w-12 h-12 mx-auto mb-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <p class="text-base font-medium">Không tìm thấy từ vựng phù hợp trong bài học này.</p>
+      <div class="py-14 px-6 text-center text-slate-400 bg-slate-900/60 rounded-2xl border border-slate-800 shadow-xl">
+        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-slate-800/80 border border-slate-700 flex items-center justify-center text-3xl shadow-inner">
+          🔍
+        </div>
+        <h3 class="text-lg font-bold text-white mb-1">
+          ${isSearching ? `Không tìm thấy từ vựng nào khớp với "${escapeHtml(searchQuery)}"` : 'Không có từ vựng nào phù hợp'}
+        </h3>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mb-5 leading-relaxed">
+          ${
+            searchScope === 'current'
+              ? 'Từ khóa có thể nằm ở các bài học khác trong giáo trình. Bạn có thể mở rộng tra cứu trong toàn bộ 30 bài học.'
+              : 'Hãy thử tra cứu bằng chữ Hán, Pinyin không dấu (ví dụ: ni, hao, xue) hoặc tiếng Việt không dấu (chao, hoc, an).'
+          }
+        </p>
+        <div class="flex items-center justify-center gap-3 flex-wrap">
+          ${
+            searchScope === 'current'
+              ? `<button onclick="setSearchScope('all')" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition-all flex items-center gap-1.5">
+                   <span>🌐</span> Tra trong Tất cả 30 bài
+                 </button>`
+              : ''
+          }
+          ${
+            isSearching
+              ? `<button onclick="clearVocabSearch()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all">
+                   ✕ Xóa từ khóa
+                 </button>`
+              : ''
+          }
+        </div>
       </div>
     `;
     return;
   }
 
-  let wordIndex = 0;
-  let properNounIndex = 0;
-
   list.forEach((item, index) => {
-    const isProper = !!item.is_proper_noun || item.type === 'DANH TỪ RIÊNG';
-    if (isProper) {
-      properNounIndex++;
-      // Chèn tiêu đề phân mục riêng cho Danh từ riêng nếu là từ đầu tiên của nhóm
-      if (properNounIndex === 1) {
-        const divider = document.createElement('div');
-        divider.className = "pt-8 pb-3 border-t-2 border-dashed border-amber-500/40 flex items-center justify-between";
-        divider.innerHTML = `
-          <div class="flex items-center gap-2.5">
-            <span class="w-3.5 h-3.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 shadow-md shadow-amber-500/50"></span>
-            <h3 class="text-xl font-extrabold text-amber-300 tracking-wide flex items-center gap-2 chinese-font">
-              专有名词 · DANH TỪ RIÊNG
-            </h3>
-          </div>
-          <span class="text-xs px-3 py-1 rounded-full bg-amber-950/80 text-amber-300 border border-amber-700/60 font-bold shadow-sm">
-            Tên riêng, quốc gia, địa danh trong sách
-          </span>
-        `;
-        container.appendChild(divider);
-      }
-    } else {
-      wordIndex++;
-    }
-
-    const badgeNumber = isProper ? properNounIndex : wordIndex;
-    const badgeClass = isProper 
-      ? 'bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-amber-500/30'
-      : 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-red-500/30';
-    const badgeLabel = isProper
-      ? `<span class="text-[10px] mr-0.5 opacity-90 font-mono">专</span>${badgeNumber}`
-      : `${badgeNumber}`;
-
     const isLearned = learnedWords.has(item.id);
     const isFav = favoriteWords.has(item.id);
-    const isMastered = (typeof window.getMasteredWords === 'function') && window.getMasteredWords().includes(item.id);
+    const isOtherLesson = item.lesson_id !== currentLessonId;
+
+    const lessonInfo = window.HSK_LESSONS ? window.HSK_LESSONS.find(l => l.lesson_no === item.lesson_id) : null;
+    const lessonTitleVi = lessonInfo ? (lessonInfo.title_vi || lessonInfo.title) : `Bài ${item.lesson_id}`;
+
+    let lessonBadgeHeader = '';
+    if (isGlobalSearch || isOtherLesson) {
+      lessonBadgeHeader = `
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-800/80 bg-blue-950/20 -mx-6 -mt-6 p-4 rounded-t-2xl">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-blue-950/80 border border-blue-700/60 text-blue-300 font-bold text-xs shadow-sm">
+            <span>📚</span>
+            <span>Bài ${item.lesson_id}: ${lessonInfo ? lessonInfo.title : ''} (${lessonTitleVi})</span>
+          </span>
+          <button onclick="jumpToLesson(${item.lesson_id})" class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-800/90 hover:bg-blue-600 text-slate-300 hover:text-white border border-slate-700 hover:border-blue-500 transition-all flex items-center gap-1 shadow-sm">
+            <span>Học bài này</span>
+            <span>➔</span>
+          </button>
+        </div>
+      `;
+    }
 
     const card = document.createElement('div');
     card.id = `vocab-card-${item.id}`;
     card.className = `p-6 rounded-2xl bg-slate-900/90 border border-slate-800/90 shadow-xl transition-all duration-300 relative hover:border-slate-700/80 hover:bg-slate-900 ${
-      isLearned ? 'border-emerald-500/40' : (isProper ? 'border-amber-500/20' : '')
+      isLearned ? 'border-emerald-500/40' : ''
     }`;
 
     // Render Ruby HTML cho câu ví dụ
@@ -334,13 +294,14 @@ function renderVocabList(filteredList = null) {
     }
 
     card.innerHTML = `
+      ${lessonBadgeHeader}
       <!-- Hàng trên: Số thứ tự, Ảnh minh họa, Chữ Hán, Nút hành động -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
         <!-- Bên trái: Badge số, Hình ảnh, Chữ Hán lớn & Pinyin -->
         <div class="flex items-center gap-4">
-          <!-- Số thứ tự đỏ/vàng cam bo góc chuẩn sách -->
-          <div class="w-10 h-10 rounded-xl ${badgeClass} flex items-center justify-center font-extrabold text-lg shadow-md flex-shrink-0" title="${isProper ? 'Danh từ riêng số ' + badgeNumber : 'Từ mới số ' + badgeNumber}">
-            ${badgeLabel}
+          <!-- Số thứ tự đỏ bo góc (Ảnh 1) -->
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center font-extrabold text-white text-lg shadow-md flex-shrink-0">
+            ${index + 1}
           </div>
 
           <!-- Ảnh minh họa từ vựng -->
@@ -352,11 +313,6 @@ function renderVocabList(filteredList = null) {
           <div>
             <h3 class="text-3xl font-extrabold text-white tracking-wide chinese-font flex items-center gap-2">
               ${item.hanzi}
-              ${isMastered ? `
-                <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold border border-emerald-500/30 flex items-center gap-1">
-                  ✓ Đã thuộc
-                </span>
-              ` : ''}
             </h3>
             <span class="text-sm text-cyan-400 font-medium italic">${item.pinyin}</span>
           </div>
@@ -413,43 +369,25 @@ function renderVocabList(filteredList = null) {
 
       <!-- Hàng giữa: Loại từ & Nghĩa tiếng Việt -->
       <div class="py-3 flex items-center gap-3 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider ${
-          isProper 
-            ? 'border-amber-500/60 text-amber-300 bg-amber-950/50 shadow-sm' 
-            : 'border-red-500/60 text-red-400 bg-red-950/30'
-        }">
-          ${isProper ? '⭐ DANH TỪ RIÊNG' : item.type}
+        <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold uppercase tracking-wider border border-red-500/60 text-red-400 bg-red-950/30">
+          ${item.type}
         </span>
         <span class="text-sm font-medium text-slate-200">
           ${item.meaning}
         </span>
       </div>
 
-      <!-- Hàng dưới: Hộp câu ví dụ dark mode có pinyin và nút micro luyện nói câu -->
-      <div class="mt-2 p-4 rounded-xl bg-slate-950/80 border border-slate-800/90 flex items-start gap-3.5 relative group/ex">
-        <!-- Cột nút âm thanh & micro phát âm câu ví dụ -->
-        <div class="flex flex-col gap-1.5 flex-shrink-0 mt-0.5">
-          <!-- Loa phát âm cả câu ví dụ -->
-          <button onclick="speakChinese('${item.ex_hz}')" title="Nghe phát âm câu ví dụ" class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-700/80 text-cyan-400 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all shadow-sm">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-          </button>
-
-          <!-- Micro luyện nói câu ví dụ (Mở AI Voice Modal) -->
-          <button onclick="openVoiceModalForExample(${item.id})" title="Luyện nói câu ví dụ này (AI Chấm điểm)" class="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 text-rose-400 hover:bg-red-600 hover:text-white flex items-center justify-center transition-all shadow-sm">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>
-          </button>
-        </div>
+      <!-- Hàng dưới: Hộp câu ví dụ dark mode có pinyin trên đầu chữ Hán (Ruby) -->
+      <div class="mt-1 p-4 rounded-xl bg-slate-950/70 border border-slate-800/80 flex items-start gap-3.5 relative group/ex">
+        <!-- Nút loa phát âm cả câu ví dụ -->
+        <button onclick="speakChinese('${item.ex_hz}')" title="Nghe câu ví dụ" class="mt-1 w-8 h-8 rounded-lg bg-slate-900 border border-slate-700/80 text-cyan-400 hover:bg-cyan-500 hover:text-white flex items-center justify-center flex-shrink-0 transition-all shadow-sm">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+        </button>
 
         <div class="flex-1 min-w-0">
-          <!-- Câu Hán tự kèm Pinyin trên từng chữ (Ruby) hoặc chữ Hán rõ nét -->
-          <div class="flex flex-wrap items-end gap-y-2 mb-1">
+          <!-- Câu Hán tự kèm Pinyin trên từng chữ (Ảnh 1) -->
+          <div class="flex flex-wrap items-end gap-y-2 mb-2">
             ${rubyHtml}
-          </div>
-
-          <!-- Dòng Pinyin đầy đủ rõ ràng cho mọi câu ví dụ -->
-          <div class="text-xs text-cyan-400 font-mono italic tracking-wide mb-1.5 flex items-center gap-1.5">
-            <span class="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950/70 text-cyan-300 font-bold border border-cyan-800/60 not-italic uppercase tracking-wider">Pinyin</span>
-            <span>${item.ex_py || ''}</span>
           </div>
 
           <!-- Nghĩa tiếng Việt màu đỏ cam nổi bật -->
@@ -486,55 +424,6 @@ function toggleLearned(wordId) {
 }
 
 /**
- * Đặt lại (Reset) tiến độ chữ đã học cho bài hiện tại
- */
-function resetLessonProgress(lessonNo) {
-  const targetLesson = (lessonNo !== undefined && lessonNo !== null) ? Number(lessonNo) : (window.currentLesson || 1);
-  const words = (window.VOCAB_DATABASE || []).filter(w => w.lesson_id === targetLesson);
-  const wordIds = new Set(words.map(w => w.id));
-
-  // 1. Xóa khỏi learnedWords
-  wordIds.forEach(id => learnedWords.delete(id));
-  saveState();
-
-  // 2. Xóa khỏi danh sách từ đã thuộc (hsk1_mastered_words)
-  try {
-    const stored = localStorage.getItem('hsk1_mastered_words');
-    if (stored) {
-      let list = JSON.parse(stored);
-      list = list.filter(id => !wordIds.has(id));
-      localStorage.setItem('hsk1_mastered_words', JSON.stringify(list));
-    }
-  } catch (e) {
-    console.warn("Lỗi reset mastered words:", e);
-  }
-
-  // 3. Reset các hàng đợi mini game trong Memory Hub
-  if (window.MEMORY_HUB && typeof window.MEMORY_HUB.resetLessonQueues === 'function') {
-    window.MEMORY_HUB.resetLessonQueues(targetLesson);
-  }
-
-  // 4. Cập nhật giao diện
-  renderVocabList();
-  updateSidebarProgress();
-  if (typeof updateMasteredDisplay === 'function') {
-    updateMasteredDisplay();
-  }
-  showToast(`✓ Đã đặt lại toàn bộ tiến độ của Bài ${targetLesson}!`);
-}
-
-function confirmResetLessonProgress() {
-  const targetLesson = window.currentLesson || 1;
-  const ok = confirm(`Bạn có chắc chắn muốn đặt lại (reset) toàn bộ tiến độ chữ đã học của Bài ${targetLesson} không?\n\n- Đánh dấu "Đã học" của bài này sẽ trở về 0.\n- Tiến trình các Mini Game của bài này sẽ bắt đầu lại từ đầu.`);
-  if (ok) {
-    resetLessonProgress(targetLesson);
-  }
-}
-
-window.resetLessonProgress = resetLessonProgress;
-window.confirmResetLessonProgress = confirmResetLessonProgress;
-
-/**
  * Đánh dấu Yêu thích / Bỏ lưu
  */
 function toggleFavorite(wordId) {
@@ -568,8 +457,7 @@ function promptNote(wordId) {
 function updateSidebarProgress() {
   const words = getCurrentLessonWords();
   const total = words.length || 10;
-  const masteredList = typeof window.getMasteredWords === 'function' ? window.getMasteredWords() : [];
-  const done = words.filter(w => learnedWords.has(w.id) || masteredList.includes(w.id)).length;
+  const done = words.filter(w => learnedWords.has(w.id)).length;
   const inProgress = Math.max(0, Math.min(1, total - done));
   const remaining = Math.max(0, total - done - inProgress);
 
@@ -595,19 +483,6 @@ function updateSidebarProgress() {
     const circumference = 238.76;
     const offset = circumference - (donePercent / 100) * circumference;
     donutCircle.style.strokeDashoffset = offset;
-  }
-
-  // Cập nhật số bài học đã hoàn thành trên tổng số 15 bài
-  const totalCompletedBadge = document.getElementById('sidebar-total-completed-badge');
-  if (totalCompletedBadge && window.HSK_LESSONS) {
-    let completedLessons = 0;
-    window.HSK_LESSONS.forEach(l => {
-      const lWords = window.VOCAB_DATABASE.filter(w => w.lesson_id === l.lesson_no);
-      if (lWords.length > 0 && lWords.every(w => learnedWords.has(w.id) || masteredList.includes(w.id))) {
-        completedLessons++;
-      }
-    });
-    totalCompletedBadge.textContent = `${completedLessons}/15 bài hoàn thành`;
   }
 }
 
@@ -674,29 +549,268 @@ function stopPlayAll() {
 }
 
 /**
- * Tìm kiếm từ vựng thời gian thực
+ * ========================================================
+ * HỆ THỐNG TÌM KIẾM TỪ VỰNG THÔNG MINH ĐA NĂNG (HSK SEARCH SUITE)
+ * Hỗ trợ tra cứu bằng:
+ * 1. Chữ Hán (Giản thể, từ ghép, câu ví dụ)
+ * 2. Pinyin (Có thanh điệu & Không dấu thanh: ni hao, xuexi, chi...)
+ * 3. Tiếng Việt (Có dấu & Không dấu: xin chao, uong, an, hoc tap...)
+ * 4. Phạm vi: Trong bài học hiện tại hoặc Tất cả 30 bài (300 từ)
+ * ========================================================
  */
-function initSearch() {
-  const searchInput = document.getElementById('vocab-search-input');
-  if (!searchInput) return;
 
-  searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.trim().toLowerCase();
-    const currentWords = getCurrentLessonWords();
-    if (!query) {
-      renderVocabList(currentWords);
-      return;
+let searchScope = 'current'; // 'current' (bài hiện tại) hoặc 'all' (tất cả 30 bài)
+let searchQuery = '';
+
+/**
+ * Chuẩn hóa Pinyin: Chuyển các nguyên âm có dấu thanh điệu sang chữ cái thường không dấu
+ */
+function removePinyinTones(str) {
+  if (!str) return '';
+  const toneMap = {
+    'ā': 'a', 'á': 'a', 'ǎ': 'a', 'à': 'a',
+    'ē': 'e', 'é': 'e', 'ě': 'e', 'è': 'e',
+    'ī': 'i', 'í': 'i', 'ǐ': 'i', 'ì': 'i',
+    'ō': 'o', 'ó': 'o', 'ǒ': 'o', 'ò': 'o',
+    'ū': 'u', 'ú': 'u', 'ǔ': 'u', 'ù': 'u',
+    'ǖ': 'v', 'ǘ': 'v', 'ǚ': 'v', 'ǜ': 'v', 'ü': 'v',
+    'ń': 'n', 'ň': 'n', 'ǹ': 'n',
+    'ḿ': 'm'
+  };
+  return str.replace(/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜüńňǹḿ]/gi, ch => toneMap[ch.toLowerCase()] || ch);
+}
+
+/**
+ * Chuẩn hóa Tiếng Việt: Chuyển sang không dấu
+ */
+function removeVietnameseTones(str) {
+  if (!str) return '';
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[đĐ]/g, 'd');
+}
+
+/**
+ * Chuẩn hóa chuỗi tổng hợp cho tra cứu tìm kiếm
+ */
+function normalizeSearchText(str) {
+  if (!str) return '';
+  let s = str.toLowerCase();
+  s = removePinyinTones(s);
+  s = removeVietnameseTones(s);
+  return s.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Tránh XSS khi render từ khóa tìm kiếm
+ */
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/**
+ * Thực thi thuật toán tìm kiếm và render danh sách từ
+ */
+function executeSearch() {
+  const mainInput = document.getElementById('main-vocab-search-input');
+  const navInput = document.getElementById('vocab-search-input');
+  const clearBtn = document.getElementById('btn-clear-search');
+  const banner = document.getElementById('search-results-banner');
+  const bannerText = document.getElementById('search-banner-text');
+
+  const query = (mainInput ? mainInput.value : (navInput ? navInput.value : '')).trim();
+  searchQuery = query;
+
+  // Cập nhật hiển thị nút xóa nhanh
+  if (clearBtn) {
+    if (query) {
+      clearBtn.classList.remove('hidden');
+    } else {
+      clearBtn.classList.add('hidden');
+    }
+  }
+
+  const isGlobal = (searchScope === 'all');
+  const sourceList = isGlobal ? (window.VOCAB_DATABASE || []) : getCurrentLessonWords();
+
+  // Khi chưa nhập từ khóa: hiển thị danh sách đầy đủ của phạm vi đã chọn
+  if (!query) {
+    if (banner) banner.classList.add('hidden');
+    renderVocabList(sourceList, isGlobal);
+    return;
+  }
+
+  const rawQuery = query.toLowerCase();
+  const normQuery = normalizeSearchText(query);
+  const normQueryNoSpace = normQuery.replace(/\s+/g, '');
+
+  const filtered = sourceList.filter(item => {
+    // 1. Tìm theo Chữ Hán (từ vựng chính hoặc ví dụ)
+    if (item.hanzi && item.hanzi.includes(query)) return true;
+    if (item.ex_hz && item.ex_hz.includes(query)) return true;
+
+    // 2. Tìm theo Pinyin (có dấu hoặc không dấu, có/không khoảng trắng)
+    const rawPy = (item.pinyin || '').toLowerCase();
+    const normPy = removePinyinTones(rawPy);
+    const normPyNoSpace = normPy.replace(/\s+/g, '');
+
+    if (rawPy.includes(rawQuery)) return true;
+    if (normPy.includes(normQuery)) return true;
+    if (normQueryNoSpace && normPyNoSpace.includes(normQueryNoSpace)) return true;
+
+    // 3. Tìm theo Tiếng Việt (nghĩa từ, loại từ, giải thích, câu ví dụ)
+    const rawMeaning = (item.meaning || '').toLowerCase();
+    const normMeaning = removeVietnameseTones(rawMeaning);
+    if (rawMeaning.includes(rawQuery) || normMeaning.includes(normQuery)) return true;
+
+    const rawType = (item.type || '').toLowerCase();
+    const normType = removeVietnameseTones(rawType);
+    if (rawType.includes(rawQuery) || normType.includes(normQuery)) return true;
+
+    if (item.type_detail) {
+      const rawDetail = item.type_detail.toLowerCase();
+      const normDetail = removeVietnameseTones(rawDetail);
+      if (rawDetail.includes(rawQuery) || normDetail.includes(normQuery)) return true;
     }
 
-    const filtered = currentWords.filter(w => {
-      return w.hanzi.includes(query) ||
-             w.pinyin.toLowerCase().includes(query) ||
-             w.meaning.toLowerCase().includes(query) ||
-             (w.ex_hz && w.ex_hz.includes(query)) ||
-             (w.ex_vi && w.ex_vi.toLowerCase().includes(query));
-    });
+    if (item.ex_vi) {
+      const rawExVi = item.ex_vi.toLowerCase();
+      const normExVi = removeVietnameseTones(rawExVi);
+      if (rawExVi.includes(rawQuery) || normExVi.includes(normQuery)) return true;
+    }
 
-    renderVocabList(filtered);
+    if (item.ex_py) {
+      const normExPy = removePinyinTones(item.ex_py.toLowerCase());
+      if (normExPy.includes(normQuery)) return true;
+    }
+
+    return false;
+  });
+
+  // Cập nhật Banner kết quả tìm kiếm
+  if (banner && bannerText) {
+    banner.classList.remove('hidden');
+    const scopeName = isGlobal ? 'Tất cả 30 bài học' : `Bài ${currentLessonId}`;
+    bannerText.innerHTML = `Kết quả tìm kiếm cho <strong class="text-cyan-300 font-bold">"${escapeHtml(query)}"</strong> trong <span class="text-blue-300 font-bold">${scopeName}</span>: Tìm thấy <span class="px-2 py-0.5 rounded-lg bg-blue-500/20 text-cyan-300 font-extrabold border border-blue-500/30">${filtered.length} từ</span>`;
+  }
+
+  renderVocabList(filtered, isGlobal);
+}
+
+/**
+ * Đổi phạm vi tìm kiếm ('current' hoặc 'all')
+ */
+function setSearchScope(scope) {
+  if (scope !== 'current' && scope !== 'all') return;
+  searchScope = scope;
+
+  const currentBtn = document.getElementById('scope-current-btn');
+  const allBtn = document.getElementById('scope-all-btn');
+  const navBadge = document.getElementById('nav-scope-text');
+
+  if (searchScope === 'current') {
+    if (currentBtn) {
+      currentBtn.className = "px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-blue-600 text-white shadow-md shadow-blue-500/20";
+    }
+    if (allBtn) {
+      allBtn.className = "px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-400 hover:text-slate-200";
+    }
+    if (navBadge) navBadge.textContent = "Bài này";
+  } else {
+    if (currentBtn) {
+      currentBtn.className = "px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all text-slate-400 hover:text-slate-200";
+    }
+    if (allBtn) {
+      allBtn.className = "px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all bg-blue-600 text-white shadow-md shadow-blue-500/20";
+    }
+    if (navBadge) navBadge.textContent = "Tất cả bài";
+  }
+
+  executeSearch();
+}
+
+/**
+ * Chuyển đổi nhanh qua lại giữa 2 phạm vi
+ */
+function toggleSearchScope() {
+  setSearchScope(searchScope === 'current' ? 'all' : 'current');
+}
+
+/**
+ * Xóa ô tìm kiếm và quay lại trạng thái ban đầu
+ */
+function clearVocabSearch() {
+  const mainInput = document.getElementById('main-vocab-search-input');
+  const navInput = document.getElementById('vocab-search-input');
+  if (mainInput) mainInput.value = '';
+  if (navInput) navInput.value = '';
+  executeSearch();
+  if (mainInput) mainInput.focus();
+}
+
+/**
+ * Áp dụng nhanh từ khóa gợi ý
+ */
+function applyQuickSearch(keyword) {
+  const mainInput = document.getElementById('main-vocab-search-input');
+  const navInput = document.getElementById('vocab-search-input');
+  if (mainInput) mainInput.value = keyword;
+  if (navInput) navInput.value = keyword;
+  executeSearch();
+  if (mainInput) mainInput.focus();
+}
+
+/**
+ * Chuyển thẳng đến một bài học cụ thể từ kết quả tra cứu toàn cục
+ */
+function jumpToLesson(lessonId) {
+  clearVocabSearch();
+  setSearchScope('current');
+  switchLesson(lessonId);
+  window.scrollTo({ top: 120, behavior: 'smooth' });
+}
+
+/**
+ * Khởi tạo sự kiện tìm kiếm và đồng bộ 2 thanh tìm kiếm (Navbar & Main Suite)
+ */
+function initSearch() {
+  const mainInput = document.getElementById('main-vocab-search-input');
+  const navInput = document.getElementById('vocab-search-input');
+
+  const syncAndSearch = (sourceInput, targetInput) => {
+    if (!sourceInput) return;
+    sourceInput.addEventListener('input', (e) => {
+      const val = e.target.value;
+      if (targetInput && targetInput.value !== val) {
+        targetInput.value = val;
+      }
+      executeSearch();
+    });
+  };
+
+  syncAndSearch(mainInput, navInput);
+  syncAndSearch(navInput, mainInput);
+
+  // Phím tắt bàn phím: '/' để tìm nhanh, 'Escape' để xóa tìm kiếm
+  window.addEventListener('keydown', (e) => {
+    const isEditing = ['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName);
+    if (e.key === '/' && !isEditing) {
+      e.preventDefault();
+      if (mainInput) {
+        mainInput.focus();
+        mainInput.select();
+      }
+    } else if (e.key === 'Escape') {
+      if (searchQuery || document.activeElement === mainInput || document.activeElement === navInput) {
+        clearVocabSearch();
+      }
+    }
   });
 }
 
@@ -728,24 +842,18 @@ function showToast(message) {
 }
 
 /**
- * Chế độ Luyện Kiểm Tra Nghĩa Từ & Mini Game (Chuyển tiếp đến Trung Tâm Luyện Nhớ)
+ * Chế độ Luyện Kiểm Tra Nghĩa Từ (Quiz Modal)
  */
-function openVocabQuiz(mode = 'meaning_quiz') {
-  if (typeof window.openMemoryHub === 'function') {
-    window.openMemoryHub(mode);
-  } else {
-    const modal = document.getElementById('memory-hub-modal') || document.getElementById('quiz-modal');
-    if (modal) modal.classList.remove('hidden');
-  }
+function openVocabQuiz() {
+  const modal = document.getElementById('quiz-modal');
+  if (!modal) return;
+  modal.classList.remove('hidden');
+  loadRandomQuizQuestion();
 }
 
 function closeVocabQuiz() {
-  if (typeof window.closeMemoryHub === 'function') {
-    window.closeMemoryHub();
-  } else {
-    const modal = document.getElementById('memory-hub-modal') || document.getElementById('quiz-modal');
-    if (modal) modal.classList.add('hidden');
-  }
+  const modal = document.getElementById('quiz-modal');
+  if (modal) modal.classList.add('hidden');
 }
 
 let currentQuizWord = null;
