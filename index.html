@@ -91,6 +91,12 @@
 
       <!-- Quick Actions & Lan Sync -->
       <div class="flex items-center gap-2.5">
+        <!-- Nút Đổi Phông Chữ Hán (Khải Thư / Mặc định) -->
+        <button onclick="toggleChineseFont()" class="btn-font-toggle flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 border border-amber-600/60 text-amber-300 hover:text-white text-xs font-bold transition-all shadow-sm" title="Chuyển đổi phông chữ: Khải Thư 楷体 (nét bút SGK) hoặc Mặc định 黑体 (nét in)">
+          <span>🖌️</span>
+          <span class="font-toggle-text">Khải Thư (楷体)</span>
+        </button>
+
         <!-- Nút Mở trên Mạng Nội Bộ / Điện thoại -->
         <button onclick="openLanModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-950/70 hover:bg-indigo-900 border border-indigo-700/70 text-indigo-300 hover:text-white text-xs font-bold transition-all shadow-md">
           <span>📱</span>
@@ -127,6 +133,9 @@
       </button>
       <button onclick="openDialogueGamesHub('sentence_builder')" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-amber-400 font-bold">
         <span>🎮</span> Game Bài Khoá
+      </button>
+      <button onclick="toggleChineseFont()" class="btn-font-toggle px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-amber-300 font-bold" title="Chuyển đổi phông chữ Hán: Khải Thư / Mặc định">
+        <span>🖌️</span> <span class="font-toggle-text">Khải Thư (楷体)</span>
       </button>
       <span class="text-slate-700">|</span>
       <button onclick="openPinyinModal()" class="px-3 py-1.5 rounded-lg hover:text-white hover:bg-slate-800/80 transition-colors flex items-center gap-1.5 text-indigo-300">

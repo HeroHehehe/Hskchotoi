@@ -170,6 +170,12 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
           <span class="text-[10px] font-black">${window.DialogueState.showPinyin ? 'BẬT' : 'TẮT'}</span>
         </button>
 
+        <!-- Toggle Phông Khải Thư -->
+        <button onclick="toggleChineseFont()" class="btn-font-toggle px-3 py-1.5 rounded-xl text-xs font-bold border border-amber-700/60 bg-amber-950/60 text-amber-300 hover:text-white transition-all flex items-center gap-1.5" title="Đổi phông chữ Khải Thư / Mặc định">
+          <span>🖌️</span>
+          <span class="font-toggle-text">Khải Thư</span>
+        </button>
+
         <!-- Toggle Dịch nghĩa -->
         <button onclick="toggleDialogueTranslation()" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
           window.DialogueState.showTranslation
@@ -300,6 +306,10 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
       </div>
     ` : ''}
   `;
+
+  if (window.ChineseFontManager) {
+    window.ChineseFontManager.updateToggleButtons();
+  }
 }
 
 /**
@@ -410,7 +420,7 @@ function renderDialogueLine(line, index, roles) {
         </div>
 
         <!-- Hán tự (Hanzi) -->
-        <p class="text-xl sm:text-2xl font-bold tracking-wide text-white leading-relaxed">
+        <p class="text-xl sm:text-2xl font-bold tracking-wide text-white leading-relaxed chinese-font dialogue-line-hanzi">
           ${line.hanzi}
         </p>
 

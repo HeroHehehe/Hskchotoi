@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   switchLesson(currentLessonId || 1);
   initSearch();
   initVoiceVoices();
+  window.ChineseFontManager.init();
   if (typeof initDialogueModule === 'function') {
     initDialogueModule();
   }
@@ -986,3 +987,67 @@ function loadRandomQuizQuestion() {
     container.appendChild(btn);
   });
 }
+
+
+// ==============================================================
+// Quản lý Phông chữ Hán: Khải Thư 楷体 (Nét bút SGK) vs Mặc định 黑体
+// ==============================================================
+window.ChineseFontManager = {
+  currentFont: 'kaiti', // 'kaiti' | 'sans'
+
+  init() {
+    let saved = 'kaiti';
+    try {
+      saved = localStorage.getItem('hihsk_chinese_font') || 'kaiti';
+    } catch (e) {}
+    this.setFont(saved, false);
+  },
+
+  setFont(font, save = true) {
+    this.currentFont = (font === 'sans') ? 'sans' : 'kaiti';
+    if (this.currentFont === 'sans') {
+      document.body.classList.add('font-mode-sans');
+    } else {
+      document.body.classList.remove('font-mode-sans');
+    }
+
+    if (save) {
+      try {
+        localStorage.setItem('hihsk_chinese_font', this.currentFont);
+      } catch (e) {}
+    }
+
+    this.updateToggleButtons();
+  },
+
+  toggle() {
+    const nextFont = this.currentFont === 'kaiti' ? 'sans' : 'kaiti';
+    this.setFont(nextFont, true);
+    const label = nextFont === 'kaiti' ? 'Khải Thư (楷体 - Nét bút SGK)' : 'Mặc định (黑体 - Nét in hiện đại)';
+    if (typeof showToast === 'function') {
+      showToast(`Đã chuyển phông chữ Hán: ${label}`);
+    }
+  },
+
+  updateToggleButtons() {
+    const btns = document.querySelectorAll('.btn-font-toggle');
+    const isKaiti = this.currentFont === 'kaiti';
+    btns.forEach(btn => {
+      const textSpan = btn.querySelector('.font-toggle-text');
+      if (textSpan) {
+        textSpan.textContent = isKaiti ? 'Khải Thư (楷体)' : 'Mặc định (黑体)';
+      }
+      if (isKaiti) {
+        btn.classList.add('border-amber-500/60', 'text-amber-300');
+        btn.classList.remove('border-slate-700', 'text-slate-400');
+      } else {
+        btn.classList.remove('border-amber-500/60', 'text-amber-300');
+        btn.classList.add('border-slate-700', 'text-slate-400');
+      }
+    });
+  }
+};
+
+window.toggleChineseFont = function() {
+  window.ChineseFontManager.toggle();
+};

@@ -2,7 +2,8 @@
    HiHSK Custom Theme & Rice Grid (Mễ Tự Cách) Styles
    ============================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css');
 
 :root {
   --bg-main: #090d16;
@@ -21,8 +22,27 @@ body {
   overflow-x: hidden;
 }
 
-.chinese-font {
-  font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+:root {
+  --chinese-font-kaiti: 'KaiTi', 'STKaiti', 'KaiTi_GB2312', 'Kaiti SC', 'LXGW WenKai Screen', 'LXGW WenKai', 'BiauKai', 'Noto Serif SC', serif;
+  --chinese-font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --chinese-font: var(--chinese-font-kaiti);
+}
+
+body.font-mode-sans {
+  --chinese-font: var(--chinese-font-sans);
+}
+
+.chinese-font,
+.font-chinese,
+.font-serif,
+[lang="zh"],
+.dialogue-line-hanzi,
+#dialogue-view-container .leading-relaxed,
+#workbook-container .font-serif,
+#workbook-container ruby,
+.ruby-container ruby,
+ruby {
+  font-family: var(--chinese-font) !important;
 }
 
 /* Custom Scrollbars */
