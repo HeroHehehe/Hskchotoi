@@ -1,20 +1,26 @@
 @echo off
 chcp 65001 >nul
-title Đang tải mã nguồn lên GitHub...
+title Dang tai ma nguon len GitHub...
 color 0b
 
 echo ========================================================
-echo   BẮT ĐẦU ĐẨY TOÀN BỘ DỰ ÁN LÊN GITHUB REPOSITORY
+echo   BAT DAU DAY TOAN BO DU AN LEN GITHUB REPOSITORY
 echo   Repo: https://github.com/HeroHehehe/Hskchotoi.git
 echo ========================================================
 echo.
 
-set "GIT_EXE=C:\Program Files\Git\cmd\git.exe"
-
-if not exist "%GIT_EXE%" (
-    echo [LOI] Khong tim thay Git tai C:\Program Files\Git\cmd\git.exe
-    pause
-    exit /b
+set "GIT_EXE=git"
+where git >nul 2>&1
+if %errorlevel% neq 0 (
+    if exist "C:\Program Files\Git\cmd\git.exe" (
+        set "GIT_EXE=C:\Program Files\Git\cmd\git.exe"
+    ) else if exist "C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd\git.exe" (
+        set "GIT_EXE=C:\Users\Admin\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd\git.exe"
+    ) else (
+        echo [LOI] Khong tim thay Git tren may tinh!
+        pause
+        exit /b
+    )
 )
 
 echo [1/3] Kiem tra trang thai commit...
