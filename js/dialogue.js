@@ -95,11 +95,17 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
         `).join('')}
       </div>
 
-      <!-- Quick Action: Từ vựng bài khoá -->
-      <a href="#dialogue-vocab-section" class="px-3 py-1.5 rounded-xl bg-indigo-950/70 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-700/60 text-xs font-bold flex items-center gap-1.5 transition-all">
-        <span>📖</span>
-        <span>${dialogue.vocab ? dialogue.vocab.length : 0} Từ mới bài</span>
-      </a>
+      <!-- Actions: Mini Game & Từ vựng bài khoá -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <button onclick="openDialogueGamesHub('sentence_builder', window.DialogueState.currentLessonId)" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 hover:from-purple-500 hover:to-amber-400 text-white border border-purple-400/40 text-xs font-black flex items-center gap-1.5 shadow-md shadow-purple-600/25 transition-all">
+          <span>🎮</span>
+          <span>Mini Game Hội Thoại (6 Trò)</span>
+        </button>
+        <a href="#dialogue-vocab-section" class="px-3 py-1.5 rounded-xl bg-indigo-950/70 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-700/60 text-xs font-bold flex items-center gap-1.5 transition-all">
+          <span>📖</span>
+          <span>${dialogue.vocab ? dialogue.vocab.length : 0} Từ mới bài</span>
+        </a>
+      </div>
     </div>
 
     <!-- 2. KHUNG NGỮ CẢNH (SITUATION CONTEXT CARD) -->
@@ -173,6 +179,12 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
           <span>🇻🇳</span>
           <span>Dịch TV</span>
           <span class="text-[10px] font-black">${window.DialogueState.showTranslation ? 'BẬT' : 'TẮT'}</span>
+        </button>
+
+        <!-- Nút Mini Game Hội Thoại -->
+        <button onclick="openDialogueGamesHub('sentence_builder', window.DialogueState.currentLessonId)" class="px-3 py-1.5 rounded-xl text-xs font-black bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-md shadow-purple-500/30 flex items-center gap-1.5 border border-purple-400/30 transition-all">
+          <span>🎮</span>
+          <span>Mini Game</span>
         </button>
 
         <!-- Toggle Role-Play Practice -->
