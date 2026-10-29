@@ -4,6 +4,7 @@
  */
 
 let currentLessonId = 1;
+let currentMainView = 'vocab'; // 'vocab' | 'dialogue'
 let learnedWords = new Set();
 let favoriteWords = new Set();
 let isPlayingAll = false;
@@ -14,9 +15,12 @@ let playAllTimeout = null;
 document.addEventListener('DOMContentLoaded', () => {
   loadSavedState();
   initLessonDropdown();
-  switchLesson(1);
+  switchLesson(currentLessonId || 1);
   initSearch();
   initVoiceVoices();
+  if (typeof initDialogueModule === 'function') {
+    initDialogueModule();
+  }
 });
 
 /**
@@ -117,6 +121,15 @@ function switchLesson(lessonNo) {
     scopeCurrentLabel.textContent = `Trong Bài ${currentLessonId}`;
   }
 
+  // Cập nhật số từ hiển thị ở nút tab Từ vựng
+  const vocabCountBadge = document.getElementById('vocab-view-count');
+  if (vocabCountBadge) vocabCountBadge.textContent = `${getCurrentLessonWords().length} từ`;
+
+  // Nếu đang ở tab Bài khoá, cập nhật lại bài khoá của bài học này
+  if (currentMainView === 'dialogue' && typeof renderDialogueView === 'function') {
+    renderDialogueView(currentLessonId, 0);
+  }
+
   // Render lại danh sách từ (nếu đang tìm kiếm trong bài thì lọc lại theo bài mới)
   if (typeof searchQuery !== 'undefined' && searchQuery && searchScope === 'current') {
     executeSearch();
@@ -128,6 +141,48 @@ function switchLesson(lessonNo) {
 
   showToast(`📖 Đã chuyển sang Bài ${currentLessonId}: ${lessonInfo.title_vi || lessonInfo.title}`);
 }
+
+/**
+ * Chuyển đổi giữa chế độ xem Từ vựng và Bài khoá (课文)
+ */
+function switchMainView(viewName) {
+  currentMainView = viewName;
+  const vocabTab = document.getElementById('view-tab-vocab');
+  const dialogueTab = document.getElementById('view-tab-dialogue');
+  const vocabContainer = document.getElementById('vocab-view-container');
+  const dialogueContainer = document.getElementById('dialogue-view-container');
+
+  if (viewName === 'dialogue') {
+    if (vocabContainer) vocabContainer.classList.add('hidden');
+    if (dialogueContainer) dialogueContainer.classList.remove('hidden');
+
+    if (vocabTab) {
+      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
+    }
+    if (dialogueTab) {
+      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-md shadow-orange-500/25";
+    }
+
+    if (typeof renderDialogueView === 'function') {
+      renderDialogueView(currentLessonId, 0);
+    }
+  } else {
+    if (dialogueContainer) dialogueContainer.classList.add('hidden');
+    if (vocabContainer) vocabContainer.classList.remove('hidden');
+
+    if (vocabTab) {
+      vocabTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20";
+    }
+    if (dialogueTab) {
+      dialogueTab.className = "flex-1 py-2.5 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all text-slate-400 hover:text-white hover:bg-slate-800";
+    }
+
+    if (typeof stopDialogueAudio === 'function') {
+      stopDialogueAudio();
+    }
+  }
+}
+window.switchMainView = switchMainView;
 
 function prevLesson() {
   if (currentLessonId > 1) {
@@ -202,7 +257,14 @@ function renderVocabList(filteredList = null, isGlobalSearch = false) {
   if (!container) return;
 
   const list = filteredList !== null ? filteredList : (searchScope === 'all' ? (window.VOCAB_DATABASE || []) : getCurrentLessonWords());
-  if (countBadge) countBadge.textContent = `${list.length} từ`;
+  const properNounsTotal = list.filter(item => item.is_proper_noun || item.type === 'DANH TỪ RIÊNG').length;
+  if (countBadge) {
+    if (properNounsTotal > 0 && !isGlobalSearch) {
+      countBadge.textContent = `${list.length - properNounsTotal} từ mới + ${properNounsTotal} danh từ riêng`;
+    } else {
+      countBadge.textContent = `${list.length} từ`;
+    }
+  }
 
   container.innerHTML = '';
 
@@ -627,6 +689,10 @@ function executeSearch() {
   const query = (mainInput ? mainInput.value : (navInput ? navInput.value : '')).trim();
   searchQuery = query;
 
+  if (query && currentMainView !== 'vocab' && typeof switchMainView === 'function') {
+    switchMainView('vocab');
+  }
+
   // Cập nhật hiển thị nút xóa nhanh
   if (clearBtn) {
     if (query) {
@@ -844,16 +910,22 @@ function showToast(message) {
 /**
  * Chế độ Luyện Kiểm Tra Nghĩa Từ (Quiz Modal)
  */
-function openVocabQuiz() {
-  const modal = document.getElementById('quiz-modal');
-  if (!modal) return;
-  modal.classList.remove('hidden');
-  loadRandomQuizQuestion();
+function openVocabQuiz(mode = 'meaning_quiz') {
+  if (typeof window.openMemoryHub === 'function') {
+    window.openMemoryHub(mode);
+  } else {
+    const modal = document.getElementById('memory-hub-modal') || document.getElementById('quiz-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
 }
 
 function closeVocabQuiz() {
-  const modal = document.getElementById('quiz-modal');
-  if (modal) modal.classList.add('hidden');
+  if (typeof window.closeMemoryHub === 'function') {
+    window.closeMemoryHub();
+  } else {
+    const modal = document.getElementById('memory-hub-modal') || document.getElementById('quiz-modal');
+    if (modal) modal.classList.add('hidden');
+  }
 }
 
 let currentQuizWord = null;

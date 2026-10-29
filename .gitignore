@@ -5,3 +5,7 @@ scripts/
 temp_pages/
 *.pdf
 allow_firewall.bat
+
+HSK*trunghoctiengtrung*/
+*.bak
+scratch/
