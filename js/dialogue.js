@@ -88,7 +88,7 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
                 ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-orange-500/25 ring-2 ring-amber-400/40 scale-[1.02]'
                 : 'bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700'
             }">
-            <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : '🥉'}</span>
+            <span>${idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '🎤'}</span>
             <span>${dlg.title}</span>
             <span class="text-[10px] font-normal opacity-90">(${dlg.title_vi})</span>
           </button>
@@ -107,6 +107,34 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
         </a>
       </div>
     </div>
+
+    <!-- BANNER BÀI TẬP NÓI CÔ GIAO (BÀI 4) -->
+    ${lessonData.lesson_id === 4 ? `
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-orange-950/60 border-2 border-amber-500/60 shadow-xl shadow-amber-950/30 flex flex-wrap items-center justify-between gap-3 animate-fadeIn">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white flex items-center justify-center text-xl shadow-lg shadow-amber-500/30 flex-shrink-0 animate-bounce">
+            🎤
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500 text-slate-950">Bài tập cô giao</span>
+              <span class="text-xs text-amber-300 font-bold">Thuyết trình: Giới thiệu gia đình mình (Bài 4)</span>
+            </div>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Nhà 3 người (bố, mẹ, em) • Bố 60 tuổi, Mẹ 55 tuổi • Bố mẹ về hưu / không bận • Không anh chị em • Rất yêu gia đình
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="selectDialogueTab(3)" class="px-3.5 py-2 rounded-xl ${window.DialogueState.currentDialogueIdx === 3 ? 'bg-amber-600 text-white ring-2 ring-amber-300' : 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950'} text-xs font-black shadow-lg shadow-orange-500/25 flex items-center gap-1.5 transition-all">
+            <span>🗣️</span> <span>${window.DialogueState.currentDialogueIdx === 3 ? 'Đang xem bài nói mẫu' : 'Mở bài nói mẫu (Tab 4)'}</span>
+          </button>
+          <button onclick="openFamilySpeechModal()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition-all">
+            <span>✨</span> <span>Studio Luyện Thuyết Trình AI</span>
+          </button>
+        </div>
+      </div>
+    ` : ''}
 
     <!-- 2. KHUNG NGỮ CẢNH (SITUATION CONTEXT CARD) -->
     <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900 border border-amber-500/30 shadow-md">
@@ -256,6 +284,87 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
       </div>
     ` : ''}
 
+    <!-- THẺ TỔNG QUAN BÀI THUYẾT TRÌNH (KHI Ở TAB 4 BÀI 4) -->
+    ${(lessonData.lesson_id === 4 && window.DialogueState.currentDialogueIdx === 3 && typeof window.FAMILY_SPEECH_DATA !== 'undefined') ? `
+      <div class="p-5 rounded-3xl bg-slate-900/90 border-2 border-amber-500/50 shadow-2xl space-y-4 animate-fadeIn">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="text-2xl">📜</span>
+            <div>
+              <h3 class="text-sm font-black text-white">Toàn văn bài nói hoàn chỉnh (100% từ vựng Bài 1 - Bài 4)</h3>
+              <p class="text-xs text-slate-400">Đáp ứng trọn vẹn 6 yêu cầu cô giáo giao</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="togglePlayFullFamilySpeech()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white text-xs font-black shadow-md flex items-center gap-1.5 transition-all">
+              <span>▶️</span> <span>Đọc toàn bộ bài nói</span>
+            </button>
+            <button onclick="copyFamilySpeechScript()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 text-xs font-bold flex items-center gap-1.5 transition-all" title="Copy để nộp cô giáo">
+              <span>📋</span> <span>Sao chép bài nộp</span>
+            </button>
+            <button onclick="openFamilySpeechModal()" class="px-3 py-1.5 rounded-xl bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-600 text-indigo-300 text-xs font-bold flex items-center gap-1.5 transition-all">
+              <span>🎙️</span> <span>Studio Luyện Nói AI</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+          <p class="text-base md:text-lg font-black text-white font-kaiti leading-relaxed tracking-wide">
+            ${window.FAMILY_SPEECH_DATA.fullParagraph.hanzi}
+          </p>
+          <p class="text-xs md:text-sm font-bold text-cyan-400/95 leading-relaxed">
+            ${window.FAMILY_SPEECH_DATA.fullParagraph.pinyin}
+          </p>
+          <div class="border-t border-slate-800 pt-2 mt-1">
+            <p class="text-xs text-slate-300 leading-relaxed">
+              <span class="text-amber-400 font-bold">Bản dịch:</span> ${window.FAMILY_SPEECH_DATA.fullParagraph.vietnamese}
+            </p>
+          </div>
+        </div>
+
+        <!-- BẢNG ĐỐI CHIẾU 6 YÊU CẦU CÔ GIAO -->
+        <div class="space-y-2 pt-2 border-t border-slate-800/80">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-black uppercase text-amber-300 tracking-wider flex items-center gap-1.5">
+              <span>📋</span> Đối chiếu 6 nội dung cô giao với câu tiếng Trung chuẩn Bài 1-4:
+            </h4>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <span class="text-amber-400 font-bold block text-[11px]">1. Số người & Thành viên ("Nhà 3 người: bố, mẹ, em"):</span>
+              <p class="text-white font-bold mt-0.5">我家有三口人：爸爸、妈妈和我。</p>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Wǒ jiā yǒu sān kǒu rén: bàba, māma hé wǒ. (100% từ Bài 1-4)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <span class="text-amber-400 font-bold block text-[11px]">2. Tuổi các thành viên ("Bố 60 tuổi, Mẹ 55 tuổi"):</span>
+              <p class="text-white font-bold mt-0.5">我爸爸今年六十岁，我妈妈今年五十五岁。</p>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Wǒ bàba jīnnián liùshí suì, wǒ māma jīnnián wǔshíwǔ suì. (100% từ Bài 4)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <span class="text-amber-400 font-bold block text-[11px]">3. Bố mẹ làm nghề gì? ("Bố mẹ về hưu rồi"):</span>
+              <p class="text-white font-bold mt-0.5">我爸爸妈妈都不工作。</p>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Chuẩn Bài 1-4: 都不工作 (đều không đi làm). Mở rộng thực tế: 退休了 (tuìxiū le - về hưu).</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <span class="text-amber-400 font-bold block text-[11px]">4. Công việc bố mẹ có bận không? ("Không bận"):</span>
+              <p class="text-white font-bold mt-0.5">他们的工作不忙。</p>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Tāmen de gōngzuò bù máng. (100% từ Bài 1-4)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <span class="text-amber-400 font-bold block text-[11px]">5. Công việc anh/chị/em (Không có anh chị em, bản thân là học sinh):</span>
+              <p class="text-white font-bold mt-0.5">我没有哥哥、姐姐，也没有妹妹。我是学生，我不工作。</p>
+              <span class="text-[10px] text-slate-400 block mt-0.5">没有 (không có) + 哥哥/姐姐/妹妹 + 学生 (học sinh) + 不工作 (100% Bài 1-4)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950/60 border border-slate-800/80">
+              <span class="text-amber-400 font-bold block text-[11px]">6. Tình cảm ("Tôi rất yêu gia đình tôi"):</span>
+              <p class="text-white font-bold mt-0.5">我很爱我的家，也很爱我的爸爸妈妈。</p>
+              <span class="text-[10px] text-slate-400 block mt-0.5">Wǒ hěn ài wǒ de jiā, yě hěn ài wǒ de bàba māma.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    ` : ''}
+
     <!-- 4. DANH SÁCH BONG BÓNG LỜI THOẠI (CHAT BUBBLES) -->
     <div class="space-y-4 py-2">
       ${dialogue.lines.map((line, idx) => renderDialogueLine(line, idx, roles)).join('')}
@@ -317,6 +426,7 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
  */
 function getSpeakerAvatar(speaker) {
   const map = {
+    '我': '🧑‍🎓',
     '王一飞': '👩‍🏫',
     'AI小语': '🤖',
     '小语': '🤖',

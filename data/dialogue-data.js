@@ -1,8 +1,3 @@
-/**
- * Cơ sở dữ liệu 15 Bài Khoá (课文 - 45 đoạn hội thoại tương tác) chuẩn Giáo trình HSK 1 (3.0)
- * Đầy đủ Hán tự, Pinyin có dấu, Dịch nghĩa tiếng Việt, Ngữ cảnh, Vai nhân vật & Từ mới bài khoá.
- */
-
 window.HSK_DIALOGUES = [
   {
     "lesson_id": 1,
@@ -931,6 +926,216 @@ window.HSK_DIALOGUES = [
             "pinyin": "dà",
             "pos": "tt.",
             "meaning": "lớn, to (chỉ tuổi tác)"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "课文 4 (Bài tập nói)",
+        "title_vi": "Giới thiệu gia đình",
+        "context_zh": "口语展示：向老师和同学介绍自己的家庭（用第1-4课已学词汇）。",
+        "context_vi": "Bài nói ngắn thuyết trình giới thiệu về gia đình theo đúng yêu cầu cô giáo giao ở Bài 4 (dùng 100% từ vựng Bài 1-4).",
+        "audio_ref": "4-Speaking",
+        "lines": [
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "老师好，大家好！",
+            "pinyin": "Lǎoshī hǎo, dàjiā hǎo!",
+            "vi": "Em chào cô giáo, chào tất cả mọi người!"
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我家有三口人：爸爸、妈妈和我。",
+            "pinyin": "Wǒ jiā yǒu sān kǒu rén: bàba, māma hé wǒ.",
+            "vi": "Nhà em có ba người: bố, mẹ và em."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我爸爸今年六十岁。",
+            "pinyin": "Wǒ bàba jīnnián liùshí suì.",
+            "vi": "Bố em năm nay sáu mươi tuổi."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我妈妈今年五十五岁。",
+            "pinyin": "Wǒ māma jīnnián wǔshíwǔ suì.",
+            "vi": "Mẹ em năm nay năm mươi lăm tuổi."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我爸爸妈妈都不工作，他们的工作不忙。",
+            "pinyin": "Wǒ bàba māma dōu bù gōngzuò, tāmen de gōngzuò bù máng.",
+            "vi": "Bố mẹ em đều không đi làm (về hưu rồi), công việc của bố mẹ không bận."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我没有哥哥、姐姐，也没有妹妹。",
+            "pinyin": "Wǒ méiyǒu gēge, jiějie, yě méiyǒu mèimei.",
+            "vi": "Em không có anh trai, chị gái, cũng không có em gái."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我是学生，我不工作。",
+            "pinyin": "Wǒ shì xuésheng, wǒ bù gōngzuò.",
+            "vi": "Em là học sinh/sinh viên, em không đi làm."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "我很爱我的家，也很爱我的爸爸妈妈。",
+            "pinyin": "Wǒ hěn ài wǒ de jiā, yě hěn ài wǒ de bàba māma.",
+            "vi": "Em rất yêu gia đình của em, và cũng rất yêu bố mẹ của em."
+          },
+          {
+            "speaker": "我",
+            "speaker_vi": "Em (Học sinh)",
+            "avatar": "🧑‍🎓",
+            "hanzi": "谢谢老师，谢谢大家！",
+            "pinyin": "Xièxie lǎoshī, xièxie dàjiā!",
+            "vi": "Em xin cảm ơn cô giáo, cảm ơn mọi người ạ!"
+          }
+        ],
+        "vocab": [
+          {
+            "num": 1,
+            "hanzi": "家",
+            "pinyin": "jiā",
+            "pos": "dt.",
+            "meaning": "nhà, gia đình (Bài 4)"
+          },
+          {
+            "num": 2,
+            "hanzi": "口",
+            "pinyin": "kǒu",
+            "pos": "lt.",
+            "meaning": "người (lượng từ đếm số thành viên gia đình, Bài 4)"
+          },
+          {
+            "num": 3,
+            "hanzi": "爸爸",
+            "pinyin": "bàba",
+            "pos": "dt.",
+            "meaning": "bố, ba (Bài 4)"
+          },
+          {
+            "num": 4,
+            "hanzi": "妈妈",
+            "pinyin": "māma",
+            "pos": "dt.",
+            "meaning": "mẹ, má (Bài 4)"
+          },
+          {
+            "num": 5,
+            "hanzi": "和",
+            "pinyin": "hé",
+            "pos": "lt.",
+            "meaning": "và, cùng với (Bài 4)"
+          },
+          {
+            "num": 6,
+            "hanzi": "今年",
+            "pinyin": "jīnnián",
+            "pos": "dt.",
+            "meaning": "năm nay (Bài 4)"
+          },
+          {
+            "num": 7,
+            "hanzi": "六十",
+            "pinyin": "liùshí",
+            "pos": "st.",
+            "meaning": "sáu mươi, 60 (Bài 4)"
+          },
+          {
+            "num": 8,
+            "hanzi": "五十五",
+            "pinyin": "wǔshíwǔ",
+            "pos": "st.",
+            "meaning": "năm mươi lăm, 55 (Bài 4)"
+          },
+          {
+            "num": 9,
+            "hanzi": "岁",
+            "pinyin": "suì",
+            "pos": "lt.",
+            "meaning": "tuổi (Bài 4)"
+          },
+          {
+            "num": 10,
+            "hanzi": "工作",
+            "pinyin": "gōngzuò",
+            "pos": "dgt./dt.",
+            "meaning": "làm việc, công việc (Bài 3)"
+          },
+          {
+            "num": 11,
+            "hanzi": "忙",
+            "pinyin": "máng",
+            "pos": "tt.",
+            "meaning": "bận, bận rộn (Bài 3, Bài 4)"
+          },
+          {
+            "num": 12,
+            "hanzi": "没有",
+            "pinyin": "méiyǒu",
+            "pos": "dgt.",
+            "meaning": "không có (Bài 4)"
+          },
+          {
+            "num": 13,
+            "hanzi": "哥哥",
+            "pinyin": "gēge",
+            "pos": "dt.",
+            "meaning": "anh trai (Bài 4)"
+          },
+          {
+            "num": 14,
+            "hanzi": "姐姐",
+            "pinyin": "jiějie",
+            "pos": "dt.",
+            "meaning": "chị gái (Bài 3)"
+          },
+          {
+            "num": 15,
+            "hanzi": "妹妹",
+            "pinyin": "mèimei",
+            "pos": "dt.",
+            "meaning": "em gái (Bài 4)"
+          },
+          {
+            "num": 16,
+            "hanzi": "学生",
+            "pinyin": "xuésheng",
+            "pos": "dt.",
+            "meaning": "học sinh, sinh viên (Bài 1, Bài 4)"
+          },
+          {
+            "num": 17,
+            "hanzi": "爱",
+            "pinyin": "ài",
+            "pos": "dgt.",
+            "meaning": "yêu, thương yêu (tôi rất yêu gia đình tôi)"
+          },
+          {
+            "num": 18,
+            "hanzi": "退休",
+            "pinyin": "tuìxiū",
+            "pos": "dgt.",
+            "meaning": "[Mở rộng đời sống thực tế] về hưu: 退休了 (tuìxiū le)"
           }
         ]
       }

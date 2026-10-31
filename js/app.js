@@ -110,7 +110,11 @@ function switchLesson(lessonNo) {
   // Cập nhật Header bài học
   const headerTitle = document.getElementById('lesson-header-title');
   if (headerTitle) {
-    headerTitle.innerHTML = `<span class="text-blue-400 font-bold">Bài ${currentLessonId}:</span> ${lessonInfo.title} <span class="text-slate-400 font-normal text-sm">(${lessonInfo.title_vi})</span>`;
+    if (currentLessonId === 4) {
+      headerTitle.innerHTML = `<span class="text-blue-400 font-bold">Bài 4:</span> ${lessonInfo.title} <span class="text-slate-400 font-normal text-sm">(${lessonInfo.title_vi})</span> <button onclick="openFamilySpeechModal()" class="ml-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-black bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 hover:from-amber-400 hover:to-orange-400 shadow-md shadow-orange-500/20 transition-all align-middle animate-pulse"><span>🎤</span><span>Bài nói cô giao</span></button>`;
+    } else {
+      headerTitle.innerHTML = `<span class="text-blue-400 font-bold">Bài ${currentLessonId}:</span> ${lessonInfo.title} <span class="text-slate-400 font-normal text-sm">(${lessonInfo.title_vi})</span>`;
+    }
   }
 
   // Cập nhật Sidebar bài học
