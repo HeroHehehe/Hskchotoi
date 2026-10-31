@@ -212,7 +212,7 @@ function renderFamilySpeechModalContent() {
 
         <!-- Đoạn văn bài nói -->
         <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
-          <p id="full-speech-hanzi" class="text-lg md:text-xl font-bold text-white leading-relaxed tracking-wide font-kaiti transition-colors">
+          <p id="full-speech-hanzi" class="text-xl md:text-2xl text-white leading-relaxed tracking-wider font-kaiti chinese-font transition-colors">
             ${data.fullParagraph.hanzi}
           </p>
           <p class="text-xs md:text-sm font-semibold text-cyan-400/90 leading-relaxed">
@@ -275,7 +275,7 @@ function renderFamilySpeechModalContent() {
               <!-- Nội dung câu tiếng Trung & Pinyin & Dịch -->
               <div class="flex items-start justify-between gap-3">
                 <div class="space-y-1">
-                  <p class="text-base md:text-lg font-black text-white font-kaiti leading-snug">
+                  <p class="text-lg md:text-xl text-white font-kaiti chinese-font leading-snug">
                     ${sent.hanzi}
                   </p>
                   <p class="text-xs md:text-sm font-bold text-cyan-400">

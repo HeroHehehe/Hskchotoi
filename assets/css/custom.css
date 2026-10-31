@@ -23,7 +23,7 @@ body {
 }
 
 :root {
-  --chinese-font-kaiti: 'KaiTi', 'STKaiti', 'KaiTi_GB2312', 'Kaiti SC', 'LXGW WenKai Screen', 'LXGW WenKai', 'BiauKai', 'Noto Serif SC', serif;
+  --chinese-font-kaiti: 'LXGW WenKai Screen', 'LXGW WenKai', 'KaiTi', '楷体', 'STKaiti', '华文楷体', 'Kaiti SC', 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
   --chinese-font-sans: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --chinese-font: var(--chinese-font-kaiti);
 }
@@ -32,17 +32,42 @@ body.font-mode-sans {
   --chinese-font: var(--chinese-font-sans);
 }
 
+/* Áp dụng phông chữ Hán chuẩn Khải Thư SGK */
 .chinese-font,
 .font-chinese,
-.font-serif,
-[lang="zh"],
+.font-kaiti,
+.kaiti-text,
+#full-speech-hanzi,
 .dialogue-line-hanzi,
+.vocab-hanzi,
+.hanzi-card,
+[lang="zh"],
+.font-serif,
 #dialogue-view-container .leading-relaxed,
 #workbook-container .font-serif,
 #workbook-container ruby,
 .ruby-container ruby,
 ruby {
   font-family: var(--chinese-font) !important;
+}
+
+/* Khi ở chế độ Khải Thư, nét chữ giữ độ thanh thoát 500-600 chuẩn mực thư pháp */
+body:not(.font-mode-sans) .font-kaiti,
+body:not(.font-mode-sans) #full-speech-hanzi,
+body:not(.font-mode-sans) .dialogue-line-hanzi,
+body:not(.font-mode-sans) .chinese-font {
+  font-family: var(--chinese-font-kaiti) !important;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+/* Khi bật sang chế độ Không chân / Mặc định (Hắc thể - Heiti) */
+body.font-mode-sans .font-kaiti,
+body.font-mode-sans #full-speech-hanzi,
+body.font-mode-sans .dialogue-line-hanzi,
+body.font-mode-sans .chinese-font {
+  font-family: var(--chinese-font-sans) !important;
+  font-weight: 700;
 }
 
 /* Custom Scrollbars */

@@ -309,7 +309,7 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
         </div>
 
         <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
-          <p class="text-base md:text-lg font-black text-white font-kaiti leading-relaxed tracking-wide">
+          <p class="text-xl md:text-2xl text-white font-kaiti chinese-font leading-relaxed tracking-wider">
             ${window.FAMILY_SPEECH_DATA.fullParagraph.hanzi}
           </p>
           <p class="text-xs md:text-sm font-bold text-cyan-400/95 leading-relaxed">
