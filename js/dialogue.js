@@ -310,7 +310,7 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
 
         <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
           <p class="text-xl md:text-2xl text-white font-kaiti chinese-font leading-relaxed tracking-wider">
-            ${window.FAMILY_SPEECH_DATA.fullParagraph.hanzi}
+            ${(window.HanziLookup && window.HanziLookup.wrapText) ? window.HanziLookup.wrapText(window.FAMILY_SPEECH_DATA.fullParagraph.hanzi) : window.FAMILY_SPEECH_DATA.fullParagraph.hanzi}
           </p>
           <p class="text-xs md:text-sm font-bold text-cyan-400/95 leading-relaxed">
             ${window.FAMILY_SPEECH_DATA.fullParagraph.pinyin}
@@ -318,6 +318,9 @@ function renderDialogueView(lessonId = null, dialogueIdx = null) {
           <div class="border-t border-slate-800 pt-2 mt-1">
             <p class="text-xs text-slate-300 leading-relaxed">
               <span class="text-amber-400 font-bold">Bản dịch:</span> ${window.FAMILY_SPEECH_DATA.fullParagraph.vietnamese}
+            </p>
+            <p class="text-[11px] text-amber-400/90 font-medium flex items-center gap-1.5 mt-2 pt-1 border-t border-slate-800/50">
+              <span>✨</span> <span><b>Tính năng tra từ:</b> Rê chuột vào chữ Hán (giữ 1s) hoặc chạm trên iPad để xem nghĩa tiếng Việt & Pinyin ngay trên đầu!</span>
             </p>
           </div>
         </div>

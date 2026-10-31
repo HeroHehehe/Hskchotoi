@@ -213,7 +213,7 @@ function renderFamilySpeechModalContent() {
         <!-- Đoạn văn bài nói -->
         <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
           <p id="full-speech-hanzi" class="text-xl md:text-2xl text-white leading-relaxed tracking-wider font-kaiti chinese-font transition-colors">
-            ${data.fullParagraph.hanzi}
+            ${(window.HanziLookup && window.HanziLookup.wrapText) ? window.HanziLookup.wrapText(data.fullParagraph.hanzi) : data.fullParagraph.hanzi}
           </p>
           <p class="text-xs md:text-sm font-semibold text-cyan-400/90 leading-relaxed">
             ${data.fullParagraph.pinyin}
@@ -221,6 +221,9 @@ function renderFamilySpeechModalContent() {
           <div class="border-t border-slate-800/80 pt-2 mt-2">
             <p class="text-xs text-slate-300 leading-relaxed font-medium">
               <span class="text-amber-400 font-bold">Dịch nghĩa:</span> ${data.fullParagraph.vietnamese}
+            </p>
+            <p class="text-[11px] text-amber-400/90 font-medium flex items-center gap-1.5 mt-2 pt-1 border-t border-slate-800/50">
+              <span>✨</span> <span><b>Tính năng mới:</b> Rê chuột vào từng chữ Hán để sáng từ, giữ ~1s (hoặc chạm trên iPad) để hiện nghĩa tiếng Việt & Pinyin ngay trên đầu chữ!</span>
             </p>
           </div>
         </div>
@@ -275,8 +278,8 @@ function renderFamilySpeechModalContent() {
               <!-- Nội dung câu tiếng Trung & Pinyin & Dịch -->
               <div class="flex items-start justify-between gap-3">
                 <div class="space-y-1">
-                  <p class="text-lg md:text-xl text-white font-kaiti chinese-font leading-snug">
-                    ${sent.hanzi}
+                  <p class="text-lg md:text-xl text-white font-kaiti chinese-font leading-snug family-speech-hanzi">
+                    ${(window.HanziLookup && window.HanziLookup.wrapText) ? window.HanziLookup.wrapText(sent.hanzi) : sent.hanzi}
                   </p>
                   <p class="text-xs md:text-sm font-bold text-cyan-400">
                     ${sent.pinyin}
@@ -613,7 +616,7 @@ function copyFamilySpeechScript() {
 (Chuẩn bị theo yêu cầu cô giáo, dùng 100% từ vựng Bài 1 - 4)
 
 1. Chữ Hán:
-${data.fullParagraph.hanzi}
+${(window.HanziLookup && window.HanziLookup.wrapText) ? window.HanziLookup.wrapText(data.fullParagraph.hanzi) : data.fullParagraph.hanzi}
 
 2. Pinyin:
 ${data.fullParagraph.pinyin}
