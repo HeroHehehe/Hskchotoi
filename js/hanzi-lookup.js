@@ -42,11 +42,11 @@ window.HanziLookup = {
 
     const tip = document.createElement('div');
     tip.id = 'hanzi-lookup-tooltip';
-    tip.className = 'fixed z-[999999] pointer-events-auto bg-slate-950/95 border-2 border-amber-500/70 shadow-2xl shadow-amber-950/60 backdrop-blur-md rounded-2xl p-3 max-w-[280px] sm:max-w-[320px] text-left transition-all duration-200 hidden opacity-0 scale-95';
+    tip.className = 'fixed z-[999999] pointer-events-auto bg-slate-950/95 border-2 border-cyan-400 shadow-2xl shadow-cyan-950/80 backdrop-blur-md rounded-2xl p-3 max-w-[280px] sm:max-w-[320px] text-left transition-all duration-200 hidden opacity-0 scale-95';
     tip.innerHTML = `
       <div class="flex items-start justify-between gap-2 border-b border-slate-800/80 pb-1.5 mb-1.5">
         <div class="flex items-baseline gap-2">
-          <span id="hz-tip-hanzi" class="text-2xl font-black text-amber-300 font-kaiti tracking-wide"></span>
+          <span id="hz-tip-hanzi" class="text-2xl font-black text-cyan-300 font-kaiti tracking-wide"></span>
           <span id="hz-tip-pinyin" class="text-xs font-bold text-cyan-400 font-mono"></span>
         </div>
         <div class="flex items-center gap-1">
@@ -60,7 +60,7 @@ window.HanziLookup = {
       </div>
       <div class="space-y-1">
         <p id="hz-tip-meaning" class="text-xs text-slate-200 font-semibold leading-relaxed"></p>
-        <div id="hz-tip-type-badge" class="inline-block text-[9px] font-bold text-amber-400/90 bg-amber-950/60 border border-amber-800/60 px-1.5 py-0.2 rounded mt-0.5"></div>
+        <div id="hz-tip-type-badge" class="inline-block text-[9px] font-bold text-cyan-300 bg-cyan-950/80 border border-cyan-700/60 px-1.5 py-0.2 rounded mt-0.5"></div>
       </div>
     `;
 
